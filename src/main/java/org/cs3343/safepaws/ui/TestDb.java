@@ -1,16 +1,16 @@
-package org.cs3343.safepaws.action;
+package org.cs3343.safepaws.ui;
 
 import org.cs3343.safepaws.util.DbManager;
 
-public class TestDb extends Action {
+public class TestDb extends UI {
     private static final String name = "Test Database Connection";
 
-    public TestDb(Action referrer) {
+    public TestDb(UI referrer) {
         super(name, referrer);
     }
 
     @Override
-    public Action execute(Session session) {
+    public UI execute(Session session) {
         String result = DbManager.testSelect();
         System.out.println("Result: " + result);
         return null;
