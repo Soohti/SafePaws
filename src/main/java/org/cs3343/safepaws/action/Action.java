@@ -1,9 +1,27 @@
 package org.cs3343.safepaws.action;
 
-public interface Action {
-    String getName();
+public abstract class Action {
+    protected String name;
+    protected Action referrer;
 
-    Action execute(Session session);
+    protected abstract Action execute(Session session);
 
-    boolean isVisibleTo(Session session);
+    public Action(String name, Action referrer) {
+        this.name = name;
+        this.referrer = referrer;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Action getNextAction(Session session) {
+        System.out.println("=== " + name + " ===");
+        execute(session);
+        return referrer;
+    }
+
+    public boolean isVisibleTo(Session session) {
+        return false;
+    }
 }

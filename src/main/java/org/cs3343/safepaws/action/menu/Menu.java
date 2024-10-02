@@ -6,15 +6,13 @@ import org.cs3343.safepaws.util.ActionExecutor;
 
 import java.util.Scanner;
 
-public abstract class Menu implements Action {
-    private final String name;
+public abstract class Menu extends Action {
     private final String title;
     private final String description;
     private Action[] actions;
-    private Action referrer;
 
-    public Menu(String name, String title, String description) {
-        this.name = name;
+    public Menu(String name, String title, String description, Action referrer) {
+        super(name, referrer);
         this.title = title;
         this.description = description;
     }
@@ -23,17 +21,13 @@ public abstract class Menu implements Action {
         this.actions = actions;
     }
 
-    public void setReferrer(Action referrer) {
-        this.referrer = referrer;
+    @Override
+    public final Action getNextAction(Session session) {
+        return execute(session);
     }
 
     @Override
-    public final String getName() {
-        return name;
-    }
-
-    @Override
-    public final Action execute(Session session) {
+    protected final Action execute(Session session) {
         if (title != null) {
             System.out.println("=== " + title + " ===");
         }
