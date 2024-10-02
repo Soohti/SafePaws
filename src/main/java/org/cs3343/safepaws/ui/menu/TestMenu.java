@@ -1,20 +1,20 @@
-package org.cs3343.safepaws.action.menu;
+package org.cs3343.safepaws.ui.menu;
 
-import org.cs3343.safepaws.action.Action;
-import org.cs3343.safepaws.action.Session;
-import org.cs3343.safepaws.action.TestDb;
+import org.cs3343.safepaws.ui.UI;
+import org.cs3343.safepaws.ui.Session;
+import org.cs3343.safepaws.ui.TestDb;
 
 public class TestMenu extends Menu {
     private static final String name = "Test Menu";
     private static final String title = "SafePaws - Test Menu";
     private static final String description = null;
-    private final Action[] actions = new Action[]{
+    private final UI[] UIs = new UI[]{
             new TestDb(this)
     };
 
-    public TestMenu(Action referrer) {
+    public TestMenu(UI referrer) {
         super(name, title, description, referrer);
-        this.setActions(actions);
+        this.setUIs(UIs);
     }
 
     @Override

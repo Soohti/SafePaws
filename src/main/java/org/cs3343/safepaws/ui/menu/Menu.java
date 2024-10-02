@@ -1,42 +1,42 @@
-package org.cs3343.safepaws.action.menu;
+package org.cs3343.safepaws.ui.menu;
 
-import org.cs3343.safepaws.action.Action;
-import org.cs3343.safepaws.action.Session;
-import org.cs3343.safepaws.util.ActionExecutor;
+import org.cs3343.safepaws.ui.UI;
+import org.cs3343.safepaws.ui.Session;
+import org.cs3343.safepaws.util.UIExecutor;
 
 import java.util.Scanner;
 
-public abstract class Menu extends Action {
+public abstract class Menu extends UI {
     private final String title;
     private final String description;
-    private Action[] actions;
+    private UI[] UIs;
 
-    public Menu(String name, String title, String description, Action referrer) {
+    public Menu(String name, String title, String description, UI referrer) {
         super(name, referrer);
         this.title = title;
         this.description = description;
     }
 
-    public void setActions(Action[] actions) {
-        this.actions = actions;
+    public void setUIs(UI[] UIs) {
+        this.UIs = UIs;
     }
 
     @Override
-    public final Action getNextAction(Session session) {
+    public final UI getNextUI(Session session) {
         return execute(session);
     }
 
     @Override
-    protected final Action execute(Session session) {
+    protected final UI execute(Session session) {
         if (title != null) {
             System.out.println("=== " + title + " ===");
         }
         if (description != null) {
             System.out.println(description);
         }
-        for (int i = 0; i < actions.length; i++) {
-            if (actions[i].isVisibleTo(session)) {
-                System.out.println((i + 1) + ". " + actions[i].getName());
+        for (int i = 0; i < UIs.length; i++) {
+            if (UIs[i].isVisibleTo(session)) {
+                System.out.println((i + 1) + ". " + UIs[i].getName());
             }
         }
         if (this.referrer != null) {
@@ -44,7 +44,7 @@ public abstract class Menu extends Action {
         }
         System.out.println("E. Exit");
         System.out.print("Please enter your choice: ");
-        Scanner scanner = ActionExecutor.getInstance().getScanner();
+        Scanner scanner = UIExecutor.getInstance().getScanner();
 
         do {
             String choice = scanner.next();
@@ -55,8 +55,8 @@ public abstract class Menu extends Action {
             } else {
                 try {
                     int choiceInt = Integer.parseInt(choice);
-                    if (choiceInt > 0 && choiceInt <= actions.length && actions[choiceInt - 1].isVisibleTo(session)) {
-                        return actions[choiceInt - 1];
+                    if (choiceInt > 0 && choiceInt <= UIs.length && UIs[choiceInt - 1].isVisibleTo(session)) {
+                        return UIs[choiceInt - 1];
                     } else {
                         System.out.print("Invalid choice, please try again: ");
                     }

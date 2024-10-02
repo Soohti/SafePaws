@@ -1,12 +1,12 @@
-package org.cs3343.safepaws.action;
+package org.cs3343.safepaws.ui;
 
-public abstract class Action {
+public abstract class UI {
     protected String name;
-    protected Action referrer;
+    protected UI referrer;
 
-    protected abstract Action execute(Session session);
+    protected abstract UI execute(Session session);
 
-    public Action(String name, Action referrer) {
+    public UI(String name, UI referrer) {
         this.name = name;
         this.referrer = referrer;
     }
@@ -15,7 +15,7 @@ public abstract class Action {
         return name;
     }
 
-    public Action getNextAction(Session session) {
+    public UI getNextUI(Session session) {
         System.out.println("=== " + name + " ===");
         execute(session);
         return referrer;

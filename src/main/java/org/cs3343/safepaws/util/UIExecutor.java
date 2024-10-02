@@ -1,19 +1,19 @@
 package org.cs3343.safepaws.util;
 
-import org.cs3343.safepaws.action.Action;
-import org.cs3343.safepaws.action.Session;
-import org.cs3343.safepaws.action.menu.MainMenu;
+import org.cs3343.safepaws.ui.UI;
+import org.cs3343.safepaws.ui.Session;
+import org.cs3343.safepaws.ui.menu.MainMenu;
 
 import java.util.Scanner;
 
-public class ActionExecutor {
-    private static final ActionExecutor instance = new ActionExecutor();
+public class UIExecutor {
+    private static final UIExecutor instance = new UIExecutor();
     private final Scanner scanner = new Scanner(System.in);
 
-    private ActionExecutor() {
+    private UIExecutor() {
     }
 
-    public static ActionExecutor getInstance() {
+    public static UIExecutor getInstance() {
         return instance;
     }
 
@@ -22,11 +22,11 @@ public class ActionExecutor {
     }
 
     public void start() {
-        Action action = new MainMenu();
+        UI ui = new MainMenu();
         Session session = new Session();
         do {
-            action = action.getNextAction(session);
-        } while (action != null);
+            ui = ui.getNextUI(session);
+        } while (ui != null);
     }
 
     public void stop() {
