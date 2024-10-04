@@ -31,6 +31,5 @@ public class UIExecutor {
 
     public void stop() {
         scanner.close();
-        System.out.println("Thank you for using SafePaws. Goodbye!");
     }
 }
