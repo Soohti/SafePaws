@@ -1,5 +1,6 @@
 package org.cs3343.safepaws.ui.menu;
 
+import org.cs3343.safepaws.ui.Exit;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.Session;
 import org.cs3343.safepaws.util.UIExecutor;
@@ -7,36 +8,26 @@ import org.cs3343.safepaws.util.UIExecutor;
 import java.util.Scanner;
 
 public abstract class Menu extends UI {
-    private final String title;
     private final String description;
-    private UI[] UIs;
+    private UI[] menuItems;
 
-    public Menu(String name, String title, String description, UI referrer) {
+    public Menu(String name, String description, UI referrer) {
         super(name, referrer);
-        this.title = title;
         this.description = description;
     }
 
-    public void setUIs(UI[] UIs) {
-        this.UIs = UIs;
-    }
-
-    @Override
-    public final UI getNextUI(Session session) {
-        return execute(session);
+    protected void setMenuItems(UI[] menuItems) {
+        this.menuItems = menuItems;
     }
 
     @Override
     protected final UI execute(Session session) {
-        if (title != null) {
-            System.out.println("=== " + title + " ===");
-        }
         if (description != null) {
             System.out.println(description);
         }
-        for (int i = 0; i < UIs.length; i++) {
-            if (UIs[i].isVisibleTo(session)) {
-                System.out.println((i + 1) + ". " + UIs[i].getName());
+        for (int i = 0; i < menuItems.length; i++) {
+            if (menuItems[i].isVisibleTo(session)) {
+                System.out.println((i + 1) + ". " + menuItems[i].getName());
             }
         }
         if (this.referrer != null) {
@@ -49,14 +40,14 @@ public abstract class Menu extends UI {
         do {
             String choice = scanner.next();
             if ("E".equals(choice)) {
-                return null;
+                return new Exit(this);
             } else if (this.referrer != null && "B".equals(choice)) {
                 return this.referrer;
             } else {
                 try {
                     int choiceInt = Integer.parseInt(choice);
-                    if (choiceInt > 0 && choiceInt <= UIs.length && UIs[choiceInt - 1].isVisibleTo(session)) {
-                        return UIs[choiceInt - 1];
+                    if (choiceInt > 0 && choiceInt <= menuItems.length && menuItems[choiceInt - 1].isVisibleTo(session)) {
+                        return menuItems[choiceInt - 1];
                     } else {
                         System.out.print("Invalid choice, please try again: ");
                     }

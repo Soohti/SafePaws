@@ -6,17 +6,15 @@ import org.cs3343.safepaws.ui.TestDb;
 
 public class MainMenu extends Menu {
     private static final String name = "Main Menu";
-    private static final String title = "SafePaws - Main Menu";
     private static final String description = "Welcome to SafePaws!";
-
-    private final UI[] UIs = new UI[]{
+    private final UI[] menuItems = new UI[]{
             new TestMenu(this),
-            new TestDb(this)
+            new TestDb(this),
     };
 
     public MainMenu() {
-        super(name, title, description, null);
-        this.setUIs(UIs);
+        super(name, description, null);
+        setMenuItems(menuItems);
     }
 
     @Override

@@ -17,8 +17,9 @@ public abstract class UI {
 
     public UI getNextUI(Session session) {
         System.out.println("=== " + name + " ===");
-        execute(session);
-        return referrer;
+        UI nextUI = execute(session);
+        System.out.println();
+        return nextUI == null ? referrer : nextUI;
     }
 
     public boolean isVisibleTo(Session session) {
