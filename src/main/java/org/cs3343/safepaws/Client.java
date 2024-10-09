@@ -9,12 +9,21 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.KeyStore;
+import java.util.Properties;
 
 public class Client {
+    private static final String CLIENT_PROPERTIES_PATH = "conf/client/client.properties";
     private static final String TRUSTSTORE_PATH = "conf/client/truststore.jks";
     private static final char[] TRUSTSTORE_PASSWORD = "SafePaws".toCharArray();
 
     public static void main(String[] args) throws Exception {
+        Properties clientProperties = new Properties();
+        try (FileInputStream input = new FileInputStream(CLIENT_PROPERTIES_PATH)) {
+            clientProperties.load(input);
+        }
+        String serverAddress = clientProperties.getProperty("server.address");
+        int serverPort = Integer.parseInt(clientProperties.getProperty("server.port"));
+
         KeyStore trustStore = KeyStore.getInstance("JKS");
         trustStore.load(new FileInputStream(TRUSTSTORE_PATH), TRUSTSTORE_PASSWORD);
 
@@ -25,26 +34,22 @@ public class Client {
         sslContext.init(null, tmf.getTrustManagers(), null);
 
         SSLSocketFactory factory = sslContext.getSocketFactory();
-        try (SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 1234);
+        try (SSLSocket socket = (SSLSocket) factory.createSocket(serverAddress, serverPort);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
+            System.out.print("Connected to " + serverAddress + ":" + serverPort);
             String serverResponse;
             while ((serverResponse = in.readLine()) != null) {
-                System.out.println("Server: " + serverResponse);
-
-                if (serverResponse.equals("READY_FOR_INPUT")) {
-                    System.out.print("Your choice: ");
+                if (serverResponse.equals("SYSTEM: READY_FOR_INPUT")) {
                     String userInput = stdIn.readLine();
-
-                    if (userInput.equalsIgnoreCase("EXIT")) {
-                        out.println("EXIT"); // Notify server about the exit
-                        System.out.println("Exiting...");
-                        break;
-                    }
-
-                    out.println(userInput); // Send user input to server
+                    out.println(userInput);
+                } else if (serverResponse.equals("SYSTEM: GOODBYE")) {
+                    break;
+                } else {
+                    System.out.println();
+                    System.out.print(serverResponse);
                 }
             }
         }

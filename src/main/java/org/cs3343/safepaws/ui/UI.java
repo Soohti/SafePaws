@@ -1,5 +1,7 @@
 package org.cs3343.safepaws.ui;
 
+import org.cs3343.safepaws.util.Session;
+
 public abstract class UI {
     protected String name;
     protected UI referrer;
@@ -16,9 +18,9 @@ public abstract class UI {
     }
 
     public UI getNextUI(Session session) {
-        System.out.println("=== " + name + " ===");
+        session.out.println("=== " + name + " ===");
         UI nextUI = execute(session);
-        System.out.println();
+        session.out.println();
         return nextUI == null ? referrer : nextUI;
     }
 

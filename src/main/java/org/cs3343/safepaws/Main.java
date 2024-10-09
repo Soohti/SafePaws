@@ -1,20 +1,33 @@
 package org.cs3343.safepaws;
 
+import org.cs3343.safepaws.util.Session;
 import org.cs3343.safepaws.util.UIExecutor;
 import org.cs3343.safepaws.util.DbManager;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class Main {
-    public static void main(String[] args) {
-        UIExecutor uiExecutor = UIExecutor.getInstance();
+    private static final String SERVER_PROPERTIES_PATH = "conf/server/server.properties";
+
+    public static void main(String[] args) throws Exception {
+        Properties serverProperties = new Properties();
+        try (FileInputStream input = new FileInputStream(SERVER_PROPERTIES_PATH)) {
+            serverProperties.load(input);
+        }
+        String dbUrl = serverProperties.getProperty("db.url");
+        String dbUsername = serverProperties.getProperty("db.username");
+        String dbPassword = serverProperties.getProperty("db.password");
+        String dbDriver = serverProperties.getProperty("db.driver");
+        DbManager.init(dbDriver, dbUrl, dbUsername, dbPassword);
+
+        Session session = new Session(System.in, System.out);
+        UIExecutor uiExecutor = new UIExecutor(session);
         try {
-            DbManager.init();
             uiExecutor.start();
         } catch (Exception e) {
-            System.out.println("An error occurred! Please report this to SafePaws support.");
-            //noinspection CallToPrintStackTrace
+            session.out.println("An error occurred! Please report this to SafePaws support.");
             e.printStackTrace();
-        } finally {
-            uiExecutor.stop();
         }
     }
 }

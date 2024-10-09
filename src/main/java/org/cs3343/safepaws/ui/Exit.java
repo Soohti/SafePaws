@@ -1,5 +1,7 @@
 package org.cs3343.safepaws.ui;
 
+import org.cs3343.safepaws.util.Session;
+
 public class Exit extends UI {
     private static final String name = "Exit";
 
@@ -9,15 +11,15 @@ public class Exit extends UI {
 
     @Override
     protected UI execute(Session session) {
-        System.out.println("Thank you for using SafePaws. Goodbye!");
+        session.out.println("Thank you for using SafePaws. Goodbye!");
         return null;
     }
 
     @Override
     public UI getNextUI(Session session) {
-        System.out.println("=== " + name + " ===");
+        session.out.println("=== " + name + " ===");
         UI nullUI = execute(session);
-        System.out.println();
+        session.out.println();
         return nullUI;
     }
 }

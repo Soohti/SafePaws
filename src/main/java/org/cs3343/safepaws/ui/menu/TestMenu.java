@@ -1,7 +1,7 @@
 package org.cs3343.safepaws.ui.menu;
 
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.ui.Session;
+import org.cs3343.safepaws.util.Session;
 import org.cs3343.safepaws.ui.TestDb;
 
 public class TestMenu extends Menu {
