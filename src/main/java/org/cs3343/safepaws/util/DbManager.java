@@ -1,29 +1,19 @@
 package org.cs3343.safepaws.util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.*;
-import java.util.Properties;
 
 public class DbManager {
     private static String url;
     private static String username;
     private static String password;
-    private final static String testSql = "SELECT 1";
+    private static final String testSql = "SELECT 1";
 
-    public static void init() {
-        Properties properties = new Properties();
+    public static void init(String dbDriver, String dbUrl, String dbUsername, String dbPassword) {
+        url = dbUrl;
+        username = dbUsername;
+        password = dbPassword;
         try {
-            properties.load(new FileInputStream("conf/server/db.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String driver = properties.getProperty("driver");
-        url = properties.getProperty("url");
-        username = properties.getProperty("username");
-        password = properties.getProperty("password");
-        try {
-            Class.forName(driver);
+            Class.forName(dbDriver);
             try (Connection conn = getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(testSql)) {
                 pstmt.executeQuery();
