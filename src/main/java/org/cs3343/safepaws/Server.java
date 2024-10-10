@@ -5,7 +5,10 @@ import org.cs3343.safepaws.util.Session;
 import org.cs3343.safepaws.util.UIExecutor;
 
 import javax.net.ssl.*;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.security.KeyStore;
 import java.util.Properties;
@@ -45,34 +48,24 @@ public class Server {
             while (true) {
                 SSLSocket socket = (SSLSocket) serverSocket.accept();
                 System.out.println("New connection from " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
-                new ClientHandler(socket).start();
-            }
-        }
-    }
-}
-
-class ClientHandler extends Thread {
-    private final SSLSocket socket;
-
-    public ClientHandler(SSLSocket socket) {
-        this.socket = socket;
-    }
-
-    public void run() {
-        try (InputStream in = socket.getInputStream();
-             OutputStream out = socket.getOutputStream()) {
-            Session session = new Session(in, out);
-            UIExecutor uiExecutor = new UIExecutor(session);
-            uiExecutor.start();
-            session.out.println("SERVER: GOODBYE");
-            System.out.println("Closed connection from " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
-        } catch (IOException e) {
-            System.err.println("Connection error: " + e.getMessage());
-        } finally {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                System.err.println("Could not close socket: " + e.getMessage());
+                new Thread(() -> {
+                    try (InputStream in = socket.getInputStream();
+                         OutputStream out = socket.getOutputStream()) {
+                        Session session = new Session(in, out);
+                        UIExecutor uiExecutor = new UIExecutor(session);
+                        uiExecutor.start();
+                        session.out.println("SERVER: GOODBYE");
+                        System.out.println("Closed connection from " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             }
         }
     }
