@@ -39,16 +39,21 @@ public class Client {
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
-            System.out.print("Connected to " + serverAddress + ":" + serverPort);
+            System.out.println("Connected to " + serverAddress + ":" + serverPort);
             String serverResponse;
+            boolean linebreak = false;
             while ((serverResponse = in.readLine()) != null) {
                 if (serverResponse.equals("SYSTEM: READY_FOR_INPUT")) {
                     String userInput = stdIn.readLine();
                     out.println(userInput);
+                    linebreak = false;
                 } else if (serverResponse.equals("SYSTEM: GOODBYE")) {
                     break;
                 } else {
-                    System.out.println();
+                    if (linebreak)
+                        System.out.println();
+                    else
+                        linebreak = true;
                     System.out.print(serverResponse);
                 }
             }

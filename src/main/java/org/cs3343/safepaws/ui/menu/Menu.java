@@ -3,9 +3,8 @@ package org.cs3343.safepaws.ui.menu;
 import org.cs3343.safepaws.ui.Exit;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
-import org.cs3343.safepaws.util.UIExecutor;
 
-import java.util.Scanner;
+import java.io.IOException;
 
 public abstract class Menu extends UI {
     private final String description;
@@ -21,7 +20,7 @@ public abstract class Menu extends UI {
     }
 
     @Override
-    protected final UI execute(Session session) {
+    protected final UI execute(Session session) throws IOException {
         if (description != null) {
             session.out.println(description);
         }
@@ -35,7 +34,6 @@ public abstract class Menu extends UI {
         }
         session.out.println("E. Exit");
         session.out.print("Please enter your choice: ");
-//        Scanner scanner = UIExecutor.getInstance().getScanner();
 
         do {
             String choice = session.requestInput();

@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.security.KeyStore;
 import java.util.Properties;
 
+@SuppressWarnings("InfiniteLoopStatement")
 public class Server {
     private static final String SERVER_PROPERTIES_PATH = "conf/server/server.properties";
     private static final String KEYSTORE_PATH = "conf/server/keystore.jks";
@@ -29,8 +30,7 @@ public class Server {
         String dbUrl = serverProperties.getProperty("db.url");
         String dbUsername = serverProperties.getProperty("db.username");
         String dbPassword = serverProperties.getProperty("db.password");
-        String dbDriver = serverProperties.getProperty("db.driver");
-        DbManager.init(dbDriver, dbUrl, dbUsername, dbPassword);
+        DbManager.init(dbUrl, dbUsername, dbPassword);
 
         KeyStore keyStore = KeyStore.getInstance("JKS");
         keyStore.load(new FileInputStream(KEYSTORE_PATH), KEYSTORE_PASSWORD);
@@ -44,7 +44,6 @@ public class Server {
         SSLServerSocketFactory ssf = sslContext.getServerSocketFactory();
         try (SSLServerSocket serverSocket = (SSLServerSocket) ssf.createServerSocket(listenPort, 50, InetAddress.getByName(listenAddress))) {
             System.out.println("Server started at " + listenAddress + ":" + listenPort);
-            //noinspection InfiniteLoopStatement
             while (true) {
                 SSLSocket socket = (SSLSocket) serverSocket.accept();
                 System.out.println("New connection from " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
@@ -57,12 +56,12 @@ public class Server {
                         session.out.println("SERVER: GOODBYE");
                         System.out.println("Closed connection from " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println("Connection from " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort() + " is lost due to " + e.getMessage());
                     } finally {
                         try {
                             socket.close();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            // Ignore
                         }
                     }
                 }).start();

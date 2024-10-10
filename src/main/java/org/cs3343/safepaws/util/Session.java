@@ -12,15 +12,10 @@ public class Session {
     private final BufferedReader in;
     public final PrintWriter out;
 
-    public String requestInput() {
-        try {
-            out.println();
-            out.println("SYSTEM: READY_FOR_INPUT");
-            return in.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public String requestInput() throws IOException {
+        out.println();
+        out.println("SYSTEM: READY_FOR_INPUT");
+        return in.readLine();
     }
 
     public Session(InputStream in, OutputStream out) {

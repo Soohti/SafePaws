@@ -1,7 +1,7 @@
 package org.cs3343.safepaws.ui;
 
-import org.cs3343.safepaws.util.Session;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.Session;
 
 public class TestDb extends UI {
     private static final String name = "Test Database Connection";
