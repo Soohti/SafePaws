@@ -1,13 +1,13 @@
 package org.cs3343.safepaws;
 
+import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 import org.cs3343.safepaws.util.UIExecutor;
-import org.cs3343.safepaws.util.DbManager;
 
 import java.io.FileInputStream;
 import java.util.Properties;
 
-public class Main {
+public class ServerDebug {
     private static final String SERVER_PROPERTIES_PATH = "conf/server/server.properties";
 
     public static void main(String[] args) throws Exception {
