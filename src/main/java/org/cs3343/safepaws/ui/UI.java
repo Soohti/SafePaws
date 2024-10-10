@@ -1,10 +1,14 @@
 package org.cs3343.safepaws.ui;
 
-public abstract class UI {
-    protected String name;
-    protected UI referrer;
+import org.cs3343.safepaws.util.Session;
 
-    protected abstract UI execute(Session session);
+import java.io.IOException;
+
+public abstract class UI {
+    protected final String name;
+    protected final UI referrer;
+
+    protected abstract UI execute(Session session) throws IOException;
 
     public UI(String name, UI referrer) {
         this.name = name;
@@ -15,10 +19,10 @@ public abstract class UI {
         return name;
     }
 
-    public UI getNextUI(Session session) {
-        System.out.println("=== " + name + " ===");
+    public UI getNextUI(Session session) throws IOException {
+        session.out.println("=== " + name + " ===");
         UI nextUI = execute(session);
-        System.out.println();
+        session.out.println();
         return nextUI == null ? referrer : nextUI;
     }
 

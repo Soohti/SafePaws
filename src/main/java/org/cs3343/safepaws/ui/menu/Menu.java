@@ -2,10 +2,9 @@ package org.cs3343.safepaws.ui.menu;
 
 import org.cs3343.safepaws.ui.Exit;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.ui.Session;
-import org.cs3343.safepaws.util.UIExecutor;
+import org.cs3343.safepaws.util.Session;
 
-import java.util.Scanner;
+import java.io.IOException;
 
 public abstract class Menu extends UI {
     private final String description;
@@ -21,24 +20,23 @@ public abstract class Menu extends UI {
     }
 
     @Override
-    protected final UI execute(Session session) {
+    protected final UI execute(Session session) throws IOException {
         if (description != null) {
-            System.out.println(description);
+            session.out.println(description);
         }
         for (int i = 0; i < menuItems.length; i++) {
             if (menuItems[i].isVisibleTo(session)) {
-                System.out.println((i + 1) + ". " + menuItems[i].getName());
+                session.out.println((i + 1) + ". " + menuItems[i].getName());
             }
         }
         if (this.referrer != null) {
-            System.out.println("B. Back");
+            session.out.println("B. Back");
         }
-        System.out.println("E. Exit");
-        System.out.print("Please enter your choice: ");
-        Scanner scanner = UIExecutor.getInstance().getScanner();
+        session.out.println("E. Exit");
+        session.out.print("Please enter your choice: ");
 
         do {
-            String choice = scanner.next();
+            String choice = session.requestInput();
             if ("E".equals(choice)) {
                 return new Exit(this);
             } else if (this.referrer != null && "B".equals(choice)) {
@@ -49,10 +47,10 @@ public abstract class Menu extends UI {
                     if (choiceInt > 0 && choiceInt <= menuItems.length && menuItems[choiceInt - 1].isVisibleTo(session)) {
                         return menuItems[choiceInt - 1];
                     } else {
-                        System.out.print("Invalid choice, please try again: ");
+                        session.out.print("Invalid choice, please try again: ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid choice, please try again: ");
+                    session.out.print("Invalid choice, please try again: ");
                 }
             }
         } while (true);

@@ -1,6 +1,7 @@
 package org.cs3343.safepaws.ui;
 
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.Session;
 
 public class TestDb extends UI {
     private static final String name = "Test Database Connection";
@@ -12,7 +13,7 @@ public class TestDb extends UI {
     @Override
     public UI execute(Session session) {
         String result = DbManager.testSelect();
-        System.out.println("Result: " + result);
+        session.out.println("Result: " + result);
         return null;
     }
 
