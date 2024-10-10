@@ -50,10 +50,11 @@ public class Client {
                 } else if (serverResponse.equals("SYSTEM: GOODBYE")) {
                     break;
                 } else {
-                    if (linebreak)
+                    if (linebreak) {
                         System.out.println();
-                    else
+                    } else {
                         linebreak = true;
+                    }
                     System.out.print(serverResponse);
                 }
             }
