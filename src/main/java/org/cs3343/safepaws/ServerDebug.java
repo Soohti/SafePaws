@@ -7,6 +7,7 @@ import org.cs3343.safepaws.util.UIExecutor;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class ServerDebug {
     private static final String SERVER_PROPERTIES_PATH = "conf/server/server.properties";
 
@@ -18,15 +19,13 @@ public class ServerDebug {
         String dbUrl = serverProperties.getProperty("db.url");
         String dbUsername = serverProperties.getProperty("db.username");
         String dbPassword = serverProperties.getProperty("db.password");
-        String dbDriver = serverProperties.getProperty("db.driver");
-        DbManager.init(dbDriver, dbUrl, dbUsername, dbPassword);
+        DbManager.init(dbUrl, dbUsername, dbPassword);
 
         Session session = new Session(System.in, System.out);
         UIExecutor uiExecutor = new UIExecutor(session);
         try {
             uiExecutor.start();
         } catch (Exception e) {
-            session.out.println("An error occurred! Please report this to SafePaws support.");
             e.printStackTrace();
         }
     }

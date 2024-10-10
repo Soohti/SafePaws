@@ -8,19 +8,14 @@ public class DbManager {
     private static String password;
     private static final String testSql = "SELECT 1";
 
-    public static void init(String dbDriver, String dbUrl, String dbUsername, String dbPassword) {
+    public static void init(String dbUrl, String dbUsername, String dbPassword) throws SQLException {
         url = dbUrl;
         username = dbUsername;
         password = dbPassword;
-        try {
-            Class.forName(dbDriver);
-            try (Connection conn = getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(testSql)) {
-                pstmt.executeQuery();
-                System.out.println("Database connection established");
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(testSql)) {
+            pstmt.executeQuery();
+            System.out.println("Database connection established");
         }
     }
 
@@ -37,7 +32,7 @@ public class DbManager {
                 return rs.getString(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error executing query: " + e.getMessage());
         }
         return null;
     }
