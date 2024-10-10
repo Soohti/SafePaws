@@ -5,8 +5,8 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 
 public abstract class UI {
-    protected String name;
-    protected UI referrer;
+    protected final String name;
+    protected final UI referrer;
 
     protected abstract UI execute(Session session) throws IOException;
 
