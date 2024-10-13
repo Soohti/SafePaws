@@ -7,7 +7,7 @@ import org.cs3343.safepaws.util.Session;
 public class TestMenu extends Menu {
     private static final String name = "Test Menu";
     private static final String description = null;
-    private final UI[] menuItems = new UI[]{
+    private final UI[] menuItems = new UI[] {
             new TestDb(this),
     };
 
