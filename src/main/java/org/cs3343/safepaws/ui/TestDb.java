@@ -13,7 +13,7 @@ public class TestDb extends UI {
     @Override
     public UI execute(Session session) {
         String result = DbManager.testSelect();
-        session.out.println("Result: " + result);
+        session.println("Result: " + result);
         return null;
     }
 

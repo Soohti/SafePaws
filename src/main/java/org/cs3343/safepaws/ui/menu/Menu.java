@@ -22,18 +22,18 @@ public abstract class Menu extends UI {
     @Override
     protected final UI execute(Session session) throws IOException {
         if (description != null) {
-            session.out.println(description);
+            session.println(description);
         }
         for (int i = 0; i < menuItems.length; i++) {
             if (menuItems[i].isVisibleTo(session)) {
-                session.out.println((i + 1) + ". " + menuItems[i].getName());
+                session.println((i + 1) + ". " + menuItems[i].getName());
             }
         }
         if (this.referrer != null) {
-            session.out.println("B. Back");
+            session.println("B. Back");
         }
-        session.out.println("E. Exit");
-        session.out.print("Please enter your choice: ");
+        session.println("E. Exit");
+        session.print("Please enter your choice: ");
 
         do {
             String choice = session.requestInput();
@@ -44,13 +44,14 @@ public abstract class Menu extends UI {
             } else {
                 try {
                     int choiceInt = Integer.parseInt(choice);
-                    if (choiceInt > 0 && choiceInt <= menuItems.length && menuItems[choiceInt - 1].isVisibleTo(session)) {
+                    if (choiceInt > 0 && choiceInt <= menuItems.length
+                            && menuItems[choiceInt - 1].isVisibleTo(session)) {
                         return menuItems[choiceInt - 1];
                     } else {
-                        session.out.print("Invalid choice, please try again: ");
+                        session.print("Invalid choice, please try again: ");
                     }
                 } catch (NumberFormatException e) {
-                    session.out.print("Invalid choice, please try again: ");
+                    session.print("Invalid choice, please try again: ");
                 }
             }
         } while (true);

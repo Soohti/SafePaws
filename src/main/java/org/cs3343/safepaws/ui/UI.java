@@ -20,9 +20,9 @@ public abstract class UI {
     }
 
     public UI getNextUI(Session session) throws IOException {
-        session.out.println("=== " + name + " ===");
+        session.println("=== " + name + " ===");
         UI nextUI = execute(session);
-        session.out.println();
+        session.println();
         return nextUI == null ? referrer : nextUI;
     }
 
