@@ -27,6 +27,11 @@ public class DbManager {
         return DriverManager.getConnection(url, username, password);
     }
     
+    private static String encryptPassword(String password) {
+        // TODO: 在此实现密码加密算法
+        return password; // 这里返回原始密码，替换为加密后的密码
+    }
+    
     private static void createAdminAccountIfNotExists(Connection conn) throws SQLException {
         String checkAdminSql = "SELECT COUNT(*) FROM users WHERE role = 'admin'";
         try (PreparedStatement pstmt = conn.prepareStatement(checkAdminSql);
@@ -35,7 +40,7 @@ public class DbManager {
                 String insertAdminSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
                 try (PreparedStatement insertPstmt = conn.prepareStatement(insertAdminSql)) {
                     insertPstmt.setString(1, "admin");
-                    insertPstmt.setString(2, "adminPassword"); // 在此处应加密密码
+                    insertPstmt.setString(2, encryptPassword("adminPassword")); // 在此处加密密码
                     insertPstmt.setString(3, "admin");
                     insertPstmt.executeUpdate();
                     System.out.println("Admin account created.");
@@ -44,13 +49,12 @@ public class DbManager {
         }
     }
 
-
     public static void insertAccount(Account account) throws SQLException {
         String insertSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, account.getUsername());
-            pstmt.setString(2, account.getPassword()); // 确保加密
+            pstmt.setString(2, encryptPassword(account.getPassword())); // 确保加密
             pstmt.setString(3, account.getRole());
             pstmt.executeUpdate();
             System.out.println("Account created successfully");
@@ -66,8 +70,8 @@ public class DbManager {
             
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
-                // 直接比较存储的密码和输入的密码
-                return storedPassword.equals(password);
+                // 直接比较存储的密码和输入的密码（需使用相同的加密方法）
+                return storedPassword.equals(encryptPassword(password));
             }
         } catch (SQLException e) {
             System.out.println("Error during authentication: " + e.getMessage());
