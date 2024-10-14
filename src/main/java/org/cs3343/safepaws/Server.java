@@ -81,7 +81,7 @@ public final class Server {
                         Session session = new Session(in, out);
                         UIExecutor uiExecutor = new UIExecutor(session);
                         uiExecutor.start();
-                        session.println("SERVER: GOODBYE");
+//                        session.println("SYSTEM: GOODBYE");
                         System.out.println("Closed connection from "
                                 + socket.getInetAddress().getHostAddress() + ":"
                                 + socket.getPort());
