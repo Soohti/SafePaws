@@ -4,21 +4,35 @@ import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
 public class TestDb extends UI {
-    private static final String name = "Test Database Connection";
+    /**
+     * The name of the UI.
+     */
+    private static final String NAME = "Test Database Connection";
 
-    public TestDb(UI referrer) {
-        super(name, referrer);
+    /**
+     * Constructs a new TestDb UI.
+     *
+     * @param referrer the referrer of the UI
+     */
+    public TestDb(final UI referrer) {
+        super(NAME, referrer);
     }
 
+    /**
+     * Executes the UI and returns the referrer as the next UI.
+     *
+     * @param session the session to use
+     * @return the referrer of the UI
+     */
     @Override
-    public UI execute(Session session) {
+    public UI execute(final Session session) {
         String result = DbManager.testSelect();
-        session.out.println("Result: " + result);
-        return null;
+        session.println("Result: " + result);
+        return this.getReferrer();
     }
 
     @Override
-    public boolean isVisibleTo(Session session) {
+    public final boolean isVisibleTo(final Session session) {
         return true;
     }
 }

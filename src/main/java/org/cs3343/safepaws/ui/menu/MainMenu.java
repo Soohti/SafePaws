@@ -5,20 +5,32 @@ import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
 
 public class MainMenu extends Menu {
-    private static final String name = "Main Menu";
-    private static final String description = "Welcome to SafePaws!";
-    private final UI[] menuItems = new UI[]{
+    /**
+     * The name of the menu.
+     */
+    private static final String NAME = "Main Menu";
+    /**
+     * The description of the menu.
+     */
+    private static final String DESCRIPTION = "Welcome to SafePaws!";
+    /**
+     * The menu items.
+     */
+    private final UI[] menuItems = new UI[] {
             new TestMenu(this),
             new TestDb(this),
     };
 
+    /**
+     * Constructs a new MainMenu.
+     */
     public MainMenu() {
-        super(name, description, null);
+        super(NAME, DESCRIPTION, null);
         setMenuItems(menuItems);
     }
 
     @Override
-    public boolean isVisibleTo(Session session) {
+    public final boolean isVisibleTo(final Session session) {
         return true;
     }
 }
