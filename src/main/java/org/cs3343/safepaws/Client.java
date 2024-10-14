@@ -77,8 +77,6 @@ public final class Client {
                     String userInput = stdIn.readLine();
                     out.println(userInput);
                     linebreak = false;
-                } else if (serverResponse.equals("SYSTEM: GOODBYE")) {
-                    break;
                 } else {
                     if (linebreak) {
                         System.out.println();
