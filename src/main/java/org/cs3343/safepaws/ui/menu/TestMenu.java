@@ -5,19 +5,33 @@ import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
 
 public class TestMenu extends Menu {
-    private static final String name = "Test Menu";
-    private static final String description = null;
+    /**
+     * Name of the menu.
+     */
+    private static final String NAME = "Test Menu";
+    /**
+     * Description of the menu.
+     */
+    private static final String DESCRIPTION = null;
+    /**
+     * Menu items.
+     */
     private final UI[] menuItems = new UI[] {
             new TestDb(this),
     };
 
-    public TestMenu(UI referrer) {
-        super(name, description, referrer);
+    /**
+     * Creates a new TestMenu.
+     *
+     * @param referrer The referrer.
+     */
+    public TestMenu(final UI referrer) {
+        super(NAME, DESCRIPTION, referrer);
         setMenuItems(menuItems);
     }
 
     @Override
-    public boolean isVisibleTo(Session session) {
+    public final boolean isVisibleTo(final Session session) {
         return true;
     }
 }

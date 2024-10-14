@@ -1,24 +1,20 @@
 package org.cs3343.safepaws.util;
 
-import org.cs3343.safepaws.entity.Pet;
-import org.cs3343.safepaws.entity.User;
+//import org.cs3343.safepaws.entity.Pet;
+//import org.cs3343.safepaws.entity.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 public class Session {
-    /**
-     * TODO.
-     */
-    private User user;
-    /**
-     * TODO.
-     */
-    private Pet pet;
+//    private User user;
+//    private Pet pet;
 
     /**
      * Reader for the session that reads input from the client.
@@ -48,8 +44,10 @@ public class Session {
      * @param out The output stream.
      */
     public Session(final InputStream in, final OutputStream out) {
-        this.reader = new BufferedReader(new InputStreamReader(in));
-        this.writer = new PrintWriter(out, true);
+        this.reader = new BufferedReader(
+                new InputStreamReader(in, StandardCharsets.UTF_8));
+        this.writer = new PrintWriter(
+                new OutputStreamWriter(out, StandardCharsets.UTF_8), true);
     }
 
     /**

@@ -40,7 +40,7 @@ public final class DbManager {
         password = dbPassword;
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(TEST_SQL)) {
-            pstmt.executeQuery();
+            pstmt.execute();
             System.out.println("Database connection established");
         }
     }
