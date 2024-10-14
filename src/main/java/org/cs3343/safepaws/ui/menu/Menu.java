@@ -7,20 +7,33 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 
 public abstract class Menu extends UI {
+    /**
+     * The description of the menu.
+     */
     private final String description;
+    /**
+     * The menu items.
+     */
     private UI[] menuItems;
 
-    public Menu(String name, String description, UI referrer) {
+    /**
+     * Constructs a new Menu.
+     *
+     * @param name     the name of the menu
+     * @param descr    the description of the menu
+     * @param referrer the referrer of the menu
+     */
+    public Menu(final String name, final String descr, final UI referrer) {
         super(name, referrer);
-        this.description = description;
+        this.description = descr;
     }
 
-    protected void setMenuItems(UI[] menuItems) {
-        this.menuItems = menuItems;
+    protected final void setMenuItems(final UI[] pMenuItems) {
+        this.menuItems = pMenuItems;
     }
 
     @Override
-    protected final UI execute(Session session) throws IOException {
+    protected final UI execute(final Session session) throws IOException {
         if (description != null) {
             session.println(description);
         }
@@ -29,7 +42,7 @@ public abstract class Menu extends UI {
                 session.println((i + 1) + ". " + menuItems[i].getName());
             }
         }
-        if (this.referrer != null) {
+        if (this.getReferrer() != null) {
             session.println("B. Back");
         }
         session.println("E. Exit");
@@ -39,8 +52,8 @@ public abstract class Menu extends UI {
             String choice = session.requestInput();
             if ("E".equals(choice)) {
                 return new Exit(this);
-            } else if (this.referrer != null && "B".equals(choice)) {
-                return this.referrer;
+            } else if (this.getReferrer() != null && "B".equals(choice)) {
+                return this.getReferrer();
             } else {
                 try {
                     int choiceInt = Integer.parseInt(choice);
