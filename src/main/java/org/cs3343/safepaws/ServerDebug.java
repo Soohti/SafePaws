@@ -8,12 +8,24 @@ import java.io.FileInputStream;
 import java.util.Properties;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class ServerDebug {
-    private static final String SERVER_PROPERTIES_PATH = "conf/server/server.properties";
+public final class ServerDebug {
+    /**
+     * Path to the server properties file.
+     */
+    private static final String SERVER_PROPERTIES_PATH =
+            "conf/server/server.properties";
 
-    public static void main(String[] args) throws Exception {
+    /**
+     * Main method of the server (debug mode).
+     * Using standard input and output instead of sockets.
+     *
+     * @param args Command line arguments.
+     * @throws Exception If an error occurs.
+     */
+    public static void main(final String[] args) throws Exception {
         Properties serverProperties = new Properties();
-        try (FileInputStream input = new FileInputStream(SERVER_PROPERTIES_PATH)) {
+        try (FileInputStream input = new FileInputStream(
+                SERVER_PROPERTIES_PATH)) {
             serverProperties.load(input);
         }
         String dbUrl = serverProperties.getProperty("db.url");
@@ -28,5 +40,9 @@ public class ServerDebug {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private ServerDebug() {
+        throw new AssertionError("Instantiation not allowed");
     }
 }
