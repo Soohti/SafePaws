@@ -53,21 +53,7 @@ public class MainMenu extends Menu {
         return this; // 返回当前菜单
     }
 
-    private void createAccount(Scanner scanner, String role) {
-        System.out.println("Enter a username:");
-        String username = scanner.nextLine();
-
-        System.out.println("Enter a password:");
-        String password = scanner.nextLine();
-
-        Account account = new Account(username, password, role);
-        try {
-            DbManager.insertAccount(account);
-            System.out.println("Account created successfully.");
-        } catch (SQLException e) {
-            System.out.println("Error creating account: " + e.getMessage());
-        }
-    }
+    
 
     private void login(Scanner scanner) {
         System.out.println("Enter username:");
