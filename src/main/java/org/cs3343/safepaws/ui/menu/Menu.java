@@ -7,50 +7,64 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 
 public abstract class Menu extends UI {
+    /**
+     * The description of the menu.
+     */
     private final String description;
+    /**
+     * The menu items.
+     */
     private UI[] menuItems;
 
-    public Menu(String name, String description, UI referrer) {
+    /**
+     * Constructs a new Menu.
+     *
+     * @param name     the name of the menu
+     * @param descr    the description of the menu
+     * @param referrer the referrer of the menu
+     */
+    public Menu(final String name, final String descr, final UI referrer) {
         super(name, referrer);
-        this.description = description;
+        this.description = descr;
     }
 
-    protected void setMenuItems(UI[] menuItems) {
-        this.menuItems = menuItems;
+    protected final void setMenuItems(final UI[] pMenuItems) {
+        this.menuItems = pMenuItems;
     }
 
     @Override
-    protected final UI execute(Session session) throws IOException {
+    protected final UI execute(final Session session) throws IOException {
         if (description != null) {
-            session.out.println(description);
+            session.println(description);
         }
         for (int i = 0; i < menuItems.length; i++) {
             if (menuItems[i].isVisibleTo(session)) {
-                session.out.println((i + 1) + ". " + menuItems[i].getName());
+                session.println((i + 1) + ". " + menuItems[i].getName());
             }
         }
-        if (this.referrer != null) {
-            session.out.println("B. Back");
+        if (this.getReferrer() != null) {
+            session.println("B. Back");
         }
-        session.out.println("E. Exit");
-        session.out.print("Please enter your choice: ");
+        session.println("E. Exit");
+        session.print("Please enter your choice: ");
 
         do {
             String choice = session.requestInput();
             if ("E".equals(choice)) {
                 return new Exit(this);
-            } else if (this.referrer != null && "B".equals(choice)) {
-                return this.referrer;
+            } else if (this.getReferrer() != null && "B".equals(choice)) {
+                return this.getReferrer();
             } else {
                 try {
                     int choiceInt = Integer.parseInt(choice);
-                    if (choiceInt > 0 && choiceInt <= menuItems.length && menuItems[choiceInt - 1].isVisibleTo(session)) {
+                    if (choiceInt > 0 && choiceInt <= menuItems.length
+                            && menuItems[choiceInt - 1].isVisibleTo(session)) {
                         return menuItems[choiceInt - 1];
                     } else {
-                        session.out.print("Invalid choice, please try again: ");
+                        session.print("Invalid choice, please try again: ");
                     }
                 } catch (NumberFormatException e) {
-                    session.out.print("Invalid choice, please try again: ");
+                    session.print("Invalid choice, please try again: ");
                 }
             }
         } while (true);
