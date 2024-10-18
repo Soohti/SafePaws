@@ -5,6 +5,12 @@ public class Account {
     private String password;
     private String role;
 
+    
+    public static String encryptPassword(String password) {
+        // TODO: 在此实现密码加密算法
+        return password; // 这里返回原始密码，替换为加密后的密码
+    }
+    
     public Account(String username, String password, String role) {
         this.username = username;
         this.password = password;

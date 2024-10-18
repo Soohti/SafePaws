@@ -12,6 +12,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
+import org.cs3343.safepaws.entity.*;
+
 public class Session {
 //    private User user;
 //    private Pet pet;
@@ -25,6 +27,8 @@ public class Session {
      */
     private final PrintWriter writer;
 
+    private Account account;
+    
     /**
      * Request input from the client.
      *
@@ -73,5 +77,13 @@ public class Session {
      */
     public void println(final String message) {
         writer.println(message);
+    }
+    
+    public void setAccount(Account account) {
+    	this.account=account;
+    }
+    
+    public void clear() {
+    	this.account=null;
     }
 }
