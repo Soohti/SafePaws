@@ -57,33 +57,31 @@ public final class DbManager {
         // TODO: 在此实现密码加密算法
         return password; // 这里返回原始密码，替换为加密后的密码
     }
-
-    private static void createAdminAccountIfNotExists(Connection conn) throws SQLException {
-        String checkAdminSql = "SELECT COUNT(*) FROM users WHERE role = 'admin'";
-        try (PreparedStatement pstmt = conn.prepareStatement(checkAdminSql);
-             ResultSet rs = pstmt.executeQuery()) {
-            if (rs.next() && rs.getInt(1) == 0) {
-                String insertAdminSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-                try (PreparedStatement insertPstmt = conn.prepareStatement(insertAdminSql)) {
-                    insertPstmt.setString(1, "admin");
-                    insertPstmt.setString(2, encryptPassword("adminPassword")); // 在此处加密密码
-                    insertPstmt.setString(3, "admin");
-                    insertPstmt.executeUpdate();
-                    System.out.println("Admin account created.");
-                }
-            }
-        }
-    }
+    
+	/*  cannot understand
+	 * private static void createAdminAccountIfNotExists(Connection conn) throws
+	 * SQLException { String checkAdminSql =
+	 * "SELECT COUNT(*) FROM users WHERE role = 'admin'"; try (PreparedStatement
+	 * pstmt = conn.prepareStatement(checkAdminSql); ResultSet rs =
+	 * pstmt.executeQuery()) { if (rs.next() && rs.getInt(1) == 0) { String
+	 * insertAdminSql =
+	 * "INSERT INTO users (username, password, role) VALUES (?, ?, ?)"; try
+	 * (PreparedStatement insertPstmt = conn.prepareStatement(insertAdminSql)) {
+	 * insertPstmt.setString(1, "admin"); insertPstmt.setString(2,
+	 * encryptPassword("adminPassword")); // 在此处加密密码 insertPstmt.setString(3,
+	 * "admin"); insertPstmt.executeUpdate();
+	 * System.out.println("Admin account created."); } } } }
+	 */
 
     public static void insertAccount(Account account) throws SQLException {
-        String insertSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO ACCOUNT (username, password, role) VALUES (?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, account.getUsername());
             pstmt.setString(2, encryptPassword(account.getPassword())); // 确保加密
             pstmt.setString(3, account.getRole());
             pstmt.executeUpdate();
-            System.out.println("Account created successfully");
+            System.out.println("Account inserted successfully");
         }
     }
 
