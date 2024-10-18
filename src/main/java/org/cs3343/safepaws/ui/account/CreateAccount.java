@@ -20,7 +20,7 @@ public class CreateAccount extends UI{
         String username = scanner.nextLine();
 
         System.out.println("Enter a password:");
-        String password = scanner.nextLine();
+        String password = Account.encryptPassword(scanner.nextLine());
         
         System.out.println("Enter your role:");
         String role = scanner.nextLine();
@@ -33,6 +33,7 @@ public class CreateAccount extends UI{
             System.out.println("Error creating account: " + e.getMessage());
         }
         
+        session.setAccount(account);
         
         return this.getReferrer();
     }
@@ -44,6 +45,6 @@ public class CreateAccount extends UI{
  
     @Override
     public boolean isVisibleTo(final Session session) {
-        return false;
+        return true;
     }
 }

@@ -17,7 +17,7 @@ public class Logout extends UI{
 	public UI execute(Session session) throws IOException{
 		System.out.println("Bye bye.");
 		
-		
+		session.clear();
         return this.getReferrer();
     }
     
@@ -28,6 +28,6 @@ public class Logout extends UI{
 
     @Override
     public boolean isVisibleTo(final Session session) {
-        return false;
+        return true;
     }
 }

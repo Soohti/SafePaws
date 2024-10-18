@@ -26,6 +26,9 @@ public class Login extends UI{
         try {
         	if(DbManager.authenticateUser(username, password)) {
         		System.out.println("Log in successfully.");
+        		// 根据角色跳转到不同的界面或功能
+        		Account account=DbManager.selectAccount(username);
+        		session.setAccount(account);
         	}
         	else {
         		System.out.println("Your password is false.");
@@ -33,8 +36,6 @@ public class Login extends UI{
         } catch (SQLException e) {
             System.out.println("Error creating account: " + e.getMessage());
         }
-        
-        
         
         return this.getReferrer();
 	}
@@ -45,7 +46,7 @@ public class Login extends UI{
 	
 	@Override
 	public boolean isVisibleTo(final Session session) {
-        return false;
+        return true;
     }
 
 }
