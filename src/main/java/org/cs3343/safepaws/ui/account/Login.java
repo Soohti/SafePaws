@@ -13,37 +13,54 @@ import java.util.Scanner;
 public class Login extends UI{
 	
 	private static final String NAME = "Log In";
-	/* make connection with session */
+	
+	/**
+	 * Execute.
+	 *
+	 * @param session the session
+	 * @return the ui
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Override
 	public UI execute(Session session) throws IOException{
-		Scanner scanner = new Scanner(System.in);
-    	System.out.println("Enter your username:");
-        String username = scanner.nextLine();
+    	session.println("Enter your username:");
+        String username = session.requestInput();
 
-        System.out.println("Enter your password:");
-        String password = scanner.nextLine();
+        session.println("Enter your password:");
+        String password = session.requestInput();
         
         try {
         	if(DbManager.authenticateUser(username, password)) {
-        		System.out.println("Log in successfully.");
+        		session.println("Log in successfully.");
         		// 根据角色跳转到不同的界面或功能
         		Account account=DbManager.selectAccount(username);
         		session.setAccount(account);
         	}
         	else {
-        		System.out.println("Your password is false.");
+        		session.println("Your username or password is false.");
         	}
         } catch (SQLException e) {
-            System.out.println("Error creating account: " + e.getMessage());
+            session.println("Error creating account: " + e.getMessage());
         }
         
         return this.getReferrer();
 	}
 	
+	/**
+	 * Instantiates a new login.
+	 *
+	 * @param pReferrer the referrer
+	 */
 	public Login(final UI pReferrer) {
 		super(NAME,pReferrer);
     }
 	
+	/**
+	 * Checks if is visible to.
+	 *
+	 * @param session the session
+	 * @return true, if is visible to
+	 */
 	@Override
 	public boolean isVisibleTo(final Session session) {
         return true;

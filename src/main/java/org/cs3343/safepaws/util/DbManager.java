@@ -1,6 +1,7 @@
 package org.cs3343.safepaws.util;
 
 import java.sql.Connection;
+import org.mindrot.jbcrypt.BCrypt;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,6 +55,12 @@ public final class DbManager {
     }
 
 
+    /**
+     * Insert account.
+     *
+     * @param account the account
+     * @throws SQLException the SQL exception
+     */
     public static void insertAccount(Account account) throws SQLException {
         String insertSql = "INSERT INTO ACCOUNT (username, password, role) VALUES (?, ?, ?)";
         try (Connection conn = getConnection();
@@ -66,6 +73,14 @@ public final class DbManager {
         }
     }
 
+    /**
+     * Authenticate user.
+     *
+     * @param username the username
+     * @param password the password
+     * @return true, if successful
+     * @throws SQLException the SQL exception
+     */
     public static boolean authenticateUser(String username, String password) throws SQLException {
         String query = "SELECT * FROM ACCOUNT WHERE username = ?";
         try (Connection conn = getConnection();
@@ -76,7 +91,7 @@ public final class DbManager {
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
                 // 直接比较存储的密码和输入的密码（需使用相同的加密方法）
-                return storedPassword.equals(Account.encryptPassword(password));
+                return BCrypt.checkpw(password, storedPassword);
             }
         } catch (SQLException e) {
             System.out.println("Error during authentication: " + e.getMessage());
@@ -84,20 +99,27 @@ public final class DbManager {
         return false; // 用户名不存在或密码不匹配
     }
     
+    /**
+     * Select account.
+     *
+     * @param username the username
+     * @return the account
+     */
     public static Account selectAccount(String username) {
     	String query = "SELECT * FROM ACCOUNT WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
-            String Username = rs.getString("username");
-            String Password = rs.getString("password");
-            String Role = rs.getString("role");
-            
-            Account account=new Account(Username,Password,Role);
-            return account;
+            if(rs.next()) {
+            	String Username = rs.getString("username");
+            	String Password = rs.getString("password");
+            	String Role = rs.getString("role");
+            	Account account=new Account(Username,Password,Role);
+                return account;
+            }
         } catch (SQLException e) {
-            System.out.println("Error during authentication: " + e.getMessage());
+            System.out.println("Error during Logging in: " + e.getMessage());
         }
 		return null;
     }
