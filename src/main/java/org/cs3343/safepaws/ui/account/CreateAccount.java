@@ -13,24 +13,30 @@ public class CreateAccount extends UI{
 
 	private static final String NAME = "Create Account";
 	
+	/**
+	 * Execute.
+	 *
+	 * @param session the session
+	 * @return the ui
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Override
     public UI execute(Session session) throws IOException{
-    	Scanner scanner = new Scanner(System.in);
-    	System.out.println("Enter a username:");
-        String username = scanner.nextLine();
+    	session.println("Enter a username:");
+        String username = session.requestInput();
 
-        System.out.println("Enter a password:");
-        String password = Account.encryptPassword(scanner.nextLine());
+        session.println("Enter a password:");
+        String password = Account.encryptPassword(session.requestInput());
         
-        System.out.println("Enter your role:");
-        String role = scanner.nextLine();
+        session.println("Enter your role:");
+        String role = session.requestInput();
 
         Account account = new Account(username, password, role);
         try {
             DbManager.insertAccount(account);
-            System.out.println("Account created successfully.");
+            session.println("Account created successfully.");
         } catch (SQLException e) {
-            System.out.println("Error creating account: " + e.getMessage());
+            session.println("Error creating account: " + e.getMessage());
         }
         
         session.setAccount(account);
@@ -39,10 +45,21 @@ public class CreateAccount extends UI{
     }
     
     
+    /**
+     * Instantiates a new creates the account.
+     *
+     * @param pReferrer the referrer
+     */
     public CreateAccount(final UI pReferrer) {
 		super(NAME,pReferrer);
     }
  
+    /**
+     * Checks if is visible to.
+     *
+     * @param session the session
+     * @return true, if is visible to
+     */
     @Override
     public boolean isVisibleTo(final Session session) {
         return true;

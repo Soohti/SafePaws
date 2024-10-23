@@ -79,10 +79,18 @@ public class Session {
         writer.println(message);
     }
     
+    /**
+     * Sets the account.
+     *
+     * @param account the new account
+     */
     public void setAccount(Account account) {
     	this.account=account;
     }
     
+    /**
+     * Clear.
+     */
     public void clear() {
     	this.account=null;
     }

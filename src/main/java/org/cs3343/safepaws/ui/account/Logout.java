@@ -12,20 +12,38 @@ import org.cs3343.safepaws.util.Session;
 public class Logout extends UI{
 	
 	private static final String NAME = "Log Out";
-	/* make connection with session */
+	
+	/**
+	 * Execute.
+	 *
+	 * @param session the session
+	 * @return the ui
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Override
 	public UI execute(Session session) throws IOException{
-		System.out.println("Bye bye.");
+		session.println("Bye bye.");
 		
 		session.clear();
         return this.getReferrer();
     }
     
 	
+    /**
+     * Instantiates a new logout.
+     *
+     * @param pReferrer the referrer
+     */
     public Logout(final UI pReferrer) {
 		super(NAME,pReferrer);
     }
 
+    /**
+     * Checks if is visible to.
+     *
+     * @param session the session
+     * @return true, if is visible to
+     */
     @Override
     public boolean isVisibleTo(final Session session) {
         return true;
