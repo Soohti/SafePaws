@@ -1,7 +1,6 @@
 package org.cs3343.safepaws.ui.account;
 
-
-import org.cs3343.safepaws.entity.Account;
+import org.cs3343.safepaws.ui.menu.*;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -9,9 +8,8 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;
-
+import org.cs3343.safepaws.entity.Account;
 public class Login extends UI{
-	
 	private static final String NAME = "Log In";
 	
 	/**
@@ -21,6 +19,7 @@ public class Login extends UI{
 	 * @return the ui
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
+	
 	@Override
 	public UI execute(Session session) throws IOException{
     	session.println("Enter your username:");
@@ -32,12 +31,16 @@ public class Login extends UI{
         try {
         	if(DbManager.authenticateUser(username, password)) {
         		session.println("Log in successfully.");
-        		// 根据角色跳转到不同的界面或功能
         		Account account=DbManager.selectAccount(username);
         		session.setAccount(account);
+        		if ("M".equals(account.getRole())) {
+                    return new MemberMenu(this.getReferrer()); 
+                } else {
+                    return new MainMenu(); 
+                }
         	}
         	else {
-        		session.println("Your username or password is false.");
+        		session.println("Your username or password is incorrect.");
         	}
         } catch (SQLException e) {
             session.println("Error creating account: " + e.getMessage());
