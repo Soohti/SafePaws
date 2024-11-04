@@ -88,6 +88,9 @@ public class Session {
     	this.account=account;
     }
     
+    public Account getAccount() {
+        return this.account;
+    }
     /**
      * Clear.
      */

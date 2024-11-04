@@ -54,14 +54,12 @@ public final class Server {
         String dbUsername = serverProperties.getProperty("db.username");
         String dbPassword = serverProperties.getProperty("db.password");
         DbManager.init(dbUrl, dbUsername, dbPassword);
-
         KeyStore keyStore = KeyStore.getInstance("JKS");
         keyStore.load(new FileInputStream(KEYSTORE_PATH), KEYSTORE_PASSWORD);
-
         KeyManagerFactory kmf = KeyManagerFactory.getInstance(
                 KeyManagerFactory.getDefaultAlgorithm());
         kmf.init(keyStore, KEYSTORE_PASSWORD);
-
+        
         SSLContext sslContext = SSLContext.getInstance("TLS");
         sslContext.init(kmf.getKeyManagers(), null, null);
 
