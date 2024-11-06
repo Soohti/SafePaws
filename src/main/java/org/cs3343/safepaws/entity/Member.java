@@ -12,15 +12,7 @@ public class Member extends Account{
 	public void SetProfile(String preferredBreed, String gender, int extroversionLevel, int dailyActivityLevel,
             int houseSize, int workHours, int numberOfFamilyMembers, 
             int previousPetExperience, int financialBudget) {
-		 this.profile.preferredBreed = preferredBreed;
-		 this.profile.extroversionLevel = extroversionLevel;
-		 this.profile.dailyActivityLevel = dailyActivityLevel;
-		 this.profile.houseSize = houseSize;
-		 this.profile.workHours = workHours;
-		 this.profile.numberOfFamilyMembers = numberOfFamilyMembers;
-		 this.profile.previousPetExperience = previousPetExperience;
-		 this.profile.financialBudget = financialBudget;
-		 this.profile.gender=gender;
+		 profile=new MemberProfile(preferredBreed,gender,extroversionLevel,dailyActivityLevel,houseSize,workHours,numberOfFamilyMembers,previousPetExperience,financialBudget);
 	}
-	
+
 }

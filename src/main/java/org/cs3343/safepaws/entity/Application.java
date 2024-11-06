@@ -4,9 +4,10 @@ public class Application {
 	public Member user;
 	public Pet pet;
 	public int state;
+	public int id;
 	
-	public Application(Member user, Pet pet, int state) {
-        this.user = user;
+	public Application(Member account, Pet pet, int state) {
+        this.user = (Member) account;
         this.pet = pet;
         this.state = state;
     }
@@ -21,6 +22,14 @@ public class Application {
 
     public Pet getPet() {
         return pet;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
 
