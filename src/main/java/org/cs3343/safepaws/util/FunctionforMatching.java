@@ -1,6 +1,6 @@
 package org.cs3343.safepaws.util;
 
-import org.cs3343.safepaws.entity.Adopter;
+import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
 
 public class FunctionforMatching implements Algorithm {
@@ -24,27 +24,27 @@ public class FunctionforMatching implements Algorithm {
         }
     }
 
-    private double calculateEuclideanDistance(Adopter user, Pet pet) {
+    private double calculateEuclideanDistance(Member user, Pet pet) {
         double distance = 0.0;
-        distance += Math.pow(user.extroversionLevel - pet.activityLevel, 2);
-        distance += Math.pow(user.dailyActivityLevel - pet.activityLevel, 2);
-        distance += Math.pow(user.houseSize - sizeToNumeric(pet.size), 2);
-        distance += Math.pow(user.workHours - 10, 2);
-        distance += Math.pow(user.numberOfFamilyMembers - 3, 2);
-        distance += Math.pow(user.previousPetExperience - 5, 2);
-        distance += Math.pow(user.financialBudget - 5, 2);
+        distance += Math.pow(user.profile.extroversionLevel - pet.activityLevel, 2);
+        distance += Math.pow(user.profile.dailyActivityLevel - pet.activityLevel, 2);
+        distance += Math.pow(user.profile.houseSize - sizeToNumeric(pet.size), 2);
+        distance += Math.pow(user.profile.workHours - 10, 2);
+        distance += Math.pow(user.profile.numberOfFamilyMembers - 3, 2);
+        distance += Math.pow(user.profile.previousPetExperience - 5, 2);
+        distance += Math.pow(user.profile.financialBudget - 5, 2);
         return Math.sqrt(distance);
     }
 
-    private double calculateCosineSimilarity(Adopter user, Pet pet) {
+    private double calculateCosineSimilarity(Member user, Pet pet) {
         double userMagnitude = Math.sqrt(
-            Math.pow(user.extroversionLevel, 2) +
-            Math.pow(user.dailyActivityLevel, 2) +
-            Math.pow(user.houseSize, 2) +
-            Math.pow(user.workHours, 2) +
-            Math.pow(user.numberOfFamilyMembers, 2) +
-            Math.pow(user.previousPetExperience, 2) +
-            Math.pow(user.financialBudget, 2)
+            Math.pow(user.profile.extroversionLevel, 2) +
+            Math.pow(user.profile.dailyActivityLevel, 2) +
+            Math.pow(user.profile.houseSize, 2) +
+            Math.pow(user.profile.workHours, 2) +
+            Math.pow(user.profile.numberOfFamilyMembers, 2) +
+            Math.pow(user.profile.previousPetExperience, 2) +
+            Math.pow(user.profile.financialBudget, 2)
         );
 
         double petMagnitude = Math.sqrt(
@@ -53,18 +53,18 @@ public class FunctionforMatching implements Algorithm {
             Math.pow(pet.healthStatus, 2)
         );
 
-        double dotProduct = (user.extroversionLevel * pet.activityLevel) +
-                            (user.dailyActivityLevel * pet.activityLevel) +
-                            (user.houseSize * sizeToNumeric(pet.size)) +
-                            (user.workHours * 10) +
-                            (user.numberOfFamilyMembers * 3) +
-                            (user.previousPetExperience * 5) +
-                            (user.financialBudget * 5);
+        double dotProduct = (user.profile.extroversionLevel * pet.activityLevel) +
+                            (user.profile.dailyActivityLevel * pet.activityLevel) +
+                            (user.profile.houseSize * sizeToNumeric(pet.size)) +
+                            (user.profile.workHours * 10) +
+                            (user.profile.numberOfFamilyMembers * 3) +
+                            (user.profile.previousPetExperience * 5) +
+                            (user.profile.financialBudget * 5);
 
         return dotProduct / (userMagnitude * petMagnitude);
     }
 
-    public double calculateMatch(Adopter user, Pet pet) {
+    public double calculateMatch(Member user, Pet pet) {
         double euclideanDistance = calculateEuclideanDistance(user, pet);
         double cosineSimilarity = calculateCosineSimilarity(user, pet);
 
@@ -75,8 +75,8 @@ public class FunctionforMatching implements Algorithm {
 
         double normalizedEuclideanDistance = 1 / (1 + euclideanDistance);
 
-        double breedSimilarity = user.preferredBreed.equalsIgnoreCase(pet.breed) ? 1.0 : 0.0;
-        double genderSimilarity = user.gender.equalsIgnoreCase(pet.gender) ? 1.0 : 0.0;
+        double breedSimilarity = user.profile.preferredBreed.equalsIgnoreCase(pet.breed) ? 1.0 : 0.0;
+        double genderSimilarity = user.profile.gender.equalsIgnoreCase(pet.gender) ? 1.0 : 0.0;
 
         double breedScore = breedSimilarity * BREED_WEIGHT;
         double genderScore = genderSimilarity * GENDER_WEIGHT;

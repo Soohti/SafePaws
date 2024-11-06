@@ -1,7 +1,6 @@
 package org.cs3343.safepaws.entity;
 
-public class Adopter {
-
+public class MemberProfile {
 	public int extroversionLevel;
 	public int dailyActivityLevel;
 	public int houseSize;
@@ -11,7 +10,8 @@ public class Adopter {
 	public int financialBudget;
 	public String preferredBreed;
 	public String gender;
-	public Adopter(String preferredBreed, String gender, int extroversionLevel, int dailyActivityLevel,
+	
+	public MemberProfile(String preferredBreed, String gender, int extroversionLevel, int dailyActivityLevel,
             int houseSize, int workHours, int numberOfFamilyMembers, 
             int previousPetExperience, int financialBudget) {
 		 this.preferredBreed = preferredBreed;
@@ -24,6 +24,4 @@ public class Adopter {
 		 this.financialBudget = financialBudget;
 		 this.gender=gender;
 	}
-	
 }
-

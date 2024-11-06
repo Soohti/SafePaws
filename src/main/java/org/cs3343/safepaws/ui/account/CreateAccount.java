@@ -62,6 +62,6 @@ public class CreateAccount extends UI{
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return true;
+        return session.getAccount() == null;
     }
 }
