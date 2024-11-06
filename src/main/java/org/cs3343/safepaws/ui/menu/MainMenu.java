@@ -1,8 +1,15 @@
 package org.cs3343.safepaws.ui.menu;
 
+import org.cs3343.safepaws.ui.ReturnToPreviousMenu;
 import org.cs3343.safepaws.ui.TestDb;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.account.*;
+import org.cs3343.safepaws.ui.adoption.AdminCheckApplication;
+import org.cs3343.safepaws.ui.adoption.AdminSeeAllApplication;
+import org.cs3343.safepaws.ui.adoption.MemberSeeApplication;
+import org.cs3343.safepaws.ui.adoption.SetProfile;
+import org.cs3343.safepaws.ui.adoption.SubmitApplication;
+import org.cs3343.safepaws.ui.adoption.ViewPets;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
@@ -28,7 +35,13 @@ public class MainMenu extends Menu {
             new TestDb(this),
             new CreateAccount(this),
             new Login(this),
-            new Logout(this)
+            new Logout(this),
+            new AdminCheckApplication(this),
+            new AdminSeeAllApplication(this),
+            new ViewPets(this),
+            new SetProfile(this),
+            new SubmitApplication(this),
+            new MemberSeeApplication(this),
     };
 
     /**

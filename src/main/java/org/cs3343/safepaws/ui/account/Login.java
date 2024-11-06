@@ -33,11 +33,11 @@ public class Login extends UI{
         		session.println("Log in successfully.");
         		Account account=DbManager.selectAccount(username);
         		session.setAccount(account);
-        		if ("M".equals(account.getRole())) {
-                    return new MemberMenu(this.getReferrer()); 
-                } else {
-                    return new MainMenu(); 
-                }
+//        		if ("M".equals(account.getRole())) {
+//                    return this.getReferrer(); 
+//                } else {
+//                    return new MainMenu(); 
+//                }
         	}
         	else {
         		session.println("Your username or password is incorrect.");
@@ -66,7 +66,7 @@ public class Login extends UI{
 	 */
 	@Override
 	public boolean isVisibleTo(final Session session) {
-        return true;
+        return session.getAccount() == null;
     }
 
 }
