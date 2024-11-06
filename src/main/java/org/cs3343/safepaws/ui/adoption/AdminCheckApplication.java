@@ -14,7 +14,13 @@ public class AdminCheckApplication extends UI{
 
     @Override
     protected UI execute(Session session) throws IOException {
-        // select all applications and check whether yes or no
+        // select an application and check whether yes or no
+    	session.println("Enter the application you want to check:");
+    	
+    	int Aid = Integer.parseInt(session.requestInput());
+    	
+    	
+    	//find id and change it.
     	
         return this.getReferrer(); // 返回到主菜单
     }

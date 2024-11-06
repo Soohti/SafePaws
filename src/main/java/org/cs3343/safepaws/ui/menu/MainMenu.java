@@ -4,8 +4,10 @@ import org.cs3343.safepaws.ui.ReturnToPreviousMenu;
 import org.cs3343.safepaws.ui.TestDb;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.account.*;
+import org.cs3343.safepaws.ui.adoption.AdminAddPet;
 import org.cs3343.safepaws.ui.adoption.AdminCheckApplication;
 import org.cs3343.safepaws.ui.adoption.AdminSeeAllApplication;
+import org.cs3343.safepaws.ui.adoption.AdminViewDetailApplication;
 import org.cs3343.safepaws.ui.adoption.MemberSeeApplication;
 import org.cs3343.safepaws.ui.adoption.SetProfile;
 import org.cs3343.safepaws.ui.adoption.SubmitApplication;
@@ -36,8 +38,10 @@ public class MainMenu extends Menu {
             new CreateAccount(this),
             new Login(this),
             new Logout(this),
+            new AdminAddPet(this),
             new AdminCheckApplication(this),
             new AdminSeeAllApplication(this),
+            new AdminViewDetailApplication(this),
             new ViewPets(this),
             new SetProfile(this),
             new SubmitApplication(this),

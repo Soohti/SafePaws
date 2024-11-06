@@ -15,20 +15,11 @@ public class FunctionforMatching implements Algorithm {
     private static final double GENDER_WEIGHT = 1.0;
     private static final double AGE_WEIGHT = 1.0;
 
-    public static int sizeToNumeric(String size) {
-        switch (size.toLowerCase()) {
-            case "s": return 1;
-            case "m": return 2;
-            case "l": return 3;
-            default: return 0;
-        }
-    }
-
     private double calculateEuclideanDistance(Member user, Pet pet) {
         double distance = 0.0;
         distance += Math.pow(user.profile.extroversionLevel - pet.activityLevel, 2);
         distance += Math.pow(user.profile.dailyActivityLevel - pet.activityLevel, 2);
-        distance += Math.pow(user.profile.houseSize - sizeToNumeric(pet.size), 2);
+        distance += Math.pow(user.profile.houseSize - pet.size, 2);
         distance += Math.pow(user.profile.workHours - 10, 2);
         distance += Math.pow(user.profile.numberOfFamilyMembers - 3, 2);
         distance += Math.pow(user.profile.previousPetExperience - 5, 2);
@@ -49,13 +40,13 @@ public class FunctionforMatching implements Algorithm {
 
         double petMagnitude = Math.sqrt(
             Math.pow(pet.activityLevel, 2) +
-            Math.pow(sizeToNumeric(pet.size), 2) +
+            Math.pow(pet.size, 2) +
             Math.pow(pet.healthStatus, 2)
         );
 
         double dotProduct = (user.profile.extroversionLevel * pet.activityLevel) +
                             (user.profile.dailyActivityLevel * pet.activityLevel) +
-                            (user.profile.houseSize * sizeToNumeric(pet.size)) +
+                            (user.profile.houseSize * pet.size) +
                             (user.profile.workHours * 10) +
                             (user.profile.numberOfFamilyMembers * 3) +
                             (user.profile.previousPetExperience * 5) +

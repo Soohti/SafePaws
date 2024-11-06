@@ -24,4 +24,6 @@ public class MemberProfile {
 		 this.financialBudget = financialBudget;
 		 this.gender=gender;
 	}
+	
+	
 }
