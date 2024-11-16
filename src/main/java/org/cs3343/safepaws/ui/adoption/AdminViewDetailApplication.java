@@ -3,8 +3,12 @@ package org.cs3343.safepaws.ui.adoption;
 import java.io.IOException;
 
 import org.cs3343.safepaws.entity.Application;
+import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.entity.MemberProfile;
+import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.FunctionforMatching;
 import org.cs3343.safepaws.util.Session;
 
 public class AdminViewDetailApplication extends UI{
@@ -17,19 +21,33 @@ public class AdminViewDetailApplication extends UI{
     @Override
     protected UI execute(Session session) throws IOException {
         // select an application and check whether yes or no
-    	session.println("Enter the application you want to check:");
+    	session.println("Enter the application you want to see:");
     	
     	int Aid = Integer.parseInt(session.requestInput());
     	Application application = DbManager.selectApplication(Aid);
+    	Member m=application.getUser();
+    	Pet p=application.getPet();
+    	MemberProfile pf=m.getProfile();
     	
-    	// 输出表头
-        System.out.printf("%-15s %-5s %-10s %-6s %-15s %-15s%n", "Breed", "Age", "Size", "Gender", "ActivityLevel", "HealthStatus");
-        System.out.println("-------------------------------------------------------------");
-        
-        
-        //System.out.printf("%-15s %-5d %-10s %-6s %-15s %-15s%n", breed, age, size, gender, activityLevel, healthStatus);
+    	session.printf("%-5s %-20s %-20s %-20s %-15s %-15s %-25s %-25s %-20s %-10s","Id","PreferredBreed","ExtroversionLevel","DailyActivityLevel","HouseSize","WorkHours","NumberOfFamilyMembers","PreviousPetExperience","FinancialBudget","Gender");
+    	session.println("");
+    	session.printf("%-5d %-20s %-20d %-20d %-15d %-15d %-25d %-25d %-20d %-10s",m.getId(),pf.getPreferredBreed(),pf.getExtroversionLevel(),pf.getDailyActivityLevel(),pf.getHouseSize(),pf.getWorkHours(),pf.getNumberOfFamilyMembers(),pf.getPreviousPetExperience(),pf.getFinancialBudget(),pf.getGender());
+    	session.println("");
     	
-        return this.getReferrer(); // 返回到主菜单
+    	session.println("");
+        session.printf("%-5s %-15s %-5s %-10s %-6s %-15s %-15s%n", "Id", "Breed", "Age", "Size", "Gender", "ActivityLevel", "HealthStatus");
+        session.println("");
+        session.printf("%-5d %-15s %-5d %-10d %-6s %-15d %-15d%n", p.getId(), p.getBreed(), p.getAge(), p.getSize(), p.getGender(), p.getActivityLevel(), p.getHealthStatus());
+        session.println("");
+        
+        session.println("");
+        FunctionforMatching match = new FunctionforMatching(); 
+        session.printf("%-10s %10s","Score","State");
+        session.println("");
+        session.printf("%-10d %10d",match.calculateMatch(m, p),application.getState());
+        session.println("");
+        
+        return this.getReferrer(); 
     }
 
     @Override

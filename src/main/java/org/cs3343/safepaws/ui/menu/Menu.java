@@ -45,7 +45,9 @@ public abstract class Menu extends UI {
         if (this.getReferrer() != null) {
             session.println("B. Back");
         }
-        session.println("E. Exit");
+        if(this.getReferrer() == null) {
+        	session.println("E. Exit");
+        }
         session.print("Please enter your choice: ");
 
         do {
