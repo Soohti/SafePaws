@@ -12,6 +12,7 @@ import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.entity.MemberProfile;
 
 //import java.lang.reflect.Member;
 import java.sql.*;
@@ -164,7 +165,6 @@ public final class DbManager {
                 Pet pet=new Pet(breed, age, size, gender, activityLevel, healthStatus);
                 pet.setId(pid);
                 return pet;
-                //applications.add();
             }
         } 
 		return null;
@@ -187,8 +187,8 @@ public final class DbManager {
             	Application application=new Application(account,pet,State);
             	application.setId(id);
                 applications.add(application);
-                return applications;
             }
+    		return applications;
     	} catch (SQLException e) {
             System.out.println("Error during Logging in: " + e.getMessage());
         }
@@ -219,10 +219,28 @@ public final class DbManager {
         }
 		return null;
     }
+    
+    public static Application changeState(int Aid,int state) {
+    	String updateSQL = "UPDATE APPLICATION SET State = ? WHERE Id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+             
+            pstmt.setInt(1, state);
+            pstmt.setInt(2, Aid);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+        	System.out.println("Error during Changing State: " + e.getMessage());
+        }
+		return null;
+    }
+    
+    
 
 	private static Member selectMemberById(int mid) throws SQLException{
 		String query = "SELECT * FROM Account WHERE Id= ?";
-
+		Member account=new Member();
+		
         try (Connection conn = getConnection();
         	PreparedStatement pstmt = conn.prepareStatement(query)) {
         	pstmt.setInt(1, mid);
@@ -231,52 +249,35 @@ public final class DbManager {
             	String Username = rs.getString("username");
             	String Password = rs.getString("password");
             	String Role = rs.getString("role");
-                Member account= new Member(Username,Password,Role);
-                query = "SELECT * FROM MEMBERPROFILE WHERE Id= ?";
-        
-                try(PreparedStatement pstmt1 = conn.prepareStatement(query)) {
-                    	pstmt1.setInt(1, mid);
-                    	rs = pstmt1.executeQuery();
-                        if (rs.next()) {
-                        	this.preferredBreed = preferredBreed;
-                   		 this.extroversionLevel = extroversionLevel;
-                   		 this.dailyActivityLevel = dailyActivityLevel;
-                   		 this.houseSize = houseSize;
-                   		 this.workHours = workHours;
-                   		 this.numberOfFamilyMembers = numberOfFamilyMembers;
-                   		 this.previousPetExperience = previousPetExperience;
-                   		 this.financialBudget = financialBudget;
-                   		 this.gender=gender;
-                            Member account= new Member(Username,Password,Role);
-                            query = "SELECT * FROM MEMBERPROFILE WHERE Id= ?";
-                        	
-                        	
-                            return account;
-                        }
-                }
+            	account.setUsername(Username);
+            	account.setPassword(Password);
+            	account.setId(mid);
+            	account.setRole(Role);
             }
         } 
+        query = "SELECT * FROM MEMBERPROFILE WHERE Id= ?";
+        
+        try(Connection conn = getConnection();
+        	PreparedStatement pstmt1 = conn.prepareStatement(query)) {
+            	pstmt1.setInt(1, mid);
+            	ResultSet rs1 = pstmt1.executeQuery();
+                if (rs1.next()) {
+                	String preferredBreed = rs1.getString("PreferredBreed");
+           		 	int extroversionLevel = rs1.getInt("ExtroversionLevel");
+           		 	int dailyActivityLevel = rs1.getInt("DailyActivityLevel");
+           		 	int houseSize = rs1.getInt("HouseSize");
+           		 	int workHours = rs1.getInt("WorkHours");
+           		 	int numberOfFamilyMembers = rs1.getInt("NumberOfFamilyMembers");
+           		 	int previousPetExperience = rs1.getInt("PreviousPetExperience");
+           		 	int financialBudget = rs1.getInt("financialBudget");
+           		 	String gender= rs1.getString("Gender");
+           		 	MemberProfile memberProfile=new MemberProfile(preferredBreed, gender, extroversionLevel, dailyActivityLevel, houseSize, workHours, numberOfFamilyMembers, previousPetExperience, financialBudget);
+                    account.SetProfile(memberProfile);  	
+                    return account;
+                }
+        }
 		return null;
 	}
-
-//	private static Account selectAccountById(int mid) throws SQLException{
-//		String query = "SELECT * FROM ACCOUNT WHERE Id= ?";
-//
-//        try (Connection conn = getConnection();
-//        	PreparedStatement pstmt = conn.prepareStatement(query)) {
-//        	pstmt.setInt(1, mid);
-//        	ResultSet rs = pstmt.executeQuery();
-//            if (rs.next()) {
-//            	String Username = rs.getString("username");
-//            	String Password = rs.getString("password");
-//            	String Role = rs.getString("role");
-//                Account account= new Account(Username,Password,Role);
-//            	account.setId(mid);
-//                return account;
-//            }
-//        } 
-//		return null;
-//	}
 
 	/**
      * Tests the database connection.

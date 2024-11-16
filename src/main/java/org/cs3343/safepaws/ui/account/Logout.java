@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.ui.UI;
+import org.cs3343.safepaws.ui.menu.MainMenu;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
@@ -22,10 +23,11 @@ public class Logout extends UI{
 	 */
 	@Override
 	public UI execute(Session session) throws IOException{
+		session.setAccount(null);
 		session.println("Bye bye.");
 		
 		session.clear();
-        return this.getReferrer();
+        return new MainMenu();
     }
     
 	

@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Formatter;
 
 import org.cs3343.safepaws.entity.*;
 
@@ -68,6 +69,14 @@ public class Session {
      */
     public void println() {
         writer.println();
+    }
+    
+    public void printf(String format, Object... args) {
+        StringBuilder output = new StringBuilder();
+        Formatter formatter = new Formatter(output);
+        formatter.format(format, args);
+        writer.println(output.toString());
+        formatter.close();
     }
 
     /**
