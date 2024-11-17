@@ -20,6 +20,7 @@ public class AdminSeeAllApplication extends UI {
     @Override
     protected UI execute(Session session) {
         ArrayList<Application> applications = new ArrayList<>();
+        String State[]= {"Pending","Approved","Rejected"};
         try {
             applications = DbManager.ViewAllApplication();
             session.printf("%-10s %-10s %-10s %-10s %-10s", "Id", "Mid", "Pid",
@@ -27,10 +28,10 @@ public class AdminSeeAllApplication extends UI {
             session.println("");
 
             for (Application a : applications) {
-                session.printf("%-10d %-10d %-10d %-10f %-10d", a.getId(),
+                session.printf("%-10d %-10d %-10d %-10f %-10s", a.getId(),
                         a.getUser().getId(), a.getPet().getId(),
                         PetMatchingAlgo.calculateMatch(a.getUser(), a.getPet()),
-                        a.getState());
+                        State[a.getState()]);
                 session.println("");
             }
         } catch (SQLException e) {
