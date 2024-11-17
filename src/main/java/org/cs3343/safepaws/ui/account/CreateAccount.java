@@ -39,8 +39,6 @@ public class CreateAccount extends UI{
             session.println("Error creating account: " + e.getMessage());
         }
         
-        session.setAccount(account);
-        
         return this.getReferrer();
     }
     
