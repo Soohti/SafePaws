@@ -1,8 +1,16 @@
 package org.cs3343.safepaws.entity;
 
+/**
+ *
+ */
 public class Admin extends Account {
 
-    public Admin(String username, String password, String role) {
+    /**
+     * @param username
+     * @param password
+     * @param role
+     */
+    public Admin(final String username, final String password, final String role) {
         super(username, password, role);
     }
 

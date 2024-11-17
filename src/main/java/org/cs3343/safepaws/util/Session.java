@@ -15,7 +15,10 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Formatter;
 
-public class Session {
+/**
+ * 
+ */
+public final class Session {
 //    private User user;
 //    private Pet pet;
 
@@ -50,9 +53,11 @@ public class Session {
      */
     public Session(final InputStream in, final OutputStream out) {
         this.reader = new BufferedReader(
-                new InputStreamReader(in, StandardCharsets.UTF_8));
+            new InputStreamReader(in, StandardCharsets.UTF_8)
+        );
         this.writer = new PrintWriter(
-                new OutputStreamWriter(out, StandardCharsets.UTF_8), true);
+            new OutputStreamWriter(out, StandardCharsets.UTF_8), true
+        );
     }
 
     /**
