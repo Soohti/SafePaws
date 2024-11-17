@@ -16,25 +16,26 @@ public class MemberProfile {
     public String gender;
 
     /**
+     * @param species 
+     * @param breed 
+     * @param gen 
+     * @param numeric 
      * @param preferredSpecies
      * @param preferredBreed
      * @param gender
      * @param numericAttributes
      */
-    public MemberProfile(String preferredSpecies, String preferredBreed, String gender, int[] numericAttributes) {
-        if (numericAttributes == null || numericAttributes.length != 7) {
-            throw new IllegalArgumentException("numericAttributes " + "array must have a length of 7");
-        }
-        this.preferredSpecies = preferredSpecies;
-        this.preferredBreed = preferredBreed;
-        this.gender = gender;
-        this.extroversionLevel = numericAttributes[0];
-        this.dailyActivityLevel = numericAttributes[1];
-        this.houseSize = numericAttributes[2];
-        this.workHours = numericAttributes[3];
-        this.numberOfFamilyMembers = numericAttributes[4];
-        this.previousPetExperience = numericAttributes[5];
-        this.financialBudget = numericAttributes[6];
+    public MemberProfile(final String species, final String breed, final String gen, final int[] numeric) {
+        this.preferredSpecies = species;
+        this.preferredBreed = breed;
+        this.gender = gen;
+        this.extroversionLevel = numeric[0];
+        this.dailyActivityLevel = numeric[1];
+        this.houseSize = numeric[2];
+        this.workHours = numeric[3];
+        this.numberOfFamilyMembers = numeric[4];
+        this.previousPetExperience = numeric[5];
+        this.financialBudget = numeric[6];
     }
 
     /**

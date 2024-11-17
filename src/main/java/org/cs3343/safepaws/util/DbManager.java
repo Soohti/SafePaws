@@ -96,7 +96,7 @@ public final class DbManager {
      * @param pet
      * @throws SQLException
      */
-    public static void insertPet(Pet pet) throws SQLException {
+    public static void insertPet(final Pet pet) throws SQLException {
         String insertSql = "INSERT INTO PET (Name, Species, Breed, Age, Weight, Gender, ActivityLevel, HealthStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, pet.getName());
@@ -122,7 +122,7 @@ public final class DbManager {
      * @return true, if successful
      * @throws SQLException the SQL exception
      */
-    public static boolean authenticateUser(String username, String password) throws SQLException {
+    public static boolean authenticateUser(final String username, final String password) throws SQLException {
         String query = "SELECT * FROM ACCOUNT WHERE username = ?";
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, username);
@@ -170,7 +170,7 @@ public final class DbManager {
     }
 
     /**
-     * @return
+     * @return appications
      * @throws SQLException
      */
     public static ArrayList<Application> ViewAllApplication() throws SQLException {
@@ -200,9 +200,9 @@ public final class DbManager {
 
     /**
      * @param id
-     * @return
+     * @return selected application
      */
-    public static Application selectApplication(int id) {
+    public static Application selectApplication(final int id) {
         String query = "SELECT * FROM APPLICATION WHERE id = ?";
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, id);
@@ -228,7 +228,7 @@ public final class DbManager {
      * @param state
      * @return
      */
-    public static Application changeState(int Aid, int state) {
+    public static Application changeState(final int Aid, final int state) {
         String updateSQL = "UPDATE APPLICATION SET State = ? WHERE Id = ?";
 
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
@@ -242,7 +242,7 @@ public final class DbManager {
         return null;
     }
 
-    private static Member selectMemberById(int mid) throws SQLException {
+    private static Member selectMemberById(final int mid) throws SQLException {
         String query = "SELECT * FROM ACCOUNT WHERE Id= ?";
         Member account = new Member();
 
@@ -286,7 +286,7 @@ public final class DbManager {
      * @return
      * @throws SQLException
      */
-    public static Pet selectPetById(int petId) throws SQLException {
+    public static Pet selectPetById(final int petId) throws SQLException {
         String selectSql = "SELECT * FROM PET WHERE Id = ?";
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
 
@@ -347,7 +347,12 @@ public final class DbManager {
         return pets;
     }
 
-    public static void insertMemProfile(int id, MemberProfile memberProfile) throws SQLException {
+    /**
+     * @param id
+     * @param memberProfile
+     * @throws SQLException
+     */
+    public static void insertMemProfile(final int id, final MemberProfile memberProfile) throws SQLException {
         String insertSql = "INSERT INTO MEMBER_PROFILE (Id, PreferredSpecies, " + "PreferredBreed, ExtroversionLevel, "
                 + "DailyActivityLevel, HouseSize, " + "WorkHours, NumberofFamilyMembers, "
                 + "PreviousPetExperience, FinancialBudget, Gender) VALUES (?, ?, ?,?, ?, ?,?, ?, ?,?,?)";
@@ -413,6 +418,10 @@ public final class DbManager {
         }
     }
 
+    /**
+     * @param member
+     * @return
+     */
     public static List<Application> selectApplicationByMember(Member member) {
         String query = "SELECT * FROM APPLICATION WHERE Mid = ?";
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {

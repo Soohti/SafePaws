@@ -3,7 +3,7 @@ package org.cs3343.safepaws.entity;
 /**
  *
  */
-public class Pet {
+public final class Pet {
 
     private int id;
     public int activityLevel;
@@ -25,16 +25,16 @@ public class Pet {
      * @param activityLevel
      * @param healthStatus
      */
-    public Pet(String name, String species, String breed, int age, int weight, String gender, int activityLevel,
-            int healthStatus) {
-        this.name = name;
-        this.species = species;
-        this.breed = breed;
-        this.age = age;
-        this.weight = weight;
-        this.gender = gender;
-        this.activityLevel = activityLevel;
-        this.healthStatus = healthStatus;
+    public Pet(final String nm, final String spec, final String br, int ag, int wt, String gen, int actLevel,
+            int heaStatus) {
+        this.name = nm;
+        this.species = spec;
+        this.breed = br;
+        this.age = wt;
+        this.weight = wt;
+        this.gender = gen;
+        this.activityLevel = actLevel;
+        this.healthStatus = heaStatus;
     }
 
     public String getName() {
@@ -73,7 +73,7 @@ public class Pet {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 

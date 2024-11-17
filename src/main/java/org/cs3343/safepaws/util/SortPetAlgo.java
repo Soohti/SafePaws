@@ -17,7 +17,7 @@ public class SortPetAlgo implements Algorithm {
      * @param user
      * @return
      */
-    public static List<Pet> sortPetsByMatch(Member user) {
+    public static List<Pet> sortPetsByMatch(final Member user) {
         List<Pet> pets = DbManager.getAllPets();
         List<PetMatchScore> petMatchScores = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public class SortPetAlgo implements Algorithm {
          * @param pet
          * @param matchScore
          */
-        public PetMatchScore(Pet pet, double matchScore) {
+        public PetMatchScore(final Pet pet, final double matchScore) {
             this.pet = pet;
             this.matchScore = matchScore;
         }

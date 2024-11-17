@@ -14,10 +14,10 @@ public class Application {
      * @param pet
      * @param state
      */
-    public Application(Member account, Pet pet, int state) {
+    public Application(final Member account, final Pet p, final int st) {
         this.user = (Member) account;
-        this.pet = pet;
-        this.state = state;
+        this.pet = p;
+        this.state = st;
     }
 
     /**
@@ -30,7 +30,7 @@ public class Application {
     /**
      * @param user
      */
-    public void setUser(Member user) {
+    public void setUser(final Member user) {
         this.user = user;
     }
 
@@ -72,7 +72,7 @@ public class Application {
     /**
      * @param state
      */
-    public void setState(int state) {
+    public void setState(final int state) {
         this.state = state;
     }
 }

@@ -18,7 +18,7 @@ import java.util.Formatter;
 /**
  * 
  */
-public class Session {
+public final class Session {
 //    private User user;
 //    private Pet pet;
 

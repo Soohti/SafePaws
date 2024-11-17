@@ -17,7 +17,7 @@ public class Account {
      * @param password the password
      * @return the string
      */
-    public static String encryptPassword(String password) {
+    public static String encryptPassword(final String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
@@ -28,7 +28,7 @@ public class Account {
      * @param password the password
      * @param role     the role
      */
-    public Account(String username, String password, String role) {
+    public Account(final String username, final String password, final String role) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -54,7 +54,7 @@ public class Account {
      *
      * @param username the new username
      */
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -72,7 +72,7 @@ public class Account {
      *
      * @param password the new password
      */
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -90,7 +90,7 @@ public class Account {
      *
      * @param role the new role
      */
-    public void setRole(String role) {
+    public void setRole(final String role) {
         this.role = role;
     }
 
@@ -104,7 +104,7 @@ public class Account {
     /**
      * @param id
      */
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 }

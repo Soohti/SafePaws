@@ -25,7 +25,7 @@ public class PetMatchingAlgo implements Algorithm {
      * @param max
      * @return
      */
-    private static double normalizeValue(double value, double min, double max) {
+    private static double normalizeValue(final double value, final double min, final double max) {
         return 10 * (value - min) / (max - min);
     }
 
@@ -34,7 +34,7 @@ public class PetMatchingAlgo implements Algorithm {
      * @param pet
      * @return
      */
-    private static double calculateEuclideanDistance(Member user, Pet pet) {
+    private static double calculateEuclideanDistance(final Member user, final Pet pet) {
         MemberProfile profile = user.getProfile();
         double normalizedHouseSize = normalizeValue(profile.houseSize, 10, 300);
         double normalizedWeight = normalizeValue(pet.weight, 1, 40);
@@ -56,7 +56,7 @@ public class PetMatchingAlgo implements Algorithm {
      * @param pet
      * @return
      */
-    private static double calculateWeightedCosineSimilarity(Member user, Pet pet) {
+    private static double calculateWeightedCosineSimilarity(final Member user, final Pet pet) {
         MemberProfile profile = user.getProfile();
         double normalizedHouseSize = normalizeValue(profile.houseSize, 20, 300);
         double normalizedWeight = normalizeValue(pet.weight, 1, 100);
@@ -94,7 +94,7 @@ public class PetMatchingAlgo implements Algorithm {
      * @param pet
      * @return
      */
-    public static double calculateMatch(Member user, Pet pet) {
+    public static double calculateMatch(final Member user, final Pet pet) {
         MemberProfile profile = user.getProfile();
         double euclideanDistance = calculateEuclideanDistance(user, pet);
         double cosineSimilarity = calculateWeightedCosineSimilarity(user, pet);

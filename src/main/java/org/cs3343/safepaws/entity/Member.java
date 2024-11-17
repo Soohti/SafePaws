@@ -29,7 +29,7 @@ public class Member extends Account {
     /**
      * @param memberProfile
      */
-    public void setProfile(MemberProfile memberProfile) {
+    public void setProfile(final MemberProfile memberProfile) {
         this.profile = memberProfile;
     }
 
@@ -39,12 +39,8 @@ public class Member extends Account {
      * @param gender
      * @param numericAttributes
      */
-    public void setProfile(String preferredSpecies, String preferredBreed, 
-            String gender, int[] numericAttributes) {
-        if (numericAttributes == null || numericAttributes.length != 7) {
-            throw new IllegalArgumentException("numericAttributes array must have a length of 7");
-        }
-
+    public void setProfile(final String preferredSpecies, final String preferredBreed,
+            final String gender, final int[] numericAttributes) {
         this.profile = new MemberProfile(preferredSpecies, 
                 preferredBreed, gender, numericAttributes);
     }
