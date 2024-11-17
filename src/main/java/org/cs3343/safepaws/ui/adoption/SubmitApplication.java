@@ -10,16 +10,22 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * 
+ */
 public class SubmitApplication extends UI {
 
     private static final String NAME = "Submit an application";
 
-    public SubmitApplication(UI referrer) {
+    /**
+     * @param referrer
+     */
+    public SubmitApplication(final UI referrer) {
         super(NAME, referrer);
     }
 
     @Override
-    protected UI execute(Session session) throws IOException {
+    protected UI execute(final Session session) throws IOException {
         if (!(session.getAccount() instanceof Member)) {
             session.println("Only members can submit an application.");
             return this.getReferrer();
@@ -50,8 +56,7 @@ public class SubmitApplication extends UI {
     }
 
     @Override
-    public boolean isVisibleTo(Session session) {
-        return session.getAccount() != null && "M".equals(
-                session.getAccount().getRole());
+    public boolean isVisibleTo(final Session session) {
+        return session.getAccount() != null && "M".equals(session.getAccount().getRole());
     }
 }

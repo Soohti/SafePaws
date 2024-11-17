@@ -51,15 +51,12 @@ public class SetProfile extends UI {
         session.println("Enter the number of family members:");
         numberOfFamilyMembers = Integer.parseInt(session.requestInput());
 
-        String message = "" + "Enter your previous pet experience level "
-                + "(1-10, higher value is more experienced):";
+        String message = "" + "Enter your previous pet experience level " + "(1-10, higher value is more experienced):";
         session.println(message);
         previousPetExperience = Integer.parseInt(session.requestInput());
 
-        session.println(
-                "" + "Enter your financial budget " + "(monthly, in dollars):");
+        session.println("" + "Enter your financial budget " + "(monthly, in dollars):");
         financialBudget = Integer.parseInt(session.requestInput());
-
 
         session.println("Enter your preferred species:");
         preferredSpecies = session.requestInput();
@@ -72,19 +69,17 @@ public class SetProfile extends UI {
         gender = session.requestInput();
 
         Account account = session.getAccount();
-        ((Member) session.getAccount()).setProfile(preferredSpecies,
-                preferredBreed, gender, extroversionLevel, dailyActivityLevel,
-                houseSize,
-                workHours, numberOfFamilyMembers, previousPetExperience,
-                financialBudget);
+        int[] numericAttributes = { extroversionLevel, dailyActivityLevel, houseSize, workHours, numberOfFamilyMembers,
+                previousPetExperience, financialBudget };
+
+        ((Member) session.getAccount()).setProfile(preferredSpecies, preferredBreed, gender, numericAttributes);
+
         String userName = session.getAccount().getUsername();
         int mId = 0;
 
-
         try {
             mId = DbManager.selectAccount(userName).getId();
-            DbManager.changeMemProfile(mId,
-                    ((Member) session.getAccount()).getProfile());
+            DbManager.changeMemProfile(mId, ((Member) session.getAccount()).getProfile());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -95,7 +90,6 @@ public class SetProfile extends UI {
 
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "M".equals(
-                session.getAccount().getRole());
+        return session.getAccount() != null && "M".equals(session.getAccount().getRole());
     }
 }

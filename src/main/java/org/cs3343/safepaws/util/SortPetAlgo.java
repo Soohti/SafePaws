@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * 
+ */
 public class SortPetAlgo implements Algorithm {
 
     /**
@@ -45,6 +48,10 @@ public class SortPetAlgo implements Algorithm {
         private Pet pet;
         private double matchScore;
 
+        /**
+         * @param pet
+         * @param matchScore
+         */
         public PetMatchScore(Pet pet, double matchScore) {
             this.pet = pet;
             this.matchScore = matchScore;

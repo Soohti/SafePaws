@@ -17,6 +17,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ */
 public final class DbManager {
     /**
      * URL for the database.
@@ -43,14 +46,11 @@ public final class DbManager {
      * @param dbPassword Password for the database.
      * @throws SQLException If an error occurs.
      */
-    public static void init(final String dbUrl, final String dbUsername,
-                            final String dbPassword)
-            throws SQLException {
+    public static void init(final String dbUrl, final String dbUsername, final String dbPassword) throws SQLException {
         url = dbUrl;
         username = dbUsername;
         password = dbPassword;
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(TEST_SQL)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(TEST_SQL)) {
             pstmt.execute();
             System.out.println("Database connection established");
         }
@@ -60,7 +60,6 @@ public final class DbManager {
         return DriverManager.getConnection(url, username, password);
     }
 
-
     /**
      * Insert account.
      *
@@ -68,10 +67,8 @@ public final class DbManager {
      * @throws SQLException the SQL exception
      */
     public static void insertAccount(Account account) throws SQLException {
-        String insertSql =
-                "INSERT INTO ACCOUNT (username, password, role) VALUES (?, ?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+        String insertSql = "INSERT INTO ACCOUNT (username, password, role) VALUES (?, ?, ?)";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, account.getUsername());
             pstmt.setString(2, account.getPassword()); // 确保加密
             pstmt.setString(3, account.getRole());
@@ -80,15 +77,14 @@ public final class DbManager {
         }
         if ("M".equals(account.getRole())) {
             String query = "SELECT * FROM ACCOUNT WHERE username = ?";
-            try (Connection conn = getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(query)) {
+            try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setString(1, account.getUsername());
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     int id = rs.getInt("Id");
-                    MemberProfile memberProfile =
-                            new MemberProfile("Dog", "Dog", "m", 0, 0, 0, 0, 0,
-                                    0, 0);
+                    int[] numericAttributes = { 0, 0, 0, 0, 0, 0, 0 };
+                    MemberProfile memberProfile = new MemberProfile("Dog", "Dog", "m", numericAttributes);
+
                     DbManager.insertMemProfile(id, memberProfile);
                 }
             }
@@ -96,11 +92,13 @@ public final class DbManager {
 
     }
 
+    /**
+     * @param pet
+     * @throws SQLException
+     */
     public static void insertPet(Pet pet) throws SQLException {
-        String insertSql =
-                "INSERT INTO PET (Name, Species, Breed, Age, Weight, Gender, ActivityLevel, HealthStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+        String insertSql = "INSERT INTO PET (Name, Species, Breed, Age, Weight, Gender, ActivityLevel, HealthStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, pet.getName());
             pstmt.setString(2, pet.getSpecies());
             pstmt.setString(3, pet.getBreed());
@@ -116,7 +114,6 @@ public final class DbManager {
 
     }
 
-
     /**
      * Authenticate user.
      *
@@ -125,11 +122,9 @@ public final class DbManager {
      * @return true, if successful
      * @throws SQLException the SQL exception
      */
-    public static boolean authenticateUser(String username, String password)
-            throws SQLException {
+    public static boolean authenticateUser(String username, String password) throws SQLException {
         String query = "SELECT * FROM ACCOUNT WHERE username = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
 
@@ -138,8 +133,7 @@ public final class DbManager {
                 return BCrypt.checkpw(password, storedPassword);
             }
         } catch (SQLException e) {
-            System.out.println(
-                    "Error during authentication: " + e.getMessage());
+            System.out.println("Error during authentication: " + e.getMessage());
         }
         return false;
     }
@@ -152,8 +146,7 @@ public final class DbManager {
      */
     public static Account selectAccount(String username) {
         String query = "SELECT * FROM ACCOUNT WHERE username = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -176,13 +169,14 @@ public final class DbManager {
         return null;
     }
 
-
-    public static ArrayList<Application> ViewAllApplication()
-            throws SQLException {
+    /**
+     * @return
+     * @throws SQLException
+     */
+    public static ArrayList<Application> ViewAllApplication() throws SQLException {
         String query = "SELECT * FROM APPLICATION";
 
-        try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();) {
+        try (Connection conn = getConnection(); Statement stmt = conn.createStatement();) {
             ResultSet rs = stmt.executeQuery(query);
             ArrayList<Application> applications = new ArrayList<>();
             while (rs.next()) {
@@ -198,18 +192,19 @@ public final class DbManager {
             }
             return applications;
         } catch (SQLException e) {
-            System.out.println(
-                    "Error during Viewing all Applications: " + e.getMessage());
+            System.out.println("Error during Viewing all Applications: " + e.getMessage());
         }
         return null;
 
-
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public static Application selectApplication(int id) {
         String query = "SELECT * FROM APPLICATION WHERE id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -223,35 +218,35 @@ public final class DbManager {
                 return application;
             }
         } catch (SQLException e) {
-            System.out.println(
-                    "Error during Selecting Application: " + e.getMessage());
+            System.out.println("Error during Selecting Application: " + e.getMessage());
         }
         return null;
     }
 
+    /**
+     * @param Aid
+     * @param state
+     * @return
+     */
     public static Application changeState(int Aid, int state) {
         String updateSQL = "UPDATE APPLICATION SET State = ? WHERE Id = ?";
 
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
 
             pstmt.setInt(1, state);
             pstmt.setInt(2, Aid);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(
-                    "Error during Changing State: " + e.getMessage());
+            System.out.println("Error during Changing State: " + e.getMessage());
         }
         return null;
     }
-
 
     private static Member selectMemberById(int mid) throws SQLException {
         String query = "SELECT * FROM ACCOUNT WHERE Id= ?";
         Member account = new Member();
 
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, mid);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -266,33 +261,25 @@ public final class DbManager {
         }
         query = "SELECT * FROM MEMBER_PROFILE WHERE Id= ?";
 
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt1 = conn.prepareStatement(query)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt1 = conn.prepareStatement(query)) {
             pstmt1.setInt(1, mid);
             ResultSet rs1 = pstmt1.executeQuery();
             if (rs1.next()) {
                 String preferredSpecies = rs1.getString("PreferredSpecies");
                 String preferredBreed = rs1.getString("PreferredBreed");
-                int extroversionLevel = rs1.getInt("ExtroversionLevel");
-                int dailyActivityLevel = rs1.getInt("DailyActivityLevel");
-                int houseSize = rs1.getInt("HouseSize");
-                int workHours = rs1.getInt("WorkHours");
-                int numberOfFamilyMembers = rs1.getInt("NumberOfFamilyMembers");
-                int previousPetExperience = rs1.getInt("PreviousPetExperience");
-                int financialBudget = rs1.getInt("financialBudget");
                 String gender = rs1.getString("Gender");
-                MemberProfile memberProfile =
-                        new MemberProfile(preferredSpecies, preferredBreed,
-                                gender, extroversionLevel, dailyActivityLevel,
-                                houseSize, workHours, numberOfFamilyMembers,
-                                previousPetExperience, financialBudget);
-                account.SetProfile(memberProfile);
+                int[] numericAttributes = { rs1.getInt("ExtroversionLevel"), rs1.getInt("DailyActivityLevel"),
+                        rs1.getInt("HouseSize"), rs1.getInt("WorkHours"), rs1.getInt("NumberOfFamilyMembers"),
+                        rs1.getInt("PreviousPetExperience"), rs1.getInt("financialBudget") };
+
+                MemberProfile memberProfile = new MemberProfile(preferredSpecies, preferredBreed, gender,
+                        numericAttributes);
+                account.setProfile(memberProfile);
                 return account;
             }
         }
         return null;
     }
-
 
     /**
      * @param petId
@@ -301,8 +288,7 @@ public final class DbManager {
      */
     public static Pet selectPetById(int petId) throws SQLException {
         String selectSql = "SELECT * FROM PET WHERE Id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
 
             pstmt.setInt(1, petId);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -316,8 +302,7 @@ public final class DbManager {
                     String gender = rs.getString("Gender");
                     int activityLevel = rs.getInt("ActivityLevel");
                     int healthStatus = rs.getInt("HealthStatus");
-                    Pet pet = new Pet(name, species, breed, age, weight, gender,
-                            activityLevel, healthStatus);
+                    Pet pet = new Pet(name, species, breed, age, weight, gender, activityLevel, healthStatus);
                     pet.setId(petId);
                     return pet;
                 } else {
@@ -336,8 +321,8 @@ public final class DbManager {
         List<Pet> pets = new ArrayList<>();
 
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
+                PreparedStatement pstmt = conn.prepareStatement(query);
+                ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 String name = rs.getString("name");
@@ -350,29 +335,23 @@ public final class DbManager {
                 int healthStatus = rs.getInt("healthStatus");
                 int id = rs.getInt("Id");
 
-                Pet pet = new Pet(name, species, breed, age, weight, gender,
-                        activityLevel, healthStatus);
+                Pet pet = new Pet(name, species, breed, age, weight, gender, activityLevel, healthStatus);
                 pet.setId(id);
                 pets.add(pet);
             }
 
         } catch (SQLException e) {
-            System.out.println(
-                    "Error retrieving pets from database: " + e.getMessage());
+            System.out.println("Error retrieving pets from database: " + e.getMessage());
         }
 
         return pets;
     }
 
-    public static void insertMemProfile(int id, MemberProfile memberProfile)
-            throws SQLException {
-        String insertSql = "INSERT INTO MEMBER_PROFILE (Id, PreferredSpecies, "
-                + "PreferredBreed, ExtroversionLevel, "
-                + "DailyActivityLevel, HouseSize, "
-                + "WorkHours, NumberofFamilyMembers, "
+    public static void insertMemProfile(int id, MemberProfile memberProfile) throws SQLException {
+        String insertSql = "INSERT INTO MEMBER_PROFILE (Id, PreferredSpecies, " + "PreferredBreed, ExtroversionLevel, "
+                + "DailyActivityLevel, HouseSize, " + "WorkHours, NumberofFamilyMembers, "
                 + "PreviousPetExperience, FinancialBudget, Gender) VALUES (?, ?, ?,?, ?, ?,?, ?, ?,?,?)";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setInt(1, id);
             pstmt.setString(2, memberProfile.getPreferredSpecies());
             pstmt.setString(3, memberProfile.getPreferredBreed());
@@ -389,22 +368,14 @@ public final class DbManager {
         }
     }
 
-    public static void changeMemProfile(int id, MemberProfile memberProfile)
-            throws SQLException {
+    public static void changeMemProfile(int id, MemberProfile memberProfile) throws SQLException {
 
-        String updateSQL =
-                "UPDATE MEMBER_PROFILE SET PreferredSpecies = ?, PreferredBreed = ?, "
-                        +
-                        "ExtroversionLevel = ?, DailyActivityLevel = ?, HouseSize = ?, "
-                        +
-                        "WorkHours = ?, NumberofFamilyMembers = ?, PreviousPetExperience = ?, "
-                        +
-                        "FinancialBudget = ?, Gender = ? " +
-                        "WHERE Id =?";
+        String updateSQL = "UPDATE MEMBER_PROFILE SET PreferredSpecies = ?, PreferredBreed = ?, "
+                + "ExtroversionLevel = ?, DailyActivityLevel = ?, HouseSize = ?, "
+                + "WorkHours = ?, NumberofFamilyMembers = ?, PreviousPetExperience = ?, "
+                + "FinancialBudget = ?, Gender = ? " + "WHERE Id =?";
 
-
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
 
             pstmt.setString(1, memberProfile.getPreferredSpecies());
             pstmt.setString(2, memberProfile.getPreferredBreed());
@@ -419,8 +390,7 @@ public final class DbManager {
             pstmt.setInt(11, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(
-                    "Error during Changing Member Profile: " + e.getMessage());
+            System.out.println("Error during Changing Member Profile: " + e.getMessage());
         }
     }
 
@@ -430,12 +400,9 @@ public final class DbManager {
      * @param state
      * @throws SQLException
      */
-    public static void insertApplication(Application application)
-            throws SQLException {
-        String insertSql =
-                "INSERT INTO APPLICATION (MId, PId, State) VALUES (?, ?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+    public static void insertApplication(Application application) throws SQLException {
+        String insertSql = "INSERT INTO APPLICATION (MId, PId, State) VALUES (?, ?, ?)";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
 
             pstmt.setInt(1, application.getUser().getId());
             pstmt.setInt(2, application.getPet().getId());
@@ -446,11 +413,9 @@ public final class DbManager {
         }
     }
 
-
     public static List<Application> selectApplicationByMember(Member member) {
         String query = "SELECT * FROM APPLICATION WHERE Mid = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, member.getId());
             ResultSet rs = pstmt.executeQuery();
             List<Application> applications = new ArrayList<>();
@@ -470,7 +435,6 @@ public final class DbManager {
         return null;
     }
 
-
     /**
      * Tests the database connection.
      *
@@ -479,8 +443,8 @@ public final class DbManager {
     public static String testSelect() {
         System.out.println("Running test query: " + TEST_SQL);
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(TEST_SQL);
-             ResultSet rs = pstmt.executeQuery()) {
+                PreparedStatement pstmt = conn.prepareStatement(TEST_SQL);
+                ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
                 return rs.getString(1);
             }

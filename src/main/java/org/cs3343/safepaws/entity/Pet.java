@@ -1,5 +1,8 @@
 package org.cs3343.safepaws.entity;
 
+/**
+ * 
+ */
 public class Pet {
 
     private int id;
@@ -22,9 +25,8 @@ public class Pet {
      * @param activityLevel
      * @param healthStatus
      */
-    public Pet(String name, String species, String breed, int age, int weight,
-               String gender, int activityLevel,
-               int healthStatus) {
+    public Pet(String name, String species, String breed, int age, int weight, String gender, int activityLevel,
+            int healthStatus) {
         this.name = name;
         this.species = species;
         this.breed = breed;

@@ -2,12 +2,14 @@ package org.cs3343.safepaws.entity;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+ * 
+ */
 public class Account {
     private String username;
     private String password;
     private String role;
     private int id;
-
 
     /**
      * Encrypt password.
@@ -32,6 +34,9 @@ public class Account {
         this.role = role;
     }
 
+    /**
+     * 
+     */
     public Account() {
     }
 
@@ -43,7 +48,6 @@ public class Account {
     public String getUsername() {
         return username;
     }
-
 
     /**
      * Sets the username.
@@ -90,10 +94,16 @@ public class Account {
         this.role = role;
     }
 
+    /**
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
