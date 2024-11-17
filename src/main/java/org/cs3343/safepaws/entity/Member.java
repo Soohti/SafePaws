@@ -1,12 +1,12 @@
 package org.cs3343.safepaws.entity;
 
 /**
- * 
+ *
  */
 public class Member extends Account {
 
     /**
-     * 
+     *
      */
     public MemberProfile profile;
 
@@ -15,12 +15,12 @@ public class Member extends Account {
      * @param password
      * @param role
      */
-    public Member(String username, String password, String role) {
+    public Member(final String username, final String password, final String role) {
         super(username, password, role);
     }
 
     /**
-     * 
+     *
      */
     public Member() {
         super();
@@ -39,19 +39,21 @@ public class Member extends Account {
      * @param gender
      * @param numericAttributes
      */
-    public void setProfile(String preferredSpecies, String preferredBreed, String gender, int[] numericAttributes) {
+    public void setProfile(String preferredSpecies, String preferredBreed, 
+            String gender, int[] numericAttributes) {
         if (numericAttributes == null || numericAttributes.length != 7) {
             throw new IllegalArgumentException("numericAttributes array must have a length of 7");
         }
 
-        this.profile = new MemberProfile(preferredSpecies, preferredBreed, gender, numericAttributes);
+        this.profile = new MemberProfile(preferredSpecies, 
+                preferredBreed, gender, numericAttributes);
     }
 
     public int getId() {
         return super.getId();
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         super.setId(id);
     }
 

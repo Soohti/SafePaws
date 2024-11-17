@@ -1,7 +1,7 @@
 package org.cs3343.safepaws.entity;
 
 /**
- * 
+ *
  */
 public class Admin extends Account {
 
@@ -10,7 +10,7 @@ public class Admin extends Account {
      * @param password
      * @param role
      */
-    public Admin(String username, String password, String role) {
+    public Admin(final String username, final String password, final String role) {
         super(username, password, role);
     }
 
