@@ -366,8 +366,8 @@ public final class DbManager {
 
     public static void insertMemProfile(int id, MemberProfile memberProfile)
             throws SQLException {
-        String insertSql = "INSERT INTO MEMBER_PROFILE (Id, PreferedSpecies, "
-                + "PreferedBreed, ExtroversionLevel, "
+        String insertSql = "INSERT INTO MEMBER_PROFILE (Id, PreferredSpecies, "
+                + "PreferredBreed, ExtroversionLevel, "
                 + "DailyActivityLevel, HouseSize, "
                 + "WorkHours, NumberofFamilyMembers, "
                 + "PreviousPetExperience, FinancialBudget, Gender) VALUES (?, ?, ?,?, ?, ?,?, ?, ?,?,?)";
@@ -393,7 +393,7 @@ public final class DbManager {
             throws SQLException {
 
         String updateSQL =
-                "UPDATE MEMBER_PROFILE SET PreferedSpecies = ?, PreferedBreed = ?, "
+                "UPDATE MEMBER_PROFILE SET PreferredSpecies = ?, PreferredBreed = ?, "
                         +
                         "ExtroversionLevel = ?, DailyActivityLevel = ?, HouseSize = ?, "
                         +
