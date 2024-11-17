@@ -2,36 +2,56 @@ package org.cs3343.safepaws.entity;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+ * Represents an account with username, password, role, and id.
+ */
 public class Account {
+    /**
+     * The username of the account.
+     */
     private String username;
-    private String password;
-    private String role;
-    private int id;
-
 
     /**
-     * Encrypt password.
-     *
-     * @param password the password
-     * @return the string
+     * The password of the account.
      */
-    public static String encryptPassword(String password) {
+    private String password;
+
+    /**
+     * The role of the account.
+     */
+    private String role;
+
+    /**
+     * The id of the account.
+     */
+    private int id;
+
+    /**
+     * Encrypts the given password using BCrypt.
+     *
+     * @param password the password to encrypt
+     * @return the encrypted password
+     */
+    public static String encryptPassword(final String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     /**
-     * Instantiates a new account.
+     * Instantiates a new account with the specified username, password, and role.
      *
      * @param username the username
      * @param password the password
      * @param role     the role
      */
-    public Account(String username, String password, String role) {
+    public Account(final String username, final String password, final String role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
+    /**
+     * Instantiates a new account with default values.
+     */
     public Account() {
     }
 
@@ -44,13 +64,12 @@ public class Account {
         return username;
     }
 
-
     /**
      * Sets the username.
      *
      * @param username the new username
      */
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -68,7 +87,7 @@ public class Account {
      *
      * @param password the new password
      */
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -86,15 +105,25 @@ public class Account {
      *
      * @param role the new role
      */
-    public void setRole(String role) {
+    public void setRole(final String role) {
         this.role = role;
     }
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    /**
+     * Sets the id.
+     *
+     * @param id the new id
+     */
+    public void setId(final int id) {
         this.id = id;
     }
 }

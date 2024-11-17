@@ -1,43 +1,84 @@
+
 package org.cs3343.safepaws.entity;
 
-
+/**
+ * Represents a member in the SafePaws system.
+ */
 public class Member extends Account {
 
+    /**
+     * The profile of the member.
+     */
     public MemberProfile profile;
 
-    public Member(String username, String password, String role) {
+    /**
+     * Constructs a new Member with the specified username, password, and role.
+     *
+     * @param username the username of the member
+     * @param password the password of the member
+     * @param role the role of the member
+     */
+    public Member(final String username, final String password,
+            final String role) {
         super(username, password, role);
     }
 
+    /**
+     * Constructs a new Member with default values.
+     */
     public Member() {
         super();
     }
 
-    public void SetProfile(MemberProfile memberProfile) {
+    /**
+     * Sets the profile of the member.
+     *
+     * @param memberProfile the profile to set
+     */
+    public void setProfile(final MemberProfile memberProfile) {
         this.profile = memberProfile;
     }
 
-    public void setProfile(String preferedSpecies, String preferredBreed,
-                           String gender, int extroversionLevel,
-                           int dailyActivityLevel,
-                           int houseSize, int workHours,
-                           int numberOfFamilyMembers,
-                           int previousPetExperience, int financialBudget) {
-        profile = new MemberProfile(preferedSpecies, preferredBreed, gender,
-                extroversionLevel, dailyActivityLevel, houseSize, workHours,
-                numberOfFamilyMembers, previousPetExperience, financialBudget);
+    /**
+     * Sets the profile of the member with the specified attributes.
+     *
+     * @param preferredSpecies the preferred species of the member
+     * @param preferredBreed the preferred breed of the member
+     * @param gender the gender of the member
+     * @param numericAttributes the numeric attributes of the member
+     */
+    public void setProfile(final String preferredSpecies,
+            final String preferredBreed, final String gender,
+            final int[] numericAttributes) {
+        this.profile = new MemberProfile(preferredSpecies,
+                preferredBreed, gender, numericAttributes);
     }
 
+    /**
+     * Gets the ID of the member.
+     *
+     * @return the ID of the member
+     */
     public int getId() {
         return super.getId();
     }
 
-    public void setId(int id) {
+    /**
+     * Sets the ID of the member.
+     *
+     * @param id the ID to set
+     */
+    public void setId(final int id) {
         super.setId(id);
     }
 
+    /**
+     * Gets the profile of the member.
+     *
+     * @return the profile of the member
+     */
     public MemberProfile getProfile() {
-        return profile;
+        return this.profile;
     }
 
 }
