@@ -24,6 +24,43 @@ public class MemberProfile {
 		 this.financialBudget = financialBudget;
 		 this.gender=gender;
 	}
+
+	public int getExtroversionLevel() {
+		return extroversionLevel;
+	}
+
+	public int getDailyActivityLevel() {
+		return dailyActivityLevel;
+	}
+
+	public int getHouseSize() {
+		return houseSize;
+	}
+
+	public int getWorkHours() {
+		return workHours;
+	}
+
+	public int getNumberOfFamilyMembers() {
+		return numberOfFamilyMembers;
+	}
+
+	public int getPreviousPetExperience() {
+		return previousPetExperience;
+	}
+
+	public int getFinancialBudget() {
+		return financialBudget;
+	}
+
+	public String getPreferredBreed() {
+		return preferredBreed;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+	
 	
 	
 }

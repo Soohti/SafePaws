@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.FunctionforMatching;
 import org.cs3343.safepaws.util.Session;
 
 public class AdminSeeAllApplication extends UI{
@@ -21,11 +22,13 @@ public class AdminSeeAllApplication extends UI{
     	ArrayList<Application> applications = new ArrayList<>();
     	try {
     		applications=DbManager.ViewAllApplication();
-    		System.out.printf("%-10s %-10s %-10s %-10s", "Id","Mid","Pid","State");
-            System.out.println("-------------------------------------------------------------");
-            
+    		session.printf("%-10s %-10s %-10s %-10s %-10s", "Id","Mid","Pid","Score","State");
+    		session.println("");
+    		
+            FunctionforMatching match = new FunctionforMatching(); 
             for(Application a:applications) {
-            	System.out.printf("%-10s %-10d %-10s %-10s",a.getId(),a.getUser().getId(),a.getPet().getId(),a.getState() );
+            	session.printf("%-10d %-10d %-10d %-10d %-10s",a.getId(),a.getUser().getId(),a.getPet().getId(),match.calculateMatch(a.getUser(), a.getPet()) ,a.getState() );
+            	session.println("");
             }
         } catch (SQLException e) {
             session.println("Error creating account: " + e.getMessage());

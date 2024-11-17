@@ -33,11 +33,13 @@ public class Login extends UI{
         		session.println("Log in successfully.");
         		Account account=DbManager.selectAccount(username);
         		session.setAccount(account);
-//        		if ("M".equals(account.getRole())) {
-//                    return this.getReferrer(); 
-//                } else {
-//                    return new MainMenu(); 
-//                }
+        		if(session.getAccount() != null && "A".equals(session.getAccount().getRole())) {
+        			return new AdminMenu(this);
+        		}
+        		else if(account.getRole()=="M") {
+        			return this.getReferrer();
+        		}
+        		
         	}
         	else {
         		session.println("Your username or password is incorrect.");
