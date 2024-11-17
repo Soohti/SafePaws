@@ -8,7 +8,7 @@ public class Account {
     private String role;
     private int id;
 
-    
+
     /**
      * Encrypt password.
      *
@@ -18,21 +18,22 @@ public class Account {
     public static String encryptPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
-    
+
     /**
      * Instantiates a new account.
      *
      * @param username the username
      * @param password the password
-     * @param role the role
+     * @param role     the role
      */
     public Account(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
-    
-    public Account() {}
+
+    public Account() {
+    }
 
     /**
      * Gets the username.
@@ -43,7 +44,7 @@ public class Account {
         return username;
     }
 
-    
+
     /**
      * Sets the username.
      *
@@ -88,11 +89,12 @@ public class Account {
     public void setRole(String role) {
         this.role = role;
     }
-    
+
     public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id=id;
-	}
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

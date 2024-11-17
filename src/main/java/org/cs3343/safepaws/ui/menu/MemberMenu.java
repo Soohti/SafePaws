@@ -38,8 +38,9 @@ public class MemberMenu extends Menu {
 
     @Override
     public final boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "M".equals(session.getAccount().getRole());
+        return session.getAccount() != null && "M".equals(
+                session.getAccount().getRole());
     }
-    
+
 }
 

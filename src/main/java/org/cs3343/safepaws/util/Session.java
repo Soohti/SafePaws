@@ -3,6 +3,8 @@ package org.cs3343.safepaws.util;
 //import org.cs3343.safepaws.entity.Pet;
 //import org.cs3343.safepaws.entity.User;
 
+import org.cs3343.safepaws.entity.Account;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +14,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Formatter;
-
-import org.cs3343.safepaws.entity.*;
 
 public class Session {
 //    private User user;
@@ -29,7 +29,7 @@ public class Session {
     private final PrintWriter writer;
 
     private Account account;
-    
+
     /**
      * Request input from the client.
      *
@@ -70,7 +70,7 @@ public class Session {
     public void println() {
         writer.println();
     }
-    
+
     public void printf(String format, Object... args) {
         StringBuilder output = new StringBuilder();
         Formatter formatter = new Formatter(output);
@@ -87,23 +87,24 @@ public class Session {
     public void println(final String message) {
         writer.println(message);
     }
-    
+
     /**
      * Sets the account.
      *
      * @param account the new account
      */
     public void setAccount(Account account) {
-    	this.account=account;
+        this.account = account;
     }
-    
+
     public Account getAccount() {
         return this.account;
     }
+
     /**
      * Clear.
      */
     public void clear() {
-    	this.account=null;
+        this.account = null;
     }
 }

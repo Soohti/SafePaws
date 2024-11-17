@@ -1,10 +1,12 @@
 package org.cs3343.safepaws.util;
 
-import java.util.List;
+import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.entity.Pet;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import org.cs3343.safepaws.entity.*;
+import java.util.List;
 
 public class SortPetAlgo implements Algorithm {
 
@@ -37,7 +39,7 @@ public class SortPetAlgo implements Algorithm {
     }
 
     /**
-     * 
+     *
      */
     public static class PetMatchScore {
         private Pet pet;
