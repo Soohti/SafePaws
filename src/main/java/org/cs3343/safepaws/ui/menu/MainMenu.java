@@ -23,7 +23,6 @@ public class MainMenu extends Menu {
             new TestDb(this),
             new CreateAccount(this),
             new Login(this),
-            new AdminMenu(this),
     };
 
     /**

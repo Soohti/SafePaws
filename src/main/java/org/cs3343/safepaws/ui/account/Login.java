@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;
 import org.cs3343.safepaws.entity.Account;
+import org.cs3343.safepaws.entity.Admin;
+import org.cs3343.safepaws.entity.Member;
 public class Login extends UI{
 	private static final String NAME = "Log In";
 	
@@ -32,12 +34,18 @@ public class Login extends UI{
         	if(DbManager.authenticateUser(username, password)) {
         		session.println("Log in successfully.");
         		Account account=DbManager.selectAccount(username);
-        		session.setAccount(account);
+        		if (account instanceof Member) {
+                    Member memberAccount = (Member) account;
+                    session.setAccount(memberAccount);
+                } else if (account instanceof Admin) {
+                    Admin adminAccount = (Admin) account;
+                    session.setAccount(adminAccount);
+                }
         		if(session.getAccount() != null && "A".equals(session.getAccount().getRole())) {
-        			return new AdminMenu(this);
+        			return new AdminMenu();
         		}
-        		else if(account.getRole()=="M") {
-        			return this.getReferrer();
+        		else if(session.getAccount() != null && "M".equals(session.getAccount().getRole())) {
+        			return new MemberMenu();
         		}
         		
         	}

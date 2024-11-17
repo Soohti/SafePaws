@@ -7,8 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.cs3343.safepaws.entity.Account;
+import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.entity.Member;
@@ -77,18 +79,34 @@ public final class DbManager {
             pstmt.executeUpdate();
             System.out.println("Account inserted successfully");
         }
+        if("M".equals(account.getRole())) {
+        	String query = "SELECT * FROM ACCOUNT WHERE username = ?";
+            try (Connection conn = getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, account.getUsername());
+                ResultSet rs = pstmt.executeQuery();
+                if(rs.next()) {
+                	int id=rs.getInt("Id");
+                	MemberProfile memberProfile=new MemberProfile("Dog","Dog","m",0,0,0,0,0,0,0);
+                	DbManager.insertMemProfile(id, memberProfile);
+                }
+            } 
+        }
+        
     }
     
     public static void insertPet(Pet pet) throws SQLException{
-    	String insertSql = "INSERT INTO PET (Breed, Age, Size, Gender, ActivityLevel, HealthStatus) VALUES (?, ?, ?, ?, ?, ?)";
+    	String insertSql = "INSERT INTO PET (Name, Species, Breed, Age, Weight, Gender, ActivityLevel, HealthStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
-            pstmt.setString(1, pet.getBreed());
-            pstmt.setInt(2, pet.getAge()); 
-            pstmt.setInt(3, pet.getSize());
-            pstmt.setString(4, pet.getGender());
-            pstmt.setInt(5, pet.getActivityLevel());
-            pstmt.setInt(6, pet.getHealthStatus());
+        	pstmt.setString(1, pet.getName());
+        	pstmt.setString(2, pet.getSpecies());
+        	pstmt.setString(3, pet.getBreed());
+            pstmt.setInt(4, pet.getAge()); 
+            pstmt.setInt(5, pet.getWeight());
+            pstmt.setString(6, pet.getGender());
+            pstmt.setInt(7, pet.getActivityLevel());
+            pstmt.setInt(8, pet.getHealthStatus());
             
             pstmt.executeUpdate();
             System.out.println("Pet inserted successfully");
@@ -114,13 +132,12 @@ public final class DbManager {
 
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
-                // 直接比较存储的密码和输入的密码（需使用相同的加密方法）
                 return BCrypt.checkpw(password, storedPassword);
             }
         } catch (SQLException e) {
             System.out.println("Error during authentication: " + e.getMessage());
         }
-        return false; // 用户名不存在或密码不匹配
+        return false; 
     }
     
     /**
@@ -139,8 +156,15 @@ public final class DbManager {
             	String Username = rs.getString("username");
             	String Password = rs.getString("password");
             	String Role = rs.getString("role");
-            	Account account=new Account(Username,Password,Role);
-                return account;
+            	int id=rs.getInt("Id");
+            	Account account=new Account();
+            	if("A".equals(Role)) {
+            		account=new Admin(Username,Password,Role);
+            	}else if("M".equals(Role)) {
+            		account=DbManager.selectMemberById(id);
+            	}
+            	account.setId(id);
+            	return account;
             }
         } catch (SQLException e) {
             System.out.println("Error during Logging in: " + e.getMessage());
@@ -148,27 +172,6 @@ public final class DbManager {
 		return null;
     }
     
-    public static Pet selectPetById(int pid) throws SQLException{
-    	String query = "SELECT * FROM PET WHERE Id= ?";
-
-        try (Connection conn = getConnection();
-        	PreparedStatement pstmt = conn.prepareStatement(query)) {
-        	pstmt.setInt(1, pid);
-        	ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                String breed = rs.getString("Breed");
-                int age = rs.getInt("Age");
-                int size = rs.getInt("Size");
-                String gender = rs.getString("Gender");
-                int activityLevel = rs.getInt("ActivityLevel");
-                int healthStatus = rs.getInt("HealthStatus");
-                Pet pet=new Pet(breed, age, size, gender, activityLevel, healthStatus);
-                pet.setId(pid);
-                return pet;
-            }
-        } 
-		return null;
-	}
     
     public static ArrayList<Application> ViewAllApplication() throws SQLException{
     	String query = "SELECT * FROM APPLICATION";
@@ -190,7 +193,7 @@ public final class DbManager {
             }
     		return applications;
     	} catch (SQLException e) {
-            System.out.println("Error during Logging in: " + e.getMessage());
+            System.out.println("Error during Viewing all Applications: " + e.getMessage());
         }
 		return null;
     	
@@ -215,7 +218,7 @@ public final class DbManager {
                 return application;
             }
         } catch (SQLException e) {
-            System.out.println("Error during Logging in: " + e.getMessage());
+            System.out.println("Error during Selecting Application: " + e.getMessage());
         }
 		return null;
     }
@@ -238,7 +241,7 @@ public final class DbManager {
     
 
 	private static Member selectMemberById(int mid) throws SQLException{
-		String query = "SELECT * FROM Account WHERE Id= ?";
+		String query = "SELECT * FROM ACCOUNT WHERE Id= ?";
 		Member account=new Member();
 		
         try (Connection conn = getConnection();
@@ -255,13 +258,14 @@ public final class DbManager {
             	account.setRole(Role);
             }
         } 
-        query = "SELECT * FROM MEMBERPROFILE WHERE Id= ?";
+        query = "SELECT * FROM MEMBER_PROFILE WHERE Id= ?";
         
         try(Connection conn = getConnection();
         	PreparedStatement pstmt1 = conn.prepareStatement(query)) {
             	pstmt1.setInt(1, mid);
             	ResultSet rs1 = pstmt1.executeQuery();
                 if (rs1.next()) {
+                	String preferredSpecies=rs1.getString("PreferredSpecies");
                 	String preferredBreed = rs1.getString("PreferredBreed");
            		 	int extroversionLevel = rs1.getInt("ExtroversionLevel");
            		 	int dailyActivityLevel = rs1.getInt("DailyActivityLevel");
@@ -271,14 +275,177 @@ public final class DbManager {
            		 	int previousPetExperience = rs1.getInt("PreviousPetExperience");
            		 	int financialBudget = rs1.getInt("financialBudget");
            		 	String gender= rs1.getString("Gender");
-           		 	MemberProfile memberProfile=new MemberProfile(preferredBreed, gender, extroversionLevel, dailyActivityLevel, houseSize, workHours, numberOfFamilyMembers, previousPetExperience, financialBudget);
+           		 	MemberProfile memberProfile=new MemberProfile(preferredSpecies,preferredBreed, gender, extroversionLevel, dailyActivityLevel, houseSize, workHours, numberOfFamilyMembers, previousPetExperience, financialBudget);
                     account.SetProfile(memberProfile);  	
                     return account;
                 }
         }
 		return null;
 	}
+	
+	
 
+    /**
+     * @param petId
+     * @return
+     * @throws SQLException
+     */
+    public static Pet selectPetById(int petId) throws SQLException {
+        String selectSql = "SELECT * FROM PET WHERE Id = ?";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
+
+            pstmt.setInt(1, petId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Retrieving all fields using column indices or column names
+                    String name = rs.getString("Name");
+                    String species = rs.getString("Species");
+                    String breed = rs.getString("Breed");
+                    int age = rs.getInt("Age");
+                    int weight = rs.getInt("Weight");
+                    String gender = rs.getString("Gender");
+                    int activityLevel = rs.getInt("ActivityLevel");
+                    int healthStatus = rs.getInt("HealthStatus");
+                    Pet pet=new Pet(name, species, breed, age, weight, gender, activityLevel, healthStatus);
+                    pet.setId(petId);
+                    return pet;
+                } else {
+                    System.out.println("No pet found with the given Id");
+                    return null; 
+                }
+            }
+        }
+    }
+
+    /**
+     * @return
+     */
+    public static List<Pet> getAllPets() {
+        String query = "SELECT * FROM PET";
+        List<Pet> pets = new ArrayList<>();
+
+        try (Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(query);
+                ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String species = rs.getString("species");
+                String breed = rs.getString("breed");
+                int age = rs.getInt("age");
+                int weight = rs.getInt("weight");
+                String gender = rs.getString("gender");
+                int activityLevel = rs.getInt("activityLevel");
+                int healthStatus = rs.getInt("healthStatus");
+                int id=rs.getInt("Id");
+                
+                Pet pet = new Pet(name, species, breed, age, weight, gender, activityLevel, healthStatus);
+                pet.setId(id);
+                pets.add(pet);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error retrieving pets from database: " + e.getMessage());
+        }
+
+        return pets;
+    }
+
+    public static void insertMemProfile(int id, MemberProfile memberProfile) throws SQLException {
+        String insertSql = "INSERT INTO MEMBER_PROFILE (Id, PreferedSpecies, " + "PreferedBreed, ExtroversionLevel, "
+                + "DailyActivityLevel, HouseSize, " + "WorkHours, NumberofFamilyMembers, "
+                + "PreviousPetExperience, FinancialBudget, Gender) VALUES (?, ?, ?,?, ?, ?,?, ?, ?,?,?)";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+            pstmt.setInt(1, id);
+            pstmt.setString(2, memberProfile.getPreferredSpecies());
+            pstmt.setString(3, memberProfile.getPreferredBreed());
+            pstmt.setInt(4, memberProfile.getExtroversionLevel());
+            pstmt.setInt(5, memberProfile.getDailyActivityLevel());
+            pstmt.setInt(6, memberProfile.getHouseSize());
+            pstmt.setInt(7, memberProfile.getWorkHours());
+            pstmt.setInt(8, memberProfile.getNumberOfFamilyMembers());
+            pstmt.setInt(9, memberProfile.getPreviousPetExperience());
+            pstmt.setInt(10, memberProfile.getFinancialBudget());
+            pstmt.setString(11, memberProfile.getGender());
+            pstmt.executeUpdate();
+            System.out.println("Member profile inserted successfully");
+        }
+    }
+    
+public static void changeMemProfile(int id, MemberProfile memberProfile) throws SQLException { 
+    	
+    	String updateSQL = "UPDATE MEMBER_PROFILE SET PreferedSpecies = ?, PreferedBreed = ?, "+
+    			 			"ExtroversionLevel = ?, DailyActivityLevel = ?, HouseSize = ?, "+
+    			 			"WorkHours = ?, NumberofFamilyMembers = ?, PreviousPetExperience = ?, "+
+    			 			"FinancialBudget = ?, Gender = ? "+
+    			 			"WHERE Id =?";
+    	 
+    	 
+         try (Connection conn = getConnection();
+              PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+              
+        	 pstmt.setString(1, memberProfile.getPreferredSpecies());
+             pstmt.setString(2, memberProfile.getPreferredBreed());
+             pstmt.setInt(3, memberProfile.getExtroversionLevel());
+             pstmt.setInt(4, memberProfile.getDailyActivityLevel());
+             pstmt.setInt(5, memberProfile.getHouseSize());
+             pstmt.setInt(6, memberProfile.getWorkHours());
+             pstmt.setInt(7, memberProfile.getNumberOfFamilyMembers());
+             pstmt.setInt(8, memberProfile.getPreviousPetExperience());
+             pstmt.setInt(9, memberProfile.getFinancialBudget());
+             pstmt.setString(10, memberProfile.getGender());
+             pstmt.setInt(11, id);
+             pstmt.executeUpdate();
+         } catch (SQLException e) {
+         	System.out.println("Error during Changing Member Profile: " + e.getMessage());
+         }
+    }
+
+    /**
+     * @param memberId
+     * @param petId
+     * @param state
+     * @throws SQLException
+     */
+    public static void insertApplication(Application application) throws SQLException {
+        String insertSql = "INSERT INTO APPLICATION (MId, PId, State) VALUES (?, ?, ?)";
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+
+            pstmt.setInt(1, application.getUser().getId()); 
+            pstmt.setInt(2, application.getPet().getId()); 
+            pstmt.setInt(3, 0); 
+
+            pstmt.executeUpdate();
+            System.out.println("Application inserted successfully");
+        }
+    }
+    
+    
+    public static List<Application> selectApplicationByMember(Member member){
+    	String query = "SELECT * FROM APPLICATION WHERE Mid = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, member.getId());
+            ResultSet rs = pstmt.executeQuery();
+            List<Application> applications=new ArrayList<>();
+            while (rs.next()) {
+                int id=rs.getInt("Id");
+                int Pid=rs.getInt("PId");
+                int State =rs.getInt("State");
+            	Pet pet = selectPetById(Pid);
+            	Application application=new Application(member,pet,State);
+            	application.setId(id);
+                applications.add(application);
+            }
+    		return applications;
+        } catch (SQLException e) {
+            System.out.println("Error during Logging in: " + e.getMessage());
+        }
+		return null;
+    }
+
+	
+	
 	/**
      * Tests the database connection.
      *

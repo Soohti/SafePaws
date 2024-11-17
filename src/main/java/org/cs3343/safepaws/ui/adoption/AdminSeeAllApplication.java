@@ -1,13 +1,12 @@
 package org.cs3343.safepaws.ui.adoption;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
-import org.cs3343.safepaws.util.FunctionforMatching;
+import org.cs3343.safepaws.util.PetMatchingAlgo;
 import org.cs3343.safepaws.util.Session;
 
 public class AdminSeeAllApplication extends UI{
@@ -24,10 +23,9 @@ public class AdminSeeAllApplication extends UI{
     		applications=DbManager.ViewAllApplication();
     		session.printf("%-10s %-10s %-10s %-10s %-10s", "Id","Mid","Pid","Score","State");
     		session.println("");
-    		
-            FunctionforMatching match = new FunctionforMatching(); 
+
             for(Application a:applications) {
-            	session.printf("%-10d %-10d %-10d %-10d %-10s",a.getId(),a.getUser().getId(),a.getPet().getId(),match.calculateMatch(a.getUser(), a.getPet()) ,a.getState() );
+            	session.printf("%-10d %-10d %-10d %-10f %-10d",a.getId(),a.getUser().getId(),a.getPet().getId(),PetMatchingAlgo.calculateMatch(a.getUser(), a.getPet()) ,a.getState() );
             	session.println("");
             }
         } catch (SQLException e) {

@@ -8,12 +8,14 @@ public class MemberProfile {
 	public int numberOfFamilyMembers;
 	public int previousPetExperience;
 	public int financialBudget;
+	public String preferredSpecies;
 	public String preferredBreed;
 	public String gender;
 	
-	public MemberProfile(String preferredBreed, String gender, int extroversionLevel, int dailyActivityLevel,
+	public MemberProfile(String preferredSpecies, String preferredBreed, String gender, int extroversionLevel, int dailyActivityLevel,
             int houseSize, int workHours, int numberOfFamilyMembers, 
             int previousPetExperience, int financialBudget) {
+		 this.preferredSpecies=preferredSpecies;
 		 this.preferredBreed = preferredBreed;
 		 this.extroversionLevel = extroversionLevel;
 		 this.dailyActivityLevel = dailyActivityLevel;
@@ -25,6 +27,10 @@ public class MemberProfile {
 		 this.gender=gender;
 	}
 
+	public String getPreferredSpecies() {
+		return preferredSpecies;
+	}
+	
 	public int getExtroversionLevel() {
 		return extroversionLevel;
 	}
