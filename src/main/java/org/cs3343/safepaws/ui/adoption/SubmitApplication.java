@@ -1,8 +1,11 @@
 package org.cs3343.safepaws.ui.adoption;
 
-import org.cs3343.safepaws.entity.*;
-import org.cs3343.safepaws.ui.*;
-import org.cs3343.safepaws.util.*;
+import org.cs3343.safepaws.entity.Application;
+import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.entity.Pet;
+import org.cs3343.safepaws.ui.UI;
+import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.Session;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -48,6 +51,7 @@ public class SubmitApplication extends UI {
 
     @Override
     public boolean isVisibleTo(Session session) {
-        return session.getAccount() != null && "M".equals(session.getAccount().getRole());
+        return session.getAccount() != null && "M".equals(
+                session.getAccount().getRole());
     }
 }

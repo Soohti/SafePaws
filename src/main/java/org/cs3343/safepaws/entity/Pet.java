@@ -2,7 +2,7 @@ package org.cs3343.safepaws.entity;
 
 public class Pet {
 
-	private int id;
+    private int id;
     public int activityLevel;
     public int age;
     public int weight;
@@ -22,8 +22,9 @@ public class Pet {
      * @param activityLevel
      * @param healthStatus
      */
-    public Pet(String name, String species, String breed, int age, int weight, String gender, int activityLevel,
-            int healthStatus) {
+    public Pet(String name, String species, String breed, int age, int weight,
+               String gender, int activityLevel,
+               int healthStatus) {
         this.name = name;
         this.species = species;
         this.breed = breed;
@@ -65,11 +66,13 @@ public class Pet {
     public int getHealthStatus() {
         return healthStatus;
     }
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id=id;
-	}
-	
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }
