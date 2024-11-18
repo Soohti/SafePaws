@@ -14,7 +14,9 @@ import java.sql.SQLException;
  * Class to handle the submission of adoption applications.
  */
 public class SubmitApplication extends UI {
-
+    /**
+     * The name of the UI component.
+     */
     private static final String NAME = "Submit an application";
 
     /**
@@ -72,7 +74,7 @@ public class SubmitApplication extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null &&
-               "M".equals(session.getAccount().getRole());
+        return session.getAccount() != null
+                && "M".equals(session.getAccount().getRole());
     }
 }

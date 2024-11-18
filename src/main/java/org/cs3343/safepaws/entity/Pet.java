@@ -6,14 +6,49 @@ package org.cs3343.safepaws.entity;
  */
 public final class Pet {
 
+    /**
+     * The ID of the pet.
+     */
     private int id;
+
+    /**
+     * The activity level of the pet.
+     */
     private int activityLevel;
+
+    /**
+     * The age of the pet.
+     */
     private int age;
+
+    /**
+     * The weight of the pet.
+     */
     private int weight;
+
+    /**
+     * The name of the pet.
+     */
     private String name;
+
+    /**
+     * The health status of the pet.
+     */
     private int healthStatus;
+
+    /**
+     * The species of the pet.
+     */
     private String species;
+
+    /**
+     * The breed of the pet.
+     */
     private String breed;
+
+    /**
+     * The gender of the pet.
+     */
     private String gender;
 
     /**
@@ -124,10 +159,10 @@ public final class Pet {
     /**
      * Sets the ID of the pet.
      *
-     * @param id the new ID of the pet
+     * @param newId the new ID of the pet
      */
-    public void setId(final int id) {
-        this.id = id;
+    public void setId(final int newId) {
+        this.id = newId;
     }
 
 }

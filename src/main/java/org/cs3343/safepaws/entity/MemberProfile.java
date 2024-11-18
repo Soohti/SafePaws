@@ -62,7 +62,8 @@ public class MemberProfile {
      * @param gen     the gender
      * @param numeric an array of numeric attributes
      */
-    public MemberProfile(final String species, final String breed, final String gen, final int[] numeric) {
+    public MemberProfile(final String species, final String breed, 
+                         final String gen, final int[] numeric) {
         this.preferredSpecies = species;
         this.preferredBreed = breed;
         this.gender = gen;
@@ -89,7 +90,7 @@ public class MemberProfile {
      *
      * @param preferredSpecies the preferred species
      */
-    public void setPreferredSpecies(String preferredSpecies) {
+    public void setPreferredSpecies(final String preferredSpecies) {
         this.preferredSpecies = preferredSpecies;
     }
 
@@ -107,7 +108,7 @@ public class MemberProfile {
      *
      * @param extroversionLevel the extroversion level
      */
-    public void setExtroversionLevel(int extroversionLevel) {
+    public void setExtroversionLevel(final int extroversionLevel) {
         this.extroversionLevel = extroversionLevel;
     }
 
@@ -125,7 +126,7 @@ public class MemberProfile {
      *
      * @param dailyActivityLevel the daily activity level
      */
-    public void setDailyActivityLevel(int dailyActivityLevel) {
+    public void setDailyActivityLevel(final int dailyActivityLevel) {
         this.dailyActivityLevel = dailyActivityLevel;
     }
 
@@ -143,7 +144,7 @@ public class MemberProfile {
      *
      * @param houseSize the house size
      */
-    public void setHouseSize(int houseSize) {
+    public void setHouseSize(final int houseSize) {
         this.houseSize = houseSize;
     }
 
@@ -161,7 +162,7 @@ public class MemberProfile {
      *
      * @param workHours the work hours
      */
-    public void setWorkHours(int workHours) {
+    public void setWorkHours(final int workHours) {
         this.workHours = workHours;
     }
 
@@ -179,7 +180,7 @@ public class MemberProfile {
      *
      * @param numberOfFamilyMembers the number of family members
      */
-    public void setNumberOfFamilyMembers(int numberOfFamilyMembers) {
+    public void setNumberOfFamilyMembers(final int numberOfFamilyMembers) {
         this.numberOfFamilyMembers = numberOfFamilyMembers;
     }
 
@@ -197,7 +198,7 @@ public class MemberProfile {
      *
      * @param previousPetExperience the previous pet experience
      */
-    public void setPreviousPetExperience(int previousPetExperience) {
+    public void setPreviousPetExperience(final int previousPetExperience) {
         this.previousPetExperience = previousPetExperience;
     }
 
@@ -215,7 +216,7 @@ public class MemberProfile {
      *
      * @param financialBudget the financial budget
      */
-    public void setFinancialBudget(int financialBudget) {
+    public void setFinancialBudget(final int financialBudget) {
         this.financialBudget = financialBudget;
     }
 
@@ -233,7 +234,7 @@ public class MemberProfile {
      *
      * @param preferredBreed the preferred breed
      */
-    public void setPreferredBreed(String preferredBreed) {
+    public void setPreferredBreed(final String preferredBreed) {
         this.preferredBreed = preferredBreed;
     }
 
@@ -251,7 +252,7 @@ public class MemberProfile {
      *
      * @param gender the gender
      */
-    public void setGender(String gender) {
+    public void setGender(final String gender) {
         this.gender = gender;
     }
 }
