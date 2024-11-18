@@ -68,9 +68,9 @@ public class KMeans {
     /**
      * Fits the KMeans algorithm to the provided list of locationPoints.
      *
-     * <p>This method initializes the cluster centers, assigns locationPoints to the
-     * nearest center, and iteratively updates the centers until they no longer
-     * change significantly.</p>
+     * <p>This method initializes the cluster centers, assigns locationPoints
+     * to the nearest center, and iteratively updates the centers until
+     * they no longer change significantly.</p>
      *
      * @param locationPoints the list of locationPoints to cluster
      */
@@ -94,8 +94,8 @@ public class KMeans {
     }
 
     /**
-     * Initializes the cluster centers by randomly selecting locationPoints from the
-     * provided list.
+     * Initializes the cluster centers by randomly selecting
+     * locationPoints from the provided list.
      *
      * @param locationPoints the list of locationPoints to select centers from
      */
@@ -103,7 +103,8 @@ public class KMeans {
         Random random = new Random();
         centers.clear();
         for (int i = 0; i < k; i++) {
-            centers.add(locationPoints.get(random.nextInt(locationPoints.size())));
+            centers.add(locationPoints.get(
+                    random.nextInt(locationPoints.size())));
         }
     }
 
