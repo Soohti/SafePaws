@@ -2,7 +2,8 @@
 <project version="4">
   <component name="CheckStyle-IDEA" serialisationVersion="2">
     <checkstyleVersion>10.18.1</checkstyleVersion>
-    <scanScope>JavaOnlyWithTests</scanScope>
+    <scanScope>JavaOnly</scanScope>
+    <copyLibs>true</copyLibs>
     <option name="thirdPartyClasspath" />
     <option name="activeLocationIds">
       <option value="bundled-sun-checks" />
