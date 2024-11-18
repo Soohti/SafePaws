@@ -1,14 +1,15 @@
-package org.cs3343.safepaws.test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.Shelter;
 import org.cs3343.safepaws.handler.ElbowUtil;
 import org.cs3343.safepaws.handler.KMeans;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestKMeans {
 
@@ -23,7 +24,8 @@ public class TestKMeans {
     public void testDistanceCalculation() {
         LocationPoint loc1 = new LocationPoint(0.0, 0.0);
         LocationPoint loc2 = new LocationPoint(3.0, 4.0);
-        assertEquals(5.0, loc1.distanceTo(loc2), 1e-6); // Using 3-4-5 right triangle
+        assertEquals(5.0, loc1.distanceTo(loc2),
+                1e-6); // Using 3-4-5 right triangle
     }
 
     @Test
