@@ -18,7 +18,8 @@ public class Member extends Account {
      * @param password the password of the member
      * @param role the role of the member
      */
-    public Member(final String username, final String password, final String role) {
+    public Member(final String username, final String password,
+            final String role) {
         super(username, password, role);
     }
 
@@ -46,9 +47,10 @@ public class Member extends Account {
      * @param gender the gender of the member
      * @param numericAttributes the numeric attributes of the member
      */
-    public void setProfile(final String preferredSpecies, final String preferredBreed,
-            final String gender, final int[] numericAttributes) {
-        this.profile = new MemberProfile(preferredSpecies, 
+    public void setProfile(final String preferredSpecies,
+            final String preferredBreed, final String gender,
+            final int[] numericAttributes) {
+        this.profile = new MemberProfile(preferredSpecies,
                 preferredBreed, gender, numericAttributes);
     }
 
