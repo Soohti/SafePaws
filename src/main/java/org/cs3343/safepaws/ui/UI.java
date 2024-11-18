@@ -3,6 +3,7 @@ package org.cs3343.safepaws.ui;
 import org.cs3343.safepaws.util.Session;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public abstract class UI {
     /**
@@ -14,7 +15,8 @@ public abstract class UI {
      */
     private final UI referrer;
 
-    protected abstract UI execute(Session session) throws IOException;
+    protected abstract UI execute(Session session)
+            throws IOException, SQLException;
 
     /**
      * Constructs a new UI.
