@@ -71,7 +71,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
      */
     @Override
     protected UI execute(final Session session)
-            throws IOException, SQLException {
+            throws IOException {
         try {
             var animalLocations = DbManager.listAllLocationPoint();
             session.println("Choose mode: 1 for optimal k clustering"
