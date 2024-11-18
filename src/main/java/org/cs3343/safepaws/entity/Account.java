@@ -6,9 +6,24 @@ import org.mindrot.jbcrypt.BCrypt;
  * Represents an account with username, password, role, and id.
  */
 public class Account {
+    /**
+     * The username of the account.
+     */
     private String username;
+
+    /**
+     * The password of the account.
+     */
     private String password;
+
+    /**
+     * The role of the account.
+     */
     private String role;
+
+    /**
+     * The id of the account.
+     */
     private int id;
 
     /**
@@ -22,15 +37,13 @@ public class Account {
     }
 
     /**
-     * Instantiates a new account with the 
-     * specified username, password, and role.
+     * Instantiates a new account with the specified username, password, and role.
      *
      * @param username the username
      * @param password the password
      * @param role     the role
      */
-    public Account(final String username, final String password, 
-                   final String role) {
+    public Account(final String username, final String password, final String role) {
         this.username = username;
         this.password = password;
         this.role = role;
