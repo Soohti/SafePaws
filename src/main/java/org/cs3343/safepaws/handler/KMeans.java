@@ -13,8 +13,9 @@ package org.cs3343.safepaws.handler;
 import org.cs3343.safepaws.entity.LocationPoint;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The KMeans class for performing KMeans clustering.
@@ -40,9 +41,9 @@ public class KMeans {
     private int k;
 
     /**
-     * The value of threshold distance for new centre.
+     * The value of THRESHOLD distance for new centre.
      */
-    private final double threshold = 1e-6;
+    private static final double THRESHOLD = 1e-6;
 
     /**
      * The list of cluster centers.
@@ -90,7 +91,7 @@ public class KMeans {
      * @return the list of clusters, where each cluster is a list of locations
      */
     public List<List<LocationPoint>> getClusters() {
-        return clusters;
+        return Collections.unmodifiableList(clusters);
     }
 
     /**
@@ -100,13 +101,13 @@ public class KMeans {
      * @param locationPoints the list of locationPoints to select centers from
      */
     private void initializeCenters(final List<LocationPoint> locationPoints) {
-        Random random = new Random();
         centers.clear();
         for (int i = 0; i < k; i++) {
-            centers.add(locationPoints.get(
-                    random.nextInt(locationPoints.size())));
+            centers.add(locationPoints.get(ThreadLocalRandom.current()
+                    .nextInt(locationPoints.size())));
         }
     }
+
 
     /**
      * Assigns each location to the cluster with the nearest center.
@@ -169,7 +170,7 @@ public class KMeans {
                 avgY /= cluster.size();
 
                 LocationPoint newCenter = new LocationPoint(avgX, avgY);
-                if (newCenter.distanceTo(centers.get(i)) > threshold) {
+                if (newCenter.distanceTo(centers.get(i)) > THRESHOLD) {
                     centers.set(i, newCenter);
                     changed = true;
                 }
