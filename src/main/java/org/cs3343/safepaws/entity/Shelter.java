@@ -1,5 +1,6 @@
 package org.cs3343.safepaws.entity;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Shelter {
      * representing the shelter locations
      */
     public Shelter(final List<LocationPoint> shelterLocationsValue) {
-        this.shelterLocationPoints = shelterLocationsValue;
+        this.shelterLocationPoints = new ArrayList<>(shelterLocationsValue);
     }
 
     /**

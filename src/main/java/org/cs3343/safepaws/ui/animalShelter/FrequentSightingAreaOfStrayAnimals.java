@@ -42,7 +42,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
     /**
      * The maximum number of K.
      */
-    private final int maxK = 10;
+    private static final int MAXK = 10;
     /**
      * The name of this UI interface.
      */
@@ -80,7 +80,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
 
             int k = 0;
             if (mode == 1) {
-                k = ElbowUtil.findOptimalK(animalLocations, maxK);
+                k = ElbowUtil.findOptimalK(animalLocations, MAXK);
                 session.println("Optimal number of shelters (K) is: " + k);
             } else if (mode == 2) {
                 session.print("Enter the number of shelters"
