@@ -32,8 +32,11 @@ public class Shelter {
      */
     public void displayShelters() {
         System.out.println("Shelter Locations:");
+        Iterator<LocationPoint> iterator =
+                this.shelterLocationPoints.iterator();
 
-        for (LocationPoint locationPoint : this.shelterLocationPoints) {
+        while (iterator.hasNext()) {
+            LocationPoint locationPoint = iterator.next();
             System.out.println("X: " + locationPoint.getX() + ", Y: "
                     + locationPoint.getY());
         }
