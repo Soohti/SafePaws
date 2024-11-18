@@ -3,7 +3,6 @@ package org.cs3343.safepaws.ui;
 import org.cs3343.safepaws.util.Session;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public abstract class UI {
     /**
