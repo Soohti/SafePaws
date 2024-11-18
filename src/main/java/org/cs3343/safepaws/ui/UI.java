@@ -16,7 +16,7 @@ public abstract class UI {
     private final UI referrer;
 
     protected abstract UI execute(Session session)
-            throws IOException, SQLException;
+            throws IOException;
 
     /**
      * Constructs a new UI.
@@ -54,7 +54,8 @@ public abstract class UI {
      * @return the next UI
      * @throws IOException if an I/O error occurs
      */
-    public final UI getNextUI(final Session session) throws IOException {
+    public final UI getNextUI(final Session session)
+            throws IOException {
         session.println("=== " + name + " ===");
         UI nextUI = execute(session);
         session.println();
