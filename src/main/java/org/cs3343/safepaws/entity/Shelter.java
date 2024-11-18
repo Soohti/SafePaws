@@ -32,12 +32,13 @@ public class Shelter {
      */
     public void displayShelters() {
         System.out.println("Shelter Locations:");
-        Iterator<LocationPoint> iterator = this.shelterLocationPoints.iterator();
+        Iterator<LocationPoint> iterator =
+                this.shelterLocationPoints.iterator();
 
         while (iterator.hasNext()) {
             LocationPoint locationPoint = iterator.next();
-            System.out.println("X: " + locationPoint.getX() + ", Y: " + locationPoint
-                    .getY());
+            System.out.println("X: " + locationPoint.getX() + ", Y: "
+                    + locationPoint.getY());
         }
     }
 }
