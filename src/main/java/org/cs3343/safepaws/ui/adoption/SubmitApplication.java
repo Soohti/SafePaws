@@ -11,19 +11,28 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * 
+ * Class to handle the submission of adoption applications.
  */
 public class SubmitApplication extends UI {
 
     private static final String NAME = "Submit an application";
 
     /**
-     * @param referrer
+     * Constructor for SubmitApplication.
+     *
+     * @param referrer the UI referrer
      */
     public SubmitApplication(final UI referrer) {
         super(NAME, referrer);
     }
 
+    /**
+     * Executes the submission process.
+     *
+     * @param session the current session
+     * @return the referrer UI
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected UI execute(final Session session) throws IOException {
         if (!(session.getAccount() instanceof Member)) {
@@ -55,8 +64,15 @@ public class SubmitApplication extends UI {
         return this.getReferrer();
     }
 
+    /**
+     * Checks if the UI is visible to the session.
+     *
+     * @param session the current session
+     * @return true if visible, false otherwise
+     */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "M".equals(session.getAccount().getRole());
+        return session.getAccount() != null &&
+               "M".equals(session.getAccount().getRole());
     }
 }

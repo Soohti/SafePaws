@@ -9,7 +9,7 @@ import org.cs3343.safepaws.ui.adoption.ViewPets;
 import org.cs3343.safepaws.util.Session;
 
 /**
- * 
+ * Represents the member menu in the SafePaws application.
  */
 public class MemberMenu extends Menu {
     /**
@@ -23,20 +23,31 @@ public class MemberMenu extends Menu {
     /**
      * The menu items.
      */
-    private final UI[] menuItems = new UI[] { new Logout(this), // go to main menu
-            new MemberSeeApplication(this), new SetProfile(this), new SubmitApplication(this), new ViewPets(this), };
+    private final UI[] menuItems = new UI[] { 
+        new Logout(this), // go to main menu
+        new MemberSeeApplication(this), 
+        new SetProfile(this), 
+        new SubmitApplication(this), 
+        new ViewPets(this), 
+    };
 
     /**
-     * Constructs a new MainMenu.
+     * Constructs a new MemberMenu.
      */
-    public MemberMenu() { // check the kind of account
+    public MemberMenu() { 
         super(NAME, DESCRIPTION, null);
         setMenuItems(menuItems);
     }
 
+    /**
+     * Determines if the menu is visible to the given session.
+     *
+     * @param session the session to check visibility for
+     * @return true if the menu is visible to the session, false otherwise
+     */
     @Override
     public final boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "M".equals(session.getAccount().getRole());
+        return session.getAccount() != null && 
+               "M".equals(session.getAccount().getRole());
     }
-
 }

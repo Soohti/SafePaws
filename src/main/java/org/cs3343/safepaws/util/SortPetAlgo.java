@@ -9,13 +9,16 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 
+ * SortPetAlgo class implements the Algorithm interface to provide
+ * sorting functionality for pets based on match scores.
  */
 public class SortPetAlgo implements Algorithm {
 
     /**
-     * @param user
-     * @return
+     * Sorts pets by match score for a given user.
+     *
+     * @param user the member for whom the pets are being sorted
+     * @return a list of pets sorted by match score
      */
     public static List<Pet> sortPetsByMatch(final Member user) {
         List<Pet> pets = DbManager.getAllPets();
@@ -42,25 +45,37 @@ public class SortPetAlgo implements Algorithm {
     }
 
     /**
-     *
+     * PetMatchScore class represents a pet and its match score.
      */
     public static class PetMatchScore {
         private Pet pet;
         private double matchScore;
 
         /**
-         * @param pet
-         * @param matchScore
+         * Constructs a PetMatchScore with the specified pet and match score.
+         *
+         * @param pet the pet
+         * @param matchScore the match score
          */
         public PetMatchScore(final Pet pet, final double matchScore) {
             this.pet = pet;
             this.matchScore = matchScore;
         }
 
+        /**
+         * Gets the pet.
+         *
+         * @return the pet
+         */
         public Pet getPet() {
             return pet;
         }
 
+        /**
+         * Gets the match score.
+         *
+         * @return the match score
+         */
         public double getMatchScore() {
             return matchScore;
         }

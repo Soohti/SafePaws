@@ -3,7 +3,7 @@ package org.cs3343.safepaws.entity;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
- * 
+ * Represents an account with username, password, role, and id.
  */
 public class Account {
     private String username;
@@ -12,30 +12,31 @@ public class Account {
     private int id;
 
     /**
-     * Encrypt password.
+     * Encrypts the given password using BCrypt.
      *
-     * @param password the password
-     * @return the string
+     * @param password the password to encrypt
+     * @return the encrypted password
      */
     public static String encryptPassword(final String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     /**
-     * Instantiates a new account.
+     * Instantiates a new account with the specified username, password, and role.
      *
      * @param username the username
      * @param password the password
      * @param role     the role
      */
-    public Account(final String username, final String password, final String role) {
+    public Account(final String username, final String password, 
+                   final String role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
     /**
-     * 
+     * Instantiates a new account with default values.
      */
     public Account() {
     }
@@ -95,14 +96,18 @@ public class Account {
     }
 
     /**
-     * @return
+     * Gets the id.
+     *
+     * @return the id
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @param id
+     * Sets the id.
+     *
+     * @param id the new id
      */
     public void setId(final int id) {
         this.id = id;
