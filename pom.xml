@@ -119,6 +119,7 @@
                     <configLocation>sun_checks.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
+                    <includeTestResources>false</includeTestResources>
                     <linkXRef>false</linkXRef>
                 </configuration>
                 <dependencies>
