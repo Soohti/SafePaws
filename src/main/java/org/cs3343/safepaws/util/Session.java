@@ -52,8 +52,12 @@ public final class Session {
      * @param out The output stream.
      */
     public Session(final InputStream in, final OutputStream out) {
-        this.reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
-        this.writer = new PrintWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8), true);
+        this.reader = new BufferedReader(
+            new InputStreamReader(in, StandardCharsets.UTF_8)
+        );
+        this.writer = new PrintWriter(
+            new OutputStreamWriter(out, StandardCharsets.UTF_8), true
+        );
     }
 
     /**

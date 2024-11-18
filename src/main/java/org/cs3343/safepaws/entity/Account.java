@@ -22,7 +22,8 @@ public class Account {
     }
 
     /**
-     * Instantiates a new account with the specified username, password, and role.
+     * Instantiates a new account with the 
+     * specified username, password, and role.
      *
      * @param username the username
      * @param password the password

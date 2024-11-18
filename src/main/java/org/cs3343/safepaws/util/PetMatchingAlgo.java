@@ -73,25 +73,31 @@ public class PetMatchingAlgo implements Algorithm {
 
         double userMagnitude = Math.sqrt(
                 Math.pow(profile.extroversionLevel * EXTROVERSION_WEIGHT, 2)
-                + Math.pow(profile.dailyActivityLevel * DAILY_ACTIVITY_WEIGHT, 2)
+                + Math.pow(profile.dailyActivityLevel 
+                           * DAILY_ACTIVITY_WEIGHT, 2)
                 + Math.pow(normalizedHouseSize * HOUSE_SIZE_WEIGHT, 2)
                 + Math.pow(profile.workHours * WORK_HOURS_WEIGHT, 2)
-                + Math.pow(profile.numberOfFamilyMembers * FAMILY_MEMBERS_WEIGHT, 2)
-                + Math.pow(profile.previousPetExperience * PET_EXPERIENCE_WEIGHT, 2)
-                + Math.pow(profile.financialBudget * FINANCIAL_BUDGET_WEIGHT, 2));
+                + Math.pow(profile.numberOfFamilyMembers
+                           * FAMILY_MEMBERS_WEIGHT, 2)
+                + Math.pow(profile.previousPetExperience 
+                           * PET_EXPERIENCE_WEIGHT, 2)
+                + Math.pow(profile.financialBudget 
+                           * FINANCIAL_BUDGET_WEIGHT, 2));
 
         double petMagnitude = Math.sqrt(
                 Math.pow(pet.activityLevel * EXTROVERSION_WEIGHT, 2)
                 + Math.pow(normalizedWeight * HOUSE_SIZE_WEIGHT, 2)
-                + Math.pow(pet.healthStatus * 1.0, 2)); // Assuming healthStatus has default weight 1.0
+                + Math.pow(pet.healthStatus * 1.0, 2)); 
 
-        double dotProduct = (profile.extroversionLevel * EXTROVERSION_WEIGHT
+        double dotProduct = (profile.extroversionLevel 
+                             * EXTROVERSION_WEIGHT
                 * pet.activityLevel * EXTROVERSION_WEIGHT)
                 + (profile.dailyActivityLevel * DAILY_ACTIVITY_WEIGHT
                 * pet.activityLevel * DAILY_ACTIVITY_WEIGHT)
                 + (normalizedHouseSize * HOUSE_SIZE_WEIGHT
                 * normalizedWeight * HOUSE_SIZE_WEIGHT)
-                + (profile.workHours * WORK_HOURS_WEIGHT * 8 * WORK_HOURS_WEIGHT)
+                + (profile.workHours * WORK_HOURS_WEIGHT 
+                   * 8 * WORK_HOURS_WEIGHT)
                 + (profile.numberOfFamilyMembers * FAMILY_MEMBERS_WEIGHT
                 * 3 * FAMILY_MEMBERS_WEIGHT)
                 + (profile.previousPetExperience * PET_EXPERIENCE_WEIGHT

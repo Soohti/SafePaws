@@ -39,10 +39,14 @@ public class ViewPets extends UI {
         session.println("Displaying available pets...");
         List<Pet> sortedPets = SortPetAlgo.sortPetsByMatch(member);
         for (Pet pet : sortedPets) {
-            session.println("Id: " + pet.getId() + ", Name: " + pet.getName() + ", Species: " + pet.getSpecies()
-                    + ", Breed: " + pet.getBreed() + ", Age: " + pet.getAge() + ", Weight: " + pet.getWeight()
-                    + ", Gender: " + pet.getGender() + ", ActivityLevel: " + pet.getActivityLevel() + ", HealthStatus: "
-                    + pet.getHealthStatus() + " MatchingScore: " + PetMatchingAlgo.calculateMatch(member, pet));
+            session.println("Id: " + pet.getId() + ", Name: " 
+                            + pet.getName() + ", Species: " + pet.getSpecies()
+                            + ", Breed: " + pet.getBreed() + ", Age: " 
+                            + pet.getAge() + ", Weight: " + pet.getWeight()
+                            + ", Gender: " + pet.getGender() + ", ActivityLevel: " 
+                            + pet.getActivityLevel() + ", HealthStatus: "
+                            + pet.getHealthStatus() + " MatchingScore: " 
+                            + PetMatchingAlgo.calculateMatch(member, pet));
         }
         return this.getReferrer();
     }
@@ -55,6 +59,7 @@ public class ViewPets extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "M".equals(session.getAccount().getRole());
+        return session.getAccount() != null && 
+                                       "M".equals(session.getAccount().getRole());
     }
 }
