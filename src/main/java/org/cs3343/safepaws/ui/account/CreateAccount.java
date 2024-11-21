@@ -20,22 +20,35 @@ public class CreateAccount extends UI {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     @Override
-    public UI execute(Session session) throws IOException {
-        session.println("Enter a username:");
+    public UI execute(Session session) {
+        session.println("Enter a username (length: 8-30, any character):");
         String username = session.requestInput();
+        
+        while (!Account.isValidUsername(username)) {
+            session.println("Your input username is invalid. Please enter again:");
+            username = session.requestInput();
+        }
 
-        session.println("Enter a password:");
+        session.println("Enter a password (length: 8-16, any character):");
         String password = Account.encryptPassword(session.requestInput());
+        while (!Account.isValidPassword(password)) {
+            session.println("Your input password is invalid. Please enter again:");
+            password = session.requestInput();
+        }
 
-        session.println("Enter your role:");
+        session.println("Enter your role (\"A\" for admin, \"M\" for member), \"S\" for shelter:");
         String role = session.requestInput();
+        while (!Account.isValidRole(role)) {
+            session.println("Your input role is invalid. Please enter again:");
+            role = session.requestInput();
+        }
 
         Account account = new Account(username, password, role);
         try {
             DbManager.insertAccount(account);
             session.println("Account created successfully.");
-        } catch (SQLException e) {
-            session.println("Error creating account: " + e.getMessage());
+        } catch (Exception e) {
+            session.println("Error during creating account.");
         }
 
         return this.getReferrer();

@@ -75,6 +75,62 @@ public final class Pet {
         this.healthStatus = heaStatus;
     }
 
+    public static boolean isValidName(String name) {
+        if (name.length() > 30) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isValidSpecies(String species) {
+        if (species.length() > 30) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isValidBreed(String breed) {
+        if (breed.length() > 30) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isValidAge(int age) {
+        if (age < 0) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isValidWeight(int weight) {
+        if (weight < 0) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isValidGender(String gender) {
+        if ("m".equals(gender)||"f".equals(gender)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean isValidActivityLevel(int activityLevel) {
+        if (activityLevel < 0||activityLevel > 10) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isValidHealthStatus(int healthStatus) {
+        if (healthStatus < 0|| healthStatus > 10) {
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * Gets the name of the pet.
      *
