@@ -124,4 +124,11 @@ public class Application {
     public void setId(final int id) {
         this.id = id;
     }
+
+	public static boolean isValidPid(int Pid) {
+		if(DbManager.selectPetById(Pid)==null) {
+        	return false;
+        }
+        return true;
+	}
 }

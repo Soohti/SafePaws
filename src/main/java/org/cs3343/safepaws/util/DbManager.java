@@ -312,12 +312,12 @@ public final class DbManager {
      * @return the pet, or null if not found.
      * @throws SQLException if a database error occurs.
      */
-    public static Pet selectPetById(final int petId) throws SQLException {
+    public static Pet selectPetById(final int petId){
         String selectSql = "SELECT * FROM PET WHERE Id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
             pstmt.setInt(1, petId);
-            try (ResultSet rs = pstmt.executeQuery()) {
+            ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     String name = rs.getString("Name");
                     String species = rs.getString("Species");
@@ -335,8 +335,11 @@ public final class DbManager {
                     System.out.println("No pet found with the given Id");
                     return null;
                 }
-            }
+            
+        }catch(Exception e) {
+        	System.out.println("Error during selecting pet by id.");
         }
+        return null;
     }
 
     /**
