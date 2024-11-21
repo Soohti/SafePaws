@@ -8,7 +8,9 @@ import org.cs3343.safepaws.util.Session;
 
 import java.io.IOException;
 
-public class AdminCheckApplication extends UI {
+public class AdminCheckApplication extends UI {   //a pet can only be assigned to one member
+	                                              //if approved, pet should be erased
+	                                              //all application for this pet should be rejected
     private static final String NAME =
             "Admin check one application for adoption";
 

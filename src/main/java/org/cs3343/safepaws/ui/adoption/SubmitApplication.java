@@ -42,11 +42,16 @@ public class SubmitApplication extends UI {
 
         session.println("Enter the ID of the pet you want to apply for:");
         String userInput = session.requestInput();
-        int petId = Integer.parseInt(userInput);
+        int Pid = Integer.parseInt(userInput);
+        while (!Application.isValidPid(Pid)) {
+            session.println("Your input pet id is invalid. Please enter again:");
+            Pid = Integer.parseInt(session.requestInput());
+        }
+        
         Pet pet;
         try {
-            pet = DbManager.selectPetById(petId);
-        } catch (SQLException e) {
+            pet = DbManager.selectPetById(Pid);
+        } catch (Exception e) {
             pet = null;
             e.printStackTrace();
         }
