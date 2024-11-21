@@ -39,10 +39,15 @@ public final class Session {
      * @return The input from the client.
      * @throws IOException If an error occurs.
      */
-    public String requestInput() throws IOException {
-        writer.println();
-        writer.println("SYSTEM: READY_FOR_INPUT");
-        return reader.readLine();
+    public String requestInput(){
+        try {
+        	writer.println();
+            writer.println("SYSTEM: READY_FOR_INPUT");
+            return reader.readLine();
+        }catch(Exception e) {
+        	writer.println("Error during requestInput of session.");
+        }
+    	return null;
     }
 
     /**

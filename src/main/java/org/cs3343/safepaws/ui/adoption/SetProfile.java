@@ -3,6 +3,8 @@ package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.entity.MemberProfile;
+import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -49,37 +51,78 @@ public class SetProfile extends UI {
         String preferredBreed;
         String gender;
 
-        session.println("Enter your extroversion level (1-10):");
+        session.println("Enter your extroversion level ():");
         extroversionLevel = Integer.parseInt(session.requestInput());
+        while (!MemberProfile.isValidExtroversionLevel(extroversionLevel)) {
+            session.println("Your input extroversion level is invalid. Please enter again:");
+            extroversionLevel = Integer.parseInt(session.requestInput());
+        }
+        
 
         session.println("Enter your daily activity level (1-10):");
         dailyActivityLevel = Integer.parseInt(session.requestInput());
+        while (!MemberProfile.isValidDailyActivityLevel(dailyActivityLevel)) {
+            session.println("Your input daily activity level is invalid. Please enter again:");
+            dailyActivityLevel = Integer.parseInt(session.requestInput());
+        }
 
         session.println("Enter your house size (in square meters):");
         houseSize = Integer.parseInt(session.requestInput());
+        while (!MemberProfile.isValidHouseSize(houseSize)) {
+            session.println("Your input house size is invalid. Please enter again:");
+            houseSize = Integer.parseInt(session.requestInput());
+        }
 
         session.println("Enter your work hours per day:");
         workHours = Integer.parseInt(session.requestInput());
+        while (!MemberProfile.isValidWorkHours(houseSize)) {
+            session.println("Your input work hours is invalid. Please enter again:");
+            workHours = Integer.parseInt(session.requestInput());
+        }
 
         session.println("Enter the number of family members:");
         numberOfFamilyMembers = Integer.parseInt(session.requestInput());
+        while (!MemberProfile.isValidNumberOfFamilyMembers(numberOfFamilyMembers)) {
+            session.println("Your input number of family members is invalid. Please enter again:");
+            numberOfFamilyMembers = Integer.parseInt(session.requestInput());
+        }
 
         String message = "Enter your previous pet experience level " 
         + "(1-10, higher value is more experienced):";
         session.println(message);
         previousPetExperience = Integer.parseInt(session.requestInput());
+        while (!MemberProfile.isValidPreviousPetExperience(previousPetExperience)) {
+            session.println("Your input previous pet experience is invalid. Please enter again:");
+            previousPetExperience = Integer.parseInt(session.requestInput());
+        }
 
         session.println("Enter your financial budget (monthly, in dollars):");
         financialBudget = Integer.parseInt(session.requestInput());
+        while (!MemberProfile.isValidFinancialBudget(financialBudget)) {
+            session.println("Your input financial budget is invalid. Please enter again:");
+            financialBudget = Integer.parseInt(session.requestInput());
+        }
 
         session.println("Enter your preferred species:");
         preferredSpecies = session.requestInput();
+        while (!MemberProfile.isValidPreferredSpecies(preferredSpecies)) {
+            session.println("Your input preferred species is invalid. Please enter again:");
+            preferredSpecies = session.requestInput();
+        }
 
         session.println("Enter your preferred breed:");
         preferredBreed = session.requestInput();
+        while (!MemberProfile.isValidPreferredBreed(preferredBreed)) {
+            session.println("Your input preferred breed is invalid. Please enter again:");
+            preferredBreed = session.requestInput();
+        }
 
         session.println("Enter your preferred pet gender (m/f):");
         gender = session.requestInput();
+        while (!MemberProfile.isValidGender(gender)) {
+            session.println("Your input gender is invalid. Please enter again:");
+            gender = session.requestInput();
+        }
 
         Account account = session.getAccount();
         int[] numericAttributes = { extroversionLevel, dailyActivityLevel, 

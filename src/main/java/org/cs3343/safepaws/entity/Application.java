@@ -1,5 +1,7 @@
 package org.cs3343.safepaws.entity;
 
+import org.cs3343.safepaws.util.DbManager;
+
 /**
  * Represents an application with user, pet, state, and id.
  */
@@ -35,6 +37,20 @@ public class Application {
         this.user = account;
         this.pet = p;
         this.state = st;
+    }
+    
+    public static boolean isValidState(int state) {
+        if (state==1||state==2) {
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean isValidAid(int Aid) {
+        if(DbManager.selectApplication(Aid)==null||DbManager.selectApplication(Aid).state!=0) {
+        	return false;
+        }
+        return true;
     }
 
     /**

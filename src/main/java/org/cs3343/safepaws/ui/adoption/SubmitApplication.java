@@ -37,10 +37,6 @@ public class SubmitApplication extends UI {
      */
     @Override
     protected UI execute(final Session session) throws IOException {
-        if (!(session.getAccount() instanceof Member)) {
-            session.println("Only members can submit an application.");
-            return this.getReferrer();
-        }
 
         Member user = (Member) session.getAccount();
 
