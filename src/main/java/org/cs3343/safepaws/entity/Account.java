@@ -35,6 +35,25 @@ public class Account {
     public static String encryptPassword(final String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
+    
+    public static boolean isValidUsername(String username) {
+        if (username.length() < 8 || username.length() > 30) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isValidPassword(String password) {
+        if (password.length() < 8 || password.length() > 16) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isValidRole(String role) {
+        if("A".equals(role)||"M".equals(role)||"S".equals(role)) {return true;}
+        return false;
+    }
 
     /**
      * Instantiates a new account with the specified username, password, and role.
