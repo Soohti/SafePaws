@@ -255,4 +255,74 @@ public class MemberProfile {
     public void setGender(final String gender) {
         this.gender = gender;
     }
+
+	public static boolean isValidExtroversionLevel(int extroversionLevel) {
+		if ( extroversionLevel < 0||extroversionLevel > 10) {
+            return false;
+        }
+        return true;
+	}
+
+	public static boolean isValidDailyActivityLevel(int dailyActivityLevel) {
+		if ( dailyActivityLevel < 0||dailyActivityLevel > 10) {
+            return false;
+        }
+        return true;
+	}
+
+	public static boolean isValidHouseSize(int houseSize) {
+		if ( houseSize < 0||houseSize > 1000000000) {
+            return false;
+        }
+        return true;
+	}
+
+	public static boolean isValidWorkHours(int workHours) {
+		if ( workHours < 0||workHours > 24) {
+            return false;
+        }
+        return true;
+	}
+
+	public static boolean isValidNumberOfFamilyMembers(int numberOfFamilyMembers) {
+		if ( numberOfFamilyMembers < 1||numberOfFamilyMembers >100000000) {
+            return false;
+        }
+        return true;
+	}
+
+	public static boolean isValidPreviousPetExperience(int previousPetExperience) {
+		if ( previousPetExperience < 0||previousPetExperience >100000000) {
+            return false;
+        }
+        return true;
+	}
+
+	public static boolean isValidFinancialBudget(int financialBudget) {
+		if ( financialBudget < 0||financialBudget >100000000) {
+            return false;
+        }
+        return true;
+	}
+
+	public static boolean isValidPreferredSpecies(String preferredSpecies) {
+		if (preferredSpecies.length() > 30) {
+            return false;
+        }
+        return true;
+	}
+
+	public static boolean isValidPreferredBreed(String preferredBreed) {
+		if (preferredBreed.length() > 30) {
+            return false;
+        }
+        return true;
+	}
+
+	public static boolean isValidGender(String gender) {
+		if ("m".equals(gender)||"f".equals(gender)) {
+            return true;
+        }
+        return false;
+	}
 }
