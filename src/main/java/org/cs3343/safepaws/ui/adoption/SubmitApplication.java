@@ -51,17 +51,19 @@ public class SubmitApplication extends UI {
         Pet pet;
         try {
             pet = DbManager.selectPetById(Pid);
+            session.println("Pet added successfully.");
         } catch (Exception e) {
             pet = null;
-            e.printStackTrace();
+            session.println("Error during selecting pet.");
         }
         int state = 0;
         if (pet != null) {
             Application application = new Application(user, pet, state);
             try {
                 DbManager.insertApplication(application);
+                session.println("Application created successfully.");
             } catch (SQLException e) {
-                e.printStackTrace();
+                session.println("Error during creating application.");
             }
         }
         return this.getReferrer();

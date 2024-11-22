@@ -8,8 +8,14 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * The CreateAccount class provides 
+ * the functionality to create a new user
+ * account. It extends the UI class.
+ */
 public class CreateAccount extends UI {
 
+    /** The constant NAME representing the name of this UI component. */
     private static final String NAME = "Create Account";
 
     /**

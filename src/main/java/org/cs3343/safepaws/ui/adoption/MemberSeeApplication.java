@@ -60,6 +60,7 @@ public final class MemberSeeApplication extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "M".equals(session.getAccount().getRole());
+        return session.getAccount() != null 
+                && "M".equals(session.getAccount().getRole());
     }
 }

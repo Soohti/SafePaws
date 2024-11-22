@@ -1,4 +1,3 @@
-
 package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Account;
@@ -28,7 +27,7 @@ public class SetProfile extends UI {
      * @param referrer the UI referrer
      */
     public SetProfile(final UI referrer) {
-        super("Set Profile", referrer);
+        super(NAME, referrer);
     }
 
     /**
@@ -51,7 +50,9 @@ public class SetProfile extends UI {
         String preferredBreed;
         String gender;
 
-        session.println("Enter your extroversion level (a positive integer meeting 0-10, larger numbers indicate more extroversion):");
+        session.println("Enter your extroversion level "
+                + "(a positive integer meeting 0-10, "
+                + "larger numbers indicate more extroversion):");
         extroversionLevel = Integer.parseInt(session.requestInput());
         while (!MemberProfile.isValidExtroversionLevel(extroversionLevel)) {
             session.println("Your input extroversion level is invalid. Please enter again:");
@@ -59,14 +60,17 @@ public class SetProfile extends UI {
         }
         
 
-        session.println("Enter your daily activity level (a positive integer meeting 0-10, larger numbers indicate more activity):");
+        session.println("Enter your daily activity level "
+                + "(a positive integer meeting 0-10, "
+                + "larger numbers indicate more activity):");
         dailyActivityLevel = Integer.parseInt(session.requestInput());
         while (!MemberProfile.isValidDailyActivityLevel(dailyActivityLevel)) {
             session.println("Your input daily activity level is invalid. Please enter again:");
             dailyActivityLevel = Integer.parseInt(session.requestInput());
         }
 
-        session.println("Enter your house size (in square meters, if larger than 100000000, enter 100000000):");
+        session.println("Enter your house size "
+                + "(in square meters, if larger than 100000000, enter 100000000):");
         houseSize = Integer.parseInt(session.requestInput());
         while (!MemberProfile.isValidHouseSize(houseSize)) {
             session.println("Your input house size is invalid. Please enter again:");
@@ -88,7 +92,8 @@ public class SetProfile extends UI {
         }
 
         String message = "Enter your previous pet experience level " 
-        + "(an interger, if larger than 100000000, enter 100000000):";
+                + "(a positive integer meeting 0-10,"
+                + "larger numbers indicate more activity):";
         session.println(message);
         previousPetExperience = Integer.parseInt(session.requestInput());
         while (!MemberProfile.isValidPreviousPetExperience(previousPetExperience)) {
@@ -139,10 +144,10 @@ public class SetProfile extends UI {
             mId = DbManager.selectAccount(userName).getId();
             DbManager.changeMemProfile(mId, 
                     ((Member) session.getAccount()).getProfile());
-        } catch (SQLException e) {
-            e.printStackTrace();
+            session.println("Profile set successfully.");
+        } catch (Exception e) {
+            session.println("Error during setting profile.");
         }
-        session.println("Profile set successfully.");
 
         return this.getReferrer();
     }
