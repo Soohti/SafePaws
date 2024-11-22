@@ -65,7 +65,7 @@ public final class PetMatchingAlgo implements Algorithm {
      * @param max   the maximum value of the range
      * @return the normalized value
      */
-    private static double normalizeValue(final double value, 
+    private static double normalizeValue(final double value,
                                          final double min, final double max) {
         return NORMALIZATION_FACTOR * (value - min) / (max - min);
     }
@@ -77,22 +77,27 @@ public final class PetMatchingAlgo implements Algorithm {
      * @param pet  the pet
      * @return the Euclidean distance
      */
-    private static double calculateEuclideanDistance(final Member user, 
+    private static double calculateEuclideanDistance(final Member user,
                                                      final Pet pet) {
         MemberProfile profile = user.getProfile();
-        double normalizedHouseSize = normalizeValue(profile.getHouseSize(), 
-                                                    MIN_HOUSE_SIZE, MAX_HOUSE_SIZE);
-        double normalizedWeight = normalizeValue(pet.getWeight(), 
-                                                 MIN_WEIGHT, MAX_WEIGHT);
+        double normalizedHouseSize = normalizeValue(profile.getHouseSize(),
+                                     MIN_HOUSE_SIZE, MAX_HOUSE_SIZE);
+        double normalizedWeight = normalizeValue(pet.getWeight(),
+                                     MIN_WEIGHT, MAX_WEIGHT);
 
         double distance = 0.0;
-        distance += Math.pow(profile.getExtroversionLevel() - pet.getActivityLevel(), 2);
-        distance += Math.pow(profile.getDailyActivityLevel() - pet.getActivityLevel(), 2);
+        distance += Math.pow(profile.getExtroversionLevel()
+                - pet.getActivityLevel(), 2);
+        distance += Math.pow(profile.getDailyActivityLevel()
+                - pet.getActivityLevel(), 2);
         distance += Math.pow(normalizedHouseSize - normalizedWeight, 2);
         distance += Math.pow(profile.getWorkHours() - DEFAULT_WORK_HOURS, 2);
-        distance += Math.pow(profile.getNumberOfFamilyMembers() - DEFAULT_FAMILY_MEMBERS, 2);
-        distance += Math.pow(profile.getPreviousPetExperience() - DEFAULT_PET_EXPERIENCE, 2);
-        distance += Math.pow(profile.getFinancialBudget() - DEFAULT_FINANCIAL_BUDGET, 2);
+        distance += Math.pow(profile.getNumberOfFamilyMembers()
+                - DEFAULT_FAMILY_MEMBERS, 2);
+        distance += Math.pow(profile.getPreviousPetExperience()
+                - DEFAULT_PET_EXPERIENCE, 2);
+        distance += Math.pow(profile.getFinancialBudget()
+                - DEFAULT_FINANCIAL_BUDGET, 2);
 
         return Math.sqrt(distance);
     }
@@ -104,15 +109,15 @@ public final class PetMatchingAlgo implements Algorithm {
      * @param pet  the pet
      * @return the weighted cosine similarity
      */
-    private static double calculateWeightedCosineSimilarity(final Member user, 
+    private static double calculateWeightedCosineSimilarity(final Member user,
                                                             final Pet pet) {
         MemberProfile profile = user.getProfile();
-        double normalizedHouseSize = normalizeValue(profile.getHouseSize(), 
-                                                    MIN_HOUSE_SIZE, MAX_HOUSE_SIZE);
-        double normalizedWeight = normalizeValue(pet.getWeight(), 
-                                                 MIN_WEIGHT, MAX_WEIGHT);
+        double normalizedHouseSize = normalizeValue(profile.getHouseSize(),
+                                     MIN_HOUSE_SIZE, MAX_HOUSE_SIZE);
+        double normalizedWeight = normalizeValue(pet.getWeight(),
+                                     MIN_WEIGHT, MAX_WEIGHT);
 
-        double userMagnitude = Math.sqrt(Math.pow(profile.getExtroversionLevel() 
+        double userMagnitude = Math.sqrt(Math.pow(profile.getExtroversionLevel()
                                                   * EXTROVERSION_WEIGHT, 2)
                 + Math.pow(profile.getDailyActivityLevel() * DAILY_ACTIVITY_WEIGHT, 2)
                 + Math.pow(normalizedHouseSize * HOUSE_SIZE_WEIGHT, 2)
@@ -121,28 +126,28 @@ public final class PetMatchingAlgo implements Algorithm {
                 + Math.pow(profile.getPreviousPetExperience() * PET_EXPERIENCE_WEIGHT, 2)
                 + Math.pow(profile.getFinancialBudget() * FINANCIAL_BUDGET_WEIGHT, 2));
 
-        double petMagnitude = Math.sqrt(Math.pow(pet.getActivityLevel() 
+        double petMagnitude = Math.sqrt(Math.pow(pet.getActivityLevel()
                                                  * EXTROVERSION_WEIGHT, 2)
-                + Math.pow(normalizedWeight * HOUSE_SIZE_WEIGHT, 2) 
+                + Math.pow(normalizedWeight * HOUSE_SIZE_WEIGHT, 2)
                 + Math.pow(pet.getHealthStatus() * 1.0, 2));
 
-        double dotProduct = (profile.getExtroversionLevel() 
+        double dotProduct = (profile.getExtroversionLevel()
                 * EXTROVERSION_WEIGHT * pet.getActivityLevel()
                 * EXTROVERSION_WEIGHT)
-                + (profile.getDailyActivityLevel() 
+                + (profile.getDailyActivityLevel()
                         * DAILY_ACTIVITY_WEIGHT * pet.getActivityLevel()
                         * DAILY_ACTIVITY_WEIGHT)
-                + (normalizedHouseSize * HOUSE_SIZE_WEIGHT 
+                + (normalizedHouseSize * HOUSE_SIZE_WEIGHT
                         * normalizedWeight * HOUSE_SIZE_WEIGHT)
-                + (profile.getWorkHours() * WORK_HOURS_WEIGHT 
+                + (profile.getWorkHours() * WORK_HOURS_WEIGHT
                         * DEFAULT_WORK_HOURS * WORK_HOURS_WEIGHT)
-                + (profile.getNumberOfFamilyMembers() 
+                + (profile.getNumberOfFamilyMembers()
                         * FAMILY_MEMBERS_WEIGHT * DEFAULT_FAMILY_MEMBERS
                         * FAMILY_MEMBERS_WEIGHT)
-                + (profile.getPreviousPetExperience() 
+                + (profile.getPreviousPetExperience()
                         * PET_EXPERIENCE_WEIGHT * DEFAULT_PET_EXPERIENCE
                         * PET_EXPERIENCE_WEIGHT)
-                + (profile.getFinancialBudget() 
+                + (profile.getFinancialBudget()
                         * FINANCIAL_BUDGET_WEIGHT * DEFAULT_FINANCIAL_BUDGET
                         * FINANCIAL_BUDGET_WEIGHT);
 
@@ -172,11 +177,11 @@ public final class PetMatchingAlgo implements Algorithm {
 
         // Add additional criteria for species, breed, and gender
         double speciesSimilarity = profile.getPreferredSpecies()
-                                          .equalsIgnoreCase(pet.getSpecies()) ? 1.0 : 0.0;
+                                   .equalsIgnoreCase(pet.getSpecies()) ? 1.0 : 0.0;
         double breedSimilarity = profile.getPreferredBreed()
-                                        .equalsIgnoreCase(pet.getBreed()) ? 1.0 : 0.0;
+                                   .equalsIgnoreCase(pet.getBreed()) ? 1.0 : 0.0;
         double genderSimilarity = profile.getGender()
-                                         .equalsIgnoreCase(pet.getGender()) ? 1.0 : 0.0;
+                                   .equalsIgnoreCase(pet.getGender()) ? 1.0 : 0.0;
 
         double speciesScore = speciesSimilarity * SPECIES_WEIGHT;
         double breedScore = breedSimilarity * BREED_WEIGHT;
