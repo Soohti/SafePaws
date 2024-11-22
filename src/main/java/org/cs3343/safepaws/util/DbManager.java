@@ -69,7 +69,7 @@ public final class DbManager {
      * @param account the account to insert.
      * @throws SQLException if a database error occurs.
      */
-    public static void insertAccount(Account account)
+    public static void insertAccount(final Account account)
             throws SQLException {
         String insertSql = "INSERT INTO ACCOUNT "
                 + "(username, password, role) "
@@ -129,26 +129,26 @@ public final class DbManager {
     /**
      * Authenticates a user.
      *
-     * @param username the username.
-     * @param password the password.
+     * @param newUsername the username.
+     * @param newPassword the password.
      * @return true if authentication is successful, false otherwise.
      * @throws SQLException if a database error occurs.
      */
-    public static boolean authenticateUser(final String username,
-                                           final String password)
+    public static boolean authenticateUser(final String newUsername,
+                                           final String newPassword)
             throws SQLException {
         String query = "SELECT * FROM ACCOUNT WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, username);
+            pstmt.setString(1, newUsername);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
-                return BCrypt.checkpw(password, storedPassword);
+                return BCrypt.checkpw(newPassword, storedPassword);
             }
         } catch (SQLException e) {
-            System.out.println("Error during authentication: " +
-                    e.getMessage());
+            System.out.println("Error during authentication: "
+                    + e.getMessage());
         }
         return false;
     }
@@ -180,8 +180,8 @@ public final class DbManager {
                 return account;
             }
         } catch (SQLException e) {
-            System.out.println("Error during Logging in: " +
-                    e.getMessage());
+            System.out.println("Error during Logging in: "
+                    + e.getMessage());
         }
         return null;
     }
@@ -212,8 +212,8 @@ public final class DbManager {
             }
             return applications;
         } catch (SQLException e) {
-            System.out.println("Error during Viewing all Applications: " +
-                    e.getMessage());
+            System.out.println("Error during Viewing all Applications: "
+                    + e.getMessage());
         }
         return null;
     }
@@ -241,8 +241,8 @@ public final class DbManager {
                 return application;
             }
         } catch (SQLException e) {
-            System.out.println("Error during Selecting Application: " +
-                    e.getMessage());
+            System.out.println("Error during Selecting Application: "
+                    + e.getMessage());
         }
         return null;
     }
@@ -264,8 +264,8 @@ public final class DbManager {
             pstmt.setInt(2, Aid);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error during Changing State: " +
-                    e.getMessage());
+            System.out.println("Error during Changing State: "
+                    + e.getMessage());
         }
         return null;
     }
@@ -381,8 +381,8 @@ public final class DbManager {
                 pets.add(pet);
             }
         } catch (SQLException e) {
-            System.out.println("Error retrieving pets from database: " +
-                    e.getMessage());
+            System.out.println("Error retrieving pets from database: "
+                    + e.getMessage());
         }
         return pets;
     }
@@ -449,8 +449,8 @@ public final class DbManager {
             pstmt.setInt(11, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error during Changing Member Profile: " +
-                    e.getMessage());
+            System.out.println("Error during Changing Member Profile: "
+                    + e.getMessage());
         }
     }
 
@@ -501,8 +501,8 @@ public final class DbManager {
             }
             return applications;
         } catch (SQLException e) {
-            System.out.println("Error during Logging in: " +
-                    e.getMessage());
+            System.out.println("Error during Logging in: "
+                    + e.getMessage());
         }
         return null;
     }
@@ -521,8 +521,8 @@ public final class DbManager {
                 return rs.getString(1);
             }
         } catch (SQLException e) {
-            System.out.println("Error executing query: " +
-                    e.getMessage());
+            System.out.println("Error executing query: "
+                    + e.getMessage());
         }
         return null;
     }
