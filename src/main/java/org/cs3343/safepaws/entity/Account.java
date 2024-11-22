@@ -1,3 +1,4 @@
+
 package org.cs3343.safepaws.entity;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -6,6 +7,11 @@ import org.mindrot.jbcrypt.BCrypt;
  * Represents an account with username, password, role, and id.
  */
 public class Account {
+    private static final int MIN_USERNAME_LENGTH = 8;
+    private static final int MAX_USERNAME_LENGTH = 30;
+    private static final int MIN_PASSWORD_LENGTH = 8;
+    private static final int MAX_PASSWORD_LENGTH = 16;
+
     /**
      * The username of the account.
      */
@@ -35,23 +41,43 @@ public class Account {
     public static String encryptPassword(final String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
-    
-    public static boolean isValidUsername(String username) {
-        if (username.length() < 8 || username.length() > 30) {
+
+    /**
+     * Validates the username.
+     *
+     * @param username the username to validate
+     * @return true if the username is valid, false otherwise
+     */
+    public static boolean isValidUsername(final String username) {
+        if (username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH) {
             return false;
         }
         return true;
     }
 
-    public static boolean isValidPassword(String password) {
-        if (password.length() < 8 || password.length() > 16) {
+    /**
+     * Validates the password.
+     *
+     * @param password the password to validate
+     * @return true if the password is valid, false otherwise
+     */
+    public static boolean isValidPassword(final String password) {
+        if (password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH) {
             return false;
         }
         return true;
     }
-    
-    public static boolean isValidRole(String role) {
-        if("A".equals(role)||"M".equals(role)||"S".equals(role)) {return true;}
+
+    /**
+     * Validates the role.
+     *
+     * @param role the role to validate
+     * @return true if the role is valid, false otherwise
+     */
+    public static boolean isValidRole(final String role) {
+        if ("A".equals(role) || "M".equals(role) || "S".equals(role)) {
+            return true;
+        }
         return false;
     }
 
@@ -86,10 +112,10 @@ public class Account {
     /**
      * Sets the username.
      *
-     * @param username the new username
+     * @param newUsername the new username
      */
-    public void setUsername(final String username) {
-        this.username = username;
+    public void setUsername(final String newUsername) {
+        this.username = newUsername;
     }
 
     /**
@@ -104,10 +130,10 @@ public class Account {
     /**
      * Sets the password.
      *
-     * @param password the new password
+     * @param newPass the new password
      */
-    public void setPassword(final String password) {
-        this.password = password;
+    public void setPassword(final String newPass) {
+        this.password = newPass;
     }
 
     /**
@@ -122,10 +148,10 @@ public class Account {
     /**
      * Sets the role.
      *
-     * @param role the new role
+     * @param newRole the new role
      */
-    public void setRole(final String role) {
-        this.role = role;
+    public void setRole(final String newRole) {
+        this.role = newRole;
     }
 
     /**
@@ -140,9 +166,9 @@ public class Account {
     /**
      * Sets the id.
      *
-     * @param id the new id
+     * @param newId the new id
      */
-    public void setId(final int id) {
-        this.id = id;
+    public void setId(final int newId) {
+        this.id = newId;
     }
 }
