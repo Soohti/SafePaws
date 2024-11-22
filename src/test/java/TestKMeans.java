@@ -1,7 +1,7 @@
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.Shelter;
-import org.cs3343.safepaws.handler.ElbowUtil;
-import org.cs3343.safepaws.handler.KMeans;
+import org.cs3343.safepaws.algorithm.ElbowUtil;
+import org.cs3343.safepaws.algorithm.KMeans;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

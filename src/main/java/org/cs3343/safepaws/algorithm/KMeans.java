@@ -8,7 +8,7 @@
  * @version 1.0
  * @since 2023-xx-xx
  */
-package org.cs3343.safepaws.handler;
+package org.cs3343.safepaws.algorithm;
 
 import org.cs3343.safepaws.entity.LocationPoint;
 
