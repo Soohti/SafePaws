@@ -167,7 +167,7 @@ public final class CostFlow {
     }
 
     /**
-     * Works.
+     * Work on the user with pets.
      *
      * @param userWithPets The user with pets.
      * @return The result.
@@ -177,9 +177,10 @@ public final class CostFlow {
         Vector<Integer> users = new Vector<>();
         Vector<Integer> pets = new Vector<>();
 
-        for (Integer userId : userWithPets.keySet()) {
-            Vector<MatchingPair> thesePets = userWithPets.get(userId);
-            users.add(userId);
+        for (Map.Entry<Integer, Vector<MatchingPair>> entry
+                : userWithPets.entrySet()) {
+            Vector<MatchingPair> thesePets = entry.getValue();
+            users.add(entry.getKey());
             for (MatchingPair pet : thesePets) {
                 pets.add(pet.getFirst());
             }
@@ -199,10 +200,11 @@ public final class CostFlow {
 
         init(n + m + REDUNDANCY, (n + m + REDUNDANCY) * (n + m + REDUNDANCY));
 
-        for (Integer userId : userWithPets.keySet()) {
-            Vector<MatchingPair> petIds = userWithPets.get(userId);
+        for (Map.Entry<Integer, Vector<MatchingPair>> entry
+                : userWithPets.entrySet()) {
+            Vector<MatchingPair> petIds = entry.getValue();
             for (MatchingPair petInfo : petIds) {
-                addEdge(normForUser.getNormalized(userId),
+                addEdge(normForUser.getNormalized(entry.getKey()),
                         normForPet.getNormalized(petInfo.getFirst()) + n,
                         petInfo.getSecond());
             }
