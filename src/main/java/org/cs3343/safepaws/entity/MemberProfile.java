@@ -5,25 +5,100 @@ package org.cs3343.safepaws.entity;
  * Represents a member profile with various attributes.
  */
 public class MemberProfile {
+
+    /**
+     * The maximum extroversion level.
+     */
     private static final int MAX_EXTROVERSION_LEVEL = 10;
+
+    /**
+     * The maximum daily activity level.
+     */
     private static final int MAX_DAILY_ACTIVITY_LEVEL = 10;
+
+    /**
+     * The maximum house size.
+     */
     private static final int MAX_HOUSE_SIZE = 1000000000;
+
+    /**
+     * The maximum work hours.
+     */
     private static final int MAX_WORK_HOURS = 24;
+
+    /**
+     * The maximum number of family members.
+     */
     private static final int MAX_FAMILY_MEMBERS = 100000000;
+
+    /**
+     * The maximum previous pet experience.
+     */
     private static final int MAX_PREVIOUS_PET_EXPERIENCE = 100000000;
+
+    /**
+     * The maximum financial budget.
+     */
     private static final int MAX_FINANCIAL_BUDGET = 100000000;
+
+    /**
+     * The maximum length of the species.
+     */
     private static final int MAX_SPECIES_LENGTH = 30;
+
+    /**
+     * The maximum length of the breed.
+     */
     private static final int MAX_BREED_LENGTH = 30;
 
+    /**
+     * The extroversion level of the member.
+     */
     private int extroversionLevel;
+
+    /**
+     * The daily activity level of the member.
+     */
     private int dailyActivityLevel;
+
+    /**
+     * The house size of the member.
+     */
     private int houseSize;
+
+    /**
+     * The work hours of the member.
+     */
     private int workHours;
+
+    /**
+     * The number of family members.
+     */
     private int numberOfFamilyMembers;
+
+    /**
+     * The previous pet experience of the member.
+     */
     private int previousPetExperience;
+
+    /**
+     * The financial budget of the member.
+     */
     private int financialBudget;
+
+    /**
+     * The preferred species of the member.
+     */
     private String preferredSpecies;
+
+    /**
+     * The preferred breed of the member.
+     */
     private String preferredBreed;
+
+    /**
+     * The gender of the member.
+     */
     private String gender;
 
     /**
@@ -34,7 +109,8 @@ public class MemberProfile {
      * @param gen     the gender
      * @param numeric an array of numeric attributes
      */
-    public MemberProfile(final String species, final String breed, final String gen, final int[] numeric) {
+    public MemberProfile(final String species, final String breed,
+            final String gen, final int[] numeric) {
         this.preferredSpecies = species;
         this.preferredBreed = breed;
         this.gender = gen;
@@ -61,7 +137,8 @@ public class MemberProfile {
      *
      * @param newPreferredSpecies the new preferred species
      */
-    public void setPreferredSpecies(final String newPreferredSpecies) {
+    public void setPreferredSpecies(final
+            String newPreferredSpecies) {
         this.preferredSpecies = newPreferredSpecies;
     }
 
@@ -79,7 +156,8 @@ public class MemberProfile {
      *
      * @param newExtroversionLevel the new extroversion level
      */
-    public void setExtroversionLevel(final int newExtroversionLevel) {
+    public void setExtroversionLevel(final
+            int newExtroversionLevel) {
         this.extroversionLevel = newExtroversionLevel;
     }
 
@@ -95,9 +173,11 @@ public class MemberProfile {
     /**
      * Sets the daily activity level.
      *
-     * @param newDailyActivityLevel the new daily activity level
+     * @param newDailyActivityLevel
+     * the new daily activity level
      */
-    public void setDailyActivityLevel(final int newDailyActivityLevel) {
+    public void setDailyActivityLevel(final
+            int newDailyActivityLevel) {
         this.dailyActivityLevel = newDailyActivityLevel;
     }
 
@@ -151,7 +231,8 @@ public class MemberProfile {
      *
      * @param newNumberOfFamilyMembers the new number of family members
      */
-    public void setNumberOfFamilyMembers(final int newNumberOfFamilyMembers) {
+    public void setNumberOfFamilyMembers(final
+            int newNumberOfFamilyMembers) {
         this.numberOfFamilyMembers = newNumberOfFamilyMembers;
     }
 
@@ -167,9 +248,11 @@ public class MemberProfile {
     /**
      * Sets the previous pet experience.
      *
-     * @param newPreviousPetExperience the new previous pet experience
+     * @param newPreviousPetExperience
+     * the new previous pet experience
      */
-    public void setPreviousPetExperience(final int newPreviousPetExperience) {
+    public void setPreviousPetExperience(final
+            int newPreviousPetExperience) {
         this.previousPetExperience = newPreviousPetExperience;
     }
 
@@ -205,7 +288,8 @@ public class MemberProfile {
      *
      * @param newPreferredBreed the new preferred breed
      */
-    public void setPreferredBreed(final String newPreferredBreed) {
+    public void setPreferredBreed(final
+            String newPreferredBreed) {
         this.preferredBreed = newPreferredBreed;
     }
 
@@ -233,8 +317,10 @@ public class MemberProfile {
      * @param extroversionLevel the extroversion level
      * @return true if valid, false otherwise
      */
-    public static boolean isValidExtroversionLevel(final int extroversionLevel) {
-        if (extroversionLevel < 0 || extroversionLevel > MAX_EXTROVERSION_LEVEL) {
+    public static boolean isValidExtroversionLevel(
+            final int extroversionLevel) {
+        if (extroversionLevel < 0
+                || extroversionLevel > MAX_EXTROVERSION_LEVEL) {
             return false;
         }
         return true;
@@ -243,11 +329,14 @@ public class MemberProfile {
     /**
      * Validates the daily activity level.
      *
-     * @param dailyActivityLevel the daily activity level
+     * @param dailyActivityLevel
+     * the daily activity level
      * @return true if valid, false otherwise
      */
-    public static boolean isValidDailyActivityLevel(final int dailyActivityLevel) {
-        if (dailyActivityLevel < 0 || dailyActivityLevel > MAX_DAILY_ACTIVITY_LEVEL) {
+    public static boolean isValidDailyActivityLevel(
+            final int dailyActivityLevel) {
+        if (dailyActivityLevel < 0
+                || dailyActivityLevel > MAX_DAILY_ACTIVITY_LEVEL) {
             return false;
         }
         return true;
@@ -259,7 +348,8 @@ public class MemberProfile {
      * @param houseSize the house size
      * @return true if valid, false otherwise
      */
-    public static boolean isValidHouseSize(final int houseSize) {
+    public static boolean isValidHouseSize(
+            final int houseSize) {
         if (houseSize < 0 || houseSize > MAX_HOUSE_SIZE) {
             return false;
         }
@@ -272,7 +362,8 @@ public class MemberProfile {
      * @param workHours the work hours
      * @return true if valid, false otherwise
      */
-    public static boolean isValidWorkHours(final int workHours) {
+    public static boolean isValidWorkHours(
+            final int workHours) {
         if (workHours < 0 || workHours > MAX_WORK_HOURS) {
             return false;
         }
@@ -282,11 +373,14 @@ public class MemberProfile {
     /**
      * Validates the number of family members.
      *
-     * @param numberOfFamilyMembers the number of family members
+     * @param numberOfFamilyMembers
+     * the number of family members
      * @return true if valid, false otherwise
      */
-    public static boolean isValidNumberOfFamilyMembers(final int numberOfFamilyMembers) {
-        if (numberOfFamilyMembers < 1 || numberOfFamilyMembers > MAX_FAMILY_MEMBERS) {
+    public static boolean isValidNumberOfFamilyMembers(
+            final int numberOfFamilyMembers) {
+        if (numberOfFamilyMembers < 1
+                || numberOfFamilyMembers > MAX_FAMILY_MEMBERS) {
             return false;
         }
         return true;
@@ -295,11 +389,14 @@ public class MemberProfile {
     /**
      * Validates the previous pet experience.
      *
-     * @param previousPetExperience the previous pet experience
+     * @param previousPetExperience
+     * the previous pet experience
      * @return true if valid, false otherwise
      */
-    public static boolean isValidPreviousPetExperience(final int previousPetExperience) {
-        if (previousPetExperience < 0 || previousPetExperience > MAX_PREVIOUS_PET_EXPERIENCE) {
+    public static boolean isValidPreviousPetExperience(
+            final int previousPetExperience) {
+        if (previousPetExperience < 0
+                || previousPetExperience > MAX_PREVIOUS_PET_EXPERIENCE) {
             return false;
         }
         return true;
@@ -311,8 +408,10 @@ public class MemberProfile {
      * @param financialBudget the financial budget
      * @return true if valid, false otherwise
      */
-    public static boolean isValidFinancialBudget(final int financialBudget) {
-        if (financialBudget < 0 || financialBudget > MAX_FINANCIAL_BUDGET) {
+    public static boolean isValidFinancialBudget(
+            final int financialBudget) {
+        if (financialBudget < 0
+                || financialBudget > MAX_FINANCIAL_BUDGET) {
             return false;
         }
         return true;
@@ -324,7 +423,8 @@ public class MemberProfile {
      * @param preferredSpecies the preferred species
      * @return true if valid, false otherwise
      */
-    public static boolean isValidPreferredSpecies(final String preferredSpecies) {
+    public static boolean isValidPreferredSpecies(
+            final String preferredSpecies) {
         if (preferredSpecies.length() > MAX_SPECIES_LENGTH) {
             return false;
         }
@@ -337,7 +437,8 @@ public class MemberProfile {
      * @param preferredBreed the preferred breed
      * @return true if valid, false otherwise
      */
-    public static boolean isValidPreferredBreed(final String preferredBreed) {
+    public static boolean isValidPreferredBreed(
+            final String preferredBreed) {
         if (preferredBreed.length() > MAX_BREED_LENGTH) {
             return false;
         }
@@ -350,7 +451,8 @@ public class MemberProfile {
      * @param gender the gender
      * @return true if valid, false otherwise
      */
-    public static boolean isValidGender(final String gender) {
+    public static boolean isValidGender(
+            final String gender) {
         if ("m".equals(gender) || "f".equals(gender)) {
             return true;
         }

@@ -2,14 +2,21 @@
 package org.cs3343.safepaws.entity;
 
 /**
- * Represents a pet with various attributes such as name, 
+ * Represents a pet with various attributes such as name,
  * species, breed, age,
- * weight, gender, activity level, 
+ * weight, gender, activity level,
  * and health status.
  */
 public final class Pet {
 
+    /**
+     * The maximum length for certain attributes.
+     */
     private static final int MAX_LEN = 30;
+
+    /**
+     * The maximum value for certain numeric attributes.
+     */
     private static final int MAX_VAL = 10;
 
     /**
@@ -20,42 +27,42 @@ public final class Pet {
     /**
      * The activity level of the pet.
      */
-    private int activityLevel;
+    private final int activityLevel;
 
     /**
      * The age of the pet.
      */
-    private int age;
+    private final int age;
 
     /**
      * The weight of the pet.
      */
-    private int weight;
+    private final int weight;
 
     /**
      * The name of the pet.
      */
-    private String name;
+    private final String name;
 
     /**
      * The health status of the pet.
      */
-    private int healthStatus;
+    private final int healthStatus;
 
     /**
      * The species of the pet.
      */
-    private String species;
+    private final String species;
 
     /**
      * The breed of the pet.
      */
-    private String breed;
+    private final String breed;
 
     /**
      * The gender of the pet.
      */
-    private String gender;
+    private final String gender;
 
     /**
      * Constructs a new Pet instance.
@@ -64,11 +71,11 @@ public final class Pet {
      * @param spec    the species of the pet
      * @param br      the breed of the pet
      * @param gen     the gender of the pet
-     * @param numeric an array of numeric attributes 
+     * @param numeric an array of numeric attributes
      * (age, weight, activity level, health status)
      */
-    public Pet(final String nm, final String spec, 
-            final String br, final String gen, 
+    public Pet(final String nm, final String spec,
+            final String br, final String gen,
             final int[] numeric) {
         this.name = nm;
         this.species = spec;
@@ -86,7 +93,7 @@ public final class Pet {
      * @param name the name to validate
      * @return true if the name is valid, false otherwise
      */
-    public static boolean isValidName(String name) {
+    public static boolean isValidName(final String name) {
         if (name.length() > MAX_LEN) {
             return false;
         }
@@ -99,7 +106,7 @@ public final class Pet {
      * @param species the species to validate
      * @return true if the species is valid, false otherwise
      */
-    public static boolean isValidSpecies(String species) {
+    public static boolean isValidSpecies(final String species) {
         if (species.length() > MAX_LEN) {
             return false;
         }
@@ -112,7 +119,7 @@ public final class Pet {
      * @param breed the breed to validate
      * @return true if the breed is valid, false otherwise
      */
-    public static boolean isValidBreed(String breed) {
+    public static boolean isValidBreed(final String breed) {
         if (breed.length() > MAX_LEN) {
             return false;
         }
@@ -125,7 +132,7 @@ public final class Pet {
      * @param age the age to validate
      * @return true if the age is valid, false otherwise
      */
-    public static boolean isValidAge(int age) {
+    public static boolean isValidAge(final int age) {
         if (age < 0) {
             return false;
         }
@@ -138,7 +145,7 @@ public final class Pet {
      * @param weight the weight to validate
      * @return true if the weight is valid, false otherwise
      */
-    public static boolean isValidWeight(int weight) {
+    public static boolean isValidWeight(final int weight) {
         if (weight < 0) {
             return false;
         }
@@ -151,7 +158,7 @@ public final class Pet {
      * @param gender the gender to validate
      * @return true if the gender is valid, false otherwise
      */
-    public static boolean isValidGender(String gender) {
+    public static boolean isValidGender(final String gender) {
         if ("m".equals(gender) || "f".equals(gender)) {
             return true;
         }
@@ -164,7 +171,7 @@ public final class Pet {
      * @param activityLevel the activity level to validate
      * @return true if the activity level is valid, false otherwise
      */
-    public static boolean isValidActivityLevel(int activityLevel) {
+    public static boolean isValidActivityLevel(final int activityLevel) {
         if (activityLevel < 0 || activityLevel > MAX_VAL) {
             return false;
         }
@@ -177,7 +184,7 @@ public final class Pet {
      * @param healthStatus the health status to validate
      * @return true if the health status is valid, false otherwise
      */
-    public static boolean isValidHealthStatus(int healthStatus) {
+    public static boolean isValidHealthStatus(final int healthStatus) {
         if (healthStatus < 0 || healthStatus > MAX_VAL) {
             return false;
         }

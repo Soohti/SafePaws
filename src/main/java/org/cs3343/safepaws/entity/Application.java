@@ -39,16 +39,30 @@ public class Application {
         this.state = st;
     }
     
-    public static boolean isValidState(int state) {
-        if (state==1||state==2) {
+    /**
+     * Checks if the given state is valid.
+     *
+     * @param state the state to check
+     * @return true if the state is valid, false otherwise
+     */
+    public static boolean isValidState(final int state) {
+        if (state == 1 || state == 2) {
             return true;
         }
         return false;
     }
-    
-    public static boolean isValidAid(int Aid) {
-        if(DbManager.selectApplication(Aid)==null||DbManager.selectApplication(Aid).state!=0) {
-        	return false;
+
+    /**
+     * Checks if the given application ID is valid.
+     *
+     * @param Aid the application ID to check
+     * @return true if the application ID is valid,
+     * false otherwise
+     */
+    public static boolean isValidAid(final int Aid) {
+        if (DbManager.selectApplication(Aid) == null
+                || DbManager.selectApplication(Aid).state != 0) {
+            return false;
         }
         return true;
     }
@@ -125,10 +139,16 @@ public class Application {
         this.id = id;
     }
 
-	public static boolean isValidPid(int Pid) {
-		if(DbManager.selectPetById(Pid)==null) {
-        	return false;
+    /**
+     * Checks if the given pet ID is valid.
+     *
+     * @param Pid the pet ID to check
+     * @return true if the pet ID is valid, false otherwise
+     */
+    public static boolean isValidPid(final int Pid) {
+        if (DbManager.selectPetById(Pid) == null) {
+            return false;
         }
         return true;
-	}
+    }
 }
