@@ -82,9 +82,12 @@ public class AdminAddPet extends UI {
             session.println("Your input health status is invalid. Please enter again:");
             healthStatus = Integer.parseInt(session.requestInput());
         }
+        
+        int[] numericAttributes = { age, weight, 
+                activityLevel, healthStatus };
 
-        Pet pet = new Pet(name, species, breed, age, weight, gender,
-                activityLevel, healthStatus);
+
+        Pet pet = new Pet(name, species, breed, gender, numericAttributes);
         try {
             DbManager.insertPet(pet);
             session.println("Pet created successfully.");

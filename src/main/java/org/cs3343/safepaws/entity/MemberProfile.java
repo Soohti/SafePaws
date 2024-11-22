@@ -1,69 +1,40 @@
+
 package org.cs3343.safepaws.entity;
 
 /**
  * Represents a member profile with various attributes.
  */
 public class MemberProfile {
-    /**
-     * Level of extroversion.
-     */
+    private static final int MAX_EXTROVERSION_LEVEL = 10;
+    private static final int MAX_DAILY_ACTIVITY_LEVEL = 10;
+    private static final int MAX_HOUSE_SIZE = 1000000000;
+    private static final int MAX_WORK_HOURS = 24;
+    private static final int MAX_FAMILY_MEMBERS = 100000000;
+    private static final int MAX_PREVIOUS_PET_EXPERIENCE = 100000000;
+    private static final int MAX_FINANCIAL_BUDGET = 100000000;
+    private static final int MAX_SPECIES_LENGTH = 30;
+    private static final int MAX_BREED_LENGTH = 30;
+
     private int extroversionLevel;
-
-    /**
-     * Level of daily activity.
-     */
     private int dailyActivityLevel;
-
-    /**
-     * Size of the house.
-     */
     private int houseSize;
-
-    /**
-     * Number of work hours.
-     */
     private int workHours;
-
-    /**
-     * Number of family members.
-     */
     private int numberOfFamilyMembers;
-
-    /**
-     * Experience with previous pets.
-     */
     private int previousPetExperience;
-
-    /**
-     * Financial budget.
-     */
     private int financialBudget;
-
-    /**
-     * Preferred species.
-     */
     private String preferredSpecies;
-
-    /**
-     * Preferred breed.
-     */
     private String preferredBreed;
-
-    /**
-     * Gender.
-     */
     private String gender;
 
     /**
-     * Constructs a MemberProfile with specified attributes.
+     * Constructs a new MemberProfile with the specified attributes.
      *
      * @param species the preferred species
      * @param breed   the preferred breed
      * @param gen     the gender
      * @param numeric an array of numeric attributes
      */
-    public MemberProfile(final String species, final String breed, 
-                         final String gen, final int[] numeric) {
+    public MemberProfile(final String species, final String breed, final String gen, final int[] numeric) {
         this.preferredSpecies = species;
         this.preferredBreed = breed;
         this.gender = gen;
@@ -88,10 +59,10 @@ public class MemberProfile {
     /**
      * Sets the preferred species.
      *
-     * @param preferredSpecies the preferred species
+     * @param newPreferredSpecies the new preferred species
      */
-    public void setPreferredSpecies(final String preferredSpecies) {
-        this.preferredSpecies = preferredSpecies;
+    public void setPreferredSpecies(final String newPreferredSpecies) {
+        this.preferredSpecies = newPreferredSpecies;
     }
 
     /**
@@ -106,10 +77,10 @@ public class MemberProfile {
     /**
      * Sets the extroversion level.
      *
-     * @param extroversionLevel the extroversion level
+     * @param newExtroversionLevel the new extroversion level
      */
-    public void setExtroversionLevel(final int extroversionLevel) {
-        this.extroversionLevel = extroversionLevel;
+    public void setExtroversionLevel(final int newExtroversionLevel) {
+        this.extroversionLevel = newExtroversionLevel;
     }
 
     /**
@@ -124,10 +95,10 @@ public class MemberProfile {
     /**
      * Sets the daily activity level.
      *
-     * @param dailyActivityLevel the daily activity level
+     * @param newDailyActivityLevel the new daily activity level
      */
-    public void setDailyActivityLevel(final int dailyActivityLevel) {
-        this.dailyActivityLevel = dailyActivityLevel;
+    public void setDailyActivityLevel(final int newDailyActivityLevel) {
+        this.dailyActivityLevel = newDailyActivityLevel;
     }
 
     /**
@@ -142,10 +113,10 @@ public class MemberProfile {
     /**
      * Sets the house size.
      *
-     * @param houseSize the house size
+     * @param newHouseSize the new house size
      */
-    public void setHouseSize(final int houseSize) {
-        this.houseSize = houseSize;
+    public void setHouseSize(final int newHouseSize) {
+        this.houseSize = newHouseSize;
     }
 
     /**
@@ -160,10 +131,10 @@ public class MemberProfile {
     /**
      * Sets the work hours.
      *
-     * @param workHours the work hours
+     * @param newWorkHours the new work hours
      */
-    public void setWorkHours(final int workHours) {
-        this.workHours = workHours;
+    public void setWorkHours(final int newWorkHours) {
+        this.workHours = newWorkHours;
     }
 
     /**
@@ -178,10 +149,10 @@ public class MemberProfile {
     /**
      * Sets the number of family members.
      *
-     * @param numberOfFamilyMembers the number of family members
+     * @param newNumberOfFamilyMembers the new number of family members
      */
-    public void setNumberOfFamilyMembers(final int numberOfFamilyMembers) {
-        this.numberOfFamilyMembers = numberOfFamilyMembers;
+    public void setNumberOfFamilyMembers(final int newNumberOfFamilyMembers) {
+        this.numberOfFamilyMembers = newNumberOfFamilyMembers;
     }
 
     /**
@@ -196,10 +167,10 @@ public class MemberProfile {
     /**
      * Sets the previous pet experience.
      *
-     * @param previousPetExperience the previous pet experience
+     * @param newPreviousPetExperience the new previous pet experience
      */
-    public void setPreviousPetExperience(final int previousPetExperience) {
-        this.previousPetExperience = previousPetExperience;
+    public void setPreviousPetExperience(final int newPreviousPetExperience) {
+        this.previousPetExperience = newPreviousPetExperience;
     }
 
     /**
@@ -214,10 +185,10 @@ public class MemberProfile {
     /**
      * Sets the financial budget.
      *
-     * @param financialBudget the financial budget
+     * @param newFinancialBudget the new financial budget
      */
-    public void setFinancialBudget(final int financialBudget) {
-        this.financialBudget = financialBudget;
+    public void setFinancialBudget(final int newFinancialBudget) {
+        this.financialBudget = newFinancialBudget;
     }
 
     /**
@@ -232,10 +203,10 @@ public class MemberProfile {
     /**
      * Sets the preferred breed.
      *
-     * @param preferredBreed the preferred breed
+     * @param newPreferredBreed the new preferred breed
      */
-    public void setPreferredBreed(final String preferredBreed) {
-        this.preferredBreed = preferredBreed;
+    public void setPreferredBreed(final String newPreferredBreed) {
+        this.preferredBreed = newPreferredBreed;
     }
 
     /**
@@ -250,79 +221,139 @@ public class MemberProfile {
     /**
      * Sets the gender.
      *
-     * @param gender the gender
+     * @param newGender the new gender
      */
-    public void setGender(final String gender) {
-        this.gender = gender;
+    public void setGender(final String newGender) {
+        this.gender = newGender;
     }
 
-	public static boolean isValidExtroversionLevel(int extroversionLevel) {
-		if ( extroversionLevel < 0||extroversionLevel > 10) {
+    /**
+     * Validates the extroversion level.
+     *
+     * @param extroversionLevel the extroversion level
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidExtroversionLevel(final int extroversionLevel) {
+        if (extroversionLevel < 0 || extroversionLevel > MAX_EXTROVERSION_LEVEL) {
             return false;
         }
         return true;
-	}
+    }
 
-	public static boolean isValidDailyActivityLevel(int dailyActivityLevel) {
-		if ( dailyActivityLevel < 0||dailyActivityLevel > 10) {
+    /**
+     * Validates the daily activity level.
+     *
+     * @param dailyActivityLevel the daily activity level
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidDailyActivityLevel(final int dailyActivityLevel) {
+        if (dailyActivityLevel < 0 || dailyActivityLevel > MAX_DAILY_ACTIVITY_LEVEL) {
             return false;
         }
         return true;
-	}
+    }
 
-	public static boolean isValidHouseSize(int houseSize) {
-		if ( houseSize < 0||houseSize > 1000000000) {
+    /**
+     * Validates the house size.
+     *
+     * @param houseSize the house size
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidHouseSize(final int houseSize) {
+        if (houseSize < 0 || houseSize > MAX_HOUSE_SIZE) {
             return false;
         }
         return true;
-	}
+    }
 
-	public static boolean isValidWorkHours(int workHours) {
-		if ( workHours < 0||workHours > 24) {
+    /**
+     * Validates the work hours.
+     *
+     * @param workHours the work hours
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidWorkHours(final int workHours) {
+        if (workHours < 0 || workHours > MAX_WORK_HOURS) {
             return false;
         }
         return true;
-	}
+    }
 
-	public static boolean isValidNumberOfFamilyMembers(int numberOfFamilyMembers) {
-		if ( numberOfFamilyMembers < 1||numberOfFamilyMembers >100000000) {
+    /**
+     * Validates the number of family members.
+     *
+     * @param numberOfFamilyMembers the number of family members
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidNumberOfFamilyMembers(final int numberOfFamilyMembers) {
+        if (numberOfFamilyMembers < 1 || numberOfFamilyMembers > MAX_FAMILY_MEMBERS) {
             return false;
         }
         return true;
-	}
+    }
 
-	public static boolean isValidPreviousPetExperience(int previousPetExperience) {
-		if ( previousPetExperience < 0||previousPetExperience >100000000) {
+    /**
+     * Validates the previous pet experience.
+     *
+     * @param previousPetExperience the previous pet experience
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidPreviousPetExperience(final int previousPetExperience) {
+        if (previousPetExperience < 0 || previousPetExperience > MAX_PREVIOUS_PET_EXPERIENCE) {
             return false;
         }
         return true;
-	}
+    }
 
-	public static boolean isValidFinancialBudget(int financialBudget) {
-		if ( financialBudget < 0||financialBudget >100000000) {
+    /**
+     * Validates the financial budget.
+     *
+     * @param financialBudget the financial budget
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidFinancialBudget(final int financialBudget) {
+        if (financialBudget < 0 || financialBudget > MAX_FINANCIAL_BUDGET) {
             return false;
         }
         return true;
-	}
+    }
 
-	public static boolean isValidPreferredSpecies(String preferredSpecies) {
-		if (preferredSpecies.length() > 30) {
+    /**
+     * Validates the preferred species.
+     *
+     * @param preferredSpecies the preferred species
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidPreferredSpecies(final String preferredSpecies) {
+        if (preferredSpecies.length() > MAX_SPECIES_LENGTH) {
             return false;
         }
         return true;
-	}
+    }
 
-	public static boolean isValidPreferredBreed(String preferredBreed) {
-		if (preferredBreed.length() > 30) {
+    /**
+     * Validates the preferred breed.
+     *
+     * @param preferredBreed the preferred breed
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidPreferredBreed(final String preferredBreed) {
+        if (preferredBreed.length() > MAX_BREED_LENGTH) {
             return false;
         }
         return true;
-	}
+    }
 
-	public static boolean isValidGender(String gender) {
-		if ("m".equals(gender)||"f".equals(gender)) {
+    /**
+     * Validates the gender.
+     *
+     * @param gender the gender
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidGender(final String gender) {
+        if ("m".equals(gender) || "f".equals(gender)) {
             return true;
         }
         return false;
-	}
+    }
 }

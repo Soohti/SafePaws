@@ -322,13 +322,15 @@ public final class DbManager {
                     String name = rs.getString("Name");
                     String species = rs.getString("Species");
                     String breed = rs.getString("Breed");
+                    String gender = rs.getString("Gender");
                     int age = rs.getInt("Age");
                     int weight = rs.getInt("Weight");
-                    String gender = rs.getString("Gender");
                     int activityLevel = rs.getInt("ActivityLevel");
                     int healthStatus = rs.getInt("HealthStatus");
-                    Pet pet = new Pet(name, species, breed, age, weight,
-                            gender, activityLevel, healthStatus);
+                    int[] numericAttributes = { age, weight, 
+                            activityLevel, healthStatus };
+                    Pet pet = new Pet(name, species, breed,
+                            gender, numericAttributes);
                     pet.setId(petId);
                     return pet;
                 } else {

@@ -134,7 +134,7 @@ public class SetProfile extends UI {
                 houseSize, workHours, numberOfFamilyMembers,
                 previousPetExperience, financialBudget };
 
-        ((Member) session.getAccount()).setProfile(preferredSpecies, 
+        ((Member) account).setProfile(preferredSpecies, 
                 preferredBreed, gender, numericAttributes);
 
         String userName = session.getAccount().getUsername();
