@@ -359,14 +359,16 @@ public final class DbManager {
                 String name = rs.getString("name");
                 String species = rs.getString("species");
                 String breed = rs.getString("breed");
+                String gender = rs.getString("gender");
                 int age = rs.getInt("age");
                 int weight = rs.getInt("weight");
-                String gender = rs.getString("gender");
                 int activityLevel = rs.getInt("activityLevel");
                 int healthStatus = rs.getInt("healthStatus");
                 int id = rs.getInt("Id");
-                Pet pet = new Pet(name, species, breed, age, weight, gender,
-                        activityLevel, healthStatus);
+                int[] numericAttributes = { age, weight, 
+                        activityLevel, healthStatus };
+                Pet pet = new Pet(name, species, breed,
+                        gender, numericAttributes);
                 pet.setId(id);
                 pets.add(pet);
             }
