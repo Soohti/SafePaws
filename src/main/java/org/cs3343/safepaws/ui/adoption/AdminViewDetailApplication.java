@@ -16,7 +16,11 @@ import java.io.IOException;
  * admin to view detailed information of a specific application.
  */
 public class AdminViewDetailApplication extends UI {
-    private static final String NAME = "Admin view one application for detail";
+
+    /**
+     * The name of the UI component for viewing one application in detail.
+     */
+    private static final String NAME = "View one application for detail";
 
     /**
      * Constructor for AdminViewDetailApplication.
@@ -69,7 +73,8 @@ public class AdminViewDetailApplication extends UI {
         session.println("");
         session.printf("%-5d %-15s %-15s %-15s %-5d %-10d %-6s %-15d %-15d",
                 p.getId(), p.getName(), p.getSpecies(), p.getBreed(),
-                p.getAge(), p.getWeight(), p.getGender(), p.getActivityLevel(),
+                p.getAge(), p.getWeight(), p.getGender(),
+                p.getActivityLevel(),
                 p.getHealthStatus());
         session.println("");
 

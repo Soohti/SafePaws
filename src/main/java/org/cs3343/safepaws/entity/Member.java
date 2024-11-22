@@ -9,7 +9,7 @@ public class Member extends Account {
     /**
      * The profile of the member.
      */
-    public MemberProfile profile;
+    private MemberProfile profile;
 
     /**
      * Constructs a new Member with the specified username, password, and role.

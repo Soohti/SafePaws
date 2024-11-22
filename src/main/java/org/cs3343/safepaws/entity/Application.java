@@ -38,17 +38,31 @@ public class Application {
         this.pet = p;
         this.state = st;
     }
-    
-    public static boolean isValidState(int state) {
-        if (state==1||state==2) {
+
+    /**
+     * Checks if the given state is valid.
+     *
+     * @param state the state to check
+     * @return true if the state is valid, false otherwise
+     */
+    public static boolean isValidState(final int state) {
+        if (state == 1 || state == 2) {
             return true;
         }
         return false;
     }
-    
-    public static boolean isValidAid(int Aid) {
-        if(DbManager.selectApplication(Aid)==null||DbManager.selectApplication(Aid).state!=0) {
-        	return false;
+
+    /**
+     * Checks if the given application ID is valid.
+     *
+     * @param aid the application ID to check
+     * @return true if the application ID is valid,
+     * false otherwise
+     */
+    public static boolean isValidAid(final int aid) {
+        if (DbManager.selectApplication(aid) == null
+                || DbManager.selectApplication(aid).state != 0) {
+            return false;
         }
         return true;
     }
@@ -65,10 +79,11 @@ public class Application {
     /**
      * Sets the user.
      *
-     * @param user the user to set
+     * @param newUser the user to set
      */
-    public void setUser(final Member user) {
-        this.user = user;
+
+    public void setUser(final Member newUser) {
+        this.user = newUser;
     }
 
     /**
@@ -83,10 +98,10 @@ public class Application {
     /**
      * Sets the pet.
      *
-     * @param pet the pet to set
+     * @param newPet the pet to set
      */
-    public void setPet(final Pet pet) {
-        this.pet = pet;
+    public void setPet(final Pet newPet) {
+        this.pet = newPet;
     }
 
     /**
@@ -101,10 +116,10 @@ public class Application {
     /**
      * Sets the state.
      *
-     * @param state the state to set
+     * @param newState the state to set
      */
-    public void setState(final int state) {
-        this.state = state;
+    public void setState(final int newState) {
+        this.state = newState;
     }
 
     /**
@@ -119,16 +134,22 @@ public class Application {
     /**
      * Sets the id.
      *
-     * @param id the id to set
+     * @param newId the id to set
      */
-    public void setId(final int id) {
-        this.id = id;
+    public void setId(final int newId) {
+        this.id = newId;
     }
 
-	public static boolean isValidPid(int Pid) {
-		if(DbManager.selectPetById(Pid)==null) {
-        	return false;
+    /**
+     * Checks if the given pet ID is valid.
+     *
+     * @param pid the pet ID to check
+     * @return true if the pet ID is valid, false otherwise
+     */
+    public static boolean isValidPid(final int pid) {
+        if (DbManager.selectPetById(pid) == null) {
+            return false;
         }
         return true;
-	}
+    }
 }

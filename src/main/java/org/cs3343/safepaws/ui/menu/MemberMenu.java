@@ -23,18 +23,18 @@ public class MemberMenu extends Menu {
     /**
      * The menu items.
      */
-    private final UI[] menuItems = new UI[] { 
+    private final UI[] menuItems = new UI[] {
         new Logout(this), // go to main menu
-        new MemberSeeApplication(this), 
-        new SetProfile(this), 
-        new SubmitApplication(this), 
-        new ViewPets(this), 
+        new MemberSeeApplication(this),
+        new SetProfile(this),
+        new SubmitApplication(this),
+        new ViewPets(this),
     };
 
     /**
      * Constructs a new MemberMenu.
      */
-    public MemberMenu() { 
+    public MemberMenu() {
         super(NAME, DESCRIPTION, null);
         setMenuItems(menuItems);
     }
@@ -47,7 +47,7 @@ public class MemberMenu extends Menu {
      */
     @Override
     public final boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && 
-               "M".equals(session.getAccount().getRole());
+        return session.getAccount() != null
+               && "M".equals(session.getAccount().getRole());
     }
 }
