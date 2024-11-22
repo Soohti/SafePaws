@@ -84,14 +84,14 @@ public class Account {
     /**
      * Instantiates a new account with the specified username, password, and role.
      *
-     * @param username the username
-     * @param password the password
-     * @param role     the role
+     * @param newUn the username
+     * @param newP the password
+     * @param newRole the role
      */
-    public Account(final String username, final String password, final String role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
+    public Account(final String newUn, final String newP, final String newRole) {
+        this.username = newUn;
+        this.password = newP;
+        this.role = newRole;
     }
 
     /**
