@@ -12,7 +12,7 @@ import java.util.List;
  * SortPetAlgo class implements the Algorithm interface to provide sorting
  * functionality for pets based on match scores.
  */
-public class SortPetAlgo implements Algorithm {
+public final class SortPetAlgo implements Algorithm {
 
     // Private constructor to prevent instantiation
     private SortPetAlgo() {
@@ -66,12 +66,12 @@ public class SortPetAlgo implements Algorithm {
         /**
          * Constructs a PetMatchScore with the specified pet and match score.
          *
-         * @param pet        the pet
-         * @param matchScore the match score
+         * @param newP        the pet
+         * @param newSc the match score
          */
-        public PetMatchScore(final Pet pet, final double matchScore) {
-            this.pet = pet;
-            this.matchScore = matchScore;
+        public PetMatchScore(final Pet newP, final double newSc) {
+            this.pet = newP;
+            this.matchScore = newSc;
         }
 
         /**

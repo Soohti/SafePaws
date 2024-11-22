@@ -15,7 +15,11 @@ import java.util.List;
  * for adoption.
  */
 public final class MemberSeeApplication extends UI {
-    private static final String NAME = "Member see submitted applications for adoption";
+    /**
+     * The name of this UI.
+     */
+    private static final String NAME =
+            "See submitted applications for adoption";
 
     /**
      * Constructs a new MemberSeeApplication with the specified referrer.
@@ -36,15 +40,18 @@ public final class MemberSeeApplication extends UI {
     @Override
     protected UI execute(final Session session) throws IOException {
         Member member = (Member) session.getAccount();
-        List<Application> applications = DbManager.selectApplicationByMember(member);
-        String[] state = { "Pending", "Approved", "Rejected" };
+        List<Application> applications =
+                DbManager.selectApplicationByMember(member);
+        String[] state = {"Pending", "Approved", "Rejected"};
 
         if (applications.isEmpty()) {
-            session.println("You have not submitted any adoption applications.");
+            session.println("You have not submitted "
+                    + "any adoption applications.");
         } else {
             for (Application application : applications) {
                 Pet pet = application.getPet();
-                String petInfo = "Pet Name: " + pet.getName() + ", Species: " + pet.getSpecies();
+                String petInfo = "Pet Name: "
+                + pet.getName() + ", Species: " + pet.getSpecies();
                 String status = state[application.getState()];
                 session.println(petInfo + " | Status: " + status);
             }
@@ -60,6 +67,7 @@ public final class MemberSeeApplication extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "M".equals(session.getAccount().getRole());
+        return session.getAccount() != null
+                && "M".equals(session.getAccount().getRole());
     }
 }

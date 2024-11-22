@@ -6,7 +6,6 @@ package org.cs3343.safepaws.util;
 import org.cs3343.safepaws.entity.Account;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -16,11 +15,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Formatter;
 
 /**
- * 
+ * Represents a session with a client.
  */
 public final class Session {
-//    private User user;
-//    private Pet pet;
 
     /**
      * Reader for the session that reads input from the client.
@@ -31,6 +28,9 @@ public final class Session {
      */
     private final PrintWriter writer;
 
+    /**
+     * The account associated with the session.
+     */
     private Account account;
 
     /**
@@ -39,21 +39,21 @@ public final class Session {
      * @return The input from the client.
      * @throws IOException If an error occurs.
      */
-    public String requestInput(){
+    public String requestInput() {
         try {
-        	writer.println();
+            writer.println();
             writer.println("SYSTEM: READY_FOR_INPUT");
             return reader.readLine();
-        }catch(Exception e) {
-        	writer.println("Error during requestInput of session.");
+        } catch (Exception e) {
+            writer.println("Error during requestInput of session.");
         }
-    	return null;
+        return null;
     }
 
     /**
      * Create a new session with the given input and output streams.
      *
-     * @param in  The input stream.
+     * @param in The input stream.
      * @param out The output stream.
      */
     public Session(final InputStream in, final OutputStream out) {
@@ -81,7 +81,15 @@ public final class Session {
         writer.println();
     }
 
-    public void printf(String format, Object... args) {
+    /**
+     * Formats and writes a message to the client.
+     *
+     * @param format The format string.
+     * @param args   The arguments referenced
+     * by the format specifiers in the format
+     * string.
+     */
+    public void printf(final String format, final Object... args) {
         StringBuilder output = new StringBuilder();
         Formatter formatter = new Formatter(output);
         formatter.format(format, args);
@@ -101,12 +109,17 @@ public final class Session {
     /**
      * Sets the account.
      *
-     * @param account the new account
+     * @param newAccount the new account
      */
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccount(final Account newAccount) {
+        this.account = newAccount;
     }
 
+    /**
+     * Gets the account associated with the session.
+     *
+     * @return the account associated with the session.
+     */
     public Account getAccount() {
         return this.account;
     }

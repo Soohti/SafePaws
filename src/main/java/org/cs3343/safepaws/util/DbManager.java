@@ -46,7 +46,8 @@ public final class DbManager {
      * @param dbPassword Password for the database.
      * @throws SQLException If an error occurs.
      */
-    public static void init(final String dbUrl, final String dbUsername,
+    public static void init(final String dbUrl,
+                            final String dbUsername,
                             final String dbPassword) throws SQLException {
         url = dbUrl;
         username = dbUsername;
@@ -68,11 +69,14 @@ public final class DbManager {
      * @param account the account to insert.
      * @throws SQLException if a database error occurs.
      */
-    public static void insertAccount(Account account) throws SQLException {
-        String insertSql = "INSERT INTO ACCOUNT (username, password, role) " +
-                "VALUES (?, ?, ?)";
+    public static void insertAccount(final Account account)
+            throws SQLException {
+        String insertSql = "INSERT INTO ACCOUNT "
+                + "(username, password, role) "
+                + "VALUES (?, ?, ?)";
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+             PreparedStatement pstmt =
+                     conn.prepareStatement(insertSql)) {
             pstmt.setString(1, account.getUsername());
             pstmt.setString(2, account.getPassword());
             pstmt.setString(3, account.getRole());
@@ -80,7 +84,8 @@ public final class DbManager {
             System.out.println("Account inserted successfully");
         }
         if ("M".equals(account.getRole())) {
-            String query = "SELECT * FROM ACCOUNT WHERE username = ?";
+            String query = "SELECT * FROM ACCOUNT"
+                    + "WHERE username = ?";
             try (Connection conn = getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setString(1, account.getUsername());
@@ -103,9 +108,9 @@ public final class DbManager {
      * @throws SQLException if a database error occurs.
      */
     public static void insertPet(final Pet pet) throws SQLException {
-        String insertSql = "INSERT INTO PET (Name, Species, Breed, Age, " +
-                "Weight, Gender, ActivityLevel, HealthStatus) VALUES (?, ?, " +
-                "?, ?, ?, ?, ?, ?)";
+        String insertSql = "INSERT INTO PET (Name, Species, Breed, Age, "
+                + "Weight, Gender, ActivityLevel, HealthStatus) VALUES (?, ?, "
+                + "?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, pet.getName());
@@ -124,26 +129,26 @@ public final class DbManager {
     /**
      * Authenticates a user.
      *
-     * @param username the username.
-     * @param password the password.
+     * @param newUsername the username.
+     * @param newPassword the password.
      * @return true if authentication is successful, false otherwise.
      * @throws SQLException if a database error occurs.
      */
-    public static boolean authenticateUser(final String username,
-                                           final String password)
+    public static boolean authenticateUser(final String newUsername,
+                                           final String newPassword)
             throws SQLException {
         String query = "SELECT * FROM ACCOUNT WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, username);
+            pstmt.setString(1, newUsername);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
-                return BCrypt.checkpw(password, storedPassword);
+                return BCrypt.checkpw(newPassword, storedPassword);
             }
         } catch (SQLException e) {
-            System.out.println("Error during authentication: " +
-                    e.getMessage());
+            System.out.println("Error during authentication: "
+                    + e.getMessage());
         }
         return false;
     }
@@ -175,8 +180,8 @@ public final class DbManager {
                 return account;
             }
         } catch (SQLException e) {
-            System.out.println("Error during Logging in: " +
-                    e.getMessage());
+            System.out.println("Error during Logging in: "
+                    + e.getMessage());
         }
         return null;
     }
@@ -207,8 +212,8 @@ public final class DbManager {
             }
             return applications;
         } catch (SQLException e) {
-            System.out.println("Error during Viewing all Applications: " +
-                    e.getMessage());
+            System.out.println("Error during Viewing all Applications: "
+                    + e.getMessage());
         }
         return null;
     }
@@ -236,8 +241,8 @@ public final class DbManager {
                 return application;
             }
         } catch (SQLException e) {
-            System.out.println("Error during Selecting Application: " +
-                    e.getMessage());
+            System.out.println("Error during Selecting Application: "
+                    + e.getMessage());
         }
         return null;
     }
@@ -249,21 +254,24 @@ public final class DbManager {
      * @param state the new state.
      * @return the updated application, or null if not found.
      */
-    public static Application changeState(final int Aid, final int state) {
-        String updateSQL = "UPDATE APPLICATION SET State = ? WHERE Id = ?";
+    public static Application changeState(final int Aid,
+            final int state) {
+        String updateSQL = "UPDATE APPLICATION SET State = ? "
+                + "WHERE Id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
             pstmt.setInt(1, state);
             pstmt.setInt(2, Aid);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error during Changing State: " +
-                    e.getMessage());
+            System.out.println("Error during Changing State: "
+                    + e.getMessage());
         }
         return null;
     }
 
-    private static Member selectMemberById(final int mid) throws SQLException {
+    private static Member selectMemberById(final int mid)
+            throws SQLException {
         String query = "SELECT * FROM ACCOUNT WHERE Id= ?";
         Member account = new Member();
         try (Connection conn = getConnection();
@@ -322,13 +330,15 @@ public final class DbManager {
                     String name = rs.getString("Name");
                     String species = rs.getString("Species");
                     String breed = rs.getString("Breed");
+                    String gender = rs.getString("Gender");
                     int age = rs.getInt("Age");
                     int weight = rs.getInt("Weight");
-                    String gender = rs.getString("Gender");
                     int activityLevel = rs.getInt("ActivityLevel");
                     int healthStatus = rs.getInt("HealthStatus");
-                    Pet pet = new Pet(name, species, breed, age, weight,
-                            gender, activityLevel, healthStatus);
+                    int[] numericAttributes = { age, weight, 
+                            activityLevel, healthStatus };
+                    Pet pet = new Pet(name, species, breed,
+                            gender, numericAttributes);
                     pet.setId(petId);
                     return pet;
                 } else {
@@ -337,7 +347,7 @@ public final class DbManager {
                 }
             
         }catch(Exception e) {
-        	System.out.println("Error during selecting pet by id.");
+            System.out.println("Error during selecting pet by id.");
         }
         return null;
     }
@@ -357,20 +367,22 @@ public final class DbManager {
                 String name = rs.getString("name");
                 String species = rs.getString("species");
                 String breed = rs.getString("breed");
+                String gender = rs.getString("gender");
                 int age = rs.getInt("age");
                 int weight = rs.getInt("weight");
-                String gender = rs.getString("gender");
                 int activityLevel = rs.getInt("activityLevel");
                 int healthStatus = rs.getInt("healthStatus");
                 int id = rs.getInt("Id");
-                Pet pet = new Pet(name, species, breed, age, weight, gender,
-                        activityLevel, healthStatus);
+                int[] numericAttributes = {age, weight,
+                        activityLevel, healthStatus};
+                Pet pet = new Pet(name, species, breed,
+                        gender, numericAttributes);
                 pet.setId(id);
                 pets.add(pet);
             }
         } catch (SQLException e) {
-            System.out.println("Error retrieving pets from database: " +
-                    e.getMessage());
+            System.out.println("Error retrieving pets from database: "
+                    + e.getMessage());
         }
         return pets;
     }
@@ -437,8 +449,8 @@ public final class DbManager {
             pstmt.setInt(11, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error during Changing Member Profile: " +
-                    e.getMessage());
+            System.out.println("Error during Changing Member Profile: "
+                    + e.getMessage());
         }
     }
 
@@ -450,7 +462,8 @@ public final class DbManager {
      */
     public static void insertApplication(Application application)
             throws SQLException {
-        String insertSql = "INSERT INTO APPLICATION (MId, PId, State) VALUES "
+        String insertSql = "INSERT INTO APPLICATION "
+                + "(MId, PId, State) VALUES "
                 + "(?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
@@ -468,7 +481,8 @@ public final class DbManager {
      * @param member the member.
      * @return a list of applications.
      */
-    public static List<Application> selectApplicationByMember(Member member) {
+    public static List<Application> selectApplicationByMember(
+            Member member) {
         String query = "SELECT * FROM APPLICATION WHERE Mid = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -480,14 +494,15 @@ public final class DbManager {
                 int Pid = rs.getInt("PId");
                 int State = rs.getInt("State");
                 Pet pet = selectPetById(Pid);
-                Application application = new Application(member, pet, State);
+                Application application = new Application(
+                        member, pet, State);
                 application.setId(id);
                 applications.add(application);
             }
             return applications;
         } catch (SQLException e) {
-            System.out.println("Error during Logging in: " +
-                    e.getMessage());
+            System.out.println("Error during Logging in: "
+                    + e.getMessage());
         }
         return null;
     }
@@ -506,8 +521,8 @@ public final class DbManager {
                 return rs.getString(1);
             }
         } catch (SQLException e) {
-            System.out.println("Error executing query: " +
-                    e.getMessage());
+            System.out.println("Error executing query: "
+                    + e.getMessage());
         }
         return null;
     }

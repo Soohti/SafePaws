@@ -12,7 +12,15 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * The Login class handles the login process for users. It extends the UI class
+ * and provides functionality for user authentication.
+ */
 public class Login extends UI {
+
+    /**
+     * The constant NAME represents the name of the login screen.
+     */
     private static final String NAME = "Log In";
 
     /**
@@ -24,7 +32,7 @@ public class Login extends UI {
      */
 
     @Override
-    public UI execute(Session session) throws IOException {
+    public UI execute(final Session session) throws IOException {
         session.println("Enter your username:");
         String username = session.requestInput();
 
