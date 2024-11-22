@@ -68,11 +68,14 @@ public final class DbManager {
      * @param account the account to insert.
      * @throws SQLException if a database error occurs.
      */
-    public static void insertAccount(Account account) throws SQLException {
-        String insertSql = "INSERT INTO ACCOUNT (username, password, role) " +
-                "VALUES (?, ?, ?)";
+    public static void insertAccount(Account account)
+            throws SQLException {
+        String insertSql = "INSERT INTO ACCOUNT "
+                + "(username, password, role) "
+                + "VALUES (?, ?, ?)";
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+             PreparedStatement pstmt =
+                     conn.prepareStatement(insertSql)) {
             pstmt.setString(1, account.getUsername());
             pstmt.setString(2, account.getPassword());
             pstmt.setString(3, account.getRole());
@@ -80,7 +83,8 @@ public final class DbManager {
             System.out.println("Account inserted successfully");
         }
         if ("M".equals(account.getRole())) {
-            String query = "SELECT * FROM ACCOUNT WHERE username = ?";
+            String query = "SELECT * FROM ACCOUNT"
+                    + "WHERE username = ?";
             try (Connection conn = getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setString(1, account.getUsername());
