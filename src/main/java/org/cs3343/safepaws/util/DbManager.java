@@ -46,7 +46,8 @@ public final class DbManager {
      * @param dbPassword Password for the database.
      * @throws SQLException If an error occurs.
      */
-    public static void init(final String dbUrl, final String dbUsername,
+    public static void init(final String dbUrl,
+                            final String dbUsername,
                             final String dbPassword) throws SQLException {
         url = dbUrl;
         username = dbUsername;
@@ -107,9 +108,9 @@ public final class DbManager {
      * @throws SQLException if a database error occurs.
      */
     public static void insertPet(final Pet pet) throws SQLException {
-        String insertSql = "INSERT INTO PET (Name, Species, Breed, Age, " +
-                "Weight, Gender, ActivityLevel, HealthStatus) VALUES (?, ?, " +
-                "?, ?, ?, ?, ?, ?)";
+        String insertSql = "INSERT INTO PET (Name, Species, Breed, Age, "
+                + "Weight, Gender, ActivityLevel, HealthStatus) VALUES (?, ?, "
+                + "?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, pet.getName());
@@ -253,8 +254,10 @@ public final class DbManager {
      * @param state the new state.
      * @return the updated application, or null if not found.
      */
-    public static Application changeState(final int Aid, final int state) {
-        String updateSQL = "UPDATE APPLICATION SET State = ? WHERE Id = ?";
+    public static Application changeState(final int Aid,
+            final int state) {
+        String updateSQL = "UPDATE APPLICATION SET State = ? "
+                + "WHERE Id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
             pstmt.setInt(1, state);
@@ -267,7 +270,8 @@ public final class DbManager {
         return null;
     }
 
-    private static Member selectMemberById(final int mid) throws SQLException {
+    private static Member selectMemberById(final int mid)
+            throws SQLException {
         String query = "SELECT * FROM ACCOUNT WHERE Id= ?";
         Member account = new Member();
         try (Connection conn = getConnection();
@@ -458,7 +462,8 @@ public final class DbManager {
      */
     public static void insertApplication(Application application)
             throws SQLException {
-        String insertSql = "INSERT INTO APPLICATION (MId, PId, State) VALUES "
+        String insertSql = "INSERT INTO APPLICATION "
+                + "(MId, PId, State) VALUES "
                 + "(?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
@@ -476,7 +481,8 @@ public final class DbManager {
      * @param member the member.
      * @return a list of applications.
      */
-    public static List<Application> selectApplicationByMember(Member member) {
+    public static List<Application> selectApplicationByMember(
+            Member member) {
         String query = "SELECT * FROM APPLICATION WHERE Mid = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -488,7 +494,8 @@ public final class DbManager {
                 int Pid = rs.getInt("PId");
                 int State = rs.getInt("State");
                 Pet pet = selectPetById(Pid);
-                Application application = new Application(member, pet, State);
+                Application application = new Application(
+                        member, pet, State);
                 application.setId(id);
                 applications.add(application);
             }
