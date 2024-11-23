@@ -2,7 +2,6 @@ package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.Member;
-import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -18,6 +17,51 @@ public class SetProfile extends UI {
      * The name of the profile setting UI.
      */
     private static final String NAME = "Set Profile";
+
+    /**
+     * The maximum extroversion level.
+     */
+    private static final int MAX_EXTROVERSION_LEVEL = 10;
+
+    /**
+     * The maximum daily activity level.
+     */
+    private static final int MAX_DAILY_ACTIVITY_LEVEL = 10;
+
+    /**
+     * The maximum house size.
+     */
+    private static final int MAX_HOUSE_SIZE = 1000000000;
+
+    /**
+     * The maximum work hours.
+     */
+    private static final int MAX_WORK_HOURS = 24;
+
+    /**
+     * The maximum number of family members.
+     */
+    private static final int MAX_FAMILY_MEMBERS = 10;
+
+    /**
+     * The maximum previous pet experience.
+     */
+    private static final int MAX_PREVIOUS_PET_EXPERIENCE = 10;
+
+    /**
+     * The maximum financial budget.
+     */
+    private static final int MAX_FINANCIAL_BUDGET = 100000000;
+
+    /**
+     * The maximum length of the species.
+     */
+    private static final int MAX_SPECIES_LENGTH = 30;
+
+    /**
+     * The maximum length of the breed.
+     */
+    private static final int MAX_BREED_LENGTH = 30;
 
     /**
      * Constructor for SetProfile.
@@ -37,97 +81,50 @@ public class SetProfile extends UI {
      */
     @Override
     protected UI execute(final Session session) throws IOException {
-        String extroversionLevel;
-        String dailyActivityLevel;
-        String houseSize;
-        String workHours;
-        String numberOfFamilyMembers;
-        String previousPetExperience;
-        String financialBudget;
         String preferredSpecies;
         String preferredBreed;
         String gender;
 
-        session.println("Enter your extroversion level "
+        String msg = "Enter your extroversion level "
                 + "(a positive integer meeting 0-10, "
-                + "larger numbers indicate more extroversion):");
-        extroversionLevel = session.requestInput();
-        while (!MemberProfile.isValidExtroversionLevel(extroversionLevel)) {
-            session.println("Your input extroversion level"
-                    + " is invalid. Please enter again:");
-            extroversionLevel = session.requestInput();
-        }
-        int intExtroversionLevel = Integer.parseInt(extroversionLevel);
+                + "larger numbers indicate more extroversion):";
+        int intExtroversionLevel =
+                requestNumericInput(session, msg, 0, MAX_EXTROVERSION_LEVEL);
 
-        session.println("Enter your daily activity level "
+        msg = "Enter your daily activity level "
                 + "(a positive integer meeting 0-10, "
-                + "larger numbers indicate more activity):");
-        dailyActivityLevel = session.requestInput();
-        while (!MemberProfile.isValidDailyActivityLevel(dailyActivityLevel)) {
-            session.println("Your input daily activity level "
-                    + "is invalid. Please enter again:");
-            dailyActivityLevel = session.requestInput();
-        }
-        int intDailyActivityLevel = Integer.parseInt(dailyActivityLevel);
+                + "larger numbers indicate more activity):";
+        int intDailyActivityLevel =
+                requestNumericInput(session, msg, 0, MAX_DAILY_ACTIVITY_LEVEL);
 
-        session.println("Enter your house size "
+        msg = "Enter your house size "
                 + "(in square meters, if larger than "
-                + "100000000, enter 100000000):");
-        houseSize = session.requestInput();
-        while (!MemberProfile.isValidHouseSize(houseSize)) {
-            session.println("Your input house size is invalid. "
-                    + "Please enter again:");
-            houseSize = session.requestInput();
-        }
-        int intHouseSize = Integer.parseInt(houseSize);
+                + "100000000, enter 100000000):";
+        int intHouseSize = requestNumericInput(session, msg, 0, MAX_HOUSE_SIZE);
 
-        session.println("Enter your work hours per day (an interger):");
-        workHours = session.requestInput();
-        while (!MemberProfile.isValidWorkHours(workHours)) {
-            session.println("Your input work hours is "
-                    + "invalid. Please enter again:");
-            workHours = session.requestInput();
-        }
-        int intWorkHours = Integer.parseInt(workHours);
+        msg = "Enter your work hours per day (an interger between 0 and 24):";
+        int intWorkHours = requestNumericInput(session, msg, 0, MAX_WORK_HOURS);
 
-        session.println("Enter the number of family members "
-                + "(if larger than 100000000, enter 100000000):");
-        numberOfFamilyMembers = session.requestInput();
-        while (!MemberProfile.isValidNumberOfFamilyMembers(
-                numberOfFamilyMembers)) {
-            session.println("Your input number of family members"
-                    + " is invalid. Please enter again:");
-            numberOfFamilyMembers = session.requestInput();
-        }
-        int intNumberOfFamilyMembers = Integer.parseInt(numberOfFamilyMembers);
+        msg = "Enter the number of family members "
+                + "(if larger than 10, enter 10):";
+        int intNumberOfFamilyMembers =
+                requestNumericInput(session, msg, 1, MAX_FAMILY_MEMBERS);
 
-        String message = "Enter your previous pet experience level "
+        msg = "Enter your previous pet experience level "
                 + "(a positive integer meeting 0-10,"
                 + "larger numbers indicate more experience):";
-        session.println(message);
-        previousPetExperience = session.requestInput();
-        while (!MemberProfile.isValidPreviousPetExperience(
-                previousPetExperience)) {
-            session.println("Your input previous pet experience"
-                    + " is invalid. Please enter again:");
-            previousPetExperience = session.requestInput();
-        }
-        int intPreviousPetExperience = Integer.parseInt(previousPetExperience);
+        int intPreviousPetExperience = requestNumericInput(session, msg, 0,
+                MAX_PREVIOUS_PET_EXPERIENCE);
 
-        session.println("Enter your financial budget (monthly, "
-                + "in dollars, if larger than 100000000, enter 100000000):");
-        financialBudget = session.requestInput();
-        while (!MemberProfile.isValidFinancialBudget(financialBudget)) {
-            session.println("Your input financial budget is "
-                    + "invalid. Please enter again:");
-            financialBudget = session.requestInput();
-        }
-        int intFinancialBudget = Integer.parseInt(financialBudget);
+        msg = "Enter your financial budget (monthly, in dollars, "
+                + "if larger than 100000000, enter 100000000):";
+        int intFinancialBudget =
+                requestNumericInput(session, msg, 0, MAX_FINANCIAL_BUDGET);
 
         session.println("Enter your preferred species (length: "
                 + "0-30, any character):");
         preferredSpecies = session.requestInput();
-        while (!MemberProfile.isValidPreferredSpecies(preferredSpecies)) {
+        while (preferredSpecies.length() > MAX_SPECIES_LENGTH) {
             session.println("Your input preferred species is "
                     + "invalid. Please enter again:");
             preferredSpecies = session.requestInput();
@@ -136,7 +133,7 @@ public class SetProfile extends UI {
         session.println("Enter your preferred breed (length: "
                 + "0-30, any character):");
         preferredBreed = session.requestInput();
-        while (!MemberProfile.isValidPreferredBreed(preferredBreed)) {
+        while (preferredBreed.length() > MAX_BREED_LENGTH) {
             session.println("Your input preferred breed is "
                     + "invalid. Please enter again:");
             preferredBreed = session.requestInput();
@@ -145,7 +142,7 @@ public class SetProfile extends UI {
         session.println("Enter your preferred pet gender "
                 + "(\"m\" for male, \"f\" for female):");
         gender = session.requestInput();
-        while (!MemberProfile.isValidGender(gender)) {
+        while (!"m".equals(gender) && !"f".equals(gender)) {
             session.println("Your input gender is invalid. "
                     + "Please enter again:");
             gender = session.requestInput();
@@ -160,7 +157,7 @@ public class SetProfile extends UI {
                 preferredBreed, gender, numericAttributes);
 
         String userName = session.getAccount().getUsername();
-        int mId = 0;
+        int mId;
 
         try {
             mId = DbManager.selectAccount(userName).getId();
@@ -172,6 +169,26 @@ public class SetProfile extends UI {
         }
 
         return this.getReferrer();
+    }
+
+    private int requestNumericInput(final Session session, final String message,
+                                    final int minValue, final int maxValue) {
+        session.println(message);
+        while (true) {
+            String input = session.requestInput();
+            try {
+                int value = Integer.parseInt(input);
+                if (value >= minValue && value <= maxValue) {
+                    return value;
+                } else {
+                    session.println(
+                            "Invalid input. Please enter a number between "
+                                    + minValue + " and " + maxValue + ".");
+                }
+            } catch (NumberFormatException e) {
+                session.println("Invalid input. Please enter a number.");
+            }
+        }
     }
 
     /**
