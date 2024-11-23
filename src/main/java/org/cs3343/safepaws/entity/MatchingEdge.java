@@ -1,6 +1,6 @@
 package org.cs3343.safepaws.entity;
 
-public final class FlowEdge {
+public final class MatchingEdge {
     /**
      * v.
      */
@@ -19,15 +19,15 @@ public final class FlowEdge {
     private final int next;
 
     /**
-     * Constructor for FlowEdge.
+     * Constructor for MatchingEdge.
      *
      * @param iV        iV
      * @param iCapacity iCapacity
      * @param dWeight   dWeight
      * @param iNext     iNext
      */
-    public FlowEdge(final int iV, final int iCapacity, final double dWeight,
-                    final int iNext) {
+    public MatchingEdge(final int iV, final int iCapacity, final double dWeight,
+                        final int iNext) {
         this.v = iV;
         this.capacity = iCapacity;
         this.weight = dWeight;
