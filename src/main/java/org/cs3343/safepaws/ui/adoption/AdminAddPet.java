@@ -10,7 +10,7 @@ import org.cs3343.safepaws.util.Session;
  * the database.
  */
 public final class AdminAddPet extends UI {
-    private static final String NAME = "Admin Add one pet to database";
+    private static final String NAME = "Add one pet to database";
 
     /**
      * Constructs an AdminAddPet instance.

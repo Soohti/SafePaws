@@ -16,7 +16,7 @@ import java.io.IOException;
  * admin to view detailed information of a specific application.
  */
 public class AdminViewDetailApplication extends UI {
-    private static final String NAME = "Admin view one application for detail";
+    private static final String NAME = "View one application for detail";
 
     /**
      * Constructor for AdminViewDetailApplication.

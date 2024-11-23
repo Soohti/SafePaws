@@ -19,7 +19,7 @@ public final class MemberSeeApplication extends UI {
      * The name of this UI.
      */
     private static final String NAME =
-            "Member see submitted applications for adoption";
+            "See submitted applications for adoption";
 
     /**
      * Constructs a new MemberSeeApplication with the specified referrer.
