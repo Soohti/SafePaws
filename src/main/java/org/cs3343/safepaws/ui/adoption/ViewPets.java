@@ -44,11 +44,11 @@ public class ViewPets extends UI {
         for (Pet pet : sortedPets) {
             session.println("Id: " + pet.getId() + ", Name: "
                     + pet.getName() + ", Species: " + pet.getSpecies()
-                    + ", Breed: " + pet.getBreed() + ", Age: " 
+                    + ", Breed: " + pet.getBreed() + ", Age: "
                     + pet.getAge() + ", Weight: " + pet.getWeight()
-                    + ", Gender: " + pet.getGender() + ", ActivityLevel: " 
+                    + ", Gender: " + pet.getGender() + ", ActivityLevel: "
                     + pet.getActivityLevel() + ", HealthStatus: "
-                    + pet.getHealthStatus() + " MatchingScore: " 
+                    + pet.getHealthStatus() + " MatchingScore: "
                     + PetMatchingAlgo.calculateMatch(member, pet));
         }
         return this.getReferrer();
@@ -62,7 +62,7 @@ public class ViewPets extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null 
+        return session.getAccount() != null
                 && "M".equals(session.getAccount().getRole());
     }
 }

@@ -42,15 +42,16 @@ public class SubmitApplication extends UI {
 
         session.println("Enter the ID of the pet you want to apply for:");
         String userInput = session.requestInput();
-        int Pid = Integer.parseInt(userInput);
-        while (!Application.isValidPid(Pid)) {
-            session.println("Your input pet id is invalid. Please enter again:");
-            Pid = Integer.parseInt(session.requestInput());
+        int pid = Integer.parseInt(userInput);
+        while (!Application.isValidPid(pid)) {
+            session.println("Your input pet id is invalid."
+                    + " Please enter again:");
+            pid = Integer.parseInt(session.requestInput());
         }
-        
+
         Pet pet;
         try {
-            pet = DbManager.selectPetById(Pid);
+            pet = DbManager.selectPetById(pid);
             session.println("Pet added successfully.");
         } catch (Exception e) {
             pet = null;

@@ -5,17 +5,15 @@ import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 /**
- * The CreateAccount class provides 
- * the functionality to create a new user
+ * The CreateAccount class provides the
+ * functionality to create a new user
  * account. It extends the UI class.
  */
 public class CreateAccount extends UI {
 
-    /** The constant NAME representing the name of this UI component. */
+    /** The constant NAME representing the name
+     * of this UI component. */
     private static final String NAME = "Create Account";
 
     /**
@@ -23,29 +21,34 @@ public class CreateAccount extends UI {
      *
      * @param session the session
      * @return the ui
-     * @throws IOException Signals that an I/O exception has occurred.
      */
     @Override
-    public UI execute(Session session) {
-        session.println("Enter a username (length: 8-30, any character):");
+    public UI execute(final Session session) {
+        session.println("Enter a username "
+                + "(length: 8-30, any character):");
         String username = session.requestInput();
-        
+
         while (!Account.isValidUsername(username)) {
-            session.println("Your input username is invalid. Please enter again:");
+            session.println("Your input username is invalid. "
+                    + "Please enter again:");
             username = session.requestInput();
         }
 
-        session.println("Enter a password (length: 8-16, any character):");
+        session.println("Enter a password (length: 8-16, "
+                + "any character):");
         String password = Account.encryptPassword(session.requestInput());
         while (!Account.isValidPassword(password)) {
-            session.println("Your input password is invalid. Please enter again:");
+            session.println("Your input password is invalid. "
+                    + "Please enter again:");
             password = session.requestInput();
         }
 
-        session.println("Enter your role (\"A\" for admin, \"M\" for member), \"S\" for shelter:");
+        session.println("Enter your role (\"A\" for admin, "
+                + "\"M\" for member), \"S\" for shelter:");
         String role = session.requestInput();
         while (!Account.isValidRole(role)) {
-            session.println("Your input role is invalid. Please enter again:");
+            session.println("Your input role is invalid. "
+                    + "Please enter again:");
             role = session.requestInput();
         }
 
@@ -59,7 +62,6 @@ public class CreateAccount extends UI {
 
         return this.getReferrer();
     }
-
 
     /**
      * Instantiates a new creates the account.
