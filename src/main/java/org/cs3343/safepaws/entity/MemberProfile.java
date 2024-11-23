@@ -5,6 +5,25 @@ package org.cs3343.safepaws.entity;
  * Represents a member profile with various attributes.
  */
 public class MemberProfile {
+    /**
+     * The index for workhour.
+     */
+    private static final int INDEX_WORK = 3;
+    
+    /**
+     * The index for family member.
+     */
+    private static final int INDEX_FAM = 4;
+    
+    /**
+     * The index for pet experience.
+     */
+    private static final int INDEX_EXP = 5;
+    
+    /**
+     * The index for budget.
+     */
+    private static final int INDEX_BUDG = 6;
 
     /**
      * The maximum extroversion level.
@@ -117,10 +136,10 @@ public class MemberProfile {
         this.extroversionLevel = numeric[0];
         this.dailyActivityLevel = numeric[1];
         this.houseSize = numeric[2];
-        this.workHours = numeric[3];
-        this.numberOfFamilyMembers = numeric[4];
-        this.previousPetExperience = numeric[5];
-        this.financialBudget = numeric[6];
+        this.workHours = numeric[INDEX_WORK];
+        this.numberOfFamilyMembers = numeric[INDEX_FAM];
+        this.previousPetExperience = numeric[INDEX_EXP];
+        this.financialBudget = numeric[INDEX_BUDG];
     }
 
     /**

@@ -8,6 +8,10 @@ package org.cs3343.safepaws.entity;
  * and health status.
  */
 public final class Pet {
+    /**
+     * The index for healthstatus.
+     */
+    private static final int INDEX_HEALTH = 3;
 
     /**
      * The maximum length for certain attributes.
@@ -84,7 +88,7 @@ public final class Pet {
         this.age = numeric[0];
         this.weight = numeric[1];
         this.activityLevel = numeric[2];
-        this.healthStatus = numeric[3];
+        this.healthStatus = numeric[INDEX_HEALTH];
     }
 
     /**
