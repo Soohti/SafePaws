@@ -9,17 +9,17 @@ public class MemberProfile {
      * The index for workhour.
      */
     private static final int INDEX_WORK = 3;
-    
+
     /**
      * The index for family member.
      */
     private static final int INDEX_FAM = 4;
-    
+
     /**
      * The index for pet experience.
      */
     private static final int INDEX_EXP = 5;
-    
+
     /**
      * The index for budget.
      */

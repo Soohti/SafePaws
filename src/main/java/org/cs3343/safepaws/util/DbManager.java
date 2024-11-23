@@ -347,7 +347,7 @@ public final class DbManager {
                 }
             
         }catch(Exception e) {
-        	System.out.println("Error during selecting pet by id.");
+            System.out.println("Error during selecting pet by id.");
         }
         return null;
     }
