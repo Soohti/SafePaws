@@ -69,7 +69,8 @@ public class AdminViewDetailApplication extends UI {
         session.println("");
         session.printf("%-5d %-15s %-15s %-15s %-5d %-10d %-6s %-15d %-15d",
                 p.getId(), p.getName(), p.getSpecies(), p.getBreed(),
-                p.getAge(), p.getWeight(), p.getGender(), p.getActivityLevel(),
+                p.getAge(), p.getWeight(), p.getGender(),
+                p.getActivityLevel(),
                 p.getHealthStatus());
         session.println("");
 
