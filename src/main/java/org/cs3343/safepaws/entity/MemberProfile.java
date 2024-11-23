@@ -318,7 +318,8 @@ public class MemberProfile {
      * @return true if valid, false otherwise
      */
 
-    public static boolean isValidExtroversionLevel(final Object extroversionLevel) {
+    public static boolean isValidExtroversionLevel(
+            final Object extroversionLevel) {
         int level;
         if (extroversionLevel instanceof String) {
             try {
@@ -343,7 +344,8 @@ public class MemberProfile {
      * @return true if valid, false otherwise
      */
 
-    public static boolean isValidDailyActivityLevel(final Object dailyActivityLevel) {
+    public static boolean isValidDailyActivityLevel(
+            final Object dailyActivityLevel) {
         int level;
         if (dailyActivityLevel instanceof String) {
             try {
@@ -416,7 +418,8 @@ public class MemberProfile {
      * @return true if valid, false otherwise
      */
 
-    public static boolean isValidNumberOfFamilyMembers(final Object numberOfFamilyMembers) {
+    public static boolean isValidNumberOfFamilyMembers(
+            final Object numberOfFamilyMembers) {
         int members;
         if (numberOfFamilyMembers instanceof String) {
             try {
@@ -441,11 +444,13 @@ public class MemberProfile {
      * @return true if valid, false otherwise
      */
 
-    public static boolean isValidPreviousPetExperience(final Object previousPetExperience) {
+    public static boolean isValidPreviousPetExperience(
+            final Object previousPetExperience) {
         int experience;
         if (previousPetExperience instanceof String) {
             try {
-                experience = Integer.parseInt((String) previousPetExperience);
+                experience = Integer.parseInt((String)
+                        previousPetExperience);
             } catch (NumberFormatException e) {
                 return false;
             }
@@ -489,7 +494,8 @@ public class MemberProfile {
      * @return true if valid, false otherwise
      */
 
-    public static boolean isValidPreferredSpecies(final String preferredSpecies) {
+    public static boolean isValidPreferredSpecies(
+            final String preferredSpecies) {
         if (preferredSpecies.length() > MAX_SPECIES_LENGTH) {
             return false;
         }
@@ -508,7 +514,8 @@ public class MemberProfile {
      * @return true if valid, false otherwise
      */
 
-    public static boolean isValidPreferredBreed(final String preferredBreed) {
+    public static boolean isValidPreferredBreed(
+            final String preferredBreed) {
         if (preferredBreed.length() > MAX_BREED_LENGTH) {
             return false;
         }

@@ -69,7 +69,7 @@ public class SetProfile extends UI {
             dailyActivityLevel = session.requestInput();
         }
         int intDailyActivityLevel = Integer.parseInt(dailyActivityLevel);
-        
+
         session.println("Enter your house size "
                 + "(in square meters, if larger than "
                 + "100000000, enter 100000000):");
@@ -80,7 +80,7 @@ public class SetProfile extends UI {
             houseSize = session.requestInput();
         }
         int intHouseSize = Integer.parseInt(houseSize);
-        
+
         session.println("Enter your work hours per day (an interger):");
         workHours = session.requestInput();
         while (!MemberProfile.isValidWorkHours(workHours)) {

@@ -47,7 +47,7 @@ public final class Session {
         } catch (Exception e) {
             writer.println("Error during requestInput of session.");
         }
-    	return null;
+        return null;
     }
 
     /**
@@ -85,7 +85,7 @@ public final class Session {
      * Formats and writes a message to the client.
      *
      * @param format The format string.
-     * @param args   The arguments referenced 
+     * @param args   The arguments referenced
      * by the format specifiers in the format
      * string.
      */
