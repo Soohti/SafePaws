@@ -3,7 +3,7 @@ package org.cs3343.safepaws.entity;
 /**
  * Represents the  location in a two-dimensional space.
  */
-public class LocationPoint {
+public final class LocationPoint {
 
     /**
      * The x-coordinate of the location.
@@ -55,5 +55,10 @@ public class LocationPoint {
         return Math.sqrt(
                 Math.pow(this.x - other.x, 2.0) + Math.pow(this.y - other.y, 2.0
                 ));
+    }
+
+    @Override
+    public String toString() {
+        return "(" + this.x + ", " + this.y + ")";
     }
 }

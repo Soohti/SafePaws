@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-public final class TravelSalesman {
+public final class MinPetPath {
 
     /**
      * This represents the infinity distance.
@@ -100,7 +100,7 @@ public final class TravelSalesman {
         double minDistance = tsp(dist, res);
 
         String output = "Best path is: " + path + "\n";
-        output += "minimum distance is : " + minDistance + "\n";
+        output += "Minimum distance is: " + minDistance + "\n";
         return output;
     }
 }

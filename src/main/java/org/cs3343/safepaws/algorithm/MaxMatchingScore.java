@@ -1,6 +1,6 @@
 package org.cs3343.safepaws.algorithm;
 
-import org.cs3343.safepaws.entity.FlowEdge;
+import org.cs3343.safepaws.entity.MatchingEdge;
 import org.cs3343.safepaws.entity.MatchingPair;
 
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.Queue;
 import java.util.Vector;
 
 
-public final class CostFlow {
+public final class MaxMatchingScore {
 
     /**
      * The redundancy.
@@ -21,7 +21,7 @@ public final class CostFlow {
     /**
      * The edges.
      */
-    private FlowEdge[] edges;
+    private MatchingEdge[] edges;
     /**
      * The p.
      */
@@ -77,15 +77,15 @@ public final class CostFlow {
     private final Normalizer normForPet;
 
     /**
-     * Constructs a new CostFlow.
+     * Constructs a new MaxMatchingScore.
      */
-    public CostFlow() {
+    public MaxMatchingScore() {
         normForUser = new Normalizer();
         normForPet = new Normalizer();
     }
 
     private void init(final int nodeCount, final int edgeCount) {
-        edges = new FlowEdge[edgeCount
+        edges = new MatchingEdge[edgeCount
                 * 2]; // edgeCount * 2 because of bidirectional edges
         p = new int[nodeCount];
         vis = new boolean[nodeCount];
@@ -98,7 +98,7 @@ public final class CostFlow {
 
     private void insert(final int u, final int v, final int capacity,
                         final double weight) {
-        edges[eid] = new FlowEdge(v, capacity, weight, p[u]);
+        edges[eid] = new MatchingEdge(v, capacity, weight, p[u]);
         p[u] = eid++;
     }
 
@@ -140,19 +140,13 @@ public final class CostFlow {
         return pre[terminal] != -1;
     }
 
-    private HashMap<Integer, Integer> getAns() {
-        HashMap<Integer, Integer> allocation = new HashMap<>();
+    HashMap<Integer, Integer> getAns() {
         while (spfa()) {
             int flow = Integer.MAX_VALUE;
 
-            Vector<Integer> vec = new Vector<>();
             for (int i = terminal; i != source; i = edges[pre[i] ^ 1].getV()) {
-                if (i != terminal) {
-                    vec.add(i);
-                }
                 flow = Math.min(flow, edges[pre[i]].getCapacity());
             }
-            allocation.put(vec.get(1), vec.get(0) - n);
 
             ans += flow;
 
@@ -163,6 +157,18 @@ public final class CostFlow {
                 res += flow * edges[pre[i]].getWeight();
             }
         }
+        HashMap<Integer, Integer> allocation = new HashMap<>();
+
+        for (int u = 1; u <= n; u++) {
+            for (int i = p[u]; i != -1; i = edges[i].getNext()) {
+                int v = edges[i].getV();
+                int c = edges[i].getCapacity();
+                if (c == 0) {
+                    allocation.put(u, v - n);
+                }
+            }
+        }
+
         return allocation;
     }
 
@@ -206,7 +212,7 @@ public final class CostFlow {
             for (MatchingPair petInfo : petIds) {
                 addEdge(normForUser.getNormalized(entry.getKey()),
                         normForPet.getNormalized(petInfo.getFirst()) + n,
-                        petInfo.getSecond());
+                        -petInfo.getSecond());
             }
         }
 
@@ -220,7 +226,8 @@ public final class CostFlow {
 
         HashMap<Integer, Integer> allocation = getAns();
         StringBuilder output = new StringBuilder(
-                "We have " + ans + " pairs" + " with cost " + res + "\n");
+                "We have " + ans + " pairs"
+                        + " with a total matching degree of " + -res + "\n");
         for (Map.Entry<Integer, Integer> entry : allocation.entrySet()) {
             int userId = entry.getKey();
             int petId = entry.getValue();
