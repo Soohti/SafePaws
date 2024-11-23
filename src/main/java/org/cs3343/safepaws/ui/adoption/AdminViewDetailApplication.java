@@ -16,6 +16,10 @@ import java.io.IOException;
  * admin to view detailed information of a specific application.
  */
 public class AdminViewDetailApplication extends UI {
+
+    /**
+     * The name of the UI component for viewing one application in detail.
+     */
     private static final String NAME = "View one application for detail";
 
     /**

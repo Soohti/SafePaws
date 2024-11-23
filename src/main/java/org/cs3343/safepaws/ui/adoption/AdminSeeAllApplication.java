@@ -14,8 +14,11 @@ import java.util.ArrayList;
  * admin to view all adoption applications.
  */
 public class AdminSeeAllApplication extends UI {
-    private static final String NAME = "See "
-            + "all applications for adoption";
+
+    /**
+     * The name of the UI for seeing all applications for adoption.
+     */
+    private static final String NAME = "See " + "all applications for adoption";
 
     /**
      * Constructs an AdminSeeAllApplication instance.

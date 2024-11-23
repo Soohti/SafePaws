@@ -373,8 +373,8 @@ public final class DbManager {
                 int activityLevel = rs.getInt("activityLevel");
                 int healthStatus = rs.getInt("healthStatus");
                 int id = rs.getInt("Id");
-                int[] numericAttributes = { age, weight, 
-                        activityLevel, healthStatus };
+                int[] numericAttributes = {age, weight,
+                        activityLevel, healthStatus};
                 Pet pet = new Pet(name, species, breed,
                         gender, numericAttributes);
                 pet.setId(id);

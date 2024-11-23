@@ -16,8 +16,11 @@ public class AdminCheckApplication extends UI {
     // A pet can only be assigned to one member
     // If approved, pet should be erased
     // All applications for this pet should be rejected
-    private static final String NAME = "Check one "
-            + "application for adoption";
+
+    /**
+     * The name of the UI for checking one application for adoption.
+     */
+    private static final String NAME = "Check one " + "application for adoption";
 
     /**
      * Constructs an AdminCheckApplication instance.
