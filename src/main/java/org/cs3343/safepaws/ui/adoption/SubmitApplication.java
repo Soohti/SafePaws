@@ -52,7 +52,7 @@ public class SubmitApplication extends UI {
         Pet pet;
         try {
             pet = DbManager.selectPetById(pid);
-            session.println("Pet added successfully.");
+            session.println("Pet selected successfully.");
         } catch (Exception e) {
             pet = null;
             session.println("Error during selecting pet.");

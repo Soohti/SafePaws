@@ -34,7 +34,7 @@ public class MemberProfile {
     /**
      * The maximum previous pet experience.
      */
-    private static final int MAX_PREVIOUS_PET_EXPERIENCE = 100000000;
+    private static final int MAX_PREVIOUS_PET_EXPERIENCE = 10;
 
     /**
      * The maximum financial budget.
@@ -317,13 +317,22 @@ public class MemberProfile {
      * @param extroversionLevel the extroversion level
      * @return true if valid, false otherwise
      */
-    public static boolean isValidExtroversionLevel(
-            final int extroversionLevel) {
-        if (extroversionLevel < 0
-                || extroversionLevel > MAX_EXTROVERSION_LEVEL) {
+
+    public static boolean isValidExtroversionLevel(final Object extroversionLevel) {
+        int level;
+        if (extroversionLevel instanceof String) {
+            try {
+                level = Integer.parseInt((String) extroversionLevel);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        } else if (extroversionLevel instanceof Integer) {
+            level = (Integer) extroversionLevel;
+        } else {
             return false;
         }
-        return true;
+
+        return level >= 0 && level <= MAX_EXTROVERSION_LEVEL;
     }
 
     /**
@@ -333,13 +342,22 @@ public class MemberProfile {
      * the daily activity level
      * @return true if valid, false otherwise
      */
-    public static boolean isValidDailyActivityLevel(
-            final int dailyActivityLevel) {
-        if (dailyActivityLevel < 0
-                || dailyActivityLevel > MAX_DAILY_ACTIVITY_LEVEL) {
+
+    public static boolean isValidDailyActivityLevel(final Object dailyActivityLevel) {
+        int level;
+        if (dailyActivityLevel instanceof String) {
+            try {
+                level = Integer.parseInt((String) dailyActivityLevel);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        } else if (dailyActivityLevel instanceof Integer) {
+            level = (Integer) dailyActivityLevel;
+        } else {
             return false;
         }
-        return true;
+
+        return level >= 0 && level <= MAX_DAILY_ACTIVITY_LEVEL;
     }
 
     /**
@@ -348,12 +366,22 @@ public class MemberProfile {
      * @param houseSize the house size
      * @return true if valid, false otherwise
      */
-    public static boolean isValidHouseSize(
-            final int houseSize) {
-        if (houseSize < 0 || houseSize > MAX_HOUSE_SIZE) {
+
+    public static boolean isValidHouseSize(final Object houseSize) {
+        int size;
+        if (houseSize instanceof String) {
+            try {
+                size = Integer.parseInt((String) houseSize);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        } else if (houseSize instanceof Integer) {
+            size = (Integer) houseSize;
+        } else {
             return false;
         }
-        return true;
+
+        return size >= 0 && size <= MAX_HOUSE_SIZE;
     }
 
     /**
@@ -362,12 +390,22 @@ public class MemberProfile {
      * @param workHours the work hours
      * @return true if valid, false otherwise
      */
-    public static boolean isValidWorkHours(
-            final int workHours) {
-        if (workHours < 0 || workHours > MAX_WORK_HOURS) {
+
+    public static boolean isValidWorkHours(final Object workHours) {
+        int hours;
+        if (workHours instanceof String) {
+            try {
+                hours = Integer.parseInt((String) workHours);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        } else if (workHours instanceof Integer) {
+            hours = (Integer) workHours;
+        } else {
             return false;
         }
-        return true;
+
+        return hours >= 0 && hours <= MAX_WORK_HOURS;
     }
 
     /**
@@ -377,13 +415,22 @@ public class MemberProfile {
      * the number of family members
      * @return true if valid, false otherwise
      */
-    public static boolean isValidNumberOfFamilyMembers(
-            final int numberOfFamilyMembers) {
-        if (numberOfFamilyMembers < 1
-                || numberOfFamilyMembers > MAX_FAMILY_MEMBERS) {
+
+    public static boolean isValidNumberOfFamilyMembers(final Object numberOfFamilyMembers) {
+        int members;
+        if (numberOfFamilyMembers instanceof String) {
+            try {
+                members = Integer.parseInt((String) numberOfFamilyMembers);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        } else if (numberOfFamilyMembers instanceof Integer) {
+            members = (Integer) numberOfFamilyMembers;
+        } else {
             return false;
         }
-        return true;
+
+        return members >= 1 && members <= MAX_FAMILY_MEMBERS;
     }
 
     /**
@@ -393,13 +440,22 @@ public class MemberProfile {
      * the previous pet experience
      * @return true if valid, false otherwise
      */
-    public static boolean isValidPreviousPetExperience(
-            final int previousPetExperience) {
-        if (previousPetExperience < 0
-                || previousPetExperience > MAX_PREVIOUS_PET_EXPERIENCE) {
+
+    public static boolean isValidPreviousPetExperience(final Object previousPetExperience) {
+        int experience;
+        if (previousPetExperience instanceof String) {
+            try {
+                experience = Integer.parseInt((String) previousPetExperience);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        } else if (previousPetExperience instanceof Integer) {
+            experience = (Integer) previousPetExperience;
+        } else {
             return false;
         }
-        return true;
+
+        return experience >= 0 && experience <= MAX_PREVIOUS_PET_EXPERIENCE;
     }
 
     /**
@@ -408,13 +464,22 @@ public class MemberProfile {
      * @param financialBudget the financial budget
      * @return true if valid, false otherwise
      */
-    public static boolean isValidFinancialBudget(
-            final int financialBudget) {
-        if (financialBudget < 0
-                || financialBudget > MAX_FINANCIAL_BUDGET) {
+
+    public static boolean isValidFinancialBudget(final Object financialBudget) {
+        int budget;
+        if (financialBudget instanceof String) {
+            try {
+                budget = Integer.parseInt((String) financialBudget);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        } else if (financialBudget instanceof Integer) {
+            budget = (Integer) financialBudget;
+        } else {
             return false;
         }
-        return true;
+
+        return budget >= 0 && budget <= MAX_FINANCIAL_BUDGET;
     }
 
     /**
@@ -423,12 +488,17 @@ public class MemberProfile {
      * @param preferredSpecies the preferred species
      * @return true if valid, false otherwise
      */
-    public static boolean isValidPreferredSpecies(
-            final String preferredSpecies) {
+
+    public static boolean isValidPreferredSpecies(final String preferredSpecies) {
         if (preferredSpecies.length() > MAX_SPECIES_LENGTH) {
             return false;
         }
-        return true;
+        try {
+            Double.parseDouble(preferredSpecies);
+            return false;
+        } catch (NumberFormatException e) {
+            return true;
+        }
     }
 
     /**
@@ -437,12 +507,17 @@ public class MemberProfile {
      * @param preferredBreed the preferred breed
      * @return true if valid, false otherwise
      */
-    public static boolean isValidPreferredBreed(
-            final String preferredBreed) {
+
+    public static boolean isValidPreferredBreed(final String preferredBreed) {
         if (preferredBreed.length() > MAX_BREED_LENGTH) {
             return false;
         }
-        return true;
+        try {
+            Double.parseDouble(preferredBreed);
+            return false;
+        } catch (NumberFormatException e) {
+            return true;
+        }
     }
 
     /**

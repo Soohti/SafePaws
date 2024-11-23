@@ -37,13 +37,13 @@ public class SetProfile extends UI {
      */
     @Override
     protected UI execute(final Session session) throws IOException {
-        int extroversionLevel;
-        int dailyActivityLevel;
-        int houseSize;
-        int workHours;
-        int numberOfFamilyMembers;
-        int previousPetExperience;
-        int financialBudget;
+        String extroversionLevel;
+        String dailyActivityLevel;
+        String houseSize;
+        String workHours;
+        String numberOfFamilyMembers;
+        String previousPetExperience;
+        String financialBudget;
         String preferredSpecies;
         String preferredBreed;
         String gender;
@@ -51,71 +51,78 @@ public class SetProfile extends UI {
         session.println("Enter your extroversion level "
                 + "(a positive integer meeting 0-10, "
                 + "larger numbers indicate more extroversion):");
-        extroversionLevel = Integer.parseInt(session.requestInput());
+        extroversionLevel = session.requestInput();
         while (!MemberProfile.isValidExtroversionLevel(extroversionLevel)) {
             session.println("Your input extroversion level"
                     + " is invalid. Please enter again:");
-            extroversionLevel = Integer.parseInt(session.requestInput());
+            extroversionLevel = session.requestInput();
         }
-        
+        int intExtroversionLevel = Integer.parseInt(extroversionLevel);
 
         session.println("Enter your daily activity level "
                 + "(a positive integer meeting 0-10, "
                 + "larger numbers indicate more activity):");
-        dailyActivityLevel = Integer.parseInt(session.requestInput());
+        dailyActivityLevel = session.requestInput();
         while (!MemberProfile.isValidDailyActivityLevel(dailyActivityLevel)) {
             session.println("Your input daily activity level "
                     + "is invalid. Please enter again:");
-            dailyActivityLevel = Integer.parseInt(session.requestInput());
+            dailyActivityLevel = session.requestInput();
         }
-
+        int intDailyActivityLevel = Integer.parseInt(dailyActivityLevel);
+        
         session.println("Enter your house size "
                 + "(in square meters, if larger than "
                 + "100000000, enter 100000000):");
-        houseSize = Integer.parseInt(session.requestInput());
+        houseSize = session.requestInput();
         while (!MemberProfile.isValidHouseSize(houseSize)) {
             session.println("Your input house size is invalid. "
                     + "Please enter again:");
-            houseSize = Integer.parseInt(session.requestInput());
+            houseSize = session.requestInput();
         }
-
+        int intHouseSize = Integer.parseInt(houseSize);
+        
         session.println("Enter your work hours per day (an interger):");
-        workHours = Integer.parseInt(session.requestInput());
+        workHours = session.requestInput();
         while (!MemberProfile.isValidWorkHours(workHours)) {
             session.println("Your input work hours is "
                     + "invalid. Please enter again:");
-            workHours = Integer.parseInt(session.requestInput());
+            workHours = session.requestInput();
         }
+        int intWorkHours = Integer.parseInt(workHours);
 
         session.println("Enter the number of family members "
                 + "(if larger than 100000000, enter 100000000):");
-        numberOfFamilyMembers = Integer.parseInt(session.requestInput());
+        numberOfFamilyMembers = session.requestInput();
         while (!MemberProfile.isValidNumberOfFamilyMembers(
                 numberOfFamilyMembers)) {
             session.println("Your input number of family members"
                     + " is invalid. Please enter again:");
-            numberOfFamilyMembers = Integer.parseInt(session.requestInput());
+            numberOfFamilyMembers = session.requestInput();
         }
+        int intNumberOfFamilyMembers = Integer.parseInt(numberOfFamilyMembers);
 
         String message = "Enter your previous pet experience level "
                 + "(a positive integer meeting 0-10,"
-                + "larger numbers indicate more activity):";
+                + "larger numbers indicate more experience):";
         session.println(message);
-        previousPetExperience = Integer.parseInt(session.requestInput());
-        while (!MemberProfile.isValidPreviousPetExperience(previousPetExperience)) {
+        previousPetExperience = session.requestInput();
+        while (!MemberProfile.isValidPreviousPetExperience(
+                previousPetExperience)) {
             session.println("Your input previous pet experience"
                     + " is invalid. Please enter again:");
-            previousPetExperience = Integer.parseInt(session.requestInput());
+            previousPetExperience = session.requestInput();
         }
+        int intPreviousPetExperience = Integer.parseInt(previousPetExperience);
 
         session.println("Enter your financial budget (monthly, "
                 + "in dollars, if larger than 100000000, enter 100000000):");
-        financialBudget = Integer.parseInt(session.requestInput());
+        financialBudget = session.requestInput();
         while (!MemberProfile.isValidFinancialBudget(financialBudget)) {
             session.println("Your input financial budget is "
                     + "invalid. Please enter again:");
-            financialBudget = Integer.parseInt(session.requestInput());
+            financialBudget = session.requestInput();
         }
+        int intFinancialBudget = Integer.parseInt(financialBudget);
 
         session.println("Enter your preferred species (length: "
                 + "0-30, any character):");
@@ -145,9 +152,9 @@ public class SetProfile extends UI {
         }
 
         Account account = session.getAccount();
-        int[] numericAttributes = {extroversionLevel, dailyActivityLevel,
-                houseSize, workHours, numberOfFamilyMembers,
-                previousPetExperience, financialBudget};
+        int[] numericAttributes = {intExtroversionLevel, intDailyActivityLevel,
+                intHouseSize, intWorkHours, intNumberOfFamilyMembers,
+                intPreviousPetExperience, intFinancialBudget};
 
         ((Member) account).setProfile(preferredSpecies,
                 preferredBreed, gender, numericAttributes);

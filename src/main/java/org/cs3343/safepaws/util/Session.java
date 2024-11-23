@@ -39,13 +39,13 @@ public final class Session {
      * @return The input from the client.
      * @throws IOException If an error occurs.
      */
-    public String requestInput(){
+    public String requestInput() {
         try {
             writer.println();
             writer.println("SYSTEM: READY_FOR_INPUT");
             return reader.readLine();
         } catch (Exception e) {
-        	writer.println("Error during requestInput of session.");
+            writer.println("Error during requestInput of session.");
         }
     	return null;
     }
@@ -85,8 +85,9 @@ public final class Session {
      * Formats and writes a message to the client.
      *
      * @param format The format string.
-     * @param args   The arguments referenced by the format specifiers in the format
-     *               string.
+     * @param args   The arguments referenced 
+     * by the format specifiers in the format
+     * string.
      */
     public void printf(final String format, final Object... args) {
         StringBuilder output = new StringBuilder();

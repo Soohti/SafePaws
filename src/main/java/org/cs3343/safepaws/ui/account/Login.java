@@ -32,7 +32,7 @@ public class Login extends UI {
      */
 
     @Override
-    public UI execute(Session session) throws IOException {
+    public UI execute(final Session session) throws IOException {
         session.println("Enter your username:");
         String username = session.requestInput();
 
