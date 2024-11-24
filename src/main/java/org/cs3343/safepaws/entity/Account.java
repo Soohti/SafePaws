@@ -115,6 +115,20 @@ public class Account {
     }
 
     /**
+     * Copy constructor to create a new account
+     * by copying the fields of an existing account.
+     *
+     * @param other the account to copy
+     */
+    public Account(final Account other) {
+        this.username = other.username;
+        this.password = other.password;
+        this.role = other.role;
+        this.id = other.id;
+    }
+
+
+    /**
      * Instantiates a new account with default values.
      */
     public Account() {

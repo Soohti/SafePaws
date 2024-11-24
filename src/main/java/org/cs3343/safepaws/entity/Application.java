@@ -34,8 +34,8 @@ public class Application {
      * @param st      the state
      */
     public Application(final Member account, final Pet p, final int st) {
-        this.user = account;
-        this.pet = p;
+        this.user = new Member(account);
+        this.pet = new Pet(p);
         this.state = st;
     }
 
@@ -70,10 +70,10 @@ public class Application {
     /**
      * Gets the user.
      *
-     * @return the user
+     * @return a copy of the user
      */
     public Member getUser() {
-        return user;
+        return new Member(user);
     }
 
     /**
@@ -81,18 +81,17 @@ public class Application {
      *
      * @param newUser the user to set
      */
-
     public void setUser(final Member newUser) {
-        this.user = newUser;
+        this.user = new Member(newUser);
     }
 
     /**
      * Gets the pet.
      *
-     * @return the pet
+     * @return a copy of the pet
      */
     public Pet getPet() {
-        return pet;
+        return new Pet(pet);
     }
 
     /**
@@ -101,7 +100,7 @@ public class Application {
      * @param newPet the pet to set
      */
     public void setPet(final Pet newPet) {
-        this.pet = newPet;
+        this.pet = new Pet(newPet);
     }
 
     /**

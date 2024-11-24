@@ -17,7 +17,7 @@ public class UIExecutor {
      * @param pSession The session of the user.
      */
     public UIExecutor(final Session pSession) {
-        this.session = pSession;
+        this.session = new Session(pSession);
     }
 
     /**
