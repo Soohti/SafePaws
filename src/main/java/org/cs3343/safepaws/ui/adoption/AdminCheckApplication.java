@@ -8,7 +8,7 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 
 /**
- * The AdminCheckApplication class allows an admin 
+ * The AdminCheckApplication class allows an admin
  * to check and update the state
  * of an adoption application.
  */
@@ -20,14 +20,15 @@ public class AdminCheckApplication extends UI {
     /**
      * The name of the UI for checking one application for adoption.
      */
-    private static final String NAME = "Check one " + "application for adoption";
+    private static final String NAME =
+            "Check one " + "application for adoption";
 
     /**
      * Constructs an AdminCheckApplication instance.
      *
      * @param referrer the UI that referred to this instance
      */
-    public AdminCheckApplication(UI referrer) {
+    public AdminCheckApplication(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -39,14 +40,14 @@ public class AdminCheckApplication extends UI {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected UI execute(Session session) throws IOException {
+    protected UI execute(final Session session) throws IOException {
         session.println("Enter the id of application you want "
                 + "to check that has not been checked.:");
-        int Aid = Integer.parseInt(session.requestInput());
-        while (!Application.isValidAid(Aid)) {
+        int aid = Integer.parseInt(session.requestInput());
+        while (!Application.isValidAid(aid)) {
             session.println("Your input application id is invalid. "
                     + "Please enter again:");
-            Aid = Integer.parseInt(session.requestInput());
+            aid = Integer.parseInt(session.requestInput());
         }
 
         session.println("Enter what state you want to set "
@@ -58,7 +59,7 @@ public class AdminCheckApplication extends UI {
             state = Integer.parseInt(session.requestInput());
         }
 
-        DbManager.changeState(Aid, state);
+        DbManager.changeState(aid, state);
 
         return this.getReferrer();
     }
@@ -71,7 +72,7 @@ public class AdminCheckApplication extends UI {
      * false otherwise
      */
     @Override
-    public boolean isVisibleTo(Session session) {
+    public boolean isVisibleTo(final Session session) {
         return session.getAccount() != null
                 && "A".equals(session.getAccount().getRole());
     }

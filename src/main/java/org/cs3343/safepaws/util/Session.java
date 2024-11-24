@@ -66,6 +66,17 @@ public final class Session {
     }
 
     /**
+     * Copy constructor for Session.
+     *
+     * @param other The session to copy.
+     */
+    public Session(final Session other) {
+        this.reader = other.reader;
+        this.writer = other.writer;
+        this.account = other.account;
+    }
+
+    /**
      * Write a message to the client.
      *
      * @param message The message to write.
@@ -112,16 +123,20 @@ public final class Session {
      * @param newAccount the new account
      */
     public void setAccount(final Account newAccount) {
-        this.account = newAccount;
+        if (newAccount != null) {
+            this.account = new Account(newAccount);
+        } else {
+            this.account = null;
+        }
     }
 
     /**
      * Gets the account associated with the session.
      *
-     * @return the account associated with the session.
+     * @return a copy of the account associated with the session.
      */
     public Account getAccount() {
-        return this.account;
+        return (this.account != null) ? new Account(this.account) : null;
     }
 
     /**
