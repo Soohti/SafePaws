@@ -66,6 +66,17 @@ public final class Session {
     }
 
     /**
+     * Copy constructor for Session.
+     *
+     * @param other The session to copy.
+     */
+    public Session(Session other) {
+        this.reader = other.reader;
+        this.writer = other.writer;
+        this.account = other.account;
+    }
+
+    /**
      * Write a message to the client.
      *
      * @param message The message to write.
