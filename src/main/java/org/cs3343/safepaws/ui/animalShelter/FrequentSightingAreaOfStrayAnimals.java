@@ -35,6 +35,7 @@ import org.cs3343.safepaws.util.Session;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FrequentSightingAreaOfStrayAnimals extends UI {
@@ -94,11 +95,19 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
             kmeans.fit(animalLocations);
 
             List<List<LocationPoint>> clusters = kmeans.getClusters();
+            List<Shelter> shelters = new ArrayList<>();
 
-            Shelter shelter = new Shelter(clusters.stream()
-                    .map(List::getFirst)
-                    .toList());
-            shelter.displayShelters();
+            for (List<LocationPoint> cluster : clusters) {
+                if (!cluster.isEmpty()) {
+                    LocationPoint firstLocation = cluster.get(0);
+                    shelters.add(new Shelter(firstLocation));
+                }
+            }
+
+            session.println("Shelter Locations:");
+            for (Shelter shelter : shelters) {
+                session.print(shelter.toString());
+            }
         } catch (SQLException e) {
             session.println("Error creating account: " + e.getMessage());
         }
