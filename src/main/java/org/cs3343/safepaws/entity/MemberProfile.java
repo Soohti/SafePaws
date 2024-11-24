@@ -68,7 +68,9 @@ public class MemberProfile {
      * @param gen     the gender
      * @param numeric an array of numeric attributes
      */
-    public MemberProfile(final String species, final String breed, final String gen, final int[] numeric) {
+    public MemberProfile(final String species,
+            final String breed, final String gen,
+            final int[] numeric) {
         this.preferredSpecies = species;
         this.preferredBreed = breed;
         this.gender = gen;
