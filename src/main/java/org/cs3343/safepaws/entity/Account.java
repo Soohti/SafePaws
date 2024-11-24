@@ -1,4 +1,3 @@
-
 package org.cs3343.safepaws.entity;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -65,11 +64,8 @@ public class Account {
      * @return true if the username is valid, false otherwise
      */
     public static boolean isValidUsername(final String username) {
-        if (username.length() < MIN_USERNAME_LENGTH
-                || username.length() > MAX_USERNAME_LENGTH) {
-            return false;
-        }
-        return true;
+        return username.length() >= MIN_USERNAME_LENGTH
+                && username.length() <= MAX_USERNAME_LENGTH;
     }
 
     /**
@@ -79,11 +75,8 @@ public class Account {
      * @return true if the password is valid, false otherwise
      */
     public static boolean isValidPassword(final String password) {
-        if (password.length() < MIN_PASSWORD_LENGTH
-                || password.length() > MAX_PASSWORD_LENGTH) {
-            return false;
-        }
-        return true;
+        return password.length() >= MIN_PASSWORD_LENGTH
+                && password.length() <= MAX_PASSWORD_LENGTH;
     }
 
     /**
@@ -93,22 +86,19 @@ public class Account {
      * @return true if the role is valid, false otherwise
      */
     public static boolean isValidRole(final String role) {
-        if ("A".equals(role) || "M".equals(role) || "S".equals(role)) {
-            return true;
-        }
-        return false;
+        return "A".equals(role) || "M".equals(role) || "S".equals(role);
     }
 
     /**
      * Instantiates a new account with the
      * specified username, password, and role.
      *
-     * @param newUn the username
-     * @param newP the password
+     * @param newUn   the username
+     * @param newP    the password
      * @param newRole the role
      */
     public Account(final String newUn,
-            final String newP, final String newRole) {
+                   final String newP, final String newRole) {
         this.username = newUn;
         this.password = newP;
         this.role = newRole;
@@ -149,7 +139,7 @@ public class Account {
      * @param newUsername the new username
      */
     public void setUsername(final
-            String newUsername) {
+                            String newUsername) {
         this.username = newUsername;
     }
 

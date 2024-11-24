@@ -9,9 +9,10 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 
 /**
- * The SetProfile class is responsible for setting the profile of a member.
+ * The MemberSetProfile class is responsible for
+ * setting the profile of a member.
  */
-public class SetProfile extends UI {
+public class MemberSetProfile extends UI {
 
     /**
      * The name of the profile setting UI.
@@ -64,11 +65,11 @@ public class SetProfile extends UI {
     private static final int MAX_BREED_LENGTH = 30;
 
     /**
-     * Constructor for SetProfile.
+     * Constructor for MemberSetProfile.
      *
      * @param referrer the UI referrer
      */
-    public SetProfile(final UI referrer) {
+    public MemberSetProfile(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -85,41 +86,42 @@ public class SetProfile extends UI {
         String preferredBreed;
         String gender;
 
-        String msg = "Enter your extroversion level "
+        session.println("Enter your extroversion level "
                 + "(a positive integer meeting 0-10, "
-                + "larger numbers indicate more extroversion):";
+                + "larger numbers indicate more extroversion):");
         int intExtroversionLevel =
-                requestNumericInput(session, msg, 0, MAX_EXTROVERSION_LEVEL);
+                session.requestNumericInput(0, MAX_EXTROVERSION_LEVEL);
 
-        msg = "Enter your daily activity level "
+        session.println("Enter your daily activity level "
                 + "(a positive integer meeting 0-10, "
-                + "larger numbers indicate more activity):";
+                + "larger numbers indicate more activity):");
         int intDailyActivityLevel =
-                requestNumericInput(session, msg, 0, MAX_DAILY_ACTIVITY_LEVEL);
+                session.requestNumericInput(0, MAX_DAILY_ACTIVITY_LEVEL);
 
-        msg = "Enter your house size "
+        session.println("Enter your house size "
                 + "(in square meters, if larger than "
-                + "100000000, enter 100000000):";
-        int intHouseSize = requestNumericInput(session, msg, 0, MAX_HOUSE_SIZE);
+                + "100000000, enter 100000000):");
+        int intHouseSize = session.requestNumericInput(0, MAX_HOUSE_SIZE);
 
-        msg = "Enter your work hours per day (an interger between 0 and 24):";
-        int intWorkHours = requestNumericInput(session, msg, 0, MAX_WORK_HOURS);
+        session.println("Enter your work hours per day "
+                + "(an interger between 0 and 24):");
+        int intWorkHours = session.requestNumericInput(0, MAX_WORK_HOURS);
 
-        msg = "Enter the number of family members "
-                + "(if larger than 10, enter 10):";
+        session.println("Enter the number of family members "
+                + "(if larger than 10, enter 10):");
         int intNumberOfFamilyMembers =
-                requestNumericInput(session, msg, 1, MAX_FAMILY_MEMBERS);
+                session.requestNumericInput(1, MAX_FAMILY_MEMBERS);
 
-        msg = "Enter your previous pet experience level "
+        session.println("Enter your previous pet experience level "
                 + "(a positive integer meeting 0-10,"
-                + "larger numbers indicate more experience):";
-        int intPreviousPetExperience = requestNumericInput(session, msg, 0,
-                MAX_PREVIOUS_PET_EXPERIENCE);
+                + "larger numbers indicate more experience):");
+        int intPreviousPetExperience =
+                session.requestNumericInput(0, MAX_PREVIOUS_PET_EXPERIENCE);
 
-        msg = "Enter your financial budget (monthly, in dollars, "
-                + "if larger than 100000000, enter 100000000):";
+        session.println("Enter your financial budget (monthly, in dollars, "
+                + "if larger than 100000000, enter 100000000):");
         int intFinancialBudget =
-                requestNumericInput(session, msg, 0, MAX_FINANCIAL_BUDGET);
+                session.requestNumericInput(0, MAX_FINANCIAL_BUDGET);
 
         session.println("Enter your preferred species (length: "
                 + "0-30, any character):");
@@ -169,26 +171,6 @@ public class SetProfile extends UI {
         }
 
         return this.getReferrer();
-    }
-
-    private int requestNumericInput(final Session session, final String message,
-                                    final int minValue, final int maxValue) {
-        session.println(message);
-        while (true) {
-            String input = session.requestInput();
-            try {
-                int value = Integer.parseInt(input);
-                if (value >= minValue && value <= maxValue) {
-                    return value;
-                } else {
-                    session.println(
-                            "Invalid input. Please enter a number between "
-                                    + minValue + " and " + maxValue + ".");
-                }
-            } catch (NumberFormatException e) {
-                session.println("Invalid input. Please enter a number.");
-            }
-        }
     }
 
     /**

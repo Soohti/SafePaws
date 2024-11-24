@@ -14,19 +14,19 @@ import java.util.List;
  * This class represents the UI for members to see their submitted applications
  * for adoption.
  */
-public final class MemberSeeApplication extends UI {
+public final class MemberCheckApplication extends UI {
     /**
      * The name of this UI.
      */
     private static final String NAME =
-            "See submitted applications for adoption";
+            "Check submitted applications for adoption";
 
     /**
-     * Constructs a new MemberSeeApplication with the specified referrer.
+     * Constructs a new MemberCheckApplication with the specified referrer.
      *
      * @param referrer the UI that referred to this one
      */
-    public MemberSeeApplication(final UI referrer) {
+    public MemberCheckApplication(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -51,7 +51,7 @@ public final class MemberSeeApplication extends UI {
             for (Application application : applications) {
                 Pet pet = application.getPet();
                 String petInfo = "Pet Name: "
-                + pet.getName() + ", Species: " + pet.getSpecies();
+                        + pet.getName() + ", Species: " + pet.getSpecies();
                 String status = state[application.getState()];
                 session.println(petInfo + " | Status: " + status);
             }

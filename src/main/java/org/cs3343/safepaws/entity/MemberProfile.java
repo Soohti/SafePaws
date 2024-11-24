@@ -1,4 +1,3 @@
-
 package org.cs3343.safepaws.entity;
 
 /**
@@ -69,8 +68,8 @@ public class MemberProfile {
      * @param numeric an array of numeric attributes
      */
     public MemberProfile(final String species,
-            final String breed, final String gen,
-            final int[] numeric) {
+                         final String breed, final String gen,
+                         final int[] numeric) {
         this.preferredSpecies = species;
         this.preferredBreed = breed;
         this.gender = gen;
