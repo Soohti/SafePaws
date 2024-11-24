@@ -50,7 +50,7 @@ public class AdminViewDetailApplication extends UI {
 
         session.printf(
                 "%-5s %-20s %-20s %-20s %-20s %-15s %-15s %-25s %-25s %-20s "
-                + "%-10s",
+                        + "%-10s",
                 "Id", "PreferredSpecies", "PreferredBreed", "ExtroversionLevel",
                 "DailyActivityLevel", "HouseSize", "WorkHours",
                 "NumberOfFamilyMembers", "PreviousPetExperience",
@@ -58,7 +58,7 @@ public class AdminViewDetailApplication extends UI {
         session.println("");
         session.printf(
                 "%-5d %-20s %-20s %-20d %-20d %-15d %-15d %-25d %-25d %-20d "
-                + "%-10s",
+                        + "%-10s",
                 m.getId(), pf.getPreferredSpecies(), pf.getPreferredBreed(),
                 pf.getExtroversionLevel(), pf.getDailyActivityLevel(),
                 pf.getHouseSize(), pf.getWorkHours(),

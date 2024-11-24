@@ -1,4 +1,3 @@
-
 package org.cs3343.safepaws.entity;
 
 /**
@@ -17,11 +16,6 @@ public final class Pet {
      * The maximum length for certain attributes.
      */
     private static final int MAX_LEN = 30;
-
-    /**
-     * The maximum value for certain numeric attributes.
-     */
-    private static final int MAX_VAL = 10;
 
     /**
      * The ID of the pet.
@@ -76,11 +70,11 @@ public final class Pet {
      * @param br      the breed of the pet
      * @param gen     the gender of the pet
      * @param numeric an array of numeric attributes
-     * (age, weight, activity level, health status)
+     *                (age, weight, activity level, health status)
      */
     public Pet(final String nm, final String spec,
-            final String br, final String gen,
-            final int[] numeric) {
+               final String br, final String gen,
+               final int[] numeric) {
         this.name = nm;
         this.species = spec;
         this.breed = br;
@@ -90,7 +84,6 @@ public final class Pet {
         this.activityLevel = numeric[2];
         this.healthStatus = numeric[INDEX_HEALTH];
     }
-
 
 
     /**
@@ -112,7 +105,6 @@ public final class Pet {
     }
 
 
-
     /**
      * Validates the name of the pet.
      *
@@ -120,10 +112,7 @@ public final class Pet {
      * @return true if the name is valid, false otherwise
      */
     public static boolean isValidName(final String name) {
-        if (name.length() > MAX_LEN) {
-            return false;
-        }
-        return true;
+        return name.length() <= MAX_LEN;
     }
 
     /**
@@ -133,10 +122,7 @@ public final class Pet {
      * @return true if the species is valid, false otherwise
      */
     public static boolean isValidSpecies(final String species) {
-        if (species.length() > MAX_LEN) {
-            return false;
-        }
-        return true;
+        return species.length() <= MAX_LEN;
     }
 
     /**
@@ -146,36 +132,7 @@ public final class Pet {
      * @return true if the breed is valid, false otherwise
      */
     public static boolean isValidBreed(final String breed) {
-        if (breed.length() > MAX_LEN) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Validates the age of the pet.
-     *
-     * @param age the age to validate
-     * @return true if the age is valid, false otherwise
-     */
-    public static boolean isValidAge(final int age) {
-        if (age < 0) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Validates the weight of the pet.
-     *
-     * @param weight the weight to validate
-     * @return true if the weight is valid, false otherwise
-     */
-    public static boolean isValidWeight(final int weight) {
-        if (weight < 0) {
-            return false;
-        }
-        return true;
+        return breed.length() <= MAX_LEN;
     }
 
     /**
@@ -185,36 +142,7 @@ public final class Pet {
      * @return true if the gender is valid, false otherwise
      */
     public static boolean isValidGender(final String gender) {
-        if ("m".equals(gender) || "f".equals(gender)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Validates the activity level of the pet.
-     *
-     * @param activityLevel the activity level to validate
-     * @return true if the activity level is valid, false otherwise
-     */
-    public static boolean isValidActivityLevel(final int activityLevel) {
-        if (activityLevel < 0 || activityLevel > MAX_VAL) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Validates the health status of the pet.
-     *
-     * @param healthStatus the health status to validate
-     * @return true if the health status is valid, false otherwise
-     */
-    public static boolean isValidHealthStatus(final int healthStatus) {
-        if (healthStatus < 0 || healthStatus > MAX_VAL) {
-            return false;
-        }
-        return true;
+        return "m".equals(gender) || "f".equals(gender);
     }
 
     /**
