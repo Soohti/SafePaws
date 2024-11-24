@@ -38,7 +38,7 @@ public class AdminSeeAllApplication extends UI {
     @Override
     protected UI execute(final Session session) {
         ArrayList<Application> applications = new ArrayList<>();
-        String[] state = { "Pending", "Approved", "Rejected" };
+        String[] state = {"Pending", "Approved", "Rejected"};
         try {
             applications = DbManager.viewAllApplication();
             session.printf("%-10s %-10s %-10s %-10s %-10s",

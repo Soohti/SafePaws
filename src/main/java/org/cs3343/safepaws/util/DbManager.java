@@ -37,6 +37,51 @@ public final class DbManager {
      * A query to test the database connection.
      */
     private static final String TEST_SQL = "SELECT 1";
+    
+    /**
+     * Index constant for the value 3.
+     */
+    private static final int INDEX_THREE = 3;
+
+    /**
+     * Index constant for the value 4.
+     */
+    private static final int INDEX_FOUR = 4;
+
+    /**
+     * Index constant for the value 5.
+     */
+    private static final int INDEX_FIVE = 5;
+
+    /**
+     * Index constant for the value 6.
+     */
+    private static final int INDEX_SIX = 6;
+
+    /**
+     * Index constant for the value 7.
+     */
+    private static final int INDEX_SEVEN = 7;
+
+    /**
+     * Index constant for the value 8.
+     */
+    private static final int INDEX_EIGHT = 8;
+    
+    /**
+     * Index constant for the value 9.
+     */
+    private static final int INDEX_NINE = 9;
+
+    /**
+     * Index constant for the value 10.
+     */
+    private static final int INDEX_TEN = 10;
+
+    /**
+     * Index constant for the value 11.
+     */
+    private static final int INDEX_ELEVEN = 11;
 
     /**
      * Initializes the database connection.
@@ -124,12 +169,12 @@ public final class DbManager {
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, pet.getName());
             pstmt.setString(2, pet.getSpecies());
-            pstmt.setString(3, pet.getBreed());
-            pstmt.setInt(4, pet.getAge());
-            pstmt.setInt(5, pet.getWeight());
-            pstmt.setString(6, pet.getGender());
-            pstmt.setInt(7, pet.getActivityLevel());
-            pstmt.setInt(8, pet.getHealthStatus());
+            pstmt.setString(INDEX_THREE, pet.getBreed());
+            pstmt.setInt(INDEX_FOUR, pet.getAge());
+            pstmt.setInt(INDEX_FIVE, pet.getWeight());
+            pstmt.setString(INDEX_SIX, pet.getGender());
+            pstmt.setInt(INDEX_SEVEN, pet.getActivityLevel());
+            pstmt.setInt(INDEX_EIGHT, pet.getHealthStatus());
             pstmt.executeUpdate();
             System.out.println("Pet inserted successfully");
         }
@@ -165,7 +210,7 @@ public final class DbManager {
     /**
      * Selects an account by username.
      *
-     * @param username the username.
+     * @param inputUsername the username.
      * @return the account, or null if not found.
      */
     public static Account selectAccount(final String inputUsername) {
@@ -415,15 +460,15 @@ public final class DbManager {
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setInt(1, id);
             pstmt.setString(2, memberProfile.getPreferredSpecies());
-            pstmt.setString(3, memberProfile.getPreferredBreed());
-            pstmt.setInt(4, memberProfile.getExtroversionLevel());
-            pstmt.setInt(5, memberProfile.getDailyActivityLevel());
-            pstmt.setInt(6, memberProfile.getHouseSize());
-            pstmt.setInt(7, memberProfile.getWorkHours());
-            pstmt.setInt(8, memberProfile.getNumberOfFamilyMembers());
-            pstmt.setInt(9, memberProfile.getPreviousPetExperience());
-            pstmt.setInt(10, memberProfile.getFinancialBudget());
-            pstmt.setString(11, memberProfile.getGender());
+            pstmt.setString(INDEX_THREE, memberProfile.getPreferredBreed());
+            pstmt.setInt(INDEX_FOUR, memberProfile.getExtroversionLevel());
+            pstmt.setInt(INDEX_FIVE, memberProfile.getDailyActivityLevel());
+            pstmt.setInt(INDEX_SIX, memberProfile.getHouseSize());
+            pstmt.setInt(INDEX_SEVEN, memberProfile.getWorkHours());
+            pstmt.setInt(INDEX_EIGHT, memberProfile.getNumberOfFamilyMembers());
+            pstmt.setInt(INDEX_NINE, memberProfile.getPreviousPetExperience());
+            pstmt.setInt(INDEX_TEN, memberProfile.getFinancialBudget());
+            pstmt.setString(INDEX_ELEVEN, memberProfile.getGender());
             pstmt.executeUpdate();
             System.out.println("Member profile inserted successfully");
         }
@@ -448,15 +493,15 @@ public final class DbManager {
              PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
             pstmt.setString(1, memberProfile.getPreferredSpecies());
             pstmt.setString(2, memberProfile.getPreferredBreed());
-            pstmt.setInt(3, memberProfile.getExtroversionLevel());
-            pstmt.setInt(4, memberProfile.getDailyActivityLevel());
-            pstmt.setInt(5, memberProfile.getHouseSize());
-            pstmt.setInt(6, memberProfile.getWorkHours());
-            pstmt.setInt(7, memberProfile.getNumberOfFamilyMembers());
-            pstmt.setInt(8, memberProfile.getPreviousPetExperience());
-            pstmt.setInt(9, memberProfile.getFinancialBudget());
-            pstmt.setString(10, memberProfile.getGender());
-            pstmt.setInt(11, id);
+            pstmt.setInt(INDEX_THREE, memberProfile.getExtroversionLevel());
+            pstmt.setInt(INDEX_FOUR, memberProfile.getDailyActivityLevel());
+            pstmt.setInt(INDEX_FIVE, memberProfile.getHouseSize());
+            pstmt.setInt(INDEX_SIX, memberProfile.getWorkHours());
+            pstmt.setInt(INDEX_SEVEN, memberProfile.getNumberOfFamilyMembers());
+            pstmt.setInt(INDEX_EIGHT, memberProfile.getPreviousPetExperience());
+            pstmt.setInt(INDEX_NINE, memberProfile.getFinancialBudget());
+            pstmt.setString(INDEX_TEN, memberProfile.getGender());
+            pstmt.setInt(INDEX_ELEVEN, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error during Changing Member Profile: "

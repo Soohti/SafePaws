@@ -78,12 +78,12 @@ public class AdminViewDetailApplication extends UI {
                 p.getHealthStatus());
         session.println("");
 
-        String[] State = {"Pending", "Approved", "Rejected"};
+        String[] state = {"Pending", "Approved", "Rejected"};
         session.println("");
         session.printf("%-10s %-10s", "Score", "State");
         session.println("");
         session.printf("%-10f %-10s", PetMatchingAlgo.calculateMatch(m, p),
-                State[application.getState()]);
+                state[application.getState()]);
         session.println("");
 
         return this.getReferrer();
