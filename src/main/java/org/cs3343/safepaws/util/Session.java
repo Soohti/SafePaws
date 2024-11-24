@@ -70,7 +70,7 @@ public final class Session {
      *
      * @param other The session to copy.
      */
-    public Session(Session other) {
+    public Session(final Session other) {
         this.reader = other.reader;
         this.writer = other.writer;
         this.account = other.account;
