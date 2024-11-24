@@ -93,7 +93,14 @@ public class TestKMeans {
         shelterLocationPoints.add(new LocationPoint(1.0, 2.0));
         shelterLocationPoints.add(new LocationPoint(3.0, 4.0));
 
-        Shelter shelter = new Shelter(shelterLocationPoints);
-        shelter.displayShelters();
+        List<Shelter> shelters = new ArrayList<>();
+        for(LocationPoint locationPoint : shelterLocationPoints)
+        {
+            shelters.add(new Shelter(locationPoint));
+        }
+        System.out.println("Shelter Locations:");
+        for (Shelter shelter : shelters) {
+            System.out.print(shelter.toString());
+        }
     }
 }
