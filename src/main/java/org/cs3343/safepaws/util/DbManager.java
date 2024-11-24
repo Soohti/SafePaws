@@ -37,7 +37,7 @@ public final class DbManager {
      * A query to test the database connection.
      */
     private static final String TEST_SQL = "SELECT 1";
-    
+
     /**
      * Index constant for the value 3.
      */
@@ -67,7 +67,7 @@ public final class DbManager {
      * Index constant for the value 8.
      */
     private static final int INDEX_EIGHT = 8;
-    
+
     /**
      * Index constant for the value 9.
      */
@@ -133,7 +133,7 @@ public final class DbManager {
                      conn.prepareStatement(insertSql)) {
             pstmt.setString(1, account.getUsername());
             pstmt.setString(2, account.getPassword());
-            pstmt.setString(3, account.getRole());
+            pstmt.setString(INDEX_THREE, account.getRole());
             pstmt.executeUpdate();
             System.out.println("Account inserted successfully");
         }
@@ -524,7 +524,7 @@ public final class DbManager {
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setInt(1, application.getUser().getId());
             pstmt.setInt(2, application.getPet().getId());
-            pstmt.setInt(3, 0);
+            pstmt.setInt(INDEX_THREE, 0);
             pstmt.executeUpdate();
             System.out.println("Application inserted successfully");
         }
