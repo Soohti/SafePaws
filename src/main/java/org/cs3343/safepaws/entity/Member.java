@@ -30,6 +30,18 @@ public class Member extends Account {
         super();
     }
 
+
+    /**
+     * Constructs a new Member by copying the specified Member.
+     *
+     * @param other the Member to copy
+     */
+    public Member(Member other) {
+        super(other.getUsername(), other.getPassword(), other.getRole());
+        this.profile = other.profile; // Assuming MemberProfile is immutable or has its own copy constructor
+    }
+
+
     /**
      * Sets the profile of the member.
      *
@@ -42,16 +54,14 @@ public class Member extends Account {
     /**
      * Sets the profile of the member with the specified attributes.
      *
-     * @param preferredSpecies the preferred species of the member
-     * @param preferredBreed the preferred breed of the member
-     * @param gender the gender of the member
+     * @param preferredSpecies  the preferred species of the member
+     * @param preferredBreed    the preferred breed of the member
+     * @param gender            the gender of the member
      * @param numericAttributes the numeric attributes of the member
      */
-    public void setProfile(final String preferredSpecies,
-            final String preferredBreed, final String gender,
+    public void setProfile(final String preferredSpecies, final String preferredBreed, final String gender,
             final int[] numericAttributes) {
-        this.profile = new MemberProfile(preferredSpecies,
-                preferredBreed, gender, numericAttributes);
+        this.profile = new MemberProfile(preferredSpecies, preferredBreed, gender, numericAttributes.clone());
     }
 
     /**
@@ -72,13 +82,15 @@ public class Member extends Account {
         super.setId(id);
     }
 
+
     /**
      * Gets the profile of the member.
      *
-     * @return the profile of the member
+     * @return a defensive copy of the profile of the member
      */
     public MemberProfile getProfile() {
-        return this.profile;
+        return new MemberProfile(this.profile.getPreferredSpecies(), this.profile.getPreferredBreed(), this.profile.getGender(), this.profile.getNumericAttributes());
     }
+
 
 }
