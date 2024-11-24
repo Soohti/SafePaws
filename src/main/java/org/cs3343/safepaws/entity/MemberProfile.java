@@ -6,7 +6,22 @@ package org.cs3343.safepaws.entity;
  */
 public class MemberProfile {
     /**
-     * The index for workhour.
+     * The index for extroversion level.
+     */
+    private static final int INDEX_EXTROVERSION = 0;
+
+    /**
+     * The index for daily activity level.
+     */
+    private static final int INDEX_DAILY_ACTIVITY = 1;
+
+    /**
+     * The index for house size.
+     */
+    private static final int INDEX_HOUSE_SIZE = 2;
+
+    /**
+     * The index for work hours.
      */
     private static final int INDEX_WORK = 3;
 
@@ -26,39 +41,9 @@ public class MemberProfile {
     private static final int INDEX_BUDG = 6;
 
     /**
-     * The extroversion level of the member.
+     * The numeric attributes of the member.
      */
-    private int extroversionLevel;
-
-    /**
-     * The daily activity level of the member.
-     */
-    private int dailyActivityLevel;
-
-    /**
-     * The house size of the member.
-     */
-    private int houseSize;
-
-    /**
-     * The work hours of the member.
-     */
-    private int workHours;
-
-    /**
-     * The number of family members.
-     */
-    private int numberOfFamilyMembers;
-
-    /**
-     * The previous pet experience of the member.
-     */
-    private int previousPetExperience;
-
-    /**
-     * The financial budget of the member.
-     */
-    private int financialBudget;
+    private int[] numericAttributes;
 
     /**
      * The preferred species of the member.
@@ -83,18 +68,11 @@ public class MemberProfile {
      * @param gen     the gender
      * @param numeric an array of numeric attributes
      */
-    public MemberProfile(final String species, final String breed,
-                         final String gen, final int[] numeric) {
+    public MemberProfile(final String species, final String breed, final String gen, final int[] numeric) {
         this.preferredSpecies = species;
         this.preferredBreed = breed;
         this.gender = gen;
-        this.extroversionLevel = numeric[0];
-        this.dailyActivityLevel = numeric[1];
-        this.houseSize = numeric[2];
-        this.workHours = numeric[INDEX_WORK];
-        this.numberOfFamilyMembers = numeric[INDEX_FAM];
-        this.previousPetExperience = numeric[INDEX_EXP];
-        this.financialBudget = numeric[INDEX_BUDG];
+        this.numericAttributes = numeric;
     }
 
     /**
@@ -111,10 +89,20 @@ public class MemberProfile {
      *
      * @param newPreferredSpecies the new preferred species
      */
-    public void setPreferredSpecies(final
-                                    String newPreferredSpecies) {
+    public void setPreferredSpecies(final String newPreferredSpecies) {
         this.preferredSpecies = newPreferredSpecies;
     }
+
+
+    /**
+     * Gets the numeric attributes.
+     *
+     * @return the numeric attributes
+     */
+    public int[] getNumericAttributes() {
+        return numericAttributes;
+    }
+
 
     /**
      * Gets the extroversion level.
@@ -122,7 +110,7 @@ public class MemberProfile {
      * @return the extroversion level
      */
     public int getExtroversionLevel() {
-        return extroversionLevel;
+        return numericAttributes[INDEX_EXTROVERSION];
     }
 
     /**
@@ -130,9 +118,8 @@ public class MemberProfile {
      *
      * @param newExtroversionLevel the new extroversion level
      */
-    public void setExtroversionLevel(final
-                                     int newExtroversionLevel) {
-        this.extroversionLevel = newExtroversionLevel;
+    public void setExtroversionLevel(final int newExtroversionLevel) {
+        this.numericAttributes[INDEX_EXTROVERSION] = newExtroversionLevel;
     }
 
     /**
@@ -141,7 +128,7 @@ public class MemberProfile {
      * @return the daily activity level
      */
     public int getDailyActivityLevel() {
-        return dailyActivityLevel;
+        return numericAttributes[INDEX_DAILY_ACTIVITY];
     }
 
     /**
@@ -149,9 +136,8 @@ public class MemberProfile {
      *
      * @param newDailyActivityLevel the new daily activity level
      */
-    public void setDailyActivityLevel(final
-                                      int newDailyActivityLevel) {
-        this.dailyActivityLevel = newDailyActivityLevel;
+    public void setDailyActivityLevel(final int newDailyActivityLevel) {
+        this.numericAttributes[INDEX_DAILY_ACTIVITY] = newDailyActivityLevel;
     }
 
     /**
@@ -160,7 +146,7 @@ public class MemberProfile {
      * @return the house size
      */
     public int getHouseSize() {
-        return houseSize;
+        return numericAttributes[INDEX_HOUSE_SIZE];
     }
 
     /**
@@ -169,7 +155,7 @@ public class MemberProfile {
      * @param newHouseSize the new house size
      */
     public void setHouseSize(final int newHouseSize) {
-        this.houseSize = newHouseSize;
+        this.numericAttributes[INDEX_HOUSE_SIZE] = newHouseSize;
     }
 
     /**
@@ -178,7 +164,7 @@ public class MemberProfile {
      * @return the work hours
      */
     public int getWorkHours() {
-        return workHours;
+        return numericAttributes[INDEX_WORK];
     }
 
     /**
@@ -187,7 +173,7 @@ public class MemberProfile {
      * @param newWorkHours the new work hours
      */
     public void setWorkHours(final int newWorkHours) {
-        this.workHours = newWorkHours;
+        this.numericAttributes[INDEX_WORK] = newWorkHours;
     }
 
     /**
@@ -196,7 +182,7 @@ public class MemberProfile {
      * @return the number of family members
      */
     public int getNumberOfFamilyMembers() {
-        return numberOfFamilyMembers;
+        return numericAttributes[INDEX_FAM];
     }
 
     /**
@@ -204,9 +190,8 @@ public class MemberProfile {
      *
      * @param newNumberOfFamilyMembers the new number of family members
      */
-    public void setNumberOfFamilyMembers(final
-                                         int newNumberOfFamilyMembers) {
-        this.numberOfFamilyMembers = newNumberOfFamilyMembers;
+    public void setNumberOfFamilyMembers(final int newNumberOfFamilyMembers) {
+        this.numericAttributes[INDEX_FAM] = newNumberOfFamilyMembers;
     }
 
     /**
@@ -215,7 +200,7 @@ public class MemberProfile {
      * @return the previous pet experience
      */
     public int getPreviousPetExperience() {
-        return previousPetExperience;
+        return numericAttributes[INDEX_EXP];
     }
 
     /**
@@ -223,9 +208,8 @@ public class MemberProfile {
      *
      * @param newPreviousPetExperience the new previous pet experience
      */
-    public void setPreviousPetExperience(final
-                                         int newPreviousPetExperience) {
-        this.previousPetExperience = newPreviousPetExperience;
+    public void setPreviousPetExperience(final int newPreviousPetExperience) {
+        this.numericAttributes[INDEX_EXP] = newPreviousPetExperience;
     }
 
     /**
@@ -234,7 +218,7 @@ public class MemberProfile {
      * @return the financial budget
      */
     public int getFinancialBudget() {
-        return financialBudget;
+        return numericAttributes[INDEX_BUDG];
     }
 
     /**
@@ -243,7 +227,7 @@ public class MemberProfile {
      * @param newFinancialBudget the new financial budget
      */
     public void setFinancialBudget(final int newFinancialBudget) {
-        this.financialBudget = newFinancialBudget;
+        this.numericAttributes[INDEX_BUDG] = newFinancialBudget;
     }
 
     /**
@@ -260,8 +244,7 @@ public class MemberProfile {
      *
      * @param newPreferredBreed the new preferred breed
      */
-    public void setPreferredBreed(final
-                                  String newPreferredBreed) {
+    public void setPreferredBreed(final String newPreferredBreed) {
         this.preferredBreed = newPreferredBreed;
     }
 
