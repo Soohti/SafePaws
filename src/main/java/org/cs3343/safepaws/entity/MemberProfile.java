@@ -74,7 +74,7 @@ public class MemberProfile {
         this.preferredSpecies = species;
         this.preferredBreed = breed;
         this.gender = gen;
-        this.numericAttributes = numeric;
+        this.numericAttributes = numeric.clone();
     }
 
     /**
@@ -85,7 +85,7 @@ public class MemberProfile {
     public MemberProfile(final MemberProfile other) {
         this.preferredSpecies = other.getPreferredSpecies();
         this.preferredBreed = other.getPreferredBreed();
-        this.numericAttributes = other.getNumericAttributes();
+        this.numericAttributes = other.getNumericAttributes().clone();
     }
 
     /**
@@ -113,7 +113,7 @@ public class MemberProfile {
      * @return the numeric attributes
      */
     public int[] getNumericAttributes() {
-        return numericAttributes;
+        return numericAttributes.clone();
     }
 
 
