@@ -92,9 +92,9 @@ public class Application {
      * @return the pet
      */
     public Pet getPet() {
-        return pet;
+        return new Pet(pet);
     }
-
+    
     /**
      * Sets the pet.
      *
