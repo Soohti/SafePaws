@@ -4,8 +4,6 @@ import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -34,12 +32,8 @@ public final class SortPetAlgo implements Algorithm {
             petMatchScores.add(new PetMatchScore(pet, matchScore));
         }
 
-        Collections.sort(petMatchScores, new Comparator<PetMatchScore>() {
-            @Override
-            public int compare(final PetMatchScore o1, final PetMatchScore o2) {
-                return Double.compare(o2.getMatchScore(), o1.getMatchScore());
-            }
-        });
+        petMatchScores.sort((o1, o2) -> Double.compare(o2.getMatchScore(),
+                o1.getMatchScore()));
 
         List<Pet> sortedPets = new ArrayList<>();
         for (PetMatchScore petMatchScore : petMatchScores) {
@@ -66,7 +60,7 @@ public final class SortPetAlgo implements Algorithm {
         /**
          * Constructs a PetMatchScore with the specified pet and match score.
          *
-         * @param newP        the pet
+         * @param newP  the pet
          * @param newSc the match score
          */
         public PetMatchScore(final Pet newP, final double newSc) {

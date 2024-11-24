@@ -1,4 +1,3 @@
-
 package org.cs3343.safepaws.entity;
 
 /**
@@ -16,10 +15,10 @@ public class Member extends Account {
      *
      * @param username the username of the member
      * @param password the password of the member
-     * @param role the role of the member
+     * @param role     the role of the member
      */
     public Member(final String username, final String password,
-            final String role) {
+                  final String role) {
         super(username, password, role);
     }
 
@@ -60,8 +59,8 @@ public class Member extends Account {
      * @param numericAttributes the numeric attributes of the member
      */
     public void setProfile(final String preferredSpecies,
-            final String preferredBreed, final String gender,
-            final int[] numericAttributes) {
+                           final String preferredBreed, final String gender,
+                           final int[] numericAttributes) {
         this.profile = new MemberProfile(preferredSpecies,
                 preferredBreed, gender, numericAttributes.clone());
     }

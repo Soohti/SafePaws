@@ -29,8 +29,6 @@ public class Logout extends UI {
     public UI execute(final Session session) throws IOException {
         session.setAccount(null);
         session.println("Bye bye.");
-
-        session.clear();
         return new MainMenu();
     }
 

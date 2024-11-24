@@ -11,9 +11,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The ViewPets class is responsible for displaying available pets to the user.
+ * The MemberViewPets class is responsible for
+ * displaying available pets to the user.
  */
-public class ViewPets extends UI {
+public class MemberViewPets extends UI {
 
     /**
      * The name of this UI component.
@@ -21,16 +22,16 @@ public class ViewPets extends UI {
     private static final String NAME = "View Pets";
 
     /**
-     * Constructs a new ViewPets instance.
+     * Constructs a new MemberViewPets instance.
      *
      * @param referrer the UI that referred to this instance
      */
-    public ViewPets(final UI referrer) {
+    public MemberViewPets(final UI referrer) {
         super(NAME, referrer);
     }
 
     /**
-     * Executes the ViewPets UI.
+     * Executes the MemberViewPets UI.
      *
      * @param session the current session
      * @return the referrer UI
@@ -55,7 +56,7 @@ public class ViewPets extends UI {
     }
 
     /**
-     * Determines if the ViewPets UI is visible to the current session.
+     * Determines if the MemberViewPets UI is visible to the current session.
      *
      * @param session the current session
      * @return true if the UI is visible, false otherwise

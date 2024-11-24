@@ -2,10 +2,10 @@ package org.cs3343.safepaws.ui.menu;
 
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.account.Logout;
-import org.cs3343.safepaws.ui.adoption.MemberSeeApplication;
-import org.cs3343.safepaws.ui.adoption.SetProfile;
-import org.cs3343.safepaws.ui.adoption.SubmitApplication;
-import org.cs3343.safepaws.ui.adoption.ViewPets;
+import org.cs3343.safepaws.ui.adoption.MemberCheckApplication;
+import org.cs3343.safepaws.ui.adoption.MemberSetProfile;
+import org.cs3343.safepaws.ui.adoption.MemberSubmitApplication;
+import org.cs3343.safepaws.ui.adoption.MemberViewPets;
 import org.cs3343.safepaws.util.Session;
 
 /**
@@ -24,11 +24,11 @@ public class MemberMenu extends Menu {
      * The menu items.
      */
     private final UI[] menuItems = new UI[] {
-        new Logout(this), // go to main menu
-        new MemberSeeApplication(this),
-        new SetProfile(this),
-        new SubmitApplication(this),
-        new ViewPets(this),
+            new Logout(this), // go to main menu
+            new MemberCheckApplication(this),
+            new MemberSetProfile(this),
+            new MemberSubmitApplication(this),
+            new MemberViewPets(this),
     };
 
     /**
@@ -48,6 +48,6 @@ public class MemberMenu extends Menu {
     @Override
     public final boolean isVisibleTo(final Session session) {
         return session.getAccount() != null
-               && "M".equals(session.getAccount().getRole());
+                && "M".equals(session.getAccount().getRole());
     }
 }

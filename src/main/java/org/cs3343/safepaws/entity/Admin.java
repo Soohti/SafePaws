@@ -11,7 +11,7 @@ public class Admin extends Account {
      * @param role
      */
     public Admin(final String username,
-            final String password, final String role) {
+                 final String password, final String role) {
         super(username, password, role);
     }
 

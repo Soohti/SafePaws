@@ -1,8 +1,5 @@
 package org.cs3343.safepaws.util;
 
-//import org.cs3343.safepaws.entity.Pet;
-//import org.cs3343.safepaws.entity.User;
-
 import org.cs3343.safepaws.entity.Account;
 
 import java.io.BufferedReader;
@@ -37,7 +34,6 @@ public final class Session {
      * Request input from the client.
      *
      * @return The input from the client.
-     * @throws IOException If an error occurs.
      */
     public String requestInput() {
         try {
@@ -51,17 +47,54 @@ public final class Session {
     }
 
     /**
+     * Request a numeric input from the client, ensuring that the input is
+     * within the specified range.
+     * <p>
+     * If the input is not a number, the client is prompted to enter a
+     * number. If the input is a number but not within the specified range,
+     * the client is prompted to enter a number within the specified range.
+     * This process repeats until the client enters a valid number within
+     * the specified range.
+     * </p>
+     *
+     * @param minValue The minimum value of the input.
+     *                 The client must enter a number greater than or equal to
+     *                 this value.
+     * @param maxValue The maximum value of the input.
+     *                 The client must enter a number less than or equal to this
+     *                 value.
+     * @return The numeric input from the client.
+     */
+    public int requestNumericInput(final int minValue, final int maxValue) {
+        while (true) {
+            String input = requestInput();
+            try {
+                int value = Integer.parseInt(input);
+                if (value >= minValue && value <= maxValue) {
+                    return value;
+                } else {
+                    println(
+                            "Invalid input. Please enter a number between "
+                                    + minValue + " and " + maxValue + ".");
+                }
+            } catch (NumberFormatException e) {
+                println("Invalid input. Please enter a number.");
+            }
+        }
+    }
+
+    /**
      * Create a new session with the given input and output streams.
      *
-     * @param in The input stream.
+     * @param in  The input stream.
      * @param out The output stream.
      */
     public Session(final InputStream in, final OutputStream out) {
         this.reader = new BufferedReader(
-            new InputStreamReader(in, StandardCharsets.UTF_8)
+                new InputStreamReader(in, StandardCharsets.UTF_8)
         );
         this.writer = new PrintWriter(
-            new OutputStreamWriter(out, StandardCharsets.UTF_8), true
+                new OutputStreamWriter(out, StandardCharsets.UTF_8), true
         );
     }
 
@@ -97,14 +130,14 @@ public final class Session {
      *
      * @param format The format string.
      * @param args   The arguments referenced
-     * by the format specifiers in the format
-     * string.
+     *               by the format specifiers in the format
+     *               string.
      */
     public void printf(final String format, final Object... args) {
         StringBuilder output = new StringBuilder();
         Formatter formatter = new Formatter(output);
         formatter.format(format, args);
-        writer.println(output.toString());
+        writer.println(output);
         formatter.close();
     }
 
@@ -137,12 +170,5 @@ public final class Session {
      */
     public Account getAccount() {
         return (this.account != null) ? new Account(this.account) : null;
-    }
-
-    /**
-     * Clear.
-     */
-    public void clear() {
-        this.account = null;
     }
 }

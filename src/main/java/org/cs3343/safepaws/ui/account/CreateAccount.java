@@ -12,8 +12,10 @@ import org.cs3343.safepaws.util.Session;
  */
 public class CreateAccount extends UI {
 
-    /** The constant NAME representing the name
-     * of this UI component. */
+    /**
+     * The constant NAME representing the name
+     * of this UI component.
+     */
     private static final String NAME = "Create Account";
 
     /**

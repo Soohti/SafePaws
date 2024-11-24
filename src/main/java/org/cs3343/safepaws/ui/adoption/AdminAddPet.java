@@ -17,6 +17,11 @@ public final class AdminAddPet extends UI {
     private static final String NAME = "Add one pet to database";
 
     /**
+     * The maximum value for certain numeric attributes.
+     */
+    private static final int MAX_VAL = 10;
+
+    /**
      * Constructs an AdminAddPet instance.
      *
      * @param referrer the UI that referred to this UI
@@ -71,21 +76,11 @@ public final class AdminAddPet extends UI {
 
         session.println("Enter the age of this pet "
                 + "(a positive integer):");
-        age = Integer.parseInt(session.requestInput());
-        while (!Pet.isValidAge(age)) {
-            session.println("Your input age is invalid. "
-                    + "Please enter again:");
-            age = Integer.parseInt(session.requestInput());
-        }
+        age = session.requestNumericInput(0, Integer.MAX_VALUE);
 
         session.println("Enter the weight of this pet "
                 + "(a positive integer):");
-        weight = Integer.parseInt(session.requestInput());
-        while (!Pet.isValidWeight(weight)) {
-            session.println("Your input weight is invalid. "
-                    + "Please enter again:");
-            weight = Integer.parseInt(session.requestInput());
-        }
+        weight = session.requestNumericInput(0, Integer.MAX_VALUE);
 
         session.println("Enter the gender of this pet "
                 + "(\"m\" for male, \"f\" for female):");
@@ -98,24 +93,15 @@ public final class AdminAddPet extends UI {
 
         session.println(
                 "Enter the activity level of this pet "
-                + "(a positive integer meeting 0-10, "
-                + "larger numbers indicate more activity):");
-        activityLevel = Integer.parseInt(session.requestInput());
-        while (!Pet.isValidActivityLevel(activityLevel)) {
-            session.println("Your input activity level is invalid. "
-                    + "Please enter again:");
-            activityLevel = Integer.parseInt(session.requestInput());
-        }
+                        + "(a positive integer meeting 0-" + MAX_VAL + ", "
+                        + "larger numbers indicate more activity):");
+        activityLevel = session.requestNumericInput(0, MAX_VAL);
 
         session.println(
                 "Enter the health status of this pet (a positive "
-                + "integer meeting 0-10, larger numbers indicate healthier):");
-        healthStatus = Integer.parseInt(session.requestInput());
-        while (!Pet.isValidHealthStatus(healthStatus)) {
-            session.println("Your input health status is invalid. "
-                    + "Please enter again:");
-            healthStatus = Integer.parseInt(session.requestInput());
-        }
+                        + "integer meeting 0-" + MAX_VAL
+                        + ", larger numbers indicate healthier):");
+        healthStatus = session.requestNumericInput(0, MAX_VAL);
 
         int[] numericAttributes = {age, weight, activityLevel, healthStatus};
 
