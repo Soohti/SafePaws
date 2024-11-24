@@ -90,15 +90,16 @@ public final class Pet {
         this.activityLevel = numeric[2];
         this.healthStatus = numeric[INDEX_HEALTH];
     }
-    
+
 
 
     /**
-     * Copy constructor for creating a new Pet object that is a copy of the given Pet object.
+     * Copy constructor for creating a new
+     * Pet object that is a copy of the given Pet object.
      *
      * @param other the Pet object to copy
      */
-    public Pet(Pet other) {
+    public Pet(final Pet other) {
         this.id = other.id;
         this.activityLevel = other.activityLevel;
         this.age = other.age;

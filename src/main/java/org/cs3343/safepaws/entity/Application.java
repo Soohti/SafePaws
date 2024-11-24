@@ -94,7 +94,7 @@ public class Application {
     public Pet getPet() {
         return new Pet(pet);
     }
-    
+
     /**
      * Sets the pet.
      *
