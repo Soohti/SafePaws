@@ -25,7 +25,7 @@ public class AdminSeeAllApplication extends UI {
      *
      * @param referrer the UI that referred to this instance
      */
-    public AdminSeeAllApplication(UI referrer) {
+    public AdminSeeAllApplication(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -36,11 +36,11 @@ public class AdminSeeAllApplication extends UI {
      * @return the referrer UI
      */
     @Override
-    protected UI execute(Session session) {
+    protected UI execute(final Session session) {
         ArrayList<Application> applications = new ArrayList<>();
-        String[] State = { "Pending", "Approved", "Rejected" };
+        String[] state = { "Pending", "Approved", "Rejected" };
         try {
-            applications = DbManager.ViewAllApplication();
+            applications = DbManager.viewAllApplication();
             session.printf("%-10s %-10s %-10s %-10s %-10s",
                     "Id", "Mid", "Pid", "Score", "State");
             session.println("");
@@ -49,7 +49,7 @@ public class AdminSeeAllApplication extends UI {
                 session.printf("%-10d %-10d %-10d %-10f %-10s",
                         a.getId(), a.getUser().getId(), a.getPet().getId(),
                         PetMatchingAlgo.calculateMatch(a.getUser(),
-                                a.getPet()), State[a.getState()]);
+                                a.getPet()), state[a.getState()]);
                 session.println("");
             }
         } catch (SQLException e) {
@@ -62,12 +62,12 @@ public class AdminSeeAllApplication extends UI {
      * Determines if the UI is visible to the current session.
      *
      * @param session the current session
-     * @return true if the session's account is 
+     * @return true if the session's account is
      * not null and has an admin role,
      * false otherwise
      */
     @Override
-    public boolean isVisibleTo(Session session) {
+    public boolean isVisibleTo(final Session session) {
         return session.getAccount() != null
                 && "A".equals(session.getAccount().getRole());
     }

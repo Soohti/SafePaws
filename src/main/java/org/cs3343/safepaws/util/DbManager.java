@@ -60,11 +60,13 @@ public final class DbManager {
     }
 
     /**
-     * Establishes a connection to the database using the configured URL, username,
+     * Establishes a connection to the database
+     * using the configured URL, username,
      * and password.
      *
      * @return a Connection object to the database.
-     * @throws SQLException if a database access error occurs or the URL is null.
+     * @throws SQLException if a database access
+     * error occurs or the URL is null.
      */
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
@@ -166,11 +168,11 @@ public final class DbManager {
      * @param username the username.
      * @return the account, or null if not found.
      */
-    public static Account selectAccount(final String username) {
+    public static Account selectAccount(final String inputUsername) {
         String query = "SELECT * FROM ACCOUNT WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, username);
+            pstmt.setString(1, inputUsername);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 String rUser = rs.getString("username");
@@ -199,7 +201,7 @@ public final class DbManager {
      * @return a list of all applications.
      * @throws SQLException if a database error occurs.
      */
-    public static ArrayList<Application> ViewAllApplication()
+    public static ArrayList<Application> viewAllApplication()
             throws SQLException {
         String query = "SELECT * FROM APPLICATION";
         try (Connection conn = getConnection();
@@ -208,12 +210,12 @@ public final class DbManager {
             ArrayList<Application> applications = new ArrayList<>();
             while (rs.next()) {
                 int id = rs.getInt("Id");
-                int Mid = rs.getInt("MId");
-                int Pid = rs.getInt("PId");
-                int State = rs.getInt("State");
-                Member account = selectMemberById(Mid);
-                Pet pet = selectPetById(Pid);
-                Application application = new Application(account, pet, State);
+                int mid = rs.getInt("MId");
+                int pid = rs.getInt("PId");
+                int state = rs.getInt("State");
+                Member account = selectMemberById(mid);
+                Pet pet = selectPetById(pid);
+                Application application = new Application(account, pet, state);
                 application.setId(id);
                 applications.add(application);
             }
@@ -257,7 +259,7 @@ public final class DbManager {
     /**
      * Changes the state of an application.
      *
-     * @param Aid   the application ID.
+     * @param aid   the application ID.
      * @param state the new state.
      * @return the updated application, or null if not found.
      */
@@ -352,7 +354,7 @@ public final class DbManager {
                     System.out.println("No pet found with the given Id");
                     return null;
                 }
-            
+
         } catch (Exception e) {
             System.out.println("Error during selecting pet by id.");
         }
@@ -434,7 +436,8 @@ public final class DbManager {
      * @param memberProfile the new member profile.
      * @throws SQLException if a database error occurs.
      */
-    public static void changeMemProfile(final int id, final MemberProfile memberProfile)
+    public static void changeMemProfile(final int id,
+            final MemberProfile memberProfile)
             throws SQLException {
         String updateSQL = "UPDATE MEMBER_PROFILE SET PreferredSpecies = ?, "
                 + "PreferredBreed = ?, ExtroversionLevel = ?, "

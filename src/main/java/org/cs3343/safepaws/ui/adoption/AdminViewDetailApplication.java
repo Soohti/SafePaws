@@ -27,7 +27,7 @@ public class AdminViewDetailApplication extends UI {
      *
      * @param referrer the UI referrer
      */
-    public AdminViewDetailApplication(UI referrer) {
+    public AdminViewDetailApplication(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -39,11 +39,11 @@ public class AdminViewDetailApplication extends UI {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected UI execute(Session session) throws IOException {
+    protected UI execute(final Session session) throws IOException {
         session.println("Enter the application you want to see:");
 
-        int Aid = Integer.parseInt(session.requestInput());
-        Application application = DbManager.selectApplication(Aid);
+        int aid = Integer.parseInt(session.requestInput());
+        Application application = DbManager.selectApplication(aid);
         Member m = application.getUser();
         Pet p = application.getPet();
         MemberProfile pf = m.getProfile();
@@ -78,7 +78,7 @@ public class AdminViewDetailApplication extends UI {
                 p.getHealthStatus());
         session.println("");
 
-        String State[] = {"Pending", "Approved", "Rejected"};
+        String[] State = {"Pending", "Approved", "Rejected"};
         session.println("");
         session.printf("%-10s %-10s", "Score", "State");
         session.println("");
@@ -96,7 +96,7 @@ public class AdminViewDetailApplication extends UI {
      * @return true if visible, false otherwise
      */
     @Override
-    public boolean isVisibleTo(Session session) {
+    public boolean isVisibleTo(final Session session) {
         return session.getAccount() != null && "A".equals(
                 session.getAccount().getRole());
     }
