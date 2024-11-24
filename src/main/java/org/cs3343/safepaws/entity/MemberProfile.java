@@ -78,6 +78,17 @@ public class MemberProfile {
     }
 
     /**
+     * Constructs a new Member by copying the specified Member.
+     *
+     * @param other the Member to copy
+     */
+    public MemberProfile(final MemberProfile other) {
+        this.preferredSpecies = other.getPreferredSpecies();
+        this.preferredBreed = other.getPreferredBreed();
+        this.numericAttributes = other.getNumericAttributes();
+    }
+
+    /**
      * Gets the preferred species.
      *
      * @return the preferred species

@@ -34,7 +34,7 @@ public class Application {
      * @param st      the state
      */
     public Application(final Member account, final Pet p, final int st) {
-        this.user = account;
+        this.user = new Member(account);
         this.pet = new Pet(p);
         this.state = st;
     }

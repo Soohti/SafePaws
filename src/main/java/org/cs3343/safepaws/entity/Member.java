@@ -48,7 +48,7 @@ public class Member extends Account {
      * @param memberProfile the profile to set
      */
     public void setProfile(final MemberProfile memberProfile) {
-        this.profile = memberProfile;
+        this.profile = new MemberProfile(memberProfile);
     }
 
     /**
