@@ -37,22 +37,22 @@ public class AdminViewApplication extends UI {
      */
     @Override
     protected UI execute(final Session session) throws IOException {
-    	ShowAllApplication.Show(session);
-    	do {
-    		session.println("Enter the id of application you want "
+        ShowAllApplication.show(session);
+        do {
+            session.println("Enter the id of application you want "
                     + "to view details and check.\n"
-    				+ "or \"V\" to view all applications "
-    				+ "and \"E\" to exit ");
+                    + "or \"V\" to view all applications "
+                    + "and \"E\" to exit ");
             String choice = session.requestInput();
             if ("E".equals(choice)) {
                 return this.getReferrer();
             } else if ("V".equals(choice)) {
-            	ShowAllApplication.Show(session);
+                ShowAllApplication.show(session);
             } else {
-            	try {
+                try {
                     int aid = Integer.parseInt(choice);
                     if (Application.isValidAid(aid)) {
-                    	ShowDetailApplication.Show(session, aid);
+                    	ShowDetailApplication.show(session, aid);
                     	int sta = DbManager.selectApplication(aid).getState();
                     	if (sta != 0) {
                     		session.print("This application has "

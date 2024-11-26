@@ -15,21 +15,19 @@ import java.io.IOException;
  * admin to view detailed information of a specific application.
  */
 public class ShowDetailApplication {
-	/**
-	 * Default constructor 
+    /**
+	 * Default constructor.
 	 */
-    public ShowDetailApplication() {	
+    public ShowDetailApplication() {
     }
 
     /**
      * Executes the UI logic for viewing application details.
      *
-     * @param session the current session
-     * @param Id of application
-     * @return null
+     * @param session the current session, Id of application
      * @throws IOException if an I/O error occurs
      */
-    public static void Show(final Session session, final int aid) throws IOException {
+    public static void show(final Session session, final int aid) throws IOException {
         Application application = DbManager.selectApplication(aid);
         Member m = application.getUser();
         Pet p = application.getPet();

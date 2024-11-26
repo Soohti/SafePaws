@@ -13,18 +13,17 @@ import java.util.ArrayList;
  */
 public class ShowAllApplication {
 	/**
-	 * Default constructor 
+	 * Default constructor.
 	 */
-    public ShowAllApplication() {	
+    public ShowAllApplication() {
     }
 
     /**
      * Display all adoption applications.
      *
      * @param session the current session
-     * @return null
      */
-    public static void Show(final Session session) {
+    public static void show(final Session session) {
         ArrayList<Application> applications;
         String[] state = {"Pending", "Approved", "Rejected"};
         try {

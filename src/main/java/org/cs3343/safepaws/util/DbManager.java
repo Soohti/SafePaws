@@ -137,7 +137,7 @@ public final class DbManager {
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             setValues(pstmt, pet.getName(), pet.getSpecies(), pet.getBreed(),
                     pet.getAge(), pet.getWeight(), pet.getGender(),
-                    pet.getActivityLevel(), pet.getHealthStatus(), 
+                    pet.getActivityLevel(), pet.getHealthStatus(),
                     pet.getState());
             pstmt.executeUpdate();
             System.out.println("Pet inserted successfully");
@@ -279,7 +279,7 @@ public final class DbManager {
     	    String preUpdateSQL1 = "UPDATE APPLICATION SET State = ? "
                     + "WHERE Pid = ?";
     	    try (Connection conn = getConnection();
-                PreparedStatement pstmt = 
+                PreparedStatement pstmt =
                         conn.prepareStatement(preUpdateSQL1)) {
                 setValues(pstmt, 2, pid);
                 pstmt.executeUpdate();
@@ -291,7 +291,7 @@ public final class DbManager {
     	    String preUpdateSQL2 = "UPDATE PET SET State = ? "
                     + "WHERE Id = ?";
     	    try (Connection conn = getConnection();
-                PreparedStatement pstmt = 
+                PreparedStatement pstmt =
                         conn.prepareStatement(preUpdateSQL2)) {
                 setValues(pstmt, 1, pid);
                 pstmt.executeUpdate();
@@ -299,7 +299,7 @@ public final class DbManager {
                 System.out.println("Error during Changing pet State: "
                         + e.getMessage());
             }
-        }	
+        }
         String updateSQL = "UPDATE APPLICATION SET State = ? "
                 + "WHERE Id = ?";
         try (Connection conn = getConnection();

@@ -44,12 +44,12 @@ public class MemberSubmitApplication extends UI {
         String userInput = session.requestInput();
         int pid = Integer.parseInt(userInput);
         while (Application.isValidPid(pid) != 2) {
-        	if (Application.isValidPid(pid) == 0) {
-        		session.println("Your input pet id is invalid."
+            if (Application.isValidPid(pid) == 0) {
+                session.println("Your input pet id is invalid."
                     + " Please enter again:");
-        	} else {
-        		session.print("This pet has been adopted.");
-        	}
+            } else {
+                session.print("This pet has been adopted.");
+            }
             pid = Integer.parseInt(session.requestInput());
         }
 
