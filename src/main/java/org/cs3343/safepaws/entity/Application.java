@@ -149,7 +149,7 @@ public class Application {
         if (DbManager.selectPetById(pid) == null) {
             return 0;
         } else if (DbManager.selectPetById(pid).getState() == 1) {
-        	return 1;
+            return 1;
         }
         return 2;
     }

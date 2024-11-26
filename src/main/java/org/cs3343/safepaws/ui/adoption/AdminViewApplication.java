@@ -3,7 +3,6 @@ package org.cs3343.safepaws.ui.adoption;
 import java.io.IOException;
 
 import org.cs3343.safepaws.entity.Application;
-import org.cs3343.safepaws.ui.Exit;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -13,8 +12,8 @@ import org.cs3343.safepaws.util.Session;
  * to view and update the state
  * of an adoption application.
  */
-public class AdminViewApplication extends UI{
-	/**
+public class AdminViewApplication extends UI {
+    /**
      * The name of the UI for checking one application for adoption.
      */
     private static final String NAME =
@@ -38,9 +37,7 @@ public class AdminViewApplication extends UI{
      */
     @Override
     protected UI execute(final Session session) throws IOException {
-    	
     	ShowAllApplication.Show(session);
-    	
     	do {
     		session.println("Enter the id of application you want "
                     + "to view details and check.\n"
@@ -56,19 +53,20 @@ public class AdminViewApplication extends UI{
                     int aid = Integer.parseInt(choice);
                     if (Application.isValidAid(aid)) {
                     	ShowDetailApplication.Show(session, aid);
-                    	int state = DbManager.selectApplication(aid).getState();
-                    	if (state != 0) {
-                    		session.print("This application has been checked.");
+                    	int sta = DbManager.selectApplication(aid).getState();
+                    	if (sta != 0) {
+                    		session.print("This application has "
+                                    + "been checked.");
                     	} else {
                     		session.println("Enter what state you want to set "
                                     + "(1: approve; 2: reject):");
-                            state = Integer.parseInt(session.requestInput());
-                            while (!Application.isValidState(state)) {
+                            sta = Integer.parseInt(session.requestInput());
+                            while (!Application.isValidState(sta)) {
                                 session.println("Your input state is invalid. "
                                         + "Please enter again:");
-                                state = Integer.parseInt(session.requestInput());
+                                sta = Integer.parseInt(session.requestInput());
                             }
-                            DbManager.changeState(aid, state);
+                            DbManager.changeState(aid, sta);
                     	}
                     } else {
                         session.print("Invalid choice, please try again: ");

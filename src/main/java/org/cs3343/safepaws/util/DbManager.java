@@ -137,7 +137,8 @@ public final class DbManager {
              PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             setValues(pstmt, pet.getName(), pet.getSpecies(), pet.getBreed(),
                     pet.getAge(), pet.getWeight(), pet.getGender(),
-                    pet.getActivityLevel(), pet.getHealthStatus(), pet.getState());
+                    pet.getActivityLevel(), pet.getHealthStatus(), 
+                    pet.getState());
             pstmt.executeUpdate();
             System.out.println("Pet inserted successfully");
         }
@@ -273,33 +274,32 @@ public final class DbManager {
     public static void changeState(final int aid,
                                    final int state) {
     	if (state == 1) {
-    		Pet pet = DbManager.selectApplication(aid).getPet();
-    		int Pid = pet.getId();
-    		String preUpdateSQL1 = "UPDATE APPLICATION SET State = ? "
+    	    Pet pet = DbManager.selectApplication(aid).getPet();
+    	    int pid = pet.getId();
+    	    String preUpdateSQL1 = "UPDATE APPLICATION SET State = ? "
                     + "WHERE Pid = ?";
-    		try (Connection conn = getConnection();
-    	        PreparedStatement pstmt = conn.prepareStatement(preUpdateSQL1)) {
-    	        setValues(pstmt, 2, Pid);
-    	        pstmt.executeUpdate();
-    	    } catch (SQLException e) {
-    	        System.out.println("Error during Changing other applications State: "
-    	                + e.getMessage());
-    	    }
-    		
-    		String preUpdateSQL2 = "UPDATE PET SET State = ? "
+    	    try (Connection conn = getConnection();
+                PreparedStatement pstmt = 
+                        conn.prepareStatement(preUpdateSQL1)) {
+                setValues(pstmt, 2, pid);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("Error during Changing "
+                        + "other applications State: "
+                        + e.getMessage());
+            }
+    	    String preUpdateSQL2 = "UPDATE PET SET State = ? "
                     + "WHERE Id = ?";
-    		try (Connection conn = getConnection();
-    	        PreparedStatement pstmt = conn.prepareStatement(preUpdateSQL2)) {
-    	        setValues(pstmt, 1, Pid);
-    	        pstmt.executeUpdate();
-    	    } catch (SQLException e) {
-    	        System.out.println("Error during Changing pet State: "
-    	                + e.getMessage());
-    	    }
-    		
-    	}
-    	
-    	
+    	    try (Connection conn = getConnection();
+                PreparedStatement pstmt = 
+                        conn.prepareStatement(preUpdateSQL2)) {
+                setValues(pstmt, 1, pid);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("Error during Changing pet State: "
+                        + e.getMessage());
+            }
+        }	
         String updateSQL = "UPDATE APPLICATION SET State = ? "
                 + "WHERE Id = ?";
         try (Connection conn = getConnection();

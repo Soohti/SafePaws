@@ -4,7 +4,6 @@ import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.entity.Pet;
-import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.PetMatchingAlgo;
 import org.cs3343.safepaws.util.Session;
@@ -16,16 +15,21 @@ import java.io.IOException;
  * admin to view detailed information of a specific application.
  */
 public class ShowDetailApplication {
-
+	/**
+	 * Default constructor 
+	 */
+    public ShowDetailApplication() {	
+    }
 
     /**
      * Executes the UI logic for viewing application details.
      *
      * @param session the current session
+     * @param Id of application
      * @return null
      * @throws IOException if an I/O error occurs
      */
-    public static void Show(final Session session, int aid) throws IOException {
+    public static void Show(final Session session, final int aid) throws IOException {
         Application application = DbManager.selectApplication(aid);
         Member m = application.getUser();
         Pet p = application.getPet();

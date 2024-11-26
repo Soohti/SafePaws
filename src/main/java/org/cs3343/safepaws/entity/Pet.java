@@ -61,9 +61,9 @@ public final class Pet {
      * The gender of the pet.
      */
     private final String gender;
-    
+
     /**
-     * The adoption state of the pet;
+     * The adoption state of the pet.
      */
     private int state;
 
@@ -90,7 +90,7 @@ public final class Pet {
         this.healthStatus = numeric[INDEX_HEALTH];
         this.state = 0;
     }
-    
+
     /**
      * Constructs a new Pet instance.
      *
@@ -98,13 +98,13 @@ public final class Pet {
      * @param spec    the species of the pet
      * @param br      the breed of the pet
      * @param gen     the gender of the pet
-     * @param sta	  the adoption state of the pet
+     * @param sta     the adoption state of the pet
      * @param numeric an array of numeric attributes
      *                (age, weight, activity level, health status)
      */
     public Pet(final String nm, final String spec,
             final String br, final String gen,
-            final int[] numeric, int sta) {
+            final int[] numeric, final int sta) {
      this.name = nm;
      this.species = spec;
      this.breed = br;
@@ -247,7 +247,7 @@ public final class Pet {
     public int getHealthStatus() {
         return healthStatus;
     }
-    
+
     /**
      * Gets the adoption state of the pet.
      *

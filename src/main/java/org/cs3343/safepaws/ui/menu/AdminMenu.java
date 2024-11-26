@@ -19,7 +19,7 @@ public class AdminMenu extends Menu {
      * The menu items.
      */
     private final UI[] menuItems = new UI[] {
-            new Logout(this), 
+            new Logout(this),
             new AdminAddPet(this),
             new AdminViewApplication(this),
     };
