@@ -2,7 +2,6 @@ package org.cs3343.safepaws.util;
 
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.Admin;
-import org.cs3343.safepaws.entity.AppState;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
@@ -208,8 +207,10 @@ public final class DbManager {
                 int state = rs.getInt("State");
                 Member account = selectMemberById(mid);
                 Pet pet = selectPetById(pid);
-                AppState applicationState = AppState.fromInt(state);
-                Application application = new Application(account, pet, applicationState);
+                Application.State applicationState =
+                        Application.State.values()[state];
+                Application application =
+                        new Application(account, pet, applicationState);
                 application.setId(id);
                 applications.add(application);
             }
@@ -239,8 +240,10 @@ public final class DbManager {
                 int state = rs.getInt("State");
                 Member account = selectMemberById(mid);
                 Pet pet = selectPetById(pid);
-                AppState applicationState = AppState.fromInt(state);
-                Application application = new Application(account, pet, applicationState);
+                Application.State applicationState =
+                        Application.State.values()[state];
+                Application application =
+                        new Application(account, pet, applicationState);
                 application.setId(id);
                 return application;
             }
@@ -533,7 +536,8 @@ public final class DbManager {
                 int pid = rs.getInt("PId");
                 int state = rs.getInt("State");
                 Pet pet = selectPetById(pid);
-                AppState applicationState = AppState.fromInt(state);
+                Application.State applicationState =
+                        Application.State.values()[state];
                 Application application = new Application(
                         member, pet, applicationState);
                 application.setId(id);

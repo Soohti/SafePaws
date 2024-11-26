@@ -19,7 +19,7 @@ public class Application {
     /**
      * The state of the application.
      */
-    private AppState state;
+    private final State state;
 
     /**
      * The id of the application.
@@ -33,7 +33,7 @@ public class Application {
      * @param p       the pet
      * @param st      the state
      */
-    public Application(final Member account, final Pet p, final AppState st) {
+    public Application(final Member account, final Pet p, final State st) {
         this.user = account;
         this.pet = p;
         this.state = st;
@@ -45,8 +45,8 @@ public class Application {
      * @param state the state to check
      * @return true if the state is valid, false otherwise
      */
-    public static boolean isValidState(final AppState state) {
-        return state == AppState.APPROVED || state == AppState.REJECTED;
+    public static boolean isValidState(final State state) {
+        return state == State.APPROVED || state == State.REJECTED;
     }
 
     /**
@@ -83,7 +83,7 @@ public class Application {
      *
      * @return the state
      */
-    public AppState getState() {
+    public State getState() {
         return state;
     }
 
@@ -119,5 +119,22 @@ public class Application {
             return 1;
         }
         return 2;
+    }
+
+    public enum State {
+        /**
+         * The application is pending.
+         */
+        PENDING,
+
+        /**
+         * The application is approved.
+         */
+        APPROVED,
+
+        /**
+         * The application is rejected.
+         */
+        REJECTED
     }
 }
