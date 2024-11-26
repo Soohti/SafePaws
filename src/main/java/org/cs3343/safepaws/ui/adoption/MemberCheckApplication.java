@@ -1,8 +1,8 @@
 package org.cs3343.safepaws.ui.adoption;
 
-import org.cs3343.safepaws.entity.*;
-//import org.cs3343.safepaws.entity.Member;
-//import org.cs3343.safepaws.entity.Pet;
+import org.cs3343.safepaws.entity.Application;
+import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -10,15 +10,15 @@ import org.cs3343.safepaws.util.Session;
 import java.util.List;
 
 /**
- * This class represents the UI for members to see their submitted applications
- * for adoption.
+ * This class represents the UI for members to see their submitted
+ * adoption applications.
  */
 public final class MemberCheckApplication extends UI {
     /**
      * The name of this UI.
      */
     private static final String NAME =
-            "Check submitted applications for adoption";
+            "Check submitted adoption applications";
 
     /**
      * Constructs a new MemberCheckApplication with the specified referrer.
@@ -48,7 +48,7 @@ public final class MemberCheckApplication extends UI {
                 Pet pet = application.getPet();
                 String petInfo = "Pet Name: "
                         + pet.getName() + ", Species: " + pet.getSpecies();
-                AppState state = application.getState();
+                Application.State state = application.getState();
                 String status = state != null ? state.name() : "Unknown";
                 session.println(petInfo + " | Status: " + status);
             }
