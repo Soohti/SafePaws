@@ -5,7 +5,7 @@ import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.util.DbManager;
-import org.cs3343.safepaws.util.PetMatchingAlgo;
+import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.cs3343.safepaws.util.Session;
 
 /**

@@ -2,7 +2,7 @@ package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.util.DbManager;
-import org.cs3343.safepaws.util.PetMatchingAlgo;
+import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.cs3343.safepaws.util.Session;
 
 import java.util.ArrayList;
