@@ -1,5 +1,6 @@
 package org.cs3343.safepaws.ui.menu;
 
+import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.account.Logout;
 import org.cs3343.safepaws.ui.adoption.MemberCheckApplication;
@@ -47,7 +48,6 @@ public class MemberMenu extends Menu {
      */
     @Override
     public final boolean isVisibleTo(final Session session) {
-        return session.getAccount().getUsername() != null
-                && "M".equals(session.getAccount().getRole());
+        return session.getAccount() instanceof Member;
     }
 }

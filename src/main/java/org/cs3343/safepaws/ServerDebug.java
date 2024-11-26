@@ -34,9 +34,8 @@ public final class ServerDebug {
         DbManager.init(dbUrl, dbUsername, dbPassword);
 
         Session session = new Session(System.in, System.out);
-        UIExecutor uiExecutor = new UIExecutor(session);
         try {
-            uiExecutor.start();
+            new UIExecutor().start(session);
         } catch (Exception e) {
             e.printStackTrace();
         }

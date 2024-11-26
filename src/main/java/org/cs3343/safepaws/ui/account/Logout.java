@@ -1,11 +1,8 @@
 package org.cs3343.safepaws.ui.account;
 
-import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.menu.MainMenu;
 import org.cs3343.safepaws.util.Session;
-
-import java.io.IOException;
 
 /**
  * The Logout class handles the user logout functionality. It extends the UI
@@ -24,11 +21,10 @@ public class Logout extends UI {
      *
      * @param session the session
      * @return the ui
-     * @throws IOException Signals that an I/O exception has occurred.
      */
     @Override
-    public UI execute(final Session session) throws IOException {
-        session.setAccount(new Account());
+    public UI execute(final Session session) {
+        session.setAccount(null);
         session.println("Bye bye.");
         return new MainMenu();
     }
@@ -51,6 +47,6 @@ public class Logout extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount().getUsername() != null;
+        return session.getAccount() != null;
     }
 }

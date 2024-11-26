@@ -88,6 +88,6 @@ public class CreateAccount extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount().getUsername() == null;
+        return session.getAccount() == null;
     }
 }

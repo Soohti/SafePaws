@@ -1,10 +1,9 @@
 package org.cs3343.safepaws.util;
 
 import org.cs3343.safepaws.entity.Account;
-import org.cs3343.safepaws.entity.Admin;
-import org.cs3343.safepaws.entity.Member;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -42,7 +41,7 @@ public final class Session {
             writer.println();
             writer.println("SYSTEM: READY_FOR_INPUT");
             return reader.readLine();
-        } catch (Exception e) {
+        } catch (IOException e) {
             writer.println("Error during requestInput of session.");
         }
         return null;
@@ -101,17 +100,6 @@ public final class Session {
     }
 
     /**
-     * Copy constructor for Session.
-     *
-     * @param other The session to copy.
-     */
-    public Session(final Session other) {
-        this.reader = other.reader;
-        this.writer = other.writer;
-        this.account = other.account;
-    }
-
-    /**
      * Write a message to the client.
      *
      * @param message The message to write.
@@ -158,21 +146,15 @@ public final class Session {
      * @param newAccount the new account
      */
     public void setAccount(final Account newAccount) {
-        if (newAccount instanceof Member) {
-            this.account = new Member((Member) newAccount);
-        } else if (newAccount instanceof Admin) {
-            this.account = new Admin((Admin) newAccount);
-        } else {
-            this.account = new Account(newAccount);
-        }
+        this.account = newAccount;
     }
 
     /**
      * Gets the account associated with the session.
      *
-     * @return a copy of the account associated with the session.
+     * @return the account associated with the session.
      */
     public Account getAccount() {
-        return (this.account != null) ? this.account : null;
+        return account;
     }
 }

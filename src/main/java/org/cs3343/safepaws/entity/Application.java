@@ -9,17 +9,17 @@ public class Application {
     /**
      * The user associated with the application.
      */
-    private Member user;
+    private final Member user;
 
     /**
      * The pet associated with the application.
      */
-    private Pet pet;
+    private final Pet pet;
 
     /**
      * The state of the application.
      */
-    private int state;
+    private final int state;
 
     /**
      * The id of the application.
@@ -34,8 +34,8 @@ public class Application {
      * @param st      the state
      */
     public Application(final Member account, final Pet p, final int st) {
-        this.user = new Member(account);
-        this.pet = new Pet(p);
+        this.user = account;
+        this.pet = p;
         this.state = st;
     }
 
@@ -60,46 +60,25 @@ public class Application {
      * false otherwise
      */
     public static boolean isValidAid(final int aid) {
-        if (DbManager.selectApplication(aid) == null) {
-            return false;
-        }
-        return true;
+        return DbManager.selectApplication(aid) != null;
     }
 
     /**
      * Gets the user.
      *
-     * @return a copy of the user
+     * @return the user
      */
     public Member getUser() {
-        return new Member(user);
-    }
-
-    /**
-     * Sets the user.
-     *
-     * @param newUser the user to set
-     */
-    public void setUser(final Member newUser) {
-        this.user = new Member(newUser);
+        return user;
     }
 
     /**
      * Gets the pet.
      *
-     * @return a copy of the pet
+     * @return the pet
      */
     public Pet getPet() {
-        return new Pet(pet);
-    }
-
-    /**
-     * Sets the pet.
-     *
-     * @param newPet the pet to set
-     */
-    public void setPet(final Pet newPet) {
-        this.pet = new Pet(newPet);
+        return pet;
     }
 
     /**
@@ -109,15 +88,6 @@ public class Application {
      */
     public int getState() {
         return state;
-    }
-
-    /**
-     * Sets the state.
-     *
-     * @param newState the state to set
-     */
-    public void setState(final int newState) {
-        this.state = newState;
     }
 
     /**
@@ -142,7 +112,8 @@ public class Application {
      * Checks if the given pet ID is valid.
      *
      * @param pid the pet ID to check
-     * @return true if the pet ID is valid, false otherwise
+     * @return 0 if the pet ID is invalid, 1 if the pet is adopted,
+     * 2 if the pet is not adopted
      */
     public static int isValidPid(final int pid) {
         if (DbManager.selectPetById(pid) == null) {

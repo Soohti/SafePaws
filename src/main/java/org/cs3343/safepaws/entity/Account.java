@@ -31,22 +31,17 @@ public class Account {
     /**
      * The username of the account.
      */
-    private String username;
+    private final String username;
 
     /**
      * The password of the account.
      */
-    private String password;
+    private final String password;
 
     /**
      * The role of the account.
      */
-    private String role;
-
-    /**
-     * The id of the account.
-     */
-    private int id;
+    private final String role;
 
     /**
      * Encrypts the given password using BCrypt.
@@ -62,7 +57,8 @@ public class Account {
      * Validates the username.
      *
      * @param username the username to validate
-     * @return true if the username is valid, false otherwise
+     * @return 0 if the username is invalid, 1 if the username is taken,
+     * 2 if the username is valid
      */
     public static int isValidUsername(final String username) {
         if (!(username.length() >= MIN_USERNAME_LENGTH
@@ -112,42 +108,12 @@ public class Account {
     }
 
     /**
-     * Copy constructor to create a new account
-     * by copying the fields of an existing account.
-     *
-     * @param other the account to copy
-     */
-    public Account(final Account other) {
-        this.username = other.username;
-        this.password = other.password;
-        this.role = other.role;
-        this.id = other.id;
-    }
-
-
-    /**
-     * Instantiates a new account with default values.
-     */
-    public Account() {
-    }
-
-    /**
      * Gets the username.
      *
      * @return the username
      */
     public String getUsername() {
         return username;
-    }
-
-    /**
-     * Sets the username.
-     *
-     * @param newUsername the new username
-     */
-    public void setUsername(final
-                            String newUsername) {
-        this.username = newUsername;
     }
 
     /**
@@ -160,47 +126,11 @@ public class Account {
     }
 
     /**
-     * Sets the password.
-     *
-     * @param newPass the new password
-     */
-    public void setPassword(final String newPass) {
-        this.password = newPass;
-    }
-
-    /**
      * Gets the role.
      *
      * @return the role
      */
     public String getRole() {
         return role;
-    }
-
-    /**
-     * Sets the role.
-     *
-     * @param newRole the new role
-     */
-    public void setRole(final String newRole) {
-        this.role = newRole;
-    }
-
-    /**
-     * Gets the id.
-     *
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id.
-     *
-     * @param newId the new id
-     */
-    public void setId(final int newId) {
-        this.id = newId;
     }
 }

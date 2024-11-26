@@ -1,5 +1,6 @@
 package org.cs3343.safepaws.ui.adoption;
 
+import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
@@ -105,7 +106,8 @@ public final class AdminAddPet extends UI {
 
         int[] numericAttributes = {age, weight, activityLevel, healthStatus};
 
-        Pet pet = new Pet(name, species, breed, gender, numericAttributes);
+        Pet pet =
+                new Pet(-1, name, species, breed, gender, numericAttributes, 0);
         try {
             DbManager.insertPet(pet);
             session.println("Pet created successfully.");
@@ -125,7 +127,6 @@ public final class AdminAddPet extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount().getUsername() != null
-                && "A".equals(session.getAccount().getRole());
+        return session.getAccount() instanceof Admin;
     }
 }

@@ -1,6 +1,5 @@
 package org.cs3343.safepaws.ui.menu;
 
-import org.cs3343.safepaws.ui.TestDb;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.account.CreateAccount;
 import org.cs3343.safepaws.ui.account.Login;
@@ -20,8 +19,6 @@ public class MainMenu extends Menu {
      * The menu items.
      */
     private final UI[] menuItems = new UI[] {
-            new TestMenu(this),
-            new TestDb(this),
             new CreateAccount(this),
             new Login(this),
     };
