@@ -15,7 +15,7 @@ public class ShowAllApplication {
     /**
      * Default constructor.
      */
-    public ShowAllApplication() {
+    private ShowAllApplication() {
     }
 
     /**

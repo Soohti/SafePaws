@@ -287,9 +287,9 @@ public final class DbManager {
                         + "other applications State: "
                         + e.getMessage());
             }
-    	    String preUpdateSQL2 = "UPDATE PET SET State = ? "
+           String preUpdateSQL2 = "UPDATE PET SET State = ? "
                     + "WHERE Id = ?";
-    	    try (Connection conn = getConnection();
+            try (Connection conn = getConnection();
                 PreparedStatement pstmt =
                         conn.prepareStatement(preUpdateSQL2)) {
                 setValues(pstmt, 1, pid);

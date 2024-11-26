@@ -55,7 +55,7 @@ public class AdminViewApplication extends UI {
                         ShowDetailApplication.show(session, aid);
                         int sta = DbManager.selectApplication(aid).getState();
                         if (sta != 0) {
-                    	    session.print("This application has "
+                            session.print("This application has "
                                     + "been checked.\n");
                         } else {
                             session.println("Enter what state you want to "

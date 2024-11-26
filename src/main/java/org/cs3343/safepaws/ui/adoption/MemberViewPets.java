@@ -42,7 +42,7 @@ public class MemberViewPets extends UI {
         Member member = (Member) (session.getAccount());
         session.println("Displaying available pets...");
         List<Pet> sortedPets = SortPetAlgo.sortPetsByMatch(member);
-        String str[] = {"Free", "Adopted"};
+        String[] str = {"Free", "Adopted"};
         for (Pet pet : sortedPets) {
             session.println("Id: " + pet.getId() + ", Name: "
                     + pet.getName() + ", Species: " + pet.getSpecies()
