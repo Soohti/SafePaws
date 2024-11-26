@@ -1,8 +1,8 @@
 package org.cs3343.safepaws.ui.adoption;
 
-import org.cs3343.safepaws.entity.Application;
-import org.cs3343.safepaws.entity.Member;
-import org.cs3343.safepaws.entity.Pet;
+import org.cs3343.safepaws.entity.*;
+//import org.cs3343.safepaws.entity.Member;
+//import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -40,8 +40,6 @@ public final class MemberCheckApplication extends UI {
         Member member = (Member) session.getAccount();
         List<Application> applications =
                 DbManager.selectApplicationByMember(member);
-        String[] state = {"Pending", "Approved", "Rejected"};
-
         if (applications.isEmpty()) {
             session.println("You have not submitted "
                     + "any adoption applications.");
@@ -50,7 +48,8 @@ public final class MemberCheckApplication extends UI {
                 Pet pet = application.getPet();
                 String petInfo = "Pet Name: "
                         + pet.getName() + ", Species: " + pet.getSpecies();
-                String status = state[application.getState()];
+                AppState state = application.getState();
+                String status = state != null ? state.name() : "Unknown";
                 session.println(petInfo + " | Status: " + status);
             }
         }

@@ -19,7 +19,7 @@ public class Application {
     /**
      * The state of the application.
      */
-    private final int state;
+    private AppState state;
 
     /**
      * The id of the application.
@@ -33,7 +33,7 @@ public class Application {
      * @param p       the pet
      * @param st      the state
      */
-    public Application(final Member account, final Pet p, final int st) {
+    public Application(final Member account, final Pet p, final AppState st) {
         this.user = account;
         this.pet = p;
         this.state = st;
@@ -45,11 +45,8 @@ public class Application {
      * @param state the state to check
      * @return true if the state is valid, false otherwise
      */
-    public static boolean isValidState(final int state) {
-        if (state == 1 || state == 2) {
-            return true;
-        }
-        return false;
+    public static boolean isValidState(final AppState state) {
+        return state == AppState.APPROVED || state == AppState.REJECTED;
     }
 
     /**
@@ -86,7 +83,7 @@ public class Application {
      *
      * @return the state
      */
-    public int getState() {
+    public AppState getState() {
         return state;
     }
 
