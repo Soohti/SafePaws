@@ -25,7 +25,6 @@ public final class ShowAllApplication {
      */
     public static void show(final Session session) {
         ArrayList<Application> applications;
-        String[] state = {"Pending", "Approved", "Rejected"};
         try {
             applications = DbManager.viewAllApplication();
             session.printf("%-10s %-10s %-10s %-10s %-10s",
@@ -36,7 +35,7 @@ public final class ShowAllApplication {
                 session.printf("%-10d %-10d %-10d %-10f %-10s",
                         a.getId(), a.getUser().getId(), a.getPet().getId(),
                         PetMatchingAlgo.calculateMatch(a.getUser(),
-                                a.getPet()), state[a.getState()]);
+                                a.getPet()), a.getState());
                 session.println("");
             }
         } catch (SQLException e) {

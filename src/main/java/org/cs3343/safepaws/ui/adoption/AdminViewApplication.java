@@ -2,7 +2,7 @@ package org.cs3343.safepaws.ui.adoption;
 
 import java.io.IOException;
 
-import org.cs3343.safepaws.entity.Application;
+import org.cs3343.safepaws.entity.*;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -53,18 +53,19 @@ public class AdminViewApplication extends UI {
                     int aid = Integer.parseInt(choice);
                     if (Application.isValidAid(aid)) {
                         ShowDetailApplication.show(session, aid);
-                        int sta = DbManager.selectApplication(aid).getState();
-                        if (sta != 0) {
+                        AppState appState = DbManager.selectApplication(aid).getState();
+                        if (appState != AppState.PENDING) {
                             session.print("This application has "
-                                    + "been checked.\n");
+                                    + "already been processed.\n");
                         } else {
                             session.println("Enter what state you want to "
                                     + "set (1: approve; 2: reject):");
-                            sta = Integer.parseInt(session.requestInput());
-                            while (!Application.isValidState(sta)) {
-                                session.println("Your input state is invalid. "
-                                        + "Please enter again:");
+                            int sta = Integer.parseInt(session.requestInput());
+                            AppState newState = AppState.fromInt(sta);
+                            while (newState == null || !Application.isValidState(newState)) {
+                                session.println("Your input state is invalid. Please enter again:");
                                 sta = Integer.parseInt(session.requestInput());
+                                newState = AppState.fromInt(sta);
                             }
                             DbManager.changeState(aid, sta);
                         }

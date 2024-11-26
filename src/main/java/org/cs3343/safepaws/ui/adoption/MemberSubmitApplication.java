@@ -1,8 +1,6 @@
 package org.cs3343.safepaws.ui.adoption;
 
-import org.cs3343.safepaws.entity.Application;
-import org.cs3343.safepaws.entity.Member;
-import org.cs3343.safepaws.entity.Pet;
+import org.cs3343.safepaws.entity.*;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -63,8 +61,9 @@ public class MemberSubmitApplication extends UI {
             session.println("Error during selecting pet.");
         }
         int state = 0;
+        AppState applicationState = AppState.fromInt(state);
         if (pet != null) {
-            Application application = new Application(user, pet, state);
+            Application application = new Application(user, pet, applicationState);
             try {
                 DbManager.insertApplication(application);
                 session.println("Application created successfully.");
