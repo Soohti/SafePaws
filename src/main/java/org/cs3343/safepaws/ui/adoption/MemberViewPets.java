@@ -3,9 +3,9 @@ package org.cs3343.safepaws.ui.adoption;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.PetMatchingAlgo;
+import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.cs3343.safepaws.util.Session;
-import org.cs3343.safepaws.util.SortPetAlgo;
+import org.cs3343.safepaws.algorithm.SortPetAlgo;
 
 import java.util.List;
 
