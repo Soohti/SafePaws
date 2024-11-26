@@ -67,7 +67,7 @@ public final class MemberCheckApplication extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null
+        return session.getAccount().getUsername() != null
                 && "M".equals(session.getAccount().getRole());
     }
 }

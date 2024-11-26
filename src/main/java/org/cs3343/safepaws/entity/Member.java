@@ -38,6 +38,7 @@ public class Member extends Account {
     public Member(final Member other) {
         super(other.getUsername(), other.getPassword(), other.getRole());
         this.profile = other.profile;
+        this.setId(other.getId());
     }
 
 

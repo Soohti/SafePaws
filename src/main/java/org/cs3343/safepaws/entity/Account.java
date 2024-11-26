@@ -1,5 +1,6 @@
 package org.cs3343.safepaws.entity;
 
+import org.cs3343.safepaws.util.DbManager;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -63,9 +64,15 @@ public class Account {
      * @param username the username to validate
      * @return true if the username is valid, false otherwise
      */
-    public static boolean isValidUsername(final String username) {
-        return username.length() >= MIN_USERNAME_LENGTH
-                && username.length() <= MAX_USERNAME_LENGTH;
+    public static int isValidUsername(final String username) {
+        if (!(username.length() >= MIN_USERNAME_LENGTH
+                && username.length() <= MAX_USERNAME_LENGTH)) {
+            return 0;
+        } else if (DbManager.selectAccount(username) != null) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
     /**

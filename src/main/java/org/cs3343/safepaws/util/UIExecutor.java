@@ -1,5 +1,6 @@
 package org.cs3343.safepaws.util;
 
+import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.menu.MainMenu;
 
@@ -27,6 +28,7 @@ public class UIExecutor {
      */
     public void start() throws IOException {
         UI ui = new MainMenu();
+        session.setAccount(new Account());
         do {
             ui = ui.getNextUI(session);
         } while (ui != null);

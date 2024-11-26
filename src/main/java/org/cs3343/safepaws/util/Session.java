@@ -1,6 +1,8 @@
 package org.cs3343.safepaws.util;
 
 import org.cs3343.safepaws.entity.Account;
+import org.cs3343.safepaws.entity.Admin;
+import org.cs3343.safepaws.entity.Member;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -156,10 +158,12 @@ public final class Session {
      * @param newAccount the new account
      */
     public void setAccount(final Account newAccount) {
-        if (newAccount != null) {
-            this.account = new Account(newAccount);
+        if (newAccount instanceof Member) {
+            this.account = new Member((Member) newAccount);
+        } else if (newAccount instanceof Admin) {
+            this.account = new Admin((Admin) newAccount);
         } else {
-            this.account = null;
+            this.account = new Account(newAccount);
         }
     }
 
@@ -169,6 +173,6 @@ public final class Session {
      * @return a copy of the account associated with the session.
      */
     public Account getAccount() {
-        return (this.account != null) ? new Account(this.account) : null;
+        return (this.account != null) ? this.account : null;
     }
 }
