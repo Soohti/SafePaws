@@ -163,7 +163,7 @@ public final class Session {
         } else if (newAccount instanceof Admin) {
             this.account = new Admin((Admin) newAccount);
         } else {
-            this.account = newAccount;
+            this.account = new Account(newAccount);
         }
     }
 
