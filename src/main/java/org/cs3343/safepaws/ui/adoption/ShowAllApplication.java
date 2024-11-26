@@ -24,11 +24,11 @@ public final class ShowAllApplication {
      */
     public static void show(final Session session) {
         ArrayList<Application> applications;
-        String[] state = {"Pending", "Approved", "Rejected"};
-        applications = DbManager.viewAllApplication();
-        session.printf("%-10s %-16s %-10s %-10s %-10s",
-                "Id", "Member", "PetID", "Score", "State");
-        session.println("");
+        try {
+            applications = DbManager.viewAllApplication();
+            session.printf("%-10s %-16s %-10s %-10s %-10s",
+                    "Id", "Member", "PetID", "Score", "State");
+            session.println("");
 
         for (Application a : applications) {
             session.printf("%-10d %-16s %-10d %-10f %-10s",

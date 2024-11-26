@@ -62,13 +62,11 @@ public final class ShowDetailApplication {
                 p.getActivityLevel(),
                 p.getHealthStatus());
         session.println("");
-
-        String[] state = {"Pending", "Approved", "Rejected"};
         session.println("");
         session.printf("%-10s %-10s", "Score", "State");
         session.println("");
         session.printf("%-10f %-10s", PetMatchingAlgo.calculateMatch(m, p),
-                state[application.getState()]);
+                application.getState());
         session.println("");
 
     }
