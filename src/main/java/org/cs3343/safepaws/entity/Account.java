@@ -65,10 +65,10 @@ public class Account {
      * @return true if the username is valid, false otherwise
      */
     public static int isValidUsername(final String username) {
-        if (! (username.length() >= MIN_USERNAME_LENGTH
-                && username.length() <= MAX_USERNAME_LENGTH) ) {
+        if (!(username.length() >= MIN_USERNAME_LENGTH
+                && username.length() <= MAX_USERNAME_LENGTH)) {
             return 0;
-        } else if (DbManager.selectAccount(username)!=null) {
+        } else if (DbManager.selectAccount(username) != null) {
             return 1;
         } else {
             return 2;

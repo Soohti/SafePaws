@@ -24,7 +24,8 @@ public class ShowDetailApplication {
     /**
      * Executes the UI logic for viewing application details.
      *
-     * @param session the current session, Id of application
+     * @param session the current session
+     * @param Id of application
      * @throws IOException if an I/O error occurs
      */
     public static void show(final Session session, final int aid) throws IOException {
