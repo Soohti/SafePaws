@@ -42,6 +42,7 @@ public class MemberViewPets extends UI {
         Member member = (Member) (session.getAccount());
         session.println("Displaying available pets...");
         List<Pet> sortedPets = SortPetAlgo.sortPetsByMatch(member);
+        String str[] = {"Free", "Adopted"};
         for (Pet pet : sortedPets) {
             session.println("Id: " + pet.getId() + ", Name: "
                     + pet.getName() + ", Species: " + pet.getSpecies()
@@ -49,7 +50,8 @@ public class MemberViewPets extends UI {
                     + pet.getAge() + ", Weight: " + pet.getWeight()
                     + ", Gender: " + pet.getGender() + ", ActivityLevel: "
                     + pet.getActivityLevel() + ", HealthStatus: "
-                    + pet.getHealthStatus() + " MatchingScore: "
+                    + pet.getHealthStatus() + ", AdoptionState: "
+                    + str[pet.getState()] + ", MatchingScore: "
                     + PetMatchingAlgo.calculateMatch(member, pet));
         }
         return this.getReferrer();
