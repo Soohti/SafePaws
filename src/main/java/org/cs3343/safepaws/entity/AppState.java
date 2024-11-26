@@ -29,8 +29,8 @@ public enum AppState {
      *
      * @param value the integer value of the state
      */
-    AppState(int value) {
-        this.value = value;
+    AppState(final int val) {
+        this.value = val;
     }
 
     /**
@@ -49,7 +49,7 @@ public enum AppState {
      * @return the AppState corresponding to the given integer value, or null if the
      *         value does not match any state
      */
-    public static AppState fromInt(int state) {
+    public static AppState fromInt(final int state) {
         switch (state) {
         case 0:
             return PENDING;
