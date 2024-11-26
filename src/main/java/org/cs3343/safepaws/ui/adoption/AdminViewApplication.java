@@ -67,7 +67,7 @@ public class AdminViewApplication extends UI {
                                 sta = Integer.parseInt(session.requestInput());
                             }
                             DbManager.changeState(aid, sta);
-                    	}
+                        }
                     } else {
                         session.print("Invalid choice, please try again: ");
                     }

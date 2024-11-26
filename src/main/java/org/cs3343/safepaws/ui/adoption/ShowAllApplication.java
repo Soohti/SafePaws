@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * The ShowAllApplication class allows to view all adoption applications.
  */
-public class ShowAllApplication {
+public final class ShowAllApplication {
     /**
      * Default constructor.
      */

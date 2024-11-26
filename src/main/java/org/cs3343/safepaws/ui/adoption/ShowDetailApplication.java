@@ -14,7 +14,7 @@ import java.io.IOException;
  * ShowDetailApplication class provides the functionality for
  * admin to view detailed information of a specific application.
  */
-public class ShowDetailApplication {
+public final class ShowDetailApplication {
     /**
      * Default constructor.
      */
