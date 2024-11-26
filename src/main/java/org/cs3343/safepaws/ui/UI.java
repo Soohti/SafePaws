@@ -2,8 +2,6 @@ package org.cs3343.safepaws.ui;
 
 import org.cs3343.safepaws.util.Session;
 
-import java.io.IOException;
-
 public abstract class UI {
     /**
      * The name of the UI.
@@ -14,7 +12,7 @@ public abstract class UI {
      */
     private final UI referrer;
 
-    protected abstract UI execute(Session session) throws IOException;
+    protected abstract UI execute(Session session);
 
     /**
      * Constructs a new UI.
@@ -50,9 +48,8 @@ public abstract class UI {
      *
      * @param session the session
      * @return the next UI
-     * @throws IOException if an I/O error occurs
      */
-    public final UI getNextUI(final Session session) throws IOException {
+    public final UI getNextUI(final Session session) {
         session.println("=== " + name + " ===");
         UI nextUI = execute(session);
         session.println();

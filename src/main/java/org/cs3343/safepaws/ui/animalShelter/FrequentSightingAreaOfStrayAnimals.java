@@ -25,15 +25,14 @@
  */
 package org.cs3343.safepaws.ui.animalShelter;
 
-import org.cs3343.safepaws.entity.LocationPoint;
-import org.cs3343.safepaws.entity.Shelter;
 import org.cs3343.safepaws.algorithm.ElbowUtil;
 import org.cs3343.safepaws.algorithm.KMeans;
-import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.entity.LocationPoint;
+import org.cs3343.safepaws.entity.Shelter;
 import org.cs3343.safepaws.ui.UI;
+import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +48,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
      */
     private static final String NAME =
             "Admin search efficiency point for starting capture";
+
     /**
      * Constructor for the `FrequentSightingAreaOfStrayAnimals` class.
      *
@@ -64,15 +64,14 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
      * database, allows the user to choose the clustering mode
      * (optimal or custom K), runs KMeans clustering,
      * and displays the resulting shelter locations and clusters.
+     *
      * @param session The current user session.
      * @return The referring UI component, or {@code null} if the
      * execution was successful.
-     * @throws IOException  If an I/O error occurs.
      * @throws SQLException If a database access error occurs.
      */
     @Override
-    protected UI execute(final Session session)
-            throws IOException {
+    protected UI execute(final Session session) {
         try {
             var animalLocations = DbManager.listAllLocationPoint();
             session.println("Choose mode: 1 for optimal k clustering"

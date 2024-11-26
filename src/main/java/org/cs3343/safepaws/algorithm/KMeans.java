@@ -33,7 +33,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * List<List<LocationPoint>> clusters = kMeans.getClusters();
  * </pre>
  */
-public class KMeans {
+public class KMeans implements Algorithm {
 
     /**
      * The number of clusters.
