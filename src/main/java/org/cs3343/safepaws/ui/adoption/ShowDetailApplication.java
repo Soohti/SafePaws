@@ -4,7 +4,6 @@ import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.entity.Pet;
-import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.PetMatchingAlgo;
 import org.cs3343.safepaws.util.Session;
@@ -12,37 +11,25 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 
 /**
- * AdminViewDetailApplication class provides the functionality for
+ * ShowDetailApplication class provides the functionality for
  * admin to view detailed information of a specific application.
  */
-public class AdminViewDetailApplication extends UI {
-
+public final class ShowDetailApplication {
     /**
-     * The name of the UI component for viewing one application in detail.
+     * Default constructor.
      */
-    private static final String NAME = "View one application for detail";
-
-    /**
-     * Constructor for AdminViewDetailApplication.
-     *
-     * @param referrer the UI referrer
-     */
-    public AdminViewDetailApplication(final UI referrer) {
-        super(NAME, referrer);
+    private ShowDetailApplication() {
     }
 
     /**
      * Executes the UI logic for viewing application details.
      *
      * @param session the current session
-     * @return the referrer UI
+     * @param aid of application
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected UI execute(final Session session) throws IOException {
-        session.println("Enter the application you want to see:");
-
-        int aid = Integer.parseInt(session.requestInput());
+    public static void show(final Session session, final int aid)
+            throws IOException {
         Application application = DbManager.selectApplication(aid);
         Member m = application.getUser();
         Pet p = application.getPet();
@@ -86,18 +73,6 @@ public class AdminViewDetailApplication extends UI {
                 state[application.getState()]);
         session.println("");
 
-        return this.getReferrer();
     }
 
-    /**
-     * Checks if the UI is visible to the current session.
-     *
-     * @param session the current session
-     * @return true if visible, false otherwise
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "A".equals(
-                session.getAccount().getRole());
-    }
 }

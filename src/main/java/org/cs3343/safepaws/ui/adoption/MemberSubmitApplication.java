@@ -43,9 +43,14 @@ public class MemberSubmitApplication extends UI {
         session.println("Enter the ID of the pet you want to apply for:");
         String userInput = session.requestInput();
         int pid = Integer.parseInt(userInput);
-        while (!Application.isValidPid(pid)) {
-            session.println("Your input pet id is invalid."
+        while (Application.isValidPid(pid) != 2) {
+            if (Application.isValidPid(pid) == 0) {
+                session.println("Your input pet id is invalid."
                     + " Please enter again:");
+            } else {
+                session.print("This pet has been adopted. "
+                    + "Please enter again:");
+            }
             pid = Integer.parseInt(session.requestInput());
         }
 
@@ -78,7 +83,7 @@ public class MemberSubmitApplication extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null
+        return session.getAccount().getUsername() != null
                 && "M".equals(session.getAccount().getRole());
     }
 }

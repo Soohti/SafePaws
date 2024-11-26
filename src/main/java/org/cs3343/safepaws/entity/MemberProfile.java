@@ -84,6 +84,7 @@ public class MemberProfile {
     public MemberProfile(final MemberProfile other) {
         this.preferredSpecies = other.getPreferredSpecies();
         this.preferredBreed = other.getPreferredBreed();
+        this.gender = other.getGender();
         this.numericAttributes = other.getNumericAttributes().clone();
     }
 

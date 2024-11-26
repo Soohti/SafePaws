@@ -60,8 +60,7 @@ public class Application {
      * false otherwise
      */
     public static boolean isValidAid(final int aid) {
-        if (DbManager.selectApplication(aid) == null
-                || DbManager.selectApplication(aid).state != 0) {
+        if (DbManager.selectApplication(aid) == null) {
             return false;
         }
         return true;
@@ -145,10 +144,12 @@ public class Application {
      * @param pid the pet ID to check
      * @return true if the pet ID is valid, false otherwise
      */
-    public static boolean isValidPid(final int pid) {
+    public static int isValidPid(final int pid) {
         if (DbManager.selectPetById(pid) == null) {
-            return false;
+            return 0;
+        } else if (DbManager.selectPetById(pid).getState() == 1) {
+            return 1;
         }
-        return true;
+        return 2;
     }
 }
