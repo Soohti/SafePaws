@@ -10,33 +10,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * The AdminSeeAllApplication class represents a UI component that allows an
- * admin to view all adoption applications.
+ * The ShowAllApplication class allows to view all adoption applications.
  */
-public class AdminSeeAllApplication extends UI {
+public class ShowAllApplication{
 
     /**
-     * The name of the UI for seeing all applications for adoption.
-     */
-    private static final String NAME = "See " + "all applications for adoption";
-
-    /**
-     * Constructs an AdminSeeAllApplication instance.
-     *
-     * @param referrer the UI that referred to this instance
-     */
-    public AdminSeeAllApplication(final UI referrer) {
-        super(NAME, referrer);
-    }
-
-    /**
-     * Executes the UI logic to display all adoption applications.
+     * Display all adoption applications.
      *
      * @param session the current session
-     * @return the referrer UI
+     * @return null
      */
-    @Override
-    protected UI execute(final Session session) {
+    public static void Show(final Session session) {
         ArrayList<Application> applications;
         String[] state = {"Pending", "Approved", "Rejected"};
         try {
@@ -55,20 +39,5 @@ public class AdminSeeAllApplication extends UI {
         } catch (SQLException e) {
             session.println("Error creating account: " + e.getMessage());
         }
-        return this.getReferrer();
-    }
-
-    /**
-     * Determines if the UI is visible to the current session.
-     *
-     * @param session the current session
-     * @return true if the session's account is
-     * not null and has an admin role,
-     * false otherwise
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null
-                && "A".equals(session.getAccount().getRole());
     }
 }

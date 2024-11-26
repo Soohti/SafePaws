@@ -3,9 +3,7 @@ package org.cs3343.safepaws.ui.menu;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.account.Logout;
 import org.cs3343.safepaws.ui.adoption.AdminAddPet;
-import org.cs3343.safepaws.ui.adoption.AdminCheckApplication;
-import org.cs3343.safepaws.ui.adoption.AdminSeeAllApplication;
-import org.cs3343.safepaws.ui.adoption.AdminViewDetailApplication;
+import org.cs3343.safepaws.ui.adoption.AdminViewApplication;
 import org.cs3343.safepaws.util.Session;
 
 public class AdminMenu extends Menu {
@@ -23,9 +21,7 @@ public class AdminMenu extends Menu {
     private final UI[] menuItems = new UI[] {
             new Logout(this), //go to main menu
             new AdminAddPet(this),
-            new AdminCheckApplication(this),
-            new AdminSeeAllApplication(this),
-            new AdminViewDetailApplication(this),
+            new AdminViewApplication(this),
     };
 
     /**

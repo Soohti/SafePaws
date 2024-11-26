@@ -12,37 +12,20 @@ import org.cs3343.safepaws.util.Session;
 import java.io.IOException;
 
 /**
- * AdminViewDetailApplication class provides the functionality for
+ * ShowDetailApplication class provides the functionality for
  * admin to view detailed information of a specific application.
  */
-public class AdminViewDetailApplication extends UI {
+public class ShowDetailApplication {
 
-    /**
-     * The name of the UI component for viewing one application in detail.
-     */
-    private static final String NAME = "View one application for detail";
-
-    /**
-     * Constructor for AdminViewDetailApplication.
-     *
-     * @param referrer the UI referrer
-     */
-    public AdminViewDetailApplication(final UI referrer) {
-        super(NAME, referrer);
-    }
 
     /**
      * Executes the UI logic for viewing application details.
      *
      * @param session the current session
-     * @return the referrer UI
+     * @return null
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected UI execute(final Session session) throws IOException {
-        session.println("Enter the application you want to see:");
-
-        int aid = Integer.parseInt(session.requestInput());
+    public static void Show(final Session session, int aid) throws IOException {
         Application application = DbManager.selectApplication(aid);
         Member m = application.getUser();
         Pet p = application.getPet();
@@ -86,18 +69,6 @@ public class AdminViewDetailApplication extends UI {
                 state[application.getState()]);
         session.println("");
 
-        return this.getReferrer();
     }
 
-    /**
-     * Checks if the UI is visible to the current session.
-     *
-     * @param session the current session
-     * @return true if visible, false otherwise
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "A".equals(
-                session.getAccount().getRole());
-    }
 }
