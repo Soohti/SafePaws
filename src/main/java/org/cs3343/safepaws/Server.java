@@ -92,8 +92,7 @@ public final class Server {
                     } finally {
                         try {
                             socket.close();
-                        } catch (IOException e) {
-                            // Ignore
+                        } catch (IOException ignored) {
                         }
                     }
                 }).start();

@@ -60,16 +60,15 @@ public class AdminReviewApplication extends UI {
                             session.println("Enter what state you want to "
                                     + "set (1: approve; 2: reject):");
                             int sta = Integer.parseInt(session.requestInput());
-                            Application.State newState =
-                                    Application.State.values()[sta];
-                            while (newState == null
-                                    || !Application.isValidState(newState)) {
+                            while (!Application.isValidState(sta)) {
                                 session.println("Your input state is "
                                         + "invalid. Please enter again:");
                                 sta = Integer.parseInt(session.requestInput());
-                                newState = Application.State.values()[sta];
                             }
-                            DbManager.changeState(aid, sta);
+                            Application.State state =
+                                    Application.State.values()[sta];
+                            DbManager.changeState(aid, state);
+                            session.println("Your operation is completed.");
                         }
                     } else {
                         session.print("Invalid choice, please try again: ");

@@ -42,11 +42,12 @@ public class Application {
     /**
      * Checks if the given state is valid.
      *
-     * @param state the state to check
+     * @param iState the integer state to check
      * @return true if the state is valid, false otherwise
      */
-    public static boolean isValidState(final State state) {
-        return state == State.APPROVED || state == State.REJECTED;
+    public static boolean isValidState(final int iState) {
+        return iState == State.APPROVED.ordinal()
+                || iState == State.REJECTED.ordinal();
     }
 
     /**
