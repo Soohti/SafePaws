@@ -34,7 +34,7 @@ public class AdminMenu extends Menu {
 
     @Override
     public final boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "A".equals(
+        return session.getAccount().getUsername() != null && "A".equals(
                 session.getAccount().getRole());
     }
 

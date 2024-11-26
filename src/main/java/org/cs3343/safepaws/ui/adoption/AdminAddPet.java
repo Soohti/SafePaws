@@ -125,7 +125,7 @@ public final class AdminAddPet extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null
+        return session.getAccount().getUsername() != null
                 && "A".equals(session.getAccount().getRole());
     }
 }
