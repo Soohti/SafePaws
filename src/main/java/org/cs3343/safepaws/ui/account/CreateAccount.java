@@ -51,8 +51,8 @@ public class CreateAccount extends UI {
         }
         password = Account.encryptPassword(password);
 
-        session.println("Enter your role (\"A\" for admin, "
-                + "\"M\" for member), \"S\" for shelter:");
+        session.println("Enter your role (\"M\" for member, "
+                + "\"S\" for shelter:");
         String role = session.requestInput();
         while (!Account.isValidRole(role)) {
             session.println("Your input role is invalid. "
