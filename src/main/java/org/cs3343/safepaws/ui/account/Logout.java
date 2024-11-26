@@ -1,5 +1,6 @@
 package org.cs3343.safepaws.ui.account;
 
+import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.menu.MainMenu;
 import org.cs3343.safepaws.util.Session;
@@ -27,7 +28,7 @@ public class Logout extends UI {
      */
     @Override
     public UI execute(final Session session) throws IOException {
-        session.setAccount(null);
+        session.setAccount(new Account());
         session.println("Bye bye.");
         return new MainMenu();
     }

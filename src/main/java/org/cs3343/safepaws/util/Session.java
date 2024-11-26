@@ -158,10 +158,12 @@ public final class Session {
      * @param newAccount the new account
      */
     public void setAccount(final Account newAccount) {
-        if ("M".equals(newAccount.getRole())) {
-            this.account = (Member) newAccount;
+        if (newAccount instanceof Member) {
+            this.account = new Member((Member) newAccount);
+        } else if (newAccount instanceof Admin) {
+            this.account = new Admin((Admin) newAccount);
         } else {
-            this.account = (Admin) newAccount;
+        	this.account = newAccount;
         }
     }
 
