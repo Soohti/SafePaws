@@ -1,8 +1,10 @@
 package org.cs3343.safepaws.ui.menu;
 
-import org.cs3343.safepaws.ui.TestDb;
 import org.cs3343.safepaws.ui.UI;
+import org.cs3343.safepaws.ui.account.CreateAccount;
+import org.cs3343.safepaws.ui.account.Login;
 import org.cs3343.safepaws.util.Session;
+
 
 public class MainMenu extends Menu {
     /**
@@ -17,8 +19,8 @@ public class MainMenu extends Menu {
      * The menu items.
      */
     private final UI[] menuItems = new UI[] {
-            new TestMenu(this),
-            new TestDb(this),
+            new CreateAccount(this),
+            new Login(this),
     };
 
     /**
@@ -33,4 +35,5 @@ public class MainMenu extends Menu {
     public final boolean isVisibleTo(final Session session) {
         return true;
     }
+
 }

@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
-public final class Normalizer {
+public final class Normalizer implements Algorithm {
     /**
      * The normalized to original.
      */

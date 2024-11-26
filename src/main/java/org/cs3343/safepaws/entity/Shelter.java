@@ -11,12 +11,13 @@ public class Shelter {
      * Each location is represented by a {@link LocationPoint} object.
      */
     private final LocationPoint shelterLocationPoint;
+
     /**
      * Initializes a new instance of the Shelter class with the specified
      * list of shelter locations.
      *
      * @param shelterLocationValue a list of {@link LocationPoint} objects
-     * representing the shelter locations
+     *                             representing the shelter locations
      */
     public Shelter(final LocationPoint shelterLocationValue) {
         this.shelterLocationPoint = shelterLocationValue;
@@ -25,10 +26,11 @@ public class Shelter {
     /**
      * Displays the list of shelter locations to the standard output.
      * Each location is printed on a new line with its x and y coordinates.
-     *  @return the string of location point
+     *
+     * @return the string of location point
      */
     public String toString() {
-            return String.format("X: " + shelterLocationPoint.getX() + ", Y: "
-                    + shelterLocationPoint.getY() + "\n");
+        return String.format("X: " + shelterLocationPoint.getX() + ", Y: "
+                + shelterLocationPoint.getY() + "\n");
     }
 }

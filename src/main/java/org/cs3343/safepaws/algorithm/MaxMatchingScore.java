@@ -11,7 +11,7 @@ import java.util.Queue;
 import java.util.Vector;
 
 
-public final class MaxMatchingScore {
+public final class MaxMatchingScore implements Algorithm {
 
     /**
      * The redundancy.

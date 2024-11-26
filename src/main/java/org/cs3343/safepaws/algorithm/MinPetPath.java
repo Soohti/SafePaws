@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-public final class MinPetPath {
+public final class MinPetPath implements Algorithm {
 
     /**
      * This represents the infinity distance.

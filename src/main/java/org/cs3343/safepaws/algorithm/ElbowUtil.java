@@ -12,17 +12,18 @@ import java.util.List;
  * K values and identifies the "elbow"
  * point where the SSE starts to decrease at a slower rate.
  */
-public final class ElbowUtil {
+public final class ElbowUtil implements Algorithm {
     private ElbowUtil() throws Exception {
         throw new Exception("This is a utility class"
                 + " and cannot be instantiated");
     }
+
     /**
      * Finds the optimal number of clusters (K) using the Elbow Method.
      *
      * @param locationPoints a list of {@link LocationPoint} objects
-     * representing he data points
-     * @param maxK the maximum number of clusters to evaluate
+     *                       representing he data points
+     * @param maxK           the maximum number of clusters to evaluate
      * @return the optimal number of clusters (K)
      */
     public static int findOptimalK(final List<LocationPoint> locationPoints,
