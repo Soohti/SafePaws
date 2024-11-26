@@ -159,9 +159,9 @@ public final class Session {
      */
     public void setAccount(final Account newAccount) {
         if ("M".equals(newAccount.getRole())) {
-            this.account = (Member)newAccount; 
+            this.account = (Member) newAccount;
         } else {
-            this.account = (Admin)newAccount;
+            this.account = (Admin) newAccount;
         }
     }
 
