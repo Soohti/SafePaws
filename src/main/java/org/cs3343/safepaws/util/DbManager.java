@@ -272,12 +272,12 @@ public final class DbManager {
      */
     public static void changeState(final int aid,
                                    final int state) {
-    	if (state == 1) {
-    	    Pet pet = DbManager.selectApplication(aid).getPet();
-    	    int pid = pet.getId();
-    	    String preUpdateSQL1 = "UPDATE APPLICATION SET State = ? "
+        if (state == 1) {
+            Pet pet = DbManager.selectApplication(aid).getPet();
+            int pid = pet.getId();
+            String preUpdateSQL1 = "UPDATE APPLICATION SET State = ? "
                     + "WHERE Pid = ?";
-    	    try (Connection conn = getConnection();
+            try (Connection conn = getConnection();
                 PreparedStatement pstmt =
                         conn.prepareStatement(preUpdateSQL1)) {
                 setValues(pstmt, 2, pid);

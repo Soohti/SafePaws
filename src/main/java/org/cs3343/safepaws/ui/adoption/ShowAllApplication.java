@@ -12,9 +12,9 @@ import java.util.ArrayList;
  * The ShowAllApplication class allows to view all adoption applications.
  */
 public class ShowAllApplication {
-	/**
-	 * Default constructor.
-	 */
+    /**
+     * Default constructor.
+     */
     public ShowAllApplication() {
     }
 

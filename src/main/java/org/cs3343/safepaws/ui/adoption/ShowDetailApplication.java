@@ -16,8 +16,8 @@ import java.io.IOException;
  */
 public class ShowDetailApplication {
     /**
-	 * Default constructor.
-	 */
+     * Default constructor.
+     */
     public ShowDetailApplication() {
     }
 
@@ -25,10 +25,11 @@ public class ShowDetailApplication {
      * Executes the UI logic for viewing application details.
      *
      * @param session the current session
-     * @param Id of application
+     * @param aid of application
      * @throws IOException if an I/O error occurs
      */
-    public static void show(final Session session, final int aid) throws IOException {
+    public static void show(final Session session, final int aid)
+            throws IOException {
         Application application = DbManager.selectApplication(aid);
         Member m = application.getUser();
         Pet p = application.getPet();

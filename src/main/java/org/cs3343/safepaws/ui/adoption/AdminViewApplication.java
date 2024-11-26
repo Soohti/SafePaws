@@ -52,14 +52,14 @@ public class AdminViewApplication extends UI {
                 try {
                     int aid = Integer.parseInt(choice);
                     if (Application.isValidAid(aid)) {
-                    	ShowDetailApplication.show(session, aid);
-                    	int sta = DbManager.selectApplication(aid).getState();
-                    	if (sta != 0) {
-                    		session.print("This application has "
+                        ShowDetailApplication.show(session, aid);
+                        int sta = DbManager.selectApplication(aid).getState();
+                        if (sta != 0) {
+                    	    session.print("This application has "
                                     + "been checked.\n");
-                    	} else {
-                    		session.println("Enter what state you want to set "
-                                    + "(1: approve; 2: reject):");
+                        } else {
+                            session.println("Enter what state you want to "
+                                    + "set (1: approve; 2: reject):");
                             sta = Integer.parseInt(session.requestInput());
                             while (!Application.isValidState(sta)) {
                                 session.println("Your input state is invalid. "
