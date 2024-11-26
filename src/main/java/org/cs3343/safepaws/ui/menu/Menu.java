@@ -4,8 +4,6 @@ import org.cs3343.safepaws.ui.Exit;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
 
-import java.io.IOException;
-
 public abstract class Menu extends UI {
     /**
      * The description of the menu.
@@ -33,7 +31,7 @@ public abstract class Menu extends UI {
     }
 
     @Override
-    protected final UI execute(final Session session) throws IOException {
+    protected final UI execute(final Session session) {
         if (description != null) {
             session.println(description);
         }

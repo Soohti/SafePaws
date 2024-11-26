@@ -79,9 +79,7 @@ public final class Server {
                     try (InputStream in = socket.getInputStream();
                          OutputStream out = socket.getOutputStream()) {
                         Session session = new Session(in, out);
-                        UIExecutor uiExecutor = new UIExecutor(session);
-                        uiExecutor.start();
-//                        session.println("SYSTEM: GOODBYE");
+                        new UIExecutor().start(session);
                         System.out.println("Closed connection from "
                                 + socket.getInetAddress().getHostAddress() + ":"
                                 + socket.getPort());

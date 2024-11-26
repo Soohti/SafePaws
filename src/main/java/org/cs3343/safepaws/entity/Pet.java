@@ -8,7 +8,7 @@ package org.cs3343.safepaws.entity;
  */
 public final class Pet {
     /**
-     * The index for healthstatus.
+     * The index for health status.
      */
     private static final int INDEX_HEALTH = 3;
 
@@ -20,7 +20,7 @@ public final class Pet {
     /**
      * The ID of the pet.
      */
-    private int id;
+    private final int id;
 
     /**
      * The activity level of the pet.
@@ -65,35 +65,12 @@ public final class Pet {
     /**
      * The adoption state of the pet.
      */
-    private int state;
+    private final int state;
 
     /**
      * Constructs a new Pet instance.
      *
-     * @param nm      the name of the pet
-     * @param spec    the species of the pet
-     * @param br      the breed of the pet
-     * @param gen     the gender of the pet
-     * @param numeric an array of numeric attributes
-     *                (age, weight, activity level, health status)
-     */
-    public Pet(final String nm, final String spec,
-               final String br, final String gen,
-               final int[] numeric) {
-        this.name = nm;
-        this.species = spec;
-        this.breed = br;
-        this.gender = gen;
-        this.age = numeric[0];
-        this.weight = numeric[1];
-        this.activityLevel = numeric[2];
-        this.healthStatus = numeric[INDEX_HEALTH];
-        this.state = 0;
-    }
-
-    /**
-     * Constructs a new Pet instance.
-     *
+     * @param pId     the ID of the pet
      * @param nm      the name of the pet
      * @param spec    the species of the pet
      * @param br      the breed of the pet
@@ -102,40 +79,20 @@ public final class Pet {
      * @param numeric an array of numeric attributes
      *                (age, weight, activity level, health status)
      */
-    public Pet(final String nm, final String spec,
-            final String br, final String gen,
-            final int[] numeric, final int sta) {
-     this.name = nm;
-     this.species = spec;
-     this.breed = br;
-     this.gender = gen;
-     this.age = numeric[0];
-     this.weight = numeric[1];
-     this.activityLevel = numeric[2];
-     this.healthStatus = numeric[INDEX_HEALTH];
-     this.state = sta;
- }
-
-
-    /**
-     * Copy constructor for creating a new
-     * Pet object that is a copy of the given Pet object.
-     *
-     * @param other the Pet object to copy
-     */
-    public Pet(final Pet other) {
-        this.id = other.id;
-        this.activityLevel = other.activityLevel;
-        this.age = other.age;
-        this.weight = other.weight;
-        this.name = other.name;
-        this.healthStatus = other.healthStatus;
-        this.species = other.species;
-        this.breed = other.breed;
-        this.gender = other.gender;
-        this.state = other.state;
+    public Pet(final int pId, final String nm, final String spec,
+               final String br, final String gen,
+               final int[] numeric, final int sta) {
+        this.id = pId;
+        this.name = nm;
+        this.species = spec;
+        this.breed = br;
+        this.gender = gen;
+        this.age = numeric[0];
+        this.weight = numeric[1];
+        this.activityLevel = numeric[2];
+        this.healthStatus = numeric[INDEX_HEALTH];
+        this.state = sta;
     }
-
 
     /**
      * Validates the name of the pet.
@@ -266,14 +223,4 @@ public final class Pet {
     public int getId() {
         return id;
     }
-
-    /**
-     * Sets the ID of the pet.
-     *
-     * @param newId the new ID of the pet
-     */
-    public void setId(final int newId) {
-        this.id = newId;
-    }
-
 }

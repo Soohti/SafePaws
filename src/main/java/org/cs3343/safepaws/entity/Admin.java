@@ -6,22 +6,14 @@ package org.cs3343.safepaws.entity;
 public class Admin extends Account {
 
     /**
-     * @param username
-     * @param password
-     * @param role
+     * Creates a new admin with the given username, password, and role.
+     *
+     * @param username the username of the admin
+     * @param password the password of the admin
+     * @param role     the role of the admin
      */
     public Admin(final String username,
                  final String password, final String role) {
         super(username, password, role);
     }
-    /**
-     * Constructs a new Admin by copying the specified Admin.
-     *
-     * @param other the Admin to copy
-     */
-    public Admin(final Admin other) {
-        super(other.getUsername(), other.getPassword(), other.getRole());
-        this.setId(other.getId());
-    }
-
 }

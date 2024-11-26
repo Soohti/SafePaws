@@ -2,11 +2,10 @@ package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
-
-import java.io.IOException;
 
 /**
  * The MemberSetProfile class is responsible for
@@ -78,10 +77,9 @@ public class MemberSetProfile extends UI {
      *
      * @param session the current session
      * @return the referrer UI
-     * @throws IOException if an I/O error occurs
      */
     @Override
-    protected UI execute(final Session session) throws IOException {
+    protected UI execute(final Session session) {
         String preferredSpecies;
         String preferredBreed;
         String gender;
@@ -104,7 +102,7 @@ public class MemberSetProfile extends UI {
         int intHouseSize = session.requestNumericInput(0, MAX_HOUSE_SIZE);
 
         session.println("Enter your work hours per day "
-                + "(an interger between 0 and 24):");
+                + "(an integer between 0 and 24):");
         int intWorkHours = session.requestNumericInput(0, MAX_WORK_HOURS);
 
         session.println("Enter the number of family members "
@@ -155,15 +153,15 @@ public class MemberSetProfile extends UI {
                 intHouseSize, intWorkHours, intNumberOfFamilyMembers,
                 intPreviousPetExperience, intFinancialBudget};
 
-        ((Member) account).setProfile(preferredSpecies,
+        MemberProfile profile = new MemberProfile(preferredSpecies,
                 preferredBreed, gender, numericAttributes);
 
-        String userName = session.getAccount().getUsername();
-        int mId;
+        session.setAccount(new Member(account.getUsername(),
+                account.getPassword(), account.getRole(), profile));
 
+        String username = session.getAccount().getUsername();
         try {
-            mId = DbManager.selectAccount(userName).getId();
-            DbManager.changeMemProfile(mId,
+            DbManager.changeMemProfile(username,
                     ((Member) session.getAccount()).getProfile());
             session.println("Profile set successfully.");
         } catch (Exception e) {
@@ -181,7 +179,6 @@ public class MemberSetProfile extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount().getUsername() != null
-                && "M".equals(session.getAccount().getRole());
+        return session.getAccount() instanceof Member;
     }
 }

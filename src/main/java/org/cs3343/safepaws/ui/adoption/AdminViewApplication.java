@@ -1,7 +1,6 @@
 package org.cs3343.safepaws.ui.adoption;
 
-import java.io.IOException;
-
+import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
@@ -33,10 +32,9 @@ public class AdminViewApplication extends UI {
      *
      * @param session the current session
      * @return the referrer UI
-     * @throws IOException if an I/O error occurs
      */
     @Override
-    protected UI execute(final Session session) throws IOException {
+    protected UI execute(final Session session) {
         ShowAllApplication.show(session);
         do {
             session.println("Enter the id of application you want "
@@ -87,7 +85,6 @@ public class AdminViewApplication extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount().getUsername() != null
-                && "A".equals(session.getAccount().getRole());
+        return session.getAccount() instanceof Admin;
     }
 }

@@ -1,5 +1,6 @@
 package org.cs3343.safepaws.ui.menu;
 
+import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.account.Logout;
 import org.cs3343.safepaws.ui.adoption.AdminAddPet;
@@ -34,8 +35,7 @@ public class AdminMenu extends Menu {
 
     @Override
     public final boolean isVisibleTo(final Session session) {
-        return session.getAccount().getUsername() != null && "A".equals(
-                session.getAccount().getRole());
+        return session.getAccount() instanceof Admin;
     }
 
 }

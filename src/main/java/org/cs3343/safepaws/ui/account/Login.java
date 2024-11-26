@@ -9,9 +9,6 @@ import org.cs3343.safepaws.ui.menu.MemberMenu;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 /**
  * The Login class handles the login process for users. It extends the UI class
  * and provides functionality for user authentication.
@@ -28,41 +25,28 @@ public class Login extends UI {
      *
      * @param session the session
      * @return the ui
-     * @throws IOException Signals that an I/O exception has occurred.
      */
 
     @Override
-    public UI execute(final Session session) throws IOException {
+    public UI execute(final Session session) {
         session.println("Enter your username:");
         String username = session.requestInput();
 
         session.println("Enter your password:");
         String password = session.requestInput();
 
-        try {
-            if (DbManager.authenticateUser(username, password)) {
-                session.println("Log in successfully.");
-                Account account = DbManager.selectAccount(username);
-                if (account instanceof Member) {
-                    Member memberAccount = (Member) account;
-                    session.setAccount(memberAccount);
-                } else if (account instanceof Admin) {
-                    Admin adminAccount = (Admin) account;
-                    session.setAccount(adminAccount);
-                }
-                if (session.getAccount() != null && "A".equals(
-                        session.getAccount().getRole())) {
-                    return new AdminMenu();
-                } else if (session.getAccount() != null && "M".equals(
-                        session.getAccount().getRole())) {
-                    return new MemberMenu();
-                }
-
-            } else {
-                session.println("Your username or password is incorrect.");
+        if (DbManager.authenticateUser(username, password)) {
+            session.println("Log in successfully.");
+            Account account = DbManager.selectAccount(username);
+            if (account instanceof Member memberAccount) {
+                session.setAccount(memberAccount);
+                return new MemberMenu();
+            } else if (account instanceof Admin adminAccount) {
+                session.setAccount(adminAccount);
+                return new AdminMenu();
             }
-        } catch (SQLException e) {
-            session.println("Error creating account: " + e.getMessage());
+        } else {
+            session.println("Your username or password is incorrect.");
         }
 
         return this.getReferrer();
@@ -85,7 +69,7 @@ public class Login extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount().getUsername() == null;
+        return session.getAccount() == null;
     }
 
 }

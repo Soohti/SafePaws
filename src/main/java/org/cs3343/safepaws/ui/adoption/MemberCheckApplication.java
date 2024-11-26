@@ -7,7 +7,6 @@ import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,10 +34,9 @@ public final class MemberCheckApplication extends UI {
      *
      * @param session the current session
      * @return the referrer UI
-     * @throws IOException if an I/O error occurs
      */
     @Override
-    protected UI execute(final Session session) throws IOException {
+    protected UI execute(final Session session) {
         Member member = (Member) session.getAccount();
         List<Application> applications =
                 DbManager.selectApplicationByMember(member);
@@ -67,7 +65,6 @@ public final class MemberCheckApplication extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        return session.getAccount().getUsername() != null
-                && "M".equals(session.getAccount().getRole());
+        return session.getAccount() instanceof Member;
     }
 }

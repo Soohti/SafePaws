@@ -64,7 +64,7 @@ public final class SortPetAlgo implements Algorithm {
          * @param newSc the match score
          */
         public PetMatchScore(final Pet newP, final double newSc) {
-            this.pet = new Pet(newP);
+            this.pet = newP;
             this.matchScore = newSc;
         }
 
@@ -74,7 +74,7 @@ public final class SortPetAlgo implements Algorithm {
          * @return the pet
          */
         public Pet getPet() {
-            return new Pet(pet);
+            return pet;
         }
 
         /**
