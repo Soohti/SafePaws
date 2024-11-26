@@ -106,8 +106,7 @@ public final class DbManager {
             System.out.println("Account inserted successfully");
         }
         if ("M".equals(account.getRole())) {
-            String query = "SELECT * FROM ACCOUNT"
-                    + "WHERE username = ?";
+            String query = "SELECT * FROM ACCOUNT WHERE username = ?";
             try (Connection conn = getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(query)) {
                 setValues(pstmt, account.getUsername());
@@ -296,8 +295,7 @@ public final class DbManager {
                 setValues(pstmt, 1, pid);
                 pstmt.executeUpdate();
             } catch (SQLException e) {
-                System.out.println("Error during Changing pet State: "
-                        + e.getMessage());
+                System.out.println("Error during Changing pet State: ");
             }
         }
         String updateSQL = "UPDATE APPLICATION SET State = ? "
@@ -510,7 +508,6 @@ public final class DbManager {
             setValues(pstmt, application.getUser().getId(),
                     application.getPet().getId(), 0);
             pstmt.executeUpdate();
-            System.out.println("Application inserted successfully");
         }
     }
 

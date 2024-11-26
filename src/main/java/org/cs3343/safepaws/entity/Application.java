@@ -60,8 +60,7 @@ public class Application {
      * false otherwise
      */
     public static boolean isValidAid(final int aid) {
-        if (DbManager.selectApplication(aid) == null
-                || DbManager.selectApplication(aid).state != 0) {
+        if (DbManager.selectApplication(aid) == null) {
             return false;
         }
         return true;

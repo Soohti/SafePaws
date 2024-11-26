@@ -48,7 +48,8 @@ public class MemberSubmitApplication extends UI {
                 session.println("Your input pet id is invalid."
                     + " Please enter again:");
             } else {
-                session.print("This pet has been adopted.");
+                session.print("This pet has been adopted. "
+                    + "Please enter again:");
             }
             pid = Integer.parseInt(session.requestInput());
         }

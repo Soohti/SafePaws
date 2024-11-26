@@ -156,11 +156,7 @@ public final class Session {
      * @param newAccount the new account
      */
     public void setAccount(final Account newAccount) {
-        if (newAccount != null) {
-            this.account = new Account(newAccount);
-        } else {
-            this.account = null;
-        }
+        this.account = newAccount;
     }
 
     /**
@@ -169,6 +165,6 @@ public final class Session {
      * @return a copy of the account associated with the session.
      */
     public Account getAccount() {
-        return (this.account != null) ? new Account(this.account) : null;
+        return (this.account != null) ? this.account : null;
     }
 }

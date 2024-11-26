@@ -133,6 +133,7 @@ public final class Pet {
         this.species = other.species;
         this.breed = other.breed;
         this.gender = other.gender;
+        this.state = other.state;
     }
 
 

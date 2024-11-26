@@ -30,20 +30,26 @@ public class CreateAccount extends UI {
                 + "(length: 8-30, any character):");
         String username = session.requestInput();
 
-        while (!Account.isValidUsername(username)) {
-            session.println("Your input username is invalid. "
-                    + "Please enter again:");
+        while (Account.isValidUsername(username) != 2) {
+            if (Account.isValidUsername(username) == 0) {
+                session.println("Your input username is invalid. "
+                        + "Please enter again:");
+            } else {
+                session.println("Your input username has been used. "
+                        + "Please enter again:");
+            }
             username = session.requestInput();
         }
 
         session.println("Enter a password (length: 8-16, "
                 + "any character):");
-        String password = Account.encryptPassword(session.requestInput());
+        String password = session.requestInput();
         while (!Account.isValidPassword(password)) {
             session.println("Your input password is invalid. "
                     + "Please enter again:");
             password = session.requestInput();
         }
+        password = Account.encryptPassword(password);
 
         session.println("Enter your role (\"A\" for admin, "
                 + "\"M\" for member), \"S\" for shelter:");
