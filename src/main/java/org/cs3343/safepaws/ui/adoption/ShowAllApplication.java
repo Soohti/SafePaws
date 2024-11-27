@@ -1,6 +1,7 @@
 package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Application;
+import org.cs3343.safepaws.handler.ReadApplicationHandler;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.cs3343.safepaws.util.Session;
@@ -24,7 +25,8 @@ public final class ShowAllApplication {
      */
     public static void show(final Session session) {
         ArrayList<Application> applications;
-        applications = DbManager.viewAllApplication();
+        applications = ReadApplicationHandler.getInstance()
+                .viewAllApplication();
         session.printf("%-10s %-16s %-10s %-10s %-10s",
                 "Id", "Member", "PetID", "Score", "State");
         session.println("");

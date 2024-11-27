@@ -9,6 +9,8 @@ import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.entity.Pet;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,7 +18,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Database manager for handling database operations.
@@ -38,7 +44,35 @@ public final class DbManager {
      * A query to test the database connection.
      */
     private static final String TEST_SQL = "SELECT 1";
-
+    /**
+     * the length of the last AND in sql command.
+     */
+    private static final int LENGTH_OF_LAST_AND = 5;
+    /**
+     * the length of the last command in sql command.
+     */
+    private static final int LENGTH_OF_LAST_COMMA = 2;
+    private static final Set<Class<?>>
+            PRIMITIVE_AND_WRAPPER_TYPES = new HashSet<>();
+    static {
+        PRIMITIVE_AND_WRAPPER_TYPES.add(byte.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(Byte.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(short.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(Short.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(int.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(Integer.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(long.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(Long.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(float.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(Float.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(double.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(Double.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(char.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(Character.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(boolean.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(Boolean.class);
+        PRIMITIVE_AND_WRAPPER_TYPES.add(String.class);
+    }
     /**
      * Initializes the database connection.
      *
@@ -73,6 +107,171 @@ public final class DbManager {
         return DriverManager.getConnection(url, username, password);
     }
 
+    public <T> List<T> readWithCondition(
+            final Class<T> entityType,
+            final String tableName,
+            final Map<String, String> conditions)
+            throws Exception {
+        StringBuilder sqlCommand = new StringBuilder("SELECT * FROM "
+                + tableName + " WHERE");
+        List<T> entities = new ArrayList<>();
+        for (Map.Entry<String, String> condition : conditions.entrySet()) {
+            sqlCommand.append(condition.getKey()).append(" = '")
+                    .append(condition.getValue()).append("' AND ");
+        }
+
+        sqlCommand.setLength(sqlCommand.length() - LENGTH_OF_LAST_AND);
+        sqlCommand.append(";");
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(
+                     sqlCommand.toString())) {
+            while (resultSet.next()) {
+                T entity = entityType.getDeclaredConstructor().newInstance();
+                for (Field field : entityType.getDeclaredFields()) {
+                    if (field.isAnnotationPresent(OneToOne.class)) {
+                        OneToOne oneToOne = field.getAnnotation(OneToOne.class);
+                        Long foreignKeyId = resultSet.getLong(oneToOne
+                                .columnName());
+                        if (foreignKeyId != null) {
+                            // 假设有一个通用的findById方法
+                            Object relatedEntity = readWithID(
+                                    field.getClass(), foreignKeyId);
+                            field.set(entity, relatedEntity);
+                        }
+                    } else {
+                        try {
+                            field.set(entity, resultSet
+                                    .getObject(field.getName()));
+                        } catch (SQLException e) {
+                            System.err.println("Error setting field "
+                                    + field.getName() + ": " + e.getMessage());
+                        }
+                    }
+                }
+                entities.add(entity);
+            }
+        }
+        return entities;
+    }
+    public  <T> ArrayList<T> readAll(final Class<T> entityType,
+                               final String tableName) throws Exception {
+        ArrayList<T> entities = new ArrayList<>();
+        StringBuilder sqlCommand = new StringBuilder("SELECT * FROM ")
+                .append(tableName).append(";");
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement
+                     .executeQuery(sqlCommand.toString())) {
+            while (resultSet.next()) {
+                T entity = entityType.getDeclaredConstructor().newInstance();
+                for (Field field : entityType.getDeclaredFields()) {
+                    if (PRIMITIVE_AND_WRAPPER_TYPES.contains(field.getType())) {
+                        field.setAccessible(true);
+                        try {
+                            field.set(entity, resultSet
+                                    .getObject(field.getName()));
+                        } catch (SQLException e) {
+                            System.err.println("Error setting field "
+                                    + field.getName() + ": " + e.getMessage());
+                        }
+                    }
+                }
+                entities.add(entity);
+            }
+        }
+
+        return entities;
+    }
+    public static <T> void update(final T entity,
+                           final String tableName,
+                           final List<String> whereFields,
+                           final List<String> setFields)
+            throws Exception {
+        Class<?> entityType = entity.getClass();
+        StringBuilder sqlCommand = new StringBuilder("UPDATE "
+                + tableName + " SET ");
+        List<Object> parameters = new ArrayList<>();
+
+        // Build SET clause
+        for (String setField : setFields) {
+            Field valueField = entityType.getDeclaredField(setField);
+            valueField.setAccessible(true);
+            Object value = valueField.get(entity);
+            sqlCommand.append(setField).append(" = ?, ");
+            parameters.add(value);
+        }
+        // Remove the last comma and space
+        if (!setFields.isEmpty()) {
+            sqlCommand.setLength(sqlCommand.length() - LENGTH_OF_LAST_COMMA);
+        }
+        // Build WHERE clause
+        if (!whereFields.isEmpty()) {
+            sqlCommand.append(" WHERE ");
+            for (String whereField : whereFields) {
+                Field field = entityType.getDeclaredField(whereField);
+                field.setAccessible(true);
+                Object value = field.get(entity);
+                sqlCommand.append(whereField).append(" = ? AND ");
+                parameters.add(value);
+            }
+            // Remove the last " AND "
+            sqlCommand.setLength(sqlCommand.length() - LENGTH_OF_LAST_AND);
+        }
+        sqlCommand.append(";");
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(sqlCommand.toString())) {
+            for (int i = 0; i < parameters.size(); i++) {
+                statement.setObject(i + 1, parameters.get(i));
+            }
+            statement.executeUpdate();
+        }
+    }
+    public static <T> void insert(final T entity,
+                           final String tableName) throws Exception {
+        Map<String, Object> fieldsAndValues = getFieldsAndValues(entity);
+        StringBuilder columns = new StringBuilder();
+        StringBuilder values = new StringBuilder();
+        for (String columnName : fieldsAndValues.keySet()) {
+            columns.append(columnName).append(", ");
+        }
+        if (columns.length() > 0) {
+            columns.setLength(columns.length() - 2);
+        }
+        for (int i = 0; i < fieldsAndValues.size(); i++) {
+            values.append("?");
+            if (i < fieldsAndValues.size() - 1) {
+                values.append(", ");
+            }
+        }
+        String sqlCommand = "INSERT INTO " + tableName + " ("
+                + columns.toString() + ") VALUES (" + values.toString() + ");";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement(sqlCommand.toString())) {
+            int index = 1;
+            for (Object value : fieldsAndValues.values()) {
+                preparedStatement.setObject(index++, value);
+            }
+            preparedStatement.executeUpdate();
+        }
+    }
+    private static <T> Map<String, Object> getFieldsAndValues(final T entity)
+            throws IllegalAccessException {
+        Map<String, Object> fieldsAndValues = new HashMap<>();
+        Class<?> clazz = entity.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            if (!Modifier.isStatic(field.getModifiers())) {
+                field.setAccessible(true); // 设置字段为可访问
+                String fieldName = field.getName(); // 获取字段名
+                Object fieldValue = field.get(entity); // 获取字段的值
+                fieldsAndValues.put(fieldName, fieldValue); // 将字段名和值存储到 Map 中
+            }
+        }
+        return fieldsAndValues;
+    }
     /**
      * Sets the values of the given PreparedStatement.
      * The values are set in the order they are provided.
@@ -261,6 +460,7 @@ public final class DbManager {
      * @param aid   the application ID.
      * @param state the new state.
      */
+    //TODO
     public static void changeState(final int aid,
                                    final Application.State state) {
         Connection conn = null;

@@ -1,6 +1,7 @@
 package org.cs3343.safepaws.ui.account;
 
 import org.cs3343.safepaws.entity.Account;
+import org.cs3343.safepaws.handler.CreateAccountHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -62,7 +63,7 @@ public class CreateAccount extends UI {
 
         Account account = new Account(username, password, role);
         try {
-            DbManager.insertAccount(account);
+            CreateAccountHandler.getInstance().createAccount(account);
             session.println("Account created successfully.");
         } catch (Exception e) {
             session.println("Error during creating account.");

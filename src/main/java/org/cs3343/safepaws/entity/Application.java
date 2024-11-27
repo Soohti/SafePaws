@@ -1,6 +1,8 @@
 package org.cs3343.safepaws.entity;
 
+import org.cs3343.safepaws.handler.ReadApplicationHandler;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.OneToOne;
 
 /**
  * Represents an application with user, pet, state, and id.
@@ -9,17 +11,19 @@ public class Application {
     /**
      * The user associated with the application.
      */
-    private final Member user;
+    @OneToOne(columnName = "Mid")
+    private Member user;
 
     /**
      * The pet associated with the application.
      */
-    private final Pet pet;
+    @OneToOne(columnName = "pid")
+    private Pet pet;
 
     /**
      * The state of the application.
      */
-    private final State state;
+    private State state;
 
     /**
      * The id of the application.
@@ -58,7 +62,8 @@ public class Application {
      * false otherwise
      */
     public static boolean isValidAid(final int aid) {
-        return DbManager.selectApplication(aid) != null;
+        return ReadApplicationHandler.getInstance()
+                .viewConditionalApplication(aid) != null;
     }
 
     /**
@@ -78,7 +83,14 @@ public class Application {
     public Pet getPet() {
         return pet;
     }
-
+    /**
+     * Sets the Pet.
+     *
+     * @param newPet the Pet to set
+     */
+    public void setState(final Pet newPet) {
+        this.pet = newPet;
+    }
     /**
      * Gets the state.
      *
@@ -87,7 +99,14 @@ public class Application {
     public State getState() {
         return state;
     }
-
+    /**
+     * Sets the state.
+     *
+     * @param newState the state to set
+     */
+    public void setState(final State newState) {
+        this.state = newState;
+    }
     /**
      * Gets the id.
      *

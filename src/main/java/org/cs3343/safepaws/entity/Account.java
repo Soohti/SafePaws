@@ -1,6 +1,6 @@
 package org.cs3343.safepaws.entity;
 
-import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.handler.LoginHandler;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -64,7 +64,7 @@ public class Account {
         if (!(username.length() >= MIN_USERNAME_LENGTH
                 && username.length() <= MAX_USERNAME_LENGTH)) {
             return 0;
-        } else if (DbManager.selectAccount(username) != null) {
+        } else if (LoginHandler.duplicateUsername(username)) {
             return 1;
         } else {
             return 2;

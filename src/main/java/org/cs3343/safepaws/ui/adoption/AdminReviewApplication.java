@@ -2,6 +2,7 @@ package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Application;
+import org.cs3343.safepaws.handler.ReadApplicationHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -51,8 +52,9 @@ public class AdminReviewApplication extends UI {
                     int aid = Integer.parseInt(choice);
                     if (Application.isValidAid(aid)) {
                         ShowDetailApplication.show(session, aid);
-                        Application.State appState =
-                                DbManager.selectApplication(aid).getState();
+                        Application.State appState = ReadApplicationHandler
+                                .getInstance().viewConditionalApplication(aid)
+                                .getState();
                         if (appState != Application.State.PENDING) {
                             session.print("This application has "
                                     + "already been processed.\n");

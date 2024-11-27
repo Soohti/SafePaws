@@ -3,6 +3,7 @@ package org.cs3343.safepaws.ui.account;
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.handler.LoginHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.menu.AdminMenu;
 import org.cs3343.safepaws.ui.menu.MemberMenu;
@@ -35,9 +36,10 @@ public class Login extends UI {
         session.println("Enter your password:");
         String password = session.requestInput();
 
-        if (DbManager.authenticateUser(username, password)) {
+        if (LoginHandler.getInstance().authenticateUser(username, password)) {
             session.println("Log in successfully.");
-            Account account = DbManager.selectAccount(username);
+            Account account = LoginHandler.getInstance()
+                    .selectAccount(username);
             if (account instanceof Member memberAccount) {
                 session.setAccount(memberAccount);
                 return new MemberMenu();

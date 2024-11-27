@@ -2,6 +2,7 @@ package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Pet;
+import org.cs3343.safepaws.handler.PetRegisterHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -109,7 +110,7 @@ public final class AdminAddPet extends UI {
         Pet pet =
                 new Pet(-1, name, species, breed, gender, numericAttributes, 0);
         try {
-            DbManager.insertPet(pet);
+            PetRegisterHandler.getInstance().insertPetRecord(pet);
             session.println("Pet created successfully.");
         } catch (Exception e) {
             session.println("Error during admin adding pet.");
