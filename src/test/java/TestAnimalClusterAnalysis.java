@@ -1,6 +1,6 @@
 import org.cs3343.safepaws.algorithm.AnimalClusterAnalysis;
 import org.cs3343.safepaws.entity.LocationPoint;
-import org.cs3343.safepaws.entity.Shelter;
+import org.cs3343.safepaws.entity.RecommendShelter;
 import org.cs3343.safepaws.algorithm.FindingOptimalShelterNumber;
 import org.junit.jupiter.api.Test;
 
@@ -93,14 +93,14 @@ public class TestAnimalClusterAnalysis {
         shelterLocationPoints.add(new LocationPoint(1.0, 2.0));
         shelterLocationPoints.add(new LocationPoint(3.0, 4.0));
 
-        List<Shelter> shelters = new ArrayList<>();
+        List<RecommendShelter> recommendShelters = new ArrayList<>();
         for(LocationPoint locationPoint : shelterLocationPoints)
         {
-            shelters.add(new Shelter(locationPoint));
+            recommendShelters.add(new RecommendShelter(locationPoint));
         }
-        System.out.println("Shelter Locations:");
-        for (Shelter shelter : shelters) {
-            System.out.print(shelter.toString());
+        System.out.println("RecommendShelter Locations:");
+        for (RecommendShelter recommendShelter : recommendShelters) {
+            System.out.print(recommendShelter.toString());
         }
     }
 }
