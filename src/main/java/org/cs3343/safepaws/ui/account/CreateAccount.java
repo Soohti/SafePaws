@@ -1,9 +1,9 @@
 package org.cs3343.safepaws.ui.account;
 
-import org.cs3343.safepaws.entity.Account;
+import org.cs3343.safepaws.handler.CreateAccountHandler;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * The CreateAccount class provides the
@@ -29,9 +29,10 @@ public class CreateAccount extends UI {
         session.println("Enter a username "
                 + "(length: 8-30, any character):");
         String username = session.requestInput();
-
-        while (Account.isValidUsername(username) != 2) {
-            if (Account.isValidUsername(username) == 0) {
+        while (CreateAccountHandler.getInstance()
+                .isValidUsername(username) != 2) {
+            if (CreateAccountHandler.getInstance()
+                    .isValidUsername(username) == 0) {
                 session.println("Your input username is invalid. "
                         + "Please enter again:");
             } else {
@@ -44,28 +45,28 @@ public class CreateAccount extends UI {
         session.println("Enter a password (length: 8-16, "
                 + "any character):");
         String password = session.requestInput();
-        while (!Account.isValidPassword(password)) {
+        while (!CreateAccountHandler.getInstance().isValidPassword(password)) {
             session.println("Your input password is invalid. "
                     + "Please enter again:");
             password = session.requestInput();
         }
-        password = Account.encryptPassword(password);
+        password = BCrypt.hashpw(password, BCrypt.gensalt());
 
         session.println("Enter your role (\"A\" for admin, "
                 + "\"M\" for member), \"S\" for shelter:");
         String role = session.requestInput();
-        while (!Account.isValidRole(role)) {
+        while (!CreateAccountHandler.getInstance().isValidRole(role)) {
             session.println("Your input role is invalid. "
                     + "Please enter again:");
             role = session.requestInput();
         }
 
-        Account account = new Account(username, password, role);
         try {
-            DbManager.insertAccount(account);
+            CreateAccountHandler.getInstance()
+                    .createAccount(username, password, role);
             session.println("Account created successfully.");
-        } catch (Exception e) {
-            session.println("Error during creating account.");
+        } catch (Exception ex) {
+            session.println("Error during creating account." + ex.getMessage());
         }
 
         return this.getReferrer();

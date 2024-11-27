@@ -1,25 +1,33 @@
 package org.cs3343.safepaws.entity;
 
-import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.handler.ReadApplicationHandler;
+import org.cs3343.safepaws.util.OneToOne;
 
 /**
  * Represents an application with user, pet, state, and id.
+ * <p>
+ * This class stores the application details, including the user (account),
+ * pet, application state, and unique application ID.
+ * </p>
  */
 public class Application {
+
     /**
      * The user associated with the application.
      */
-    private final Member user;
+    @OneToOne(columnName = "Mid", tableName = "ACCOUNT")
+    private Member user;
 
     /**
      * The pet associated with the application.
      */
-    private final Pet pet;
+    @OneToOne(columnName = "PId", tableName = "PET")
+    private Pet pet;
 
     /**
      * The state of the application.
      */
-    private final State state;
+    private State state;
 
     /**
      * The id of the application.
@@ -29,36 +37,47 @@ public class Application {
     /**
      * Constructs an Application with the specified user, pet, and state.
      *
-     * @param account the user account
-     * @param p       the pet
-     * @param st      the state
+     * @param newAccount the user account
+     * @param newPet     the pet
+     * @param newState   the state
      */
-    public Application(final Member account, final Pet p, final State st) {
-        this.user = account;
-        this.pet = p;
-        this.state = st;
+    public Application(final Member newAccount, final Pet newPet,
+                       final State newState) {
+        this.user = newAccount;
+        this.pet = newPet;
+        this.state = newState;
+    }
+
+    /**
+     * Constructs an Application with the specified user, pet, and state.
+     *
+     */
+    public Application() {
+        this.user = null;
+        this.pet = null;
+        this.state = State.PENDING;
     }
 
     /**
      * Checks if the given state is valid.
      *
-     * @param iState the integer state to check
+     * @param newIState the integer state to check
      * @return true if the state is valid, false otherwise
      */
-    public static boolean isValidState(final int iState) {
-        return iState == State.APPROVED.ordinal()
-                || iState == State.REJECTED.ordinal();
+    public static boolean isValidState(final int newIState) {
+        return newIState == State.APPROVED.ordinal()
+                || newIState == State.REJECTED.ordinal();
     }
 
     /**
      * Checks if the given application ID is valid.
      *
-     * @param aid the application ID to check
-     * @return true if the application ID is valid,
-     * false otherwise
+     * @param newAid the application ID to check
+     * @return true if the application ID is valid, false otherwise
      */
-    public static boolean isValidAid(final int aid) {
-        return DbManager.selectApplication(aid) != null;
+    public static boolean isValidAid(final int newAid) {
+        return ReadApplicationHandler.getInstance()
+                .findApplicationByAid(newAid) != null;
     }
 
     /**
@@ -80,12 +99,30 @@ public class Application {
     }
 
     /**
+     * Sets the Pet.
+     *
+     * @param newPet the Pet to set
+     */
+    public void setPet(final Pet newPet) {
+        this.pet = newPet;
+    }
+
+    /**
      * Gets the state.
      *
      * @return the state
      */
     public State getState() {
         return state;
+    }
+
+    /**
+     * Sets the state.
+     *
+     * @param newState the state to set
+     */
+    public void setState(final State newState) {
+        this.state = newState;
     }
 
     /**
@@ -107,22 +144,10 @@ public class Application {
     }
 
     /**
-     * Checks if the given pet ID is valid.
-     *
-     * @param pid the pet ID to check
-     * @return 0 if the pet ID is invalid, 1 if the pet is adopted,
-     * 2 if the pet is not adopted
+     * Enum representing the possible states of an application.
      */
-    public static int isValidPid(final int pid) {
-        if (DbManager.selectPetById(pid) == null) {
-            return 0;
-        } else if (DbManager.selectPetById(pid).getState() == 1) {
-            return 1;
-        }
-        return 2;
-    }
-
     public enum State {
+
         /**
          * The application is pending.
          */

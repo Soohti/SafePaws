@@ -3,8 +3,8 @@ package org.cs3343.safepaws.ui.adoption;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
+import org.cs3343.safepaws.handler.CheckMemberHandler;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
 import java.util.List;
@@ -39,7 +39,8 @@ public final class MemberCheckApplication extends UI {
     protected UI execute(final Session session) {
         Member member = (Member) session.getAccount();
         List<Application> applications =
-                DbManager.selectApplicationByMember(member);
+                CheckMemberHandler.getInstance()
+                        .findApplicationByMid(member.getId());
         if (applications.isEmpty()) {
             session.println("You have not submitted "
                     + "any adoption applications.");
