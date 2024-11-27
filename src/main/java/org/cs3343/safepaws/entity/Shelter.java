@@ -1,36 +1,33 @@
 package org.cs3343.safepaws.entity;
 
 /**
- * Represents a shelter that can contain multiple locations where
- * animals can be found.
+ *
  */
-public class Shelter {
-
+public class Shelter extends Account {
     /**
-     * A list of locations where the shelter is situated.
-     * Each location is represented by a {@link LocationPoint} object.
+     * The profile of the member.
      */
-    private final LocationPoint shelterLocationPoint;
-
+    private final LocationPoint locationPoint;
     /**
-     * Initializes a new instance of the Shelter class with the specified
-     * list of shelter locations.
+     * Creates a new admin with the given username, password, and role.
      *
-     * @param shelterLocationValue a list of {@link LocationPoint} objects
-     *                             representing the shelter locations
+     * @param username the username of the admin
+     * @param password the password of the admin
+     * @param role     the role of the admin
+     * @param thisLocationPoint the location of the shelter
      */
-    public Shelter(final LocationPoint shelterLocationValue) {
-        this.shelterLocationPoint = shelterLocationValue;
+    public Shelter(final String username,
+                   final String password, final String role,
+                   final LocationPoint thisLocationPoint) {
+        super(username, password, role);
+        this.locationPoint = thisLocationPoint;
     }
 
     /**
-     * Displays the list of shelter locations to the standard output.
-     * Each location is printed on a new line with its x and y coordinates.
-     *
-     * @return the string of location point
+     * Gets the location point of the shelter.
+     * @return the location point of the shelter
      */
-    public String toString() {
-        return String.format("X: " + shelterLocationPoint.getX() + ", Y: "
-                + shelterLocationPoint.getY() + "\n");
+    public LocationPoint getLocationPoint() {
+        return locationPoint;
     }
 }
