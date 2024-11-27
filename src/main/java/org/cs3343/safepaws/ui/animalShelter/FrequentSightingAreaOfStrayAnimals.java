@@ -80,7 +80,8 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
 
             int k = 0;
             if (mode == 1) {
-                k = FindingOptimalShelterNumber.findOptimalK(animalLocations, MAXK);
+                k = FindingOptimalShelterNumber
+                        .findOptimalK(animalLocations, MAXK);
                 session.println("Optimal number of shelters (K) is: " + k);
             } else if (mode == 2) {
                 session.print("Enter the number of shelters"
