@@ -1,5 +1,7 @@
 package org.cs3343.safepaws.entity;
 
+import java.util.Objects;
+
 import org.cs3343.safepaws.util.DbManager;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -202,5 +204,32 @@ public class Account {
      */
     public void setId(final int newId) {
         this.id = newId;
+    }
+    
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; 
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Account otherAccount = (Account) obj;
+        return username.equals(otherAccount.username) 
+                && password.equals(otherAccount.password)
+                && role.equals(otherAccount.role)
+                && id == otherAccount.id;
+    }
+
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, role, id);
     }
 }

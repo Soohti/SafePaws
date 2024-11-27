@@ -1,5 +1,7 @@
 package org.cs3343.safepaws.entity;
 
+import java.util.Objects;
+
 /**
  * Represents a member in the SafePaws system.
  */
@@ -76,25 +78,31 @@ public class Member extends Account {
     }
 
     /**
-     * Sets the ID of the member.
+     * Equals.
      *
-     * @param id the ID to set
+     * @param obj the obj
+     * @return true, if successful
      */
-    public void setId(final int id) {
-        super.setId(id);
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; 
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Member otherAccount = (Member) obj;
+        if()
+        return username.equals(otherAccount.username) 
+                && password.equals(otherAccount.password)
+                && role.equals(otherAccount.role)
+                && id == otherAccount.id;
     }
 
-
     /**
-     * Gets the profile of the member.
+     * Hash code.
      *
-     * @return a defensive copy of the profile of the member
+     * @return the int
      */
-    public MemberProfile getProfile() {
-        return new MemberProfile(this.profile.getPreferredSpecies(),
-                this.profile.getPreferredBreed(),
-                this.profile.getGender(),
-                this.profile.getNumericAttributes());
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, role, id);
     }
 
 

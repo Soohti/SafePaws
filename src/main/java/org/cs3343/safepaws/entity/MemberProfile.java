@@ -1,5 +1,8 @@
 package org.cs3343.safepaws.entity;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Represents a member profile with various attributes.
  */
@@ -277,5 +280,32 @@ public class MemberProfile {
      */
     public void setGender(final String newGender) {
         this.gender = newGender;
+    }
+    
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; 
+        if (obj == null || getClass() != obj.getClass()) return false;
+        MemberProfile otherProfile = (MemberProfile) obj;
+        return Arrays.equals(numericAttributes, otherProfile.numericAttributes)
+                && this.gender.equals(otherProfile.gender)
+                && this.preferredBreed.equals(otherProfile.preferredBreed)
+                && this.preferredSpecies.equals(otherProfile.preferredSpecies);
+    }
+
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(numericAttributes, gender, preferredBreed, preferredSpecies);
     }
 }

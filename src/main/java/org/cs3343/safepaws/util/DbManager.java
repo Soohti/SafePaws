@@ -511,6 +511,7 @@ public final class DbManager {
             setValues(pstmt, application.getUser().getId(),
                     application.getPet().getId(), 0);
             pstmt.executeUpdate();
+            System.out.println("Application inserted successfully");
         }
     }
 
