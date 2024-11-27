@@ -28,7 +28,7 @@ package org.cs3343.safepaws.ui.animalShelter;
 import org.cs3343.safepaws.algorithm.AnimalClusterAnalysis;
 import org.cs3343.safepaws.algorithm.FindingOptimalShelterNumber;
 import org.cs3343.safepaws.entity.LocationPoint;
-import org.cs3343.safepaws.entity.Shelter;
+import org.cs3343.safepaws.entity.RecommendShelter;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
@@ -80,10 +80,12 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
 
             int k = 0;
             if (mode == 1) {
-                k = FindingOptimalShelterNumber.findOptimalK(animalLocations, MAXK);
-                session.println("Optimal number of shelters (K) is: " + k);
+                k = FindingOptimalShelterNumber
+                        .findOptimalK(animalLocations, MAXK);
+                session.println("Optimal number of"
+                        + " recommendShelters (K) is: " + k);
             } else if (mode == 2) {
-                session.print("Enter the number of shelters"
+                session.print("Enter the number of recommendShelters"
                         + " (K) you want to use: ");
                 k = Integer.parseInt(session.requestInput());
             } else {
@@ -94,18 +96,18 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
             kmeans.fit(animalLocations);
 
             List<List<LocationPoint>> clusters = kmeans.getClusters();
-            List<Shelter> shelters = new ArrayList<>();
+            List<RecommendShelter> recommendShelters = new ArrayList<>();
 
             for (List<LocationPoint> cluster : clusters) {
                 if (!cluster.isEmpty()) {
                     LocationPoint firstLocation = cluster.get(0);
-                    shelters.add(new Shelter(firstLocation));
+                    recommendShelters.add(new RecommendShelter(firstLocation));
                 }
             }
 
-            session.println("Shelter Locations:");
-            for (Shelter shelter : shelters) {
-                session.print(shelter.toString());
+            session.println("RecommendShelter Locations:");
+            for (RecommendShelter recommendShelter : recommendShelters) {
+                session.print(recommendShelter.toString());
             }
         } catch (SQLException e) {
             session.println("Error creating account: " + e.getMessage());
