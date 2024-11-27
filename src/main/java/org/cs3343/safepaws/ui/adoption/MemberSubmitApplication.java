@@ -3,11 +3,11 @@ package org.cs3343.safepaws.ui.adoption;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
+import org.cs3343.safepaws.handler.CheckMemberHandler;
+import org.cs3343.safepaws.handler.ReadPetHandler;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
-import java.sql.SQLException;
 
 /**
  * Class to handle the submission of adoption applications.
@@ -41,8 +41,11 @@ public class MemberSubmitApplication extends UI {
         session.println("Enter the ID of the pet you want to apply for:");
         String userInput = session.requestInput();
         int pid = Integer.parseInt(userInput);
-        while (Application.isValidPid(pid) != 2) {
-            if (Application.isValidPid(pid) == 0) {
+        Pet thisPet = ReadPetHandler.getInstance().findConditionalPet(pid);
+        while (ReadPetHandler.getInstance()
+                .isValidPetState(thisPet) != 2) {
+            if (ReadPetHandler.getInstance()
+                    .isValidPetState(thisPet) == 0) {
                 session.println("Your input pet id is invalid."
                         + " Please enter again:");
             } else {
@@ -54,7 +57,7 @@ public class MemberSubmitApplication extends UI {
 
         Pet pet;
         try {
-            pet = DbManager.selectPetById(pid);
+            pet = ReadPetHandler.getInstance().findConditionalPet(pid);
             session.println("Pet selected successfully.");
         } catch (Exception e) {
             pet = null;
@@ -62,12 +65,13 @@ public class MemberSubmitApplication extends UI {
         }
         Application.State applicationState = Application.State.PENDING;
         if (pet != null) {
-            Application application =
-                    new Application(user, pet, applicationState);
             try {
-                DbManager.insertApplication(application);
+                CheckMemberHandler.getInstance()
+                        .insertApplication(user,
+                                pet,
+                                applicationState);
                 session.println("Application created successfully.");
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 session.println("Error during creating application.");
             }
         }

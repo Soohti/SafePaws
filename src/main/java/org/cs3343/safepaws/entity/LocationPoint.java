@@ -26,6 +26,15 @@ public final class LocationPoint {
         this.x = xValue;
         this.y = yValue;
     }
+    /**
+     * Initializes a new instance of the LocationPoint class with the specified
+     * x and y coordinates.
+     *
+     */
+    public LocationPoint() {
+        this.x = -1;
+        this.y = -1;
+    }
 
     /**
      * Gets the x-coordinate of the location.

@@ -2,123 +2,194 @@ package org.cs3343.safepaws.entity;
 
 /**
  * Represents a member profile with various attributes.
+ * <p>
+ * This class stores information about a member's personal details,
+ * preferences, and pet-related attributes.
+ * </p>
  */
-public class MemberProfile {
-    /**
-     * The index for extroversion level.
-     */
-    private static final int INDEX_EXTROVERSION = 0;
+public final class MemberProfile {
 
     /**
-     * The index for daily activity level.
+     * The id of the member.
      */
-    private static final int INDEX_DAILY_ACTIVITY = 1;
+    private int id;
 
     /**
-     * The index for house size.
+     * The extroversion level of the member.
      */
-    private static final int INDEX_HOUSE_SIZE = 2;
+    private int extroversionLevel;
 
     /**
-     * The index for work hours.
+     * The daily activity level of the member.
      */
-    private static final int INDEX_WORK = 3;
+    private int dailyActivityLevel;
 
     /**
-     * The index for family member.
+     * The house size of the member.
      */
-    private static final int INDEX_FAM = 4;
+    private int houseSize;
 
     /**
-     * The index for pet experience.
+     * The work hours of the member.
      */
-    private static final int INDEX_EXP = 5;
+    private int workHours;
 
     /**
-     * The index for budget.
+     * The number of family members.
      */
-    private static final int INDEX_BUDG = 6;
+    private int numberOfFamilyMembers;
 
     /**
-     * The numeric attributes of the member.
+     * The previous pet experience of the member.
      */
-    private final int[] numericAttributes;
+    private int previousPetExperience;
+
+    /**
+     * The financial budget of the member.
+     */
+    private int financialBudget;
 
     /**
      * The preferred species of the member.
      */
-    private final String preferredSpecies;
+    private String preferredSpecies;
 
     /**
      * The preferred breed of the member.
      */
-    private final String preferredBreed;
+    private String preferredBreed;
 
     /**
      * The gender of the member.
      */
-    private final String gender;
+    private String gender;
 
     /**
-     * Constructs a new MemberProfile with the specified attributes.
+     * Constructs a MemberProfile with essential information
+     * (id, species, breed, gender).
      *
-     * @param species the preferred species
-     * @param breed   the preferred breed
-     * @param gen     the gender
-     * @param numeric an array of numeric attributes
+     * @param newId the id of the member
+     * @param newPreferredSpecies the preferred species of the member
+     * @param newPreferredBreed the preferred breed of the member
+     * @param newGender the gender of the member
+     * @param newFinancialBudget the financial budge for pet of the member
      */
-    public MemberProfile(final String species,
-                         final String breed, final String gen,
-                         final int[] numeric) {
-        this.preferredSpecies = species;
-        this.preferredBreed = breed;
-        this.gender = gen;
-        this.numericAttributes = numeric.clone();
+    public MemberProfile(
+            final int newId,
+            final String newPreferredSpecies,
+            final String newPreferredBreed,
+            final String newGender,
+            final int newFinancialBudget) {
+        this.id = newId;
+        this.extroversionLevel = 0; // default value
+        this.dailyActivityLevel = 0; // default value
+        this.houseSize = 0; // default value
+        this.workHours = 0; // default value
+        this.numberOfFamilyMembers = 0; // default value
+        this.previousPetExperience = 0; // default value
+        this.financialBudget = newFinancialBudget; // default value
+        this.preferredSpecies = newPreferredSpecies;
+        this.preferredBreed = newPreferredBreed;
+        this.gender = newGender;
     }
 
     /**
-     * Gets the preferred species.
+     * Constructs a MemberProfile with additional information (extroversion
+     * level, activity level, etc.).
      *
-     * @return the preferred species
+     * @param newId the id of the member
+     * @param newExtroversionLevel the extroversion level of the member
+     * @param newDailyActivityLevel the daily activity level of the member
+     * @param newHouseSize the house size of the member
+     * @param newWorkHours the work hours of the member
+     * @param newNumberOfFamilyMembers the number of family members
+     * @param newPreviousPetExperience the previous pet experience of the member
      */
-    public String getPreferredSpecies() {
-        return preferredSpecies;
+    public MemberProfile(
+            final int newId,
+            final int newExtroversionLevel,
+            final int newDailyActivityLevel,
+            final int newHouseSize,
+            final int newWorkHours,
+            final int newNumberOfFamilyMembers,
+            final int newPreviousPetExperience
+            ) {
+        this.id = newId;
+        this.extroversionLevel = newExtroversionLevel;
+        this.dailyActivityLevel = newDailyActivityLevel;
+        this.houseSize = newHouseSize;
+        this.workHours = newWorkHours;
+        this.numberOfFamilyMembers = newNumberOfFamilyMembers;
+        this.previousPetExperience = newPreviousPetExperience;
+        this.financialBudget = 0;
+        this.preferredSpecies = ""; // default value
+        this.preferredBreed = ""; // default value
+        this.gender = ""; // default value
     }
 
     /**
-     * Gets the extroversion level.
+     * Constructs a MemberProfile with additional information (extroversion
+     * level, activity level, etc.).
      *
-     * @return the extroversion level
+     */
+    public MemberProfile(
+    ) {
+        this.id = -1;
+        this.extroversionLevel = 0;
+        this.dailyActivityLevel = 0;
+        this.houseSize = 0;
+        this.workHours = 0;
+        this.numberOfFamilyMembers = 0;
+        this.previousPetExperience = 0;
+        this.financialBudget = 0;
+        this.preferredSpecies = ""; // default value
+        this.preferredBreed = ""; // default value
+        this.gender = ""; // default value
+    }
+
+    /**
+     * Gets the id of the member.
+     *
+     * @return the id of the member
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Gets the extroversion level of the member.
+     *
+     * @return the extroversion level of the member
      */
     public int getExtroversionLevel() {
-        return numericAttributes[INDEX_EXTROVERSION];
+        return extroversionLevel;
     }
 
     /**
-     * Gets the daily activity level.
+     * Gets the daily activity level of the member.
      *
-     * @return the daily activity level
+     * @return the daily activity level of the member
      */
     public int getDailyActivityLevel() {
-        return numericAttributes[INDEX_DAILY_ACTIVITY];
+        return dailyActivityLevel;
     }
 
     /**
-     * Gets the house size.
+     * Gets the house size of the member.
      *
-     * @return the house size
+     * @return the house size of the member
      */
     public int getHouseSize() {
-        return numericAttributes[INDEX_HOUSE_SIZE];
+        return houseSize;
     }
 
     /**
-     * Gets the work hours.
+     * Gets the work hours of the member.
      *
-     * @return the work hours
+     * @return the work hours of the member
      */
     public int getWorkHours() {
-        return numericAttributes[INDEX_WORK];
+        return workHours;
     }
 
     /**
@@ -127,42 +198,150 @@ public class MemberProfile {
      * @return the number of family members
      */
     public int getNumberOfFamilyMembers() {
-        return numericAttributes[INDEX_FAM];
+        return numberOfFamilyMembers;
     }
 
     /**
-     * Gets the previous pet experience.
+     * Gets the previous pet experience of the member.
      *
-     * @return the previous pet experience
+     * @return the previous pet experience of the member
      */
     public int getPreviousPetExperience() {
-        return numericAttributes[INDEX_EXP];
+        return previousPetExperience;
     }
 
     /**
-     * Gets the financial budget.
+     * Gets the financial budget of the member.
      *
-     * @return the financial budget
+     * @return the financial budget of the member
      */
     public int getFinancialBudget() {
-        return numericAttributes[INDEX_BUDG];
+        return financialBudget;
     }
 
     /**
-     * Gets the preferred breed.
+     * Gets the preferred species of the member.
      *
-     * @return the preferred breed
+     * @return the preferred species of the member
+     */
+    public String getPreferredSpecies() {
+        return preferredSpecies;
+    }
+
+    /**
+     * Gets the preferred breed of the member.
+     *
+     * @return the preferred breed of the member
      */
     public String getPreferredBreed() {
         return preferredBreed;
     }
 
     /**
-     * Gets the gender.
+     * Gets the gender of the member.
      *
-     * @return the gender
+     * @return the gender of the member
      */
     public String getGender() {
         return gender;
+    }
+
+    /**
+     * Sets the ID of the member.
+     *
+     * @param newId the new ID to set
+     */
+    public void setId(final int newId) {
+        this.id = newId;
+    }
+
+    /**
+     * Sets the extroversion level of the member.
+     *
+     * @param newExtroversionLevel the new extroversion level to set
+     */
+    public void setExtroversionLevel(final int newExtroversionLevel) {
+        this.extroversionLevel = newExtroversionLevel;
+    }
+
+    /**
+     * Sets the daily activity level of the member.
+     *
+     * @param newDailyActivityLevel the new daily activity level to set
+     */
+    public void setDailyActivityLevel(final int newDailyActivityLevel) {
+        this.dailyActivityLevel = newDailyActivityLevel;
+    }
+
+    /**
+     * Sets the house size of the member.
+     *
+     * @param newHouseSize the new house size to set
+     */
+    public void setHouseSize(final int newHouseSize) {
+        this.houseSize = newHouseSize;
+    }
+
+    /**
+     * Sets the work hours of the member.
+     *
+     * @param newWorkHours the new work hours to set
+     */
+    public void setWorkHours(final int newWorkHours) {
+        this.workHours = newWorkHours;
+    }
+
+    /**
+     * Sets the number of family members.
+     *
+     * @param newNumberOfFamilyMembers the new number of family members to set
+     */
+    public void setNumberOfFamilyMembers(final int newNumberOfFamilyMembers) {
+        this.numberOfFamilyMembers = newNumberOfFamilyMembers;
+    }
+
+    /**
+     * Sets the previous pet experience of the member.
+     *
+     * @param newPreviousPetExperience the new previous pet experience to set
+     */
+    public void setPreviousPetExperience(final int newPreviousPetExperience) {
+        this.previousPetExperience = newPreviousPetExperience;
+    }
+
+    /**
+     * Sets the financial budget of the member.
+     *
+     * @param newFinancialBudget the new financial budget to set
+     */
+    public void setFinancialBudget(final int newFinancialBudget) {
+        this.financialBudget = newFinancialBudget;
+    }
+
+    /**
+     * Sets the preferred species of the member.
+     *
+     * @param newPreferredSpecies the new preferred species to set
+     */
+    public void setPreferredSpecies(final String newPreferredSpecies) {
+        this.preferredSpecies = newPreferredSpecies;
+    }
+
+    /**
+     * Sets the preferred breed of the member.
+     *
+     * @param newPreferredBreed the new preferred breed to set
+     */
+    public void setPreferredBreed(final String newPreferredBreed) {
+        this.preferredBreed = newPreferredBreed;
+    }
+
+    /**
+     * Sets the gender of the member.
+     *
+     * @param newGender the new gender to set
+     */
+    public void setGender(final String newGender) {
+        this.gender = newGender;
     }
 }

@@ -2,7 +2,7 @@ package org.cs3343.safepaws.algorithm;
 
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
-import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.handler.ReadPetHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public final class SortPetAlgo implements Algorithm {
      * @return a list of pets sorted by match score
      */
     public static List<Pet> sortPetsByMatch(final Member user) {
-        List<Pet> pets = DbManager.getAllPets();
+        List<Pet> pets = ReadPetHandler.getInstance().findAllPet();
         List<PetMatchScore> petMatchScores = new ArrayList<>();
 
         for (Pet pet : pets) {
