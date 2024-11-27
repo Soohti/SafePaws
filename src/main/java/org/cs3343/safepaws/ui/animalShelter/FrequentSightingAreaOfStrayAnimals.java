@@ -3,13 +3,13 @@
  * the user interface (UI) for the SafePaws application,
  * specifically designed for the animal shelter module.
  * This class allows an admin user to determine the frequent
- * sighting areas of stray animals using KMeans clustering.
+ * sighting areas of stray animals using AnimalClusterAnalysis clustering.
  *
  * <p>The class extends the {@link UI} class and provides functionality to:
  * 1. Retrieve all animal location points from the database.
  * 2. Allow the user to choose between optimal K clustering
  * (determined using the Elbow Method) or custom K clustering.
- * 3. Run KMeans clustering with the chosen K value.
+ * 3. Run AnimalClusterAnalysis clustering with the chosen K value.
  * 4. Display the resulting shelter locations and clusters.
  * 5. (Currently unimplemented) Select an application for
  * adoption and check its status.
@@ -25,8 +25,8 @@
  */
 package org.cs3343.safepaws.ui.animalShelter;
 
-import org.cs3343.safepaws.algorithm.ElbowUtil;
-import org.cs3343.safepaws.algorithm.KMeans;
+import org.cs3343.safepaws.algorithm.AnimalClusterAnalysis;
+import org.cs3343.safepaws.algorithm.FindingOptimalShelterNumber;
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.Shelter;
 import org.cs3343.safepaws.ui.UI;
@@ -62,7 +62,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
      * Executes the functionality of this UI component.
      * This method retrieves all animal location points from the
      * database, allows the user to choose the clustering mode
-     * (optimal or custom K), runs KMeans clustering,
+     * (optimal or custom K), runs AnimalClusterAnalysis clustering,
      * and displays the resulting shelter locations and clusters.
      *
      * @param session The current user session.
@@ -80,7 +80,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
 
             int k = 0;
             if (mode == 1) {
-                k = ElbowUtil.findOptimalK(animalLocations, MAXK);
+                k = FindingOptimalShelterNumber.findOptimalK(animalLocations, MAXK);
                 session.println("Optimal number of shelters (K) is: " + k);
             } else if (mode == 2) {
                 session.print("Enter the number of shelters"
@@ -90,7 +90,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
                 session.println("Invalid mode selected. Exiting program.");
                 return this.getReferrer();
             }
-            KMeans kmeans = new KMeans(k);
+            AnimalClusterAnalysis kmeans = new AnimalClusterAnalysis(k);
             kmeans.fit(animalLocations);
 
             List<List<LocationPoint>> clusters = kmeans.getClusters();
@@ -124,9 +124,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
      */
     @Override
     public boolean isVisibleTo(final Session session) {
-        //TODO please help to change this part after merge
-        //return session.getAccount() != null && "A".equals(session
-        //        .getAccount().getRole());
-        return true;
+        return session.getAccount() != null && "A".equals(session
+                .getAccount().getRole());
     }
 }
