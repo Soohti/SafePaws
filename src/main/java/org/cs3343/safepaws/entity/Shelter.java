@@ -1,30 +1,35 @@
 package org.cs3343.safepaws.entity;
 
 /**
- *
+ * Represents a shelter with a username, password, role, and location point.
  */
-public class Shelter extends Account {
+public final class Shelter extends Account {
     /**
-     * The profile of the member.
+     * The location point of the shelter.
      */
     private final LocationPoint locationPoint;
+
     /**
-     * Creates a new admin with the given username, password, and role.
+     * Constructs a new Shelter with the specified parameters.
      *
-     * @param username the username of the admin
-     * @param password the password of the admin
-     * @param role     the role of the admin
-     * @param thisLocationPoint the location of the shelter
+     * @param newId            the id of the shelter
+     * @param newUsername      the username of the shelter
+     * @param newPassword      the password of the shelter
+     * @param newRole          the role of the shelter
+     * @param newLocationPoint the location point of the shelter
      */
-    public Shelter(final String username,
-                   final String password, final String role,
-                   final LocationPoint thisLocationPoint) {
-        super(username, password, role);
-        this.locationPoint = thisLocationPoint;
+    public Shelter(final int newId,
+                   final String newUsername,
+                   final String newPassword,
+                   final String newRole,
+                   final LocationPoint newLocationPoint) {
+        super(newId, newUsername, newPassword, newRole);
+        this.locationPoint = newLocationPoint;
     }
 
     /**
      * Gets the location point of the shelter.
+     *
      * @return the location point of the shelter
      */
     public LocationPoint getLocationPoint() {

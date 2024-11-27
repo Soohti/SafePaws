@@ -2,20 +2,10 @@ package org.cs3343.safepaws.entity;
 
 /**
  * Represents a pet with various attributes such as name,
- * species, breed, age,
- * weight, gender, activity level,
- * and health status.
+ * species, breed, age, weight, gender, activity level, and health status.
  */
 public final class Pet {
-    /**
-     * The index for health status.
-     */
-    private static final int INDEX_HEALTH = 3;
 
-    /**
-     * The maximum length for certain attributes.
-     */
-    private static final int MAX_LEN = 30;
 
     /**
      * The ID of the pet.
@@ -68,70 +58,84 @@ public final class Pet {
     private final int state;
 
     /**
-     * Constructs a new Pet instance.
+     * Constructs a new {@code Pet} entity with identity
+     * and descriptive attributes.
      *
-     * @param pId     the ID of the pet
-     * @param nm      the name of the pet
-     * @param spec    the species of the pet
-     * @param br      the breed of the pet
-     * @param gen     the gender of the pet
-     * @param sta     the adoption state of the pet
-     * @param numeric an array of numeric attributes
-     *                (age, weight, activity level, health status)
+     * @param newId      the ID of the pet
+     * @param newName    the name of the pet
+     * @param newSpecies the species of the pet
+     * @param newBreed   the breed of the pet
+     * @param newGender  the gender of the pet
      */
-    public Pet(final int pId, final String nm, final String spec,
-               final String br, final String gen,
-               final int[] numeric, final int sta) {
-        this.id = pId;
-        this.name = nm;
-        this.species = spec;
-        this.breed = br;
-        this.gender = gen;
-        this.age = numeric[0];
-        this.weight = numeric[1];
-        this.activityLevel = numeric[2];
-        this.healthStatus = numeric[INDEX_HEALTH];
-        this.state = sta;
+    public Pet(final int newId,
+               final String newName,
+               final String newSpecies,
+               final String newBreed,
+               final String newGender) {
+        this.id = newId;
+        this.name = newName;
+        this.species = newSpecies;
+        this.breed = newBreed;
+        this.gender = newGender;
+        this.age = 0; // Default value for age
+        this.weight = 0; // Default value for weight
+        this.activityLevel = 0; // Default value for activity level
+        this.healthStatus = 0; // Default value for health status
+        this.state = 0; // Default value for state
     }
 
     /**
-     * Validates the name of the pet.
+     * Constructs a new {@code Pet} entity with physical and
+     * behavioral attributes.
      *
-     * @param name the name to validate
-     * @return true if the name is valid, false otherwise
+     * @param newId            the ID of the pet
+     * @param newAge           the age of the pet
+     * @param newWeight        the weight of the pet
+     * @param newActivityLevel the activity level of the pet
+     * @param newHealthStatus  the health status of the pet
+     * @param newState         the adoption state of the pet
      */
-    public static boolean isValidName(final String name) {
-        return name.length() <= MAX_LEN;
+    public Pet(final int newId,
+               final int newAge,
+               final int newWeight,
+               final int newActivityLevel,
+               final int newHealthStatus,
+               final int newState) {
+        this.id = newId;
+        this.name = ""; // Default value for name
+        this.species = ""; // Default value for species
+        this.breed = ""; // Default value for breed
+        this.gender = ""; // Default value for gender
+        this.age = newAge;
+        this.weight = newWeight;
+        this.activityLevel = newActivityLevel;
+        this.healthStatus = newHealthStatus;
+        this.state = newState;
     }
-
     /**
-     * Validates the species of the pet.
+     * Constructs a new {@code Pet} entity with physical and
+     * behavioral attributes.
      *
-     * @param species the species to validate
-     * @return true if the species is valid, false otherwise
      */
-    public static boolean isValidSpecies(final String species) {
-        return species.length() <= MAX_LEN;
+    public Pet() {
+        this.id = -1;
+        this.name = ""; // Default value for name
+        this.species = ""; // Default value for species
+        this.breed = ""; // Default value for breed
+        this.gender = ""; // Default value for gender
+        this.age = 0;
+        this.weight = 0;
+        this.activityLevel = 0;
+        this.healthStatus = 0;
+        this.state = 0;
     }
-
     /**
-     * Validates the breed of the pet.
+     * Gets the ID of the pet.
      *
-     * @param breed the breed to validate
-     * @return true if the breed is valid, false otherwise
+     * @return the ID of the pet
      */
-    public static boolean isValidBreed(final String breed) {
-        return breed.length() <= MAX_LEN;
-    }
-
-    /**
-     * Validates the gender of the pet.
-     *
-     * @param gender the gender to validate
-     * @return true if the gender is valid, false otherwise
-     */
-    public static boolean isValidGender(final String gender) {
-        return "m".equals(gender) || "f".equals(gender);
+    public int getId() {
+        return id;
     }
 
     /**
@@ -213,14 +217,5 @@ public final class Pet {
      */
     public int getState() {
         return state;
-    }
-
-    /**
-     * Gets the ID of the pet.
-     *
-     * @return the ID of the pet
-     */
-    public int getId() {
-        return id;
     }
 }

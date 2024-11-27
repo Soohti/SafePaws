@@ -1,136 +1,164 @@
 package org.cs3343.safepaws.entity;
 
-import org.cs3343.safepaws.util.DbManager;
-import org.mindrot.jbcrypt.BCrypt;
-
 /**
  * Represents an account with username, password, role, and id.
+ * <p>
+ * This class serves as a base class for all types of accounts, providing common
+ * fields and methods for managing account details.
+ * </p>
  */
 public class Account {
 
     /**
-     * The minimum length for a username.
+     * The unique identifier for a user.
+     * <p>
+     * This field represents the primary key for identifying a user
+     * in the system.
+     * </p>
      */
-    private static final int MIN_USERNAME_LENGTH = 8;
+    private int id;
 
     /**
-     * The maximum length for a username.
+     * The username of the user.
+     * <p>
+     * This field stores the unique username chosen by the user for
+     * authentication and identification purposes.
+     * </p>
      */
-    private static final int MAX_USERNAME_LENGTH = 30;
+    private String username;
 
     /**
-     * The minimum length for a password.
+     * The password of the user.
+     * <p>
+     * This field stores the user's password in a secure format for
+     * authentication purposes. It is recommended to use a hashed
+     * representation for security.
+     * </p>
      */
-    private static final int MIN_PASSWORD_LENGTH = 8;
+    private String password;
 
     /**
-     * The maximum length for a password.
+     * The role of the user.
+     * <p>
+     * This field indicates the user's role in the system, such as
+     * "admin," "user," or other predefined roles. The role is used
+     * to determine the user's access permissions.
+     * </p>
      */
-    private static final int MAX_PASSWORD_LENGTH = 16;
+    private String role;
+
 
     /**
-     * The username of the account.
-     */
-    private final String username;
-
-    /**
-     * The password of the account.
-     */
-    private final String password;
-
-    /**
-     * The role of the account.
-     */
-    private final String role;
-
-    /**
-     * Encrypts the given password using BCrypt.
+     * Constructs a new Account with the given parameters.
      *
-     * @param password the password to encrypt
-     * @return the encrypted password
+     * @param newId       the unique identifier of the account
+     * @param newUsername the username for the account
+     * @param newPassword the password for the account
+     * @param newRole     the role of the account (e.g., "admin", "user")
      */
-    public static String encryptPassword(final String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt());
-    }
-
-    /**
-     * Validates the username.
-     *
-     * @param username the username to validate
-     * @return 0 if the username is invalid, 1 if the username is taken,
-     * 2 if the username is valid
-     */
-    public static int isValidUsername(final String username) {
-        if (!(username.length() >= MIN_USERNAME_LENGTH
-                && username.length() <= MAX_USERNAME_LENGTH)) {
-            return 0;
-        } else if (DbManager.selectAccount(username) != null) {
-            return 1;
-        } else {
-            return 2;
-        }
-    }
-
-    /**
-     * Validates the password.
-     *
-     * @param password the password to validate
-     * @return true if the password is valid, false otherwise
-     */
-    public static boolean isValidPassword(final String password) {
-        return password.length() >= MIN_PASSWORD_LENGTH
-                && password.length() <= MAX_PASSWORD_LENGTH;
-    }
-
-    /**
-     * Validates the role.
-     *
-     * @param role the role to validate
-     * @return true if the role is valid, false otherwise
-     */
-    public static boolean isValidRole(final String role) {
-        return "A".equals(role) || "M".equals(role) || "S".equals(role);
-    }
-
-    /**
-     * Instantiates a new account with the
-     * specified username, password, and role.
-     *
-     * @param newUn   the username
-     * @param newP    the password
-     * @param newRole the role
-     */
-    public Account(final String newUn,
-                   final String newP, final String newRole) {
-        this.username = newUn;
-        this.password = newP;
+    public Account(final int newId, final String newUsername,
+                   final String newPassword, final String newRole) {
+        this.id = newId;
+        this.username = newUsername;
+        this.password = newPassword;
         this.role = newRole;
     }
 
     /**
-     * Gets the username.
+     * Constructs a new Account with the given parameters.
      *
-     * @return the username
+     * @param newUsername the username for the account
+     * @param newPassword the password for the account
+     * @param newRole     the role of the account (e.g., "admin", "user")
+     */
+    public Account(final String newUsername, final String newPassword,
+                   final String newRole) {
+        this.id = -1; //default value
+        this.username = newUsername;
+        this.password = newPassword;
+        this.role = newRole;
+    }
+
+    /**
+     * Constructs a new Account with the given parameters.
+     *
+     */
+    public Account() {
+        this.id = -1; //default value
+        this.username = "";
+        this.password = "";
+        this.role = "";
+    }
+
+    /**
+     * Gets the unique identifier of the account.
+     *
+     * @return the account's id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the unique identifier of the account.
+     *
+     * @param newId the new id to set
+     */
+    public void setId(final int newId) {
+        this.id = newId;
+    }
+
+    /**
+     * Gets the username of the account.
+     *
+     * @return the account's username
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * Gets the password.
+     * Sets the username of the account.
      *
-     * @return the password
+     * @param newUsername the new username to set
+     */
+    public void setUsername(final String newUsername) {
+        this.username = newUsername;
+    }
+
+    /**
+     * Gets the password of the account.
+     *
+     * @return the account's password
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * Gets the role.
+     * Sets the password of the account.
      *
-     * @return the role
+     * @param newPassword the new password to set
+     */
+    public void setPassword(final String newPassword) {
+        this.password = newPassword;
+    }
+
+    /**
+     * Gets the role of the account.
+     *
+     * @return the account's role
      */
     public String getRole() {
         return role;
+    }
+
+    /**
+     * Sets the role of the account.
+     *
+     * @param newRole the new role to set
+     */
+    public void setRole(final String newRole) {
+        this.role = newRole;
     }
 }

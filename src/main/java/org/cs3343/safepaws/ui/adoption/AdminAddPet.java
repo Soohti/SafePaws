@@ -1,9 +1,9 @@
 package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Admin;
-import org.cs3343.safepaws.entity.Pet;
+import org.cs3343.safepaws.util.CreatePetRecordHandler;
+import org.cs3343.safepaws.handler.PetRegisterHandler;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
 /**
@@ -51,7 +51,7 @@ public final class AdminAddPet extends UI {
         session.println("Enter the name of this pet "
                 + "(length: 0-30, any character):");
         name = session.requestInput();
-        while (!Pet.isValidName(name)) {
+        while (!CreatePetRecordHandler.isValidName(name)) {
             session.println("Your input name is invalid. "
                     + "Please enter again:");
             name = session.requestInput();
@@ -60,7 +60,7 @@ public final class AdminAddPet extends UI {
         session.println("Enter the species of this pet "
                 + "(length: 0-30, any character):");
         species = session.requestInput();
-        while (!Pet.isValidSpecies(species)) {
+        while (!CreatePetRecordHandler.isValidSpecies(species)) {
             session.println("Your input species is invalid. "
                     + "Please enter again:");
             species = session.requestInput();
@@ -69,7 +69,7 @@ public final class AdminAddPet extends UI {
         session.println("Enter the breed of this pet "
                 + "(length: 0-30, any character):");
         breed = session.requestInput();
-        while (!Pet.isValidBreed(breed)) {
+        while (!CreatePetRecordHandler.isValidBreed(breed)) {
             session.println("Your input breed is invalid. "
                     + "Please enter again:");
             breed = session.requestInput();
@@ -86,7 +86,7 @@ public final class AdminAddPet extends UI {
         session.println("Enter the gender of this pet "
                 + "(\"m\" for male, \"f\" for female):");
         gender = session.requestInput();
-        while (!Pet.isValidGender(gender)) {
+        while (!CreatePetRecordHandler.isValidGender(gender)) {
             session.println("Your input gender is invalid. "
                     + "Please enter again:");
             gender = session.requestInput();
@@ -104,12 +104,15 @@ public final class AdminAddPet extends UI {
                         + ", larger numbers indicate healthier):");
         healthStatus = session.requestNumericInput(0, MAX_VAL);
 
-        int[] numericAttributes = {age, weight, activityLevel, healthStatus};
-
-        Pet pet =
-                new Pet(-1, name, species, breed, gender, numericAttributes, 0);
         try {
-            DbManager.insertPet(pet);
+            int[] numeric = {age, weight, activityLevel, healthStatus};
+            PetRegisterHandler.getInstance().insertPetRecord(
+                    name,
+                    species,
+                    breed,
+                    gender,
+                    numeric,
+                    0);
             session.println("Pet created successfully.");
         } catch (Exception e) {
             session.println("Error during admin adding pet.");
