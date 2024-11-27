@@ -147,7 +147,7 @@ public class MemberSetProfile extends UI {
                     + "Please enter again:");
             gender = session.requestInput();
         }
-
+        //todo zym
         Account account = session.getAccount();
         int[] numericAttributes = {intExtroversionLevel, intDailyActivityLevel,
                 intHouseSize, intWorkHours, intNumberOfFamilyMembers,

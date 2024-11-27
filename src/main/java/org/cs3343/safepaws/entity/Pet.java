@@ -68,30 +68,199 @@ public final class Pet {
     private final int state;
 
     /**
-     * Constructs a new Pet instance.
+     * Private constructor, accessible only by the Builder.
      *
-     * @param pId     the ID of the pet
-     * @param nm      the name of the pet
-     * @param spec    the species of the pet
-     * @param br      the breed of the pet
-     * @param gen     the gender of the pet
-     * @param sta     the adoption state of the pet
-     * @param numeric an array of numeric attributes
-     *                (age, weight, activity level, health status)
+     * @param builder the Builder instance
      */
-    public Pet(final int pId, final String nm, final String spec,
-               final String br, final String gen,
-               final int[] numeric, final int sta) {
-        this.id = pId;
-        this.name = nm;
-        this.species = spec;
-        this.breed = br;
-        this.gender = gen;
-        this.age = numeric[0];
-        this.weight = numeric[1];
-        this.activityLevel = numeric[2];
-        this.healthStatus = numeric[INDEX_HEALTH];
-        this.state = sta;
+    private Pet(final Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.species = builder.species;
+        this.breed = builder.breed;
+        this.gender = builder.gender;
+        this.age = builder.age;
+        this.weight = builder.weight;
+        this.activityLevel = builder.activityLevel;
+        this.healthStatus = builder.healthStatus;
+        this.state = builder.state;
+    }
+
+    /**
+     * Builder class for constructing Pet instances.
+     */
+    public static class Builder {
+        /**
+         * The unique identifier for the animal.
+         */
+        private int id;
+
+        /**
+         * The name of the animal.
+         */
+        private String name;
+
+        /**
+         * The species of the animal (e.g., Dog, Cat, Bird).
+         */
+        private String species;
+
+        /**
+         * The breed of the animal (e.g., Labrador, Siamese, Budgie).
+         */
+        private String breed;
+
+        /**
+         * The gender of the animal (e.g., Male, Female).
+         */
+        private String gender;
+
+        /**
+         * The age of the animal in years.
+         */
+        private int age;
+
+        /**
+         * The weight of the animal in pounds or kilograms.
+         */
+        private int weight;
+
+        /**
+         * The activity level of the animal, represented as an integer.
+         * Higher values indicate a more active animal.
+         */
+        private int activityLevel;
+
+        /**
+         * The health status of the animal, represented as an integer.
+         * Higher values indicate better health.
+         */
+        private int healthStatus;
+
+        /**
+         * The current state of the animal (e.g., available, adopted, reserved).
+         * Represented as an integer where each value corresponds
+         * to a specific state.
+         */
+        private int state;
+
+        /**
+         * Sets the ID of the pet.
+         *
+         * @param newId the ID to set
+         * @return this {@code Builder} object
+         */
+        public Builder setId(final int newId) {
+            this.id = newId;
+            return this;
+        }
+
+        /**
+         * Sets the name of the pet.
+         *
+         * @param newName the name to set
+         * @return this {@code Builder} object
+         */
+        public Builder setName(final String newName) {
+            this.name = newName;
+            return this;
+        }
+
+        /**
+         * Sets the species of the pet.
+         *
+         * @param newSpecies the species to set
+         * @return this {@code Builder} object
+         */
+        public Builder setSpecies(final String newSpecies) {
+            this.species = newSpecies;
+            return this;
+        }
+
+        /**
+         * Sets the breed of the pet.
+         *
+         * @param newBreed the breed to set
+         * @return this {@code Builder} object
+         */
+        public Builder setBreed(final String newBreed) {
+            this.breed = newBreed;
+            return this;
+        }
+
+        /**
+         * Sets the gender of the pet.
+         *
+         * @param newGender the gender to set
+         * @return this {@code Builder} object
+         */
+        public Builder setGender(final String newGender) {
+            this.gender = newGender;
+            return this;
+        }
+
+        /**
+         * Sets the age of the pet.
+         *
+         * @param newAge the age to set
+         * @return this {@code Builder} object
+         */
+        public Builder setAge(final int newAge) {
+            this.age = newAge;
+            return this;
+        }
+
+        /**
+         * Sets the weight of the pet.
+         *
+         * @param newWeight the weight to set
+         * @return this {@code Builder} object
+         */
+        public Builder setWeight(final int newWeight) {
+            this.weight = newWeight;
+            return this;
+        }
+
+        /**
+         * Sets the activity level of the pet.
+         *
+         * @param newActivityLevel the activity level to set
+         * @return this {@code Builder} object
+         */
+        public Builder setActivityLevel(final int newActivityLevel) {
+            this.activityLevel = newActivityLevel;
+            return this;
+        }
+
+        /**
+         * Sets the health status of the pet.
+         *
+         * @param newHealthStatus the health status to set
+         * @return this {@code Builder} object
+         */
+        public Builder setHealthStatus(final int newHealthStatus) {
+            this.healthStatus = newHealthStatus;
+            return this;
+        }
+
+        /**
+         * Sets the state of the pet.
+         *
+         * @param newState the state to set
+         * @return this {@code Builder} object
+         */
+        public Builder setState(final int newState) {
+            this.state = newState;
+            return this;
+        }
+
+        /**
+         * Builds a new {@link Pet} instance with the attributes
+         * set in this builder.
+         * @return a new {@link Pet} instance
+         */
+        public Pet build() {
+            return new Pet(this);
+        }
     }
 
     /**

@@ -1,8 +1,11 @@
 package org.cs3343.safepaws.handler;
 
 import org.cs3343.safepaws.entity.Application;
+import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.util.DbManager;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -18,29 +21,68 @@ public final class ReadApplicationHandler {
         }
         return instance;
     }
-    //TODO
-    public ArrayList<Application> viewAllApplication() {
+    /**
+     * Views all applications.
+     *
+     * @return a list of all applications.
+     */
+    public ArrayList<Application> findAllApplication() {
         try {
-            ArrayList<Application> applications = DbManager.readAll(Application.class,
+            return DbManager.getInstance().readAll(Application.class,
                     "APPLICATION");
-            for(Application application : applications) {
-                application.set
-            }
         } catch (Exception ex) {
-            System.out.println("Error during Logging in: "
+            System.out.println("Error during finding specific application: "
+                    + ex.getMessage());
+        }
+        return null;
+    }
+    /**
+     * Selects an application by ID.
+     *
+     * @param aid the application ID.
+     * @return the application, or null if not found.
+     */
+    public Application findConditionalApplication(final int aid) {
+        try {
+            return (DbManager.getInstance()
+                    .readWithCondition(Application.class,
+                            "APPLICATION",
+                            Map.of("Id", String.valueOf(aid)))).getFirst();
+        } catch (Exception ex) {
+            System.out.println("Error during finding all applications: "
                     + ex.getMessage());
         }
         return null;
     }
 
-    public Application viewConditionalApplication(final int aid) {
+    public void changeApplicationState(final int aid,
+                                       final int pid,
+                                       final Application.State state) {
         try {
-            return (Application) DbManager.readWithCondition(Application.class,
-                    "APPLICATION", Map.of("Id", String.valueOf(aid)));
+            if (state == Application.State.APPROVED) {
+                DbManager.getInstance().update(Application.class,
+                        "APPLICATION",
+                        Map.of("State", String.valueOf(
+                                Application.State.REJECTED.ordinal())),
+                        Map.of("Pid", String.valueOf(pid))
+                );
+                DbManager.getInstance().update(Pet.class,
+                        "PET",
+                        Map.of("State", String.valueOf(
+                                Application.State.APPROVED.ordinal())),
+                        Map.of("Id", String.valueOf(pid))
+                );
+            }
+            DbManager.getInstance().update(Application.class,
+                    "APPLICATION",
+                    Map.of("State", String.valueOf(
+                            state.ordinal())),
+                    Map.of("Id", String.valueOf(aid))
+            );
         } catch (Exception ex) {
-            System.out.println("Error during Logging in: "
+            System.out.println("Error during changing status: "
                     + ex.getMessage());
         }
-        return null;
     }
+
 }

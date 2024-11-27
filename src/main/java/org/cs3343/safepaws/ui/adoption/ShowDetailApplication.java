@@ -5,7 +5,6 @@ import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.handler.ReadApplicationHandler;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.cs3343.safepaws.util.Session;
 
@@ -28,7 +27,7 @@ public final class ShowDetailApplication {
      */
     public static void show(final Session session, final int aid) {
         Application application = ReadApplicationHandler.getInstance()
-                .viewConditionalApplication(aid);
+                .findConditionalApplication(aid);
         Member m = application.getUser();
         Pet p = application.getPet();
         MemberProfile pf = m.getProfile();

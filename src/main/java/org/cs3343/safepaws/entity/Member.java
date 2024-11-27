@@ -1,5 +1,7 @@
 package org.cs3343.safepaws.entity;
 
+import org.cs3343.safepaws.util.OneToOne;
+
 /**
  * Represents a member in the SafePaws system.
  */
@@ -8,19 +10,21 @@ public class Member extends Account {
     /**
      * The profile of the member.
      */
-    private final MemberProfile profile;
+    @OneToOne(columnName =  "Id", tableName = "MEMBER_PROFILE")
+    private MemberProfile profile;
+
 
     /**
      * Constructs a new Member with the specified username, password, and role.
-     *
+     * @param id the id of the member
      * @param username the username of the member
      * @param password the password of the member
      * @param role     the role of the member
      * @param pProfile the profile of the member
      */
-    public Member(final String username, final String password,
+    public Member(final int id, final String username, final String password,
                   final String role, final MemberProfile pProfile) {
-        super(username, password, role);
+        super(id, username, password, role);
         this.profile = pProfile;
     }
 

@@ -38,44 +38,57 @@ public class MemberProfile {
      * The index for budget.
      */
     private static final int INDEX_BUDG = 6;
-
+    /**
+     * The id of the member.
+     */
+    private int id;
     /**
      * The numeric attributes of the member.
      */
-    private final int[] numericAttributes;
+    private int[] numericAttributes;
 
     /**
      * The preferred species of the member.
      */
-    private final String preferredSpecies;
+    private String preferredSpecies;
 
     /**
      * The preferred breed of the member.
      */
-    private final String preferredBreed;
+    private String preferredBreed;
 
     /**
      * The gender of the member.
      */
-    private final String gender;
+    private String gender;
 
     /**
      * Constructs a new MemberProfile with the specified attributes.
-     *
+     * @param thisId the id
      * @param species the preferred species
      * @param breed   the preferred breed
      * @param gen     the gender
      * @param numeric an array of numeric attributes
      */
-    public MemberProfile(final String species,
-                         final String breed, final String gen,
+    public MemberProfile(final int thisId,
+                         final String species,
+                         final String breed,
+                         final String gen,
                          final int[] numeric) {
+        this.id = thisId;
         this.preferredSpecies = species;
         this.preferredBreed = breed;
         this.gender = gen;
         this.numericAttributes = numeric.clone();
     }
-
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
     /**
      * Gets the preferred species.
      *

@@ -6,28 +6,11 @@ import org.mindrot.jbcrypt.BCrypt;
 /**
  * Represents an account with username, password, role, and id.
  */
-public class Account {
-
+public abstract class Account {
     /**
-     * The minimum length for a username.
+     * The id of the account.
      */
-    private static final int MIN_USERNAME_LENGTH = 8;
-
-    /**
-     * The maximum length for a username.
-     */
-    private static final int MAX_USERNAME_LENGTH = 30;
-
-    /**
-     * The minimum length for a password.
-     */
-    private static final int MIN_PASSWORD_LENGTH = 8;
-
-    /**
-     * The maximum length for a password.
-     */
-    private static final int MAX_PASSWORD_LENGTH = 16;
-
+    private final int id;
     /**
      * The username of the account.
      */
@@ -44,69 +27,28 @@ public class Account {
     private final String role;
 
     /**
-     * Encrypts the given password using BCrypt.
-     *
-     * @param password the password to encrypt
-     * @return the encrypted password
-     */
-    public static String encryptPassword(final String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt());
-    }
-
-    /**
-     * Validates the username.
-     *
-     * @param username the username to validate
-     * @return 0 if the username is invalid, 1 if the username is taken,
-     * 2 if the username is valid
-     */
-    public static int isValidUsername(final String username) {
-        if (!(username.length() >= MIN_USERNAME_LENGTH
-                && username.length() <= MAX_USERNAME_LENGTH)) {
-            return 0;
-        } else if (LoginHandler.duplicateUsername(username)) {
-            return 1;
-        } else {
-            return 2;
-        }
-    }
-
-    /**
-     * Validates the password.
-     *
-     * @param password the password to validate
-     * @return true if the password is valid, false otherwise
-     */
-    public static boolean isValidPassword(final String password) {
-        return password.length() >= MIN_PASSWORD_LENGTH
-                && password.length() <= MAX_PASSWORD_LENGTH;
-    }
-
-    /**
-     * Validates the role.
-     *
-     * @param role the role to validate
-     * @return true if the role is valid, false otherwise
-     */
-    public static boolean isValidRole(final String role) {
-        return "A".equals(role) || "M".equals(role) || "S".equals(role);
-    }
-
-    /**
      * Instantiates a new account with the
      * specified username, password, and role.
-     *
+     * @param newId   the id
      * @param newUn   the username
      * @param newP    the password
      * @param newRole the role
      */
-    public Account(final String newUn,
+    public Account(final int newId, final String newUn,
                    final String newP, final String newRole) {
+        this.id = newId;
         this.username = newUn;
         this.password = newP;
         this.role = newRole;
     }
-
+    /**
+     * Gets the username.
+     *
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
     /**
      * Gets the username.
      *

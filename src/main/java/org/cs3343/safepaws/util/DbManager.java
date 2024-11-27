@@ -1,15 +1,15 @@
 package org.cs3343.safepaws.util;
 
 import org.cs3343.safepaws.entity.Account;
-import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.entity.Pet;
-import org.mindrot.jbcrypt.BCrypt;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,10 +19,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Database manager for handling database operations.
@@ -52,27 +50,10 @@ public final class DbManager {
      * the length of the last command in sql command.
      */
     private static final int LENGTH_OF_LAST_COMMA = 2;
-    private static final Set<Class<?>>
-            PRIMITIVE_AND_WRAPPER_TYPES = new HashSet<>();
-    static {
-        PRIMITIVE_AND_WRAPPER_TYPES.add(byte.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(Byte.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(short.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(Short.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(int.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(Integer.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(long.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(Long.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(float.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(Float.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(double.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(Double.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(char.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(Character.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(boolean.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(Boolean.class);
-        PRIMITIVE_AND_WRAPPER_TYPES.add(String.class);
-    }
+    /**
+     * Singleton instance of DbManager.
+     */
+    private static DbManager instance;
     /**
      * Initializes the database connection.
      *
@@ -87,11 +68,27 @@ public final class DbManager {
         url = dbUrl;
         username = dbUsername;
         password = dbPassword;
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(TEST_SQL)) {
-            pstmt.execute();
-            System.out.println("Database connection established");
+        if (instance == null) {
+            instance = new DbManager();
+            try (Connection conn = getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(TEST_SQL)) {
+                pstmt.execute();
+                System.out.println("Database connection established");
+            }
         }
+    }
+    /**
+     * Returns the singleton instance of DbManager.
+     *
+     * @return The singleton instance.
+     * @throws IllegalStateException If the instance has not been initialized.
+     */
+    public static DbManager getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("DbManager has "
+                    + "not been initialized. Call init() first.");
+        }
+        return instance;
     }
 
     /**
@@ -107,55 +104,107 @@ public final class DbManager {
         return DriverManager.getConnection(url, username, password);
     }
 
+    private DbManager() {
+
+    }
+
+    public <T> T readWithID(final Class<T> entityType,
+                            final String tableName, final int idName)
+            throws Exception {
+        StringBuilder sqlCommand = new StringBuilder("SELECT * FROM "
+                + tableName + " WHERE ID = " + idName + ";");
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement
+                     .executeQuery(sqlCommand.toString())) {
+            Class<?> builderClass = Class.forName(
+                    entityType.getName() + "$Builder");
+            Constructor<?> builderConstructor = builderClass
+                    .getDeclaredConstructor();
+            builderConstructor.setAccessible(true);
+            Object builderInstance = builderClass.getDeclaredConstructor()
+                    .newInstance();
+            if (resultSet.next()) {
+                for (Field field : entityType.getDeclaredFields()) {
+                    field.setAccessible(true);
+                    try {
+                        Method setter = builderClass.getMethod("set"
+                                + capitalize(field.getName()), field.getType());
+                        Object value = resultSet.getObject(field.getName());
+                        if (field.getType().isEnum()) {
+                            int ordinal = resultSet.getInt(field.getName());
+                            value = (Enum<?>) field.getType()
+                                    .getEnumConstants()[ordinal];
+                            setter.invoke(builderInstance, value);
+                        } else {
+                             value = resultSet.getObject(field.getName());
+                             setter = builderClass.getMethod("set"
+                                    + capitalize(field.getName()), field.getType());
+                            setter.invoke(builderInstance, value);
+                        }
+
+                    } catch (NoSuchMethodException | IllegalAccessException
+                             | SQLException e) {
+                        System.err.println("Error setting field "
+                                + field.getName() + ": " + e.getMessage());
+                    }
+                }
+                Method buildMethod = builderClass.getMethod("build");
+                return (T) buildMethod.invoke(builder);
+            }
+        }
+        return null;
+    }
     public <T> List<T> readWithCondition(
             final Class<T> entityType,
             final String tableName,
             final Map<String, String> conditions)
             throws Exception {
-        StringBuilder sqlCommand = new StringBuilder("SELECT * FROM "
-                + tableName + " WHERE");
+        StringBuilder sqlCommand = new StringBuilder("SELECT * FROM ")
+                .append(tableName).append(" WHERE ");
         List<T> entities = new ArrayList<>();
+
+        // 构建SQL查询条件
         for (Map.Entry<String, String> condition : conditions.entrySet()) {
             sqlCommand.append(condition.getKey()).append(" = '")
                     .append(condition.getValue()).append("' AND ");
         }
-
-        sqlCommand.setLength(sqlCommand.length() - LENGTH_OF_LAST_AND);
+        if (!conditions.isEmpty()) {
+            sqlCommand.setLength(sqlCommand.length() - " AND ".length());
+        }
         sqlCommand.append(";");
+
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(
-                     sqlCommand.toString())) {
+             ResultSet resultSet = statement.executeQuery(sqlCommand.toString())) {\
+            Object builderInstance = builderConstructor.newInstance();
             while (resultSet.next()) {
-                T entity = entityType.getDeclaredConstructor().newInstance();
+                Class<?> builderClass = Class.forName(
+                        entityType.getName() + "$Builder");
+                Object builder = builderClass.getDeclaredConstructor()
+                        .newInstance();
                 for (Field field : entityType.getDeclaredFields()) {
-                    if (field.isAnnotationPresent(OneToOne.class)) {
-                        OneToOne oneToOne = field.getAnnotation(OneToOne.class);
-                        Long foreignKeyId = resultSet.getLong(oneToOne
-                                .columnName());
-                        if (foreignKeyId != null) {
-                            // 假设有一个通用的findById方法
-                            Object relatedEntity = readWithID(
-                                    field.getClass(), foreignKeyId);
-                            field.set(entity, relatedEntity);
-                        }
-                    } else {
-                        try {
-                            field.set(entity, resultSet
-                                    .getObject(field.getName()));
-                        } catch (SQLException e) {
-                            System.err.println("Error setting field "
-                                    + field.getName() + ": " + e.getMessage());
-                        }
+                    field.setAccessible(true);
+                    String columnName = field.getName(); // 假设列名与字段名相同
+
+                    // 获取构建器对应的setter方法
+                    Method setter = builder.getClass().getMethod("set" + capitalize(field.getName()), field.getType());
+
+                    // 读取并设置字段值
+                    Object value = resultSet.getObject(columnName);
+                    if (value != null) {
+                        setter.invoke(builder, value);
                     }
                 }
+                // 通过构建器创建实体实例
+                T entity = constructor.newInstance((Builder) builder);
                 entities.add(entity);
             }
         }
         return entities;
     }
-    public  <T> ArrayList<T> readAll(final Class<T> entityType,
-                               final String tableName) throws Exception {
+    public <T> ArrayList<T> readAll(final Class<T> entityType,
+                                    final String tableName) throws Exception {
         ArrayList<T> entities = new ArrayList<>();
         StringBuilder sqlCommand = new StringBuilder("SELECT * FROM ")
                 .append(tableName).append(";");
@@ -163,73 +212,120 @@ public final class DbManager {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement
                      .executeQuery(sqlCommand.toString())) {
+            Class<?> builderClass = Class.forName(
+                    entityType.getName() + "$Builder");
+            Constructor<?> builderConstructor = builderClass
+                    .getDeclaredConstructor();
+            builderConstructor.setAccessible(true);
             while (resultSet.next()) {
-                T entity = entityType.getDeclaredConstructor().newInstance();
+                Object builderInstance = builderConstructor.newInstance();
                 for (Field field : entityType.getDeclaredFields()) {
-                    if (PRIMITIVE_AND_WRAPPER_TYPES.contains(field.getType())) {
-                        field.setAccessible(true);
-                        try {
-                            field.set(entity, resultSet
-                                    .getObject(field.getName()));
-                        } catch (SQLException e) {
-                            System.err.println("Error setting field "
-                                    + field.getName() + ": " + e.getMessage());
-                        }
+                    field.setAccessible(true);
+                    String columnName = field.getName();
+                    if (field.isAnnotationPresent(OneToOne.class)) {
+                        OneToOne oneToOne = field.getAnnotation(OneToOne.class);
+                        Integer foreignKeyId = resultSet.getInt(
+                                oneToOne.columnName());
+                        Object relatedEntity = readWithID(
+                                field.getType(),
+                                oneToOne.tableName(),
+                                foreignKeyId);
+                        Method setter = builderClass.getMethod("set"
+                                + capitalize(field.getName()), field.getType());
+                        setter.invoke(builderInstance, relatedEntity);
+                    } else if (field.getType().isEnum()) {
+                        int ordinal = resultSet.getInt(columnName);
+                        Enum<?> enumValue = (Enum<?>) field.getType()
+                                .getEnumConstants()[ordinal];
+                        Method setter = builderClass.getMethod("set"
+                                + capitalize(field.getName()), field.getType());
+                        setter.invoke(builderInstance, enumValue);
+                    } else {
+                        Object value = resultSet.getObject(columnName);
+                        Method setter = builderClass.getMethod("set"
+                                + capitalize(field.getName()), field.getType());
+                        setter.invoke(builderInstance, value);
                     }
                 }
+                Method buildMethod = builderClass.getMethod("build");
+                T entity = (T) buildMethod.invoke(builderInstance);
                 entities.add(entity);
             }
         }
-
         return entities;
     }
-    public static <T> void update(final T entity,
-                           final String tableName,
-                           final List<String> whereFields,
-                           final List<String> setFields)
+    public <T> void update(final Class<T> entityType,
+                                  final String tableName,
+                                  final Map<String, String> whereFields,
+                                  final Map<String, String> setFields)
             throws Exception {
-        Class<?> entityType = entity.getClass();
-        StringBuilder sqlCommand = new StringBuilder("UPDATE "
-                + tableName + " SET ");
-        List<Object> parameters = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement statement = null;
 
-        // Build SET clause
-        for (String setField : setFields) {
-            Field valueField = entityType.getDeclaredField(setField);
-            valueField.setAccessible(true);
-            Object value = valueField.get(entity);
-            sqlCommand.append(setField).append(" = ?, ");
-            parameters.add(value);
-        }
-        // Remove the last comma and space
-        if (!setFields.isEmpty()) {
-            sqlCommand.setLength(sqlCommand.length() - LENGTH_OF_LAST_COMMA);
-        }
-        // Build WHERE clause
-        if (!whereFields.isEmpty()) {
-            sqlCommand.append(" WHERE ");
-            for (String whereField : whereFields) {
-                Field field = entityType.getDeclaredField(whereField);
-                field.setAccessible(true);
-                Object value = field.get(entity);
-                sqlCommand.append(whereField).append(" = ? AND ");
-                parameters.add(value);
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);
+            StringBuilder sqlCommand = new StringBuilder("UPDATE "
+                    + tableName + " SET ");
+            List<Object> parameters = new ArrayList<>();
+            // Build SET clause
+            for (Map.Entry<String, String> entry : setFields.entrySet()) {
+                sqlCommand.append(entry.getKey()).append(" = ?, ");
+                parameters.add(entry.getValue());
             }
-            // Remove the last " AND "
-            sqlCommand.setLength(sqlCommand.length() - LENGTH_OF_LAST_AND);
-        }
-        sqlCommand.append(";");
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection
-                     .prepareStatement(sqlCommand.toString())) {
+            // Remove the last comma and space
+            if (!setFields.isEmpty()) {
+                sqlCommand.setLength(sqlCommand.length()
+                        - LENGTH_OF_LAST_COMMA);
+            }
+            // Build WHERE clause
+            if (!whereFields.isEmpty()) {
+                sqlCommand.append(" WHERE ");
+                for (Map.Entry<String, String> entry : whereFields.entrySet()) {
+                    sqlCommand.append(entry.getKey()).append(" = ? AND ");
+                    parameters.add(entry.getValue());
+                }
+                // Remove the last " AND "
+                if (!whereFields.isEmpty()) {
+                    sqlCommand.setLength(sqlCommand.length()
+                            - LENGTH_OF_LAST_AND);
+                }
+            }
+            sqlCommand.append(";");
+            statement = conn.prepareStatement(sqlCommand.toString());
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i));
             }
             statement.executeUpdate();
+            conn.commit();
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            throw new Exception("Failed to update database", e);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
-    public static <T> void insert(final T entity,
+    public <T> void insert(final T entity,
                            final String tableName) throws Exception {
         Map<String, Object> fieldsAndValues = getFieldsAndValues(entity);
         StringBuilder columns = new StringBuilder();
@@ -258,16 +354,52 @@ public final class DbManager {
             preparedStatement.executeUpdate();
         }
     }
+    public void insertWithAutoValue(final Map<String, String> insertField,
+                                  final String tableName) throws Exception {
+        StringBuilder columns = new StringBuilder();
+        StringBuilder values = new StringBuilder();
+        List<Object> valueList = new ArrayList<>();
+        for (Map.Entry<String, String> entry : insertField.entrySet()) {
+            columns.append(entry.getKey()).append(", ");
+            values.append("?");
+            if (entry.getValue() != null) {
+                valueList.add(entry.getValue());
+            } else {
+                valueList.add(null);
+            }
+            values.append(", ");
+        }
+        if (!columns.isEmpty() && !values.isEmpty()) {
+            columns.setLength(columns.length() - LENGTH_OF_LAST_COMMA);
+            values.setLength(values.length() - LENGTH_OF_LAST_COMMA);
+        }
+        String sqlCommand = "INSERT INTO " + tableName + " ("
+                + columns.toString() + ") VALUES (" + values.toString() + ");";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement(sqlCommand)) {
+            for (int i = 0; i < valueList.size(); i++) {
+                preparedStatement.setObject(i + 1, valueList.get(i));
+            }
+            preparedStatement.executeUpdate();
+        }
+    }
+    private String capitalize(final String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
     private static <T> Map<String, Object> getFieldsAndValues(final T entity)
             throws IllegalAccessException {
         Map<String, Object> fieldsAndValues = new HashMap<>();
         Class<?> clazz = entity.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             if (!Modifier.isStatic(field.getModifiers())) {
-                field.setAccessible(true); // 设置字段为可访问
-                String fieldName = field.getName(); // 获取字段名
-                Object fieldValue = field.get(entity); // 获取字段的值
-                fieldsAndValues.put(fieldName, fieldValue); // 将字段名和值存储到 Map 中
+                field.setAccessible(true);
+                String fieldName = field.getName();
+                Object fieldValue = field.get(entity);
+                fieldsAndValues.put(fieldName, fieldValue);
             }
         }
         return fieldsAndValues;
@@ -288,179 +420,11 @@ public final class DbManager {
     }
 
     /**
-     * Inserts an account into the database.
-     *
-     * @param account the account to insert.
-     * @throws SQLException if a database error occurs.
-     */
-    public static void insertAccount(final Account account)
-            throws SQLException {
-        String insertSql = "INSERT INTO ACCOUNT "
-                + "(Username, Password, Role) "
-                + "VALUES (?, ?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
-            setValues(pstmt, account.getUsername(),
-                    account.getPassword(), account.getRole());
-            pstmt.executeUpdate();
-            System.out.println("Account inserted successfully");
-        }
-        if (account instanceof Member) {
-            int[] numericAttributes = {0, 0, 0, 0, 0, 0, 0};
-            MemberProfile memberProfile = new MemberProfile("Dog",
-                    "Dog", "m", numericAttributes);
-            DbManager.insertMemProfile((Member) account, memberProfile);
-        }
-    }
-
-    /**
-     * Inserts a pet into the database.
-     *
-     * @param pet the pet to insert.
-     * @throws SQLException if a database error occurs.
-     */
-    public static void insertPet(final Pet pet) throws SQLException {
-        String insertSql = "INSERT INTO PET (Name, Species, Breed, Age, "
-                + "Weight, Gender, ActivityLevel, HealthStatus, State) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
-            setValues(pstmt, pet.getName(), pet.getSpecies(), pet.getBreed(),
-                    pet.getAge(), pet.getWeight(), pet.getGender(),
-                    pet.getActivityLevel(), pet.getHealthStatus(),
-                    pet.getState());
-            pstmt.executeUpdate();
-            System.out.println("Pet inserted successfully");
-        }
-    }
-
-    /**
-     * Authenticates a user.
-     *
-     * @param newUsername the username.
-     * @param newPassword the password.
-     * @return true if authentication is successful, false otherwise.
-     */
-    public static boolean authenticateUser(final String newUsername,
-                                           final String newPassword) {
-        String query = "SELECT * FROM ACCOUNT WHERE Username = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            setValues(pstmt, newUsername);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                String storedPassword = rs.getString("Password");
-                return BCrypt.checkpw(newPassword, storedPassword);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error during authentication: "
-                    + e.getMessage());
-        }
-        return false;
-    }
-
-    /**
-     * Selects an account by username.
-     *
-     * @param inputUsername the username.
-     * @return the account, or null if not found.
-     */
-    public static Account selectAccount(final String inputUsername) {
-        String query = "SELECT * FROM ACCOUNT WHERE Username = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            setValues(pstmt, inputUsername);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                String rUser = rs.getString("Username");
-                String rPsw = rs.getString("Password");
-                String rPole = rs.getString("Role");
-                int id = rs.getInt("Id");
-                if ("A".equals(rPole)) {
-                    return new Admin(rUser, rPsw, rPole);
-                } else if ("M".equals(rPole)) {
-                    return selectMemberById(id);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error during Logging in: "
-                    + e.getMessage());
-        }
-        return null;
-    }
-
-    /**
-     * Views all applications.
-     *
-     * @return a list of all applications.
-     */
-    public static ArrayList<Application> viewAllApplication() {
-        String query = "SELECT * FROM APPLICATION";
-        try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery(query);
-            ArrayList<Application> applications = new ArrayList<>();
-            while (rs.next()) {
-                int id = rs.getInt("Id");
-                int mid = rs.getInt("MId");
-                int pid = rs.getInt("PId");
-                int state = rs.getInt("State");
-                Member account = selectMemberById(mid);
-                Pet pet = selectPetById(pid);
-                Application.State applicationState =
-                        Application.State.values()[state];
-                Application application =
-                        new Application(account, pet, applicationState);
-                application.setId(id);
-                applications.add(application);
-            }
-            return applications;
-        } catch (SQLException e) {
-            System.out.println("Error during Viewing all Applications: "
-                    + e.getMessage());
-        }
-        return null;
-    }
-
-    /**
-     * Selects an application by ID.
-     *
-     * @param id the application ID.
-     * @return the application, or null if not found.
-     */
-    public static Application selectApplication(final int id) {
-        String query = "SELECT * FROM APPLICATION WHERE Id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            setValues(pstmt, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                int mid = rs.getInt("Mid");
-                int pid = rs.getInt("Pid");
-                int state = rs.getInt("State");
-                Member account = selectMemberById(mid);
-                Pet pet = selectPetById(pid);
-                Application.State applicationState =
-                        Application.State.values()[state];
-                Application application =
-                        new Application(account, pet, applicationState);
-                application.setId(id);
-                return application;
-            }
-        } catch (SQLException e) {
-            System.out.println("Error during Selecting Application: "
-                    + e.getMessage());
-        }
-        return null;
-    }
-
-    /**
      * Changes the state of an application.
      *
      * @param aid   the application ID.
      * @param state the new state.
      */
-    //TODO
     public static void changeState(final int aid,
                                    final Application.State state) {
         Connection conn = null;
@@ -818,7 +782,5 @@ public final class DbManager {
         }
     }
 
-    private DbManager() {
-        throw new AssertionError("Instantiation not allowed");
-    }
+
 }

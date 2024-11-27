@@ -4,7 +4,6 @@ import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.handler.PetRegisterHandler;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
 /**
@@ -105,12 +104,15 @@ public final class AdminAddPet extends UI {
                         + ", larger numbers indicate healthier):");
         healthStatus = session.requestNumericInput(0, MAX_VAL);
 
-        int[] numericAttributes = {age, weight, activityLevel, healthStatus};
-
-        Pet pet =
-                new Pet(-1, name, species, breed, gender, numericAttributes, 0);
         try {
-            PetRegisterHandler.getInstance().insertPetRecord(pet);
+            int[] numeric = {age, weight, activityLevel, healthStatus};
+            PetRegisterHandler.getInstance().insertPetRecord(
+                    name,
+                    species,
+                    breed,
+                    gender,
+                    numeric,
+                    0);
             session.println("Pet created successfully.");
         } catch (Exception e) {
             session.println("Error during admin adding pet.");

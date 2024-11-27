@@ -11,13 +11,13 @@ public class Application {
     /**
      * The user associated with the application.
      */
-    @OneToOne(columnName = "Mid")
+    @OneToOne(columnName = "Mid", tableName = "ACCOUNT")
     private Member user;
 
     /**
      * The pet associated with the application.
      */
-    @OneToOne(columnName = "pid")
+    @OneToOne(columnName = "PId", tableName = "PET")
     private Pet pet;
 
     /**
@@ -63,7 +63,7 @@ public class Application {
      */
     public static boolean isValidAid(final int aid) {
         return ReadApplicationHandler.getInstance()
-                .viewConditionalApplication(aid) != null;
+                .findConditionalApplication(aid) != null;
     }
 
     /**
@@ -124,23 +124,6 @@ public class Application {
     public void setId(final int newId) {
         this.id = newId;
     }
-
-    /**
-     * Checks if the given pet ID is valid.
-     *
-     * @param pid the pet ID to check
-     * @return 0 if the pet ID is invalid, 1 if the pet is adopted,
-     * 2 if the pet is not adopted
-     */
-    public static int isValidPid(final int pid) {
-        if (DbManager.selectPetById(pid) == null) {
-            return 0;
-        } else if (DbManager.selectPetById(pid).getState() == 1) {
-            return 1;
-        }
-        return 2;
-    }
-
     public enum State {
         /**
          * The application is pending.

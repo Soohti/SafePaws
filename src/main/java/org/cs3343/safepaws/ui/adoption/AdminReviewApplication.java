@@ -50,26 +50,32 @@ public class AdminReviewApplication extends UI {
             } else {
                 try {
                     int aid = Integer.parseInt(choice);
-                    if (Application.isValidAid(aid)) {
+                    Application thisApplication = ReadApplicationHandler
+                            .getInstance().findConditionalApplication(aid);
+                    if (thisApplication == null) {
                         ShowDetailApplication.show(session, aid);
-                        Application.State appState = ReadApplicationHandler
-                                .getInstance().viewConditionalApplication(aid)
-                                .getState();
+                        Application.State appState = thisApplication.getState();
                         if (appState != Application.State.PENDING) {
                             session.print("This application has "
                                     + "already been processed.\n");
                         } else {
                             session.println("Enter what state you want to "
                                     + "set (1: approve; 2: reject):");
-                            int sta = Integer.parseInt(session.requestInput());
-                            while (!Application.isValidState(sta)) {
+                            int inputStateNumber = Integer
+                                    .parseInt(session.requestInput());
+                            while (!Application
+                                    .isValidState(inputStateNumber)) {
                                 session.println("Your input state is "
                                         + "invalid. Please enter again:");
-                                sta = Integer.parseInt(session.requestInput());
+                                inputStateNumber = Integer
+                                        .parseInt(session.requestInput());
                             }
+                            int pid = thisApplication.getPet().getId();
                             Application.State state =
-                                    Application.State.values()[sta];
-                            DbManager.changeState(aid, state);
+                                    Application.State
+                                            .values()[inputStateNumber];
+                            ReadApplicationHandler.getInstance()
+                                    .changeApplicationState(aid, pid, state);
                             session.println("Your operation is completed.");
                         }
                     } else {
