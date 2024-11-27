@@ -12,8 +12,8 @@ import java.util.List;
  * K values and identifies the "elbow"
  * point where the SSE starts to decrease at a slower rate.
  */
-public final class ElbowUtil implements Algorithm {
-    private ElbowUtil() throws Exception {
+public final class FindingOptimalShelterNumber implements Algorithm {
+    private FindingOptimalShelterNumber() throws Exception {
         throw new Exception("This is a utility class"
                 + " and cannot be instantiated");
     }
@@ -31,7 +31,7 @@ public final class ElbowUtil implements Algorithm {
         List<Double> sseList = new ArrayList<>();
 
         for (int k = 1; k <= maxK; k++) {
-            KMeans kmeans = new KMeans(k);
+            AnimalClusterAnalysis kmeans = new AnimalClusterAnalysis(k);
             kmeans.fit(locationPoints);
             sseList.add(kmeans.calculateSSE());
         }

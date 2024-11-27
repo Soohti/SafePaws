@@ -592,7 +592,7 @@ public final class DbManager {
     public static ArrayList<LocationPoint> listAllLocationPoint()
             throws SQLException {
 
-        String query = "SELECT * FROM APPLICATION";
+        String query = "SELECT * FROM LOCATION_POINT";
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();) {
@@ -602,9 +602,8 @@ public final class DbManager {
             ArrayList<LocationPoint> locationPoints = new ArrayList<>();
 
             while (rs.next()) {
-                int id = rs.getInt("Id");
-                int xValue = rs.getInt("XValue");
-                int yValue = rs.getInt("YValue");
+                int xValue = rs.getInt("xValue");
+                int yValue = rs.getInt("yValue");
 
                 LocationPoint locationPoint = new LocationPoint(xValue, yValue);
                 locationPoints.add(locationPoint);
@@ -613,7 +612,7 @@ public final class DbManager {
             return locationPoints;
 
         } catch (SQLException e) {
-            System.out.println("Error during Viewing all Applications: "
+            System.out.println("Error during Viewing all Location Point: "
                     + e.getMessage());
             return null;
         }
