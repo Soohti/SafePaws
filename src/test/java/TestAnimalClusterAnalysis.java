@@ -1,7 +1,7 @@
+import org.cs3343.safepaws.algorithm.AnimalClusterAnalysis;
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.Shelter;
-import org.cs3343.safepaws.algorithm.ElbowUtil;
-import org.cs3343.safepaws.algorithm.KMeans;
+import org.cs3343.safepaws.algorithm.FindingOptimalShelterNumber;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestKMeans {
+public class TestAnimalClusterAnalysis {
 
     @Test
     public void testAnimalLocation() {
@@ -35,7 +35,7 @@ public class TestKMeans {
         locationPoints.add(new LocationPoint(3.0, 4.0));
         locationPoints.add(new LocationPoint(5.0, 6.0));
 
-        KMeans kmeans = new KMeans(2);
+        AnimalClusterAnalysis kmeans = new AnimalClusterAnalysis(2);
         kmeans.fit(locationPoints);
         assertNotNull(kmeans.getClusters());
         assertEquals(2, kmeans.getClusters().size());
@@ -49,7 +49,7 @@ public class TestKMeans {
         locationPoints.add(new LocationPoint(8.0, 8.0));
         locationPoints.add(new LocationPoint(9.0, 9.0));
 
-        KMeans kmeans = new KMeans(2);
+        AnimalClusterAnalysis kmeans = new AnimalClusterAnalysis(2);
         kmeans.fit(locationPoints);
 
         List<List<LocationPoint>> clusters = kmeans.getClusters();
@@ -65,7 +65,7 @@ public class TestKMeans {
         locationPoints.add(new LocationPoint(2.0, 2.0));
         locationPoints.add(new LocationPoint(3.0, 3.0));
 
-        KMeans kmeans = new KMeans(2);
+        AnimalClusterAnalysis kmeans = new AnimalClusterAnalysis(2);
         kmeans.fit(locationPoints);
 
         double sse = kmeans.calculateSSE();
@@ -83,7 +83,7 @@ public class TestKMeans {
         locationPoints.add(new LocationPoint(12.0, 12.0));
 
         int maxK = 5;
-        int optimalK = ElbowUtil.findOptimalK(locationPoints, maxK);
+        int optimalK = FindingOptimalShelterNumber.findOptimalK(locationPoints, maxK);
         assertTrue(optimalK > 0 && optimalK <= maxK);
     }
 
