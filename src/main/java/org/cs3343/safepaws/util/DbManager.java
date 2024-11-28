@@ -217,15 +217,14 @@ public final class DbManager {
 
         for (Field field : entityType.getDeclaredFields()) {
             field.setAccessible(true);
-            String columnName = field.getName();
             Method setter = getSetterMethod(builderClass, field);
             if (setter == null) {
                 continue;
             }
             try {
                 if (field.isAnnotationPresent(OneToOne.class)) {
-                    handleOneToOneField(field, resultSet,
-                            builderInstance, setter);
+                        handleOneToOneField(field, resultSet,
+                                builderInstance, setter);
                 } else if (field.getType().isEnum()) {
                     handleEnumField(field, resultSet, builderInstance, setter);
                 } else {

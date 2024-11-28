@@ -7,6 +7,7 @@ import org.cs3343.safepaws.util.DbManager;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public final class LoginHandler {
     /**
@@ -89,16 +90,15 @@ public final class LoginHandler {
      * @param inputUsername the username.
      * @return the boolean.
      */
-    public static boolean duplicateUsername(final String inputUsername) {
+    public static boolean duplicateUsername(final String inputUsername)
+    throws Exception {
         try {
-            Account thisAccount = (Account) DbManager
+            Account account = (DbManager
                     .getInstance().readWithCondition(
                     Account.class, "Account",
-                    Map.of("Username", inputUsername));
-            return thisAccount.getUsername().equals(inputUsername);
-        } catch (Exception ex) {
-            System.out.println("Error during Logging in: "
-                    + ex.getMessage());
+                    Map.of("Username", inputUsername))).getFirst();
+        } catch (NoSuchElementException ex) {
+            return false;
         }
         return true;
     }

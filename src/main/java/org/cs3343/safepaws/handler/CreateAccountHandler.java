@@ -100,14 +100,20 @@ public final class CreateAccountHandler {
      * 2 if the username is valid
      */
     public int isValidUsername(final String username) {
-        if (!(username.length() >= MIN_USERNAME_LENGTH
-                && username.length() <= MAX_USERNAME_LENGTH)) {
-            return 0;
-        } else if (LoginHandler.duplicateUsername(username)) {
-            return 1;
-        } else {
-            return 2;
+        try {
+            if (!(username.length() >= MIN_USERNAME_LENGTH
+                    && username.length() <= MAX_USERNAME_LENGTH)) {
+                return 0;
+            } else if (LoginHandler.duplicateUsername(username)) {
+                return 1;
+            } else {
+                return 2;
+            }
+        } catch (Exception ex) {
+            System.out.println("Error occur when finding duplicate username"
+                    + ex.getMessage());
         }
+        return 1;
     }
     /**
      * Validates the password.

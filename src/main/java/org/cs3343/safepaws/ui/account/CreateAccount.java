@@ -65,8 +65,8 @@ public class CreateAccount extends UI {
             CreateAccountHandler.getInstance()
                     .createAccount(username, password, role);
             session.println("Account created successfully.");
-        } catch (Exception e) {
-            session.println("Error during creating account.");
+        } catch (Exception ex) {
+            session.println("Error during creating account." + ex.getMessage());
         }
 
         return this.getReferrer();
