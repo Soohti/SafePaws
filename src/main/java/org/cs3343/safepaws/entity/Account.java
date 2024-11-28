@@ -1,8 +1,5 @@
 package org.cs3343.safepaws.entity;
 
-import org.cs3343.safepaws.handler.LoginHandler;
-import org.mindrot.jbcrypt.BCrypt;
-
 /**
  * Represents an account with username, password, role, and id.
  */
@@ -27,28 +24,26 @@ public abstract class Account {
     private final String role;
 
     /**
-     * Instantiates a new account with the
-     * specified username, password, and role.
-     * @param newId   the id
-     * @param newUn   the username
-     * @param newP    the password
-     * @param newRole the role
+     * Instantiates a new account using the builder.
+     *
+     * @param builder the builder to construct the account
      */
-    public Account(final int newId, final String newUn,
-                   final String newP, final String newRole) {
-        this.id = newId;
-        this.username = newUn;
-        this.password = newP;
-        this.role = newRole;
+    protected Account(final Builder<?> builder) {
+        this.id = builder.id;
+        this.username = builder.username;
+        this.password = builder.password;
+        this.role = builder.role;
     }
+
     /**
-     * Gets the username.
+     * Gets the id.
      *
      * @return the id
      */
     public int getId() {
         return id;
     }
+
     /**
      * Gets the username.
      *
@@ -74,5 +69,87 @@ public abstract class Account {
      */
     public String getRole() {
         return role;
+    }
+
+    /**
+     * Builder class for constructing Account instances.
+     */
+    public abstract static class Builder<T extends Builder<T>> {
+        /**
+         * The id of the account.
+         */
+        private int id;
+        /**
+         * The username of the account.
+         */
+        private String username;
+
+        /**
+         * The password of the account.
+         */
+        private String password;
+
+        /**
+         * The role of the account.
+         */
+        private String role;
+
+        /**
+         * Sets the id of the account.
+         *
+         * @param newId the id
+         * @return the builder
+         */
+        public T setId(final int newId) {
+            this.id = newId;
+            return self();
+        }
+
+        /**
+         * Sets the username of the account.
+         *
+         * @param newUsername the username
+         * @return the builder
+         */
+        public T setUsername(final String newUsername) {
+            this.username = newUsername;
+            return self();
+        }
+
+        /**
+         * Sets the password of the account.
+         *
+         * @param newPassword the password
+         * @return the builder
+         */
+        public T setPassword(final String newPassword) {
+            this.password = newPassword;
+            return self();
+        }
+
+        /**
+         * Sets the role of the account.
+         *
+         * @param newRole the role
+         * @return the builder
+         */
+        public T setRole(final String newRole) {
+            this.role = newRole;
+            return self();
+        }
+
+        /**
+         * Returns the builder instance.
+         *
+         * @return the builder instance
+         */
+        protected abstract T self();
+
+        /**
+         * Builds and returns an Account instance.
+         *
+         * @return the account
+         */
+        public abstract Account build();
     }
 }

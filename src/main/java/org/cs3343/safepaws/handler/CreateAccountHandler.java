@@ -25,12 +25,18 @@ public final class CreateAccountHandler {
      * The maximum length for a password.
      */
     private static final int MAX_PASSWORD_LENGTH = 16;
-
+    /**
+     * The index for health status.
+     */
     private static CreateAccountHandler instance;
 
     private CreateAccountHandler() {
     }
-
+    /**
+     * Gets the single instance of the handler.
+     *
+     * @return the instance of CreateAccountHandler
+     */
     public static CreateAccountHandler getInstance() {
         if (instance == null) {
             instance = new CreateAccountHandler();
@@ -58,17 +64,25 @@ public final class CreateAccountHandler {
                 Map.of("Username", username)
         )).getFirst();
         if (role.equalsIgnoreCase("m")) {
-            int[] numericAttributes = {0, 0, 0, 0, 0, 0, 0};
-            MemberProfile memberProfile = new MemberProfile(thisAccount.getId(),
-                    "Dog",
-                    "Dog",
-                    "m", numericAttributes);
+            MemberProfile memberProfile = new MemberProfile.Builder()
+                    .setId(thisAccount.getId())
+                    .setPreferredSpecies("Dog")
+                    .setPreferredBreed("Dog")
+                    .setGender("m")
+                    .setExtroversionLevel(0)
+                    .setDailyActivityLevel(0)
+                    .setHouseSize(0)
+                    .setWorkHours(0)
+                    .setNumberOfFamilyMembers(0)
+                    .setPreviousPetExperience(0)
+                    .setFinancialBudget(0)
+                    .build();
             createMemberProfile(memberProfile);
         }
         System.out.println("Account inserted successfully");
     }
     /**
-     * Inserts an member profile into the database.
+     * Inserts a member profile into the database.
      * @param memberProfile the member profile of account to insert.
      */
     public void createMemberProfile(

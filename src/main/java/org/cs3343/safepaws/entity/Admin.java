@@ -1,19 +1,42 @@
 package org.cs3343.safepaws.entity;
 
 /**
- *
+ * Represents an admin in the SafePaws system.
  */
-public class Admin extends Account {
+public final class Admin extends Account {
 
     /**
-     * Creates a new admin with the given username, password, and role.
-     * @param id the id of the admin
-     * @param username the username of the admin
-     * @param password the password of the admin
-     * @param role     the role of the admin
+     * Constructs a new Admin using the builder.
+     *
+     * @param builder the builder to construct the admin
      */
-    public Admin(final int id, final String username,
-                 final String password, final String role) {
-        super(id, username, password, role);
+    private Admin(final Builder builder) {
+        super(builder);
+    }
+
+    /**
+     * Builder class for constructing Admin instances.
+     */
+    public static class Builder extends Account.Builder<Builder> {
+
+        /**
+         * Returns the builder instance.
+         *
+         * @return the builder instance
+         */
+        @Override
+        protected Builder self() {
+            return this;
+        }
+
+        /**
+         * Builds and returns an Admin instance.
+         *
+         * @return the admin
+         */
+        @Override
+        public Admin build() {
+            return new Admin(this);
+        }
     }
 }

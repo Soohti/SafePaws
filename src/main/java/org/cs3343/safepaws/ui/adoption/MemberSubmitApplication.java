@@ -3,7 +3,7 @@ package org.cs3343.safepaws.ui.adoption;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
-import org.cs3343.safepaws.handler.ReadApplicationHandler;
+import org.cs3343.safepaws.handler.CheckMemberHandler;
 import org.cs3343.safepaws.handler.ReadPetHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.DbManager;
@@ -67,12 +67,13 @@ public class MemberSubmitApplication extends UI {
         }
         Application.State applicationState = Application.State.PENDING;
         if (pet != null) {
-            Application application =
-                    new Application(user, pet, applicationState);
             try {
-                DbManager.insertApplication(application);
+                CheckMemberHandler.getInstance()
+                        .insertApplication(user,
+                                pet,
+                                applicationState);
                 session.println("Application created successfully.");
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 session.println("Error during creating application.");
             }
         }

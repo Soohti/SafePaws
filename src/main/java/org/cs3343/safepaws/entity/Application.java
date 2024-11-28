@@ -1,7 +1,6 @@
 package org.cs3343.safepaws.entity;
 
 import org.cs3343.safepaws.handler.ReadApplicationHandler;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.OneToOne;
 
 /**
@@ -63,7 +62,7 @@ public class Application {
      */
     public static boolean isValidAid(final int aid) {
         return ReadApplicationHandler.getInstance()
-                .findConditionalApplication(aid) != null;
+                .findApplicationByAid(aid) != null;
     }
 
     /**

@@ -3,7 +3,9 @@ package org.cs3343.safepaws.ui.adoption;
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
+import org.cs3343.safepaws.handler.UpdateMemberProfileHandler;
 import org.cs3343.safepaws.ui.UI;
+import org.cs3343.safepaws.util.AccountFactory;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
@@ -147,22 +149,28 @@ public class MemberSetProfile extends UI {
                     + "Please enter again:");
             gender = session.requestInput();
         }
-        //todo zym
         Account account = session.getAccount();
-        int[] numericAttributes = {intExtroversionLevel, intDailyActivityLevel,
-                intHouseSize, intWorkHours, intNumberOfFamilyMembers,
-                intPreviousPetExperience, intFinancialBudget};
 
-        MemberProfile profile = new MemberProfile(preferredSpecies,
-                preferredBreed, gender, numericAttributes);
-
-        session.setAccount(new Member(account.getUsername(),
-                account.getPassword(), account.getRole(), profile));
-
-        String username = session.getAccount().getUsername();
+        MemberProfile profile = new MemberProfile.Builder()
+                .setId(account.getId())
+                .setPreferredSpecies(preferredSpecies)
+                .setPreferredBreed(preferredBreed)
+                .setGender(gender)
+                .setExtroversionLevel(intExtroversionLevel)
+                .setDailyActivityLevel(intDailyActivityLevel)
+                .setHouseSize(intHouseSize)
+                .setWorkHours(intWorkHours)
+                .setNumberOfFamilyMembers(intNumberOfFamilyMembers)
+                .setPreviousPetExperience(intPreviousPetExperience)
+                .setFinancialBudget(intFinancialBudget)
+                .build();
+        session.setAccount(AccountFactory.createAccount(
+                account.getId(), account.getUsername(),
+                account.getPassword(), account.getRole(),
+                profile));
         try {
-            DbManager.changeMemProfile(username,
-                    ((Member) session.getAccount()).getProfile());
+            UpdateMemberProfileHandler.getInstance()
+                    .updateMemberProfile(profile);
             session.println("Profile set successfully.");
         } catch (Exception e) {
             session.println("Error during setting profile.");

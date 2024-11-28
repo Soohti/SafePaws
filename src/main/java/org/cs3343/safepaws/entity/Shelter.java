@@ -1,33 +1,67 @@
 package org.cs3343.safepaws.entity;
 
 /**
- *
+ * Represents a shelter with a username, password, role, and location point.
  */
-public class Shelter extends Account {
+public final class Shelter extends Account {
     /**
-     * The profile of the member.
+     * The location point of the shelter.
      */
     private final LocationPoint locationPoint;
+
     /**
-     * Creates a new admin with the given username, password, and role.
+     * Constructs a new Shelter using the builder.
      *
-     * @param username the username of the admin
-     * @param password the password of the admin
-     * @param role     the role of the admin
-     * @param thisLocationPoint the location of the shelter
+     * @param builder the builder to construct the shelter
      */
-    public Shelter(final String username,
-                   final String password, final String role,
-                   final LocationPoint thisLocationPoint) {
-        super(username, password, role);
-        this.locationPoint = thisLocationPoint;
+    private Shelter(final Builder builder) {
+        super(builder);
+        this.locationPoint = builder.locationPoint;
     }
 
     /**
      * Gets the location point of the shelter.
+     *
      * @return the location point of the shelter
      */
     public LocationPoint getLocationPoint() {
         return locationPoint;
+    }
+
+    /**
+     * Builder class for constructing Shelter instances.
+     */
+    public static class Builder extends Account.Builder<Builder> {
+        private LocationPoint locationPoint;
+
+        /**
+         * Sets the location point of the shelter.
+         *
+         * @param newLocationPoint the location point
+         * @return the builder
+         */
+        public Builder setLocationPoint(final LocationPoint newLocationPoint) {
+            this.locationPoint = newLocationPoint;
+            return this;
+        }
+        /**
+         * Returns the builder instance.
+         *
+         * @return the builder instance
+         */
+        @Override
+        protected Shelter.Builder self() {
+            return this;
+        }
+
+        /**
+         * Builds and returns an Admin instance.
+         *
+         * @return the admin
+         */
+        @Override
+        public Shelter build() {
+            return new Shelter(this);
+        }
     }
 }

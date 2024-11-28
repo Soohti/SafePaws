@@ -1,12 +1,5 @@
 package org.cs3343.safepaws.util;
 
-import org.cs3343.safepaws.entity.Account;
-import org.cs3343.safepaws.entity.Application;
-import org.cs3343.safepaws.entity.LocationPoint;
-import org.cs3343.safepaws.entity.Member;
-import org.cs3343.safepaws.entity.MemberProfile;
-import org.cs3343.safepaws.entity.Pet;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -107,153 +100,245 @@ public final class DbManager {
     private DbManager() {
 
     }
-
+    //todo read father class field
+    /**
+     * Reads an entity from the database by its ID.
+     *
+     * @param <T> the type of the entity
+     * @param entityType the class of the entity
+     * @param tableName the name of the table
+     * @param idValue the ID value of the entity
+     * @return the entity with the specified ID, or null if not found
+     * @throws Exception if any database or reflection error occurs
+     */
     public <T> T readWithID(final Class<T> entityType,
-                            final String tableName, final int idName)
-            throws Exception {
-        StringBuilder sqlCommand = new StringBuilder("SELECT * FROM "
-                + tableName + " WHERE ID = " + idName + ";");
+                            final String tableName,
+                            final int idValue) throws Exception {
+        String sqlCommand = "SELECT * FROM " + tableName + " WHERE ID = ?;";
         try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement
-                     .executeQuery(sqlCommand.toString())) {
-            Class<?> builderClass = Class.forName(
-                    entityType.getName() + "$Builder");
-            Constructor<?> builderConstructor = builderClass
-                    .getDeclaredConstructor();
-            builderConstructor.setAccessible(true);
-            Object builderInstance = builderClass.getDeclaredConstructor()
-                    .newInstance();
-            if (resultSet.next()) {
-                for (Field field : entityType.getDeclaredFields()) {
-                    field.setAccessible(true);
-                    try {
-                        Method setter = builderClass.getMethod("set"
-                                + capitalize(field.getName()), field.getType());
-                        Object value = resultSet.getObject(field.getName());
-                        if (field.getType().isEnum()) {
-                            int ordinal = resultSet.getInt(field.getName());
-                            value = (Enum<?>) field.getType()
-                                    .getEnumConstants()[ordinal];
-                            setter.invoke(builderInstance, value);
-                        } else {
-                             value = resultSet.getObject(field.getName());
-                             setter = builderClass.getMethod("set"
-                                    + capitalize(field.getName()), field.getType());
-                            setter.invoke(builderInstance, value);
-                        }
-
-                    } catch (NoSuchMethodException | IllegalAccessException
-                             | SQLException e) {
-                        System.err.println("Error setting field "
-                                + field.getName() + ": " + e.getMessage());
-                    }
+             PreparedStatement statement = connection
+                     .prepareStatement(sqlCommand)) {
+            statement.setInt(1, idValue);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return buildEntityFromResultSet(entityType, resultSet);
                 }
-                Method buildMethod = builderClass.getMethod("build");
-                return (T) buildMethod.invoke(builder);
             }
         }
         return null;
     }
-    public <T> List<T> readWithCondition(
-            final Class<T> entityType,
-            final String tableName,
-            final Map<String, String> conditions)
+    /**
+     * Reads entities from the database that match the specified conditions.
+     *
+     * @param <T> the type of the entity
+     * @param entityType the class of the entity
+     * @param tableName the name of the table
+     * @param conditions the conditions to match
+     * @return a list of entities that match the conditions
+     * @throws Exception if any database or reflection error occurs
+     */
+    public <T> List<T> readWithCondition(final Class<T> entityType,
+                                         final String tableName,
+                                         final Map<String, String> conditions)
             throws Exception {
         StringBuilder sqlCommand = new StringBuilder("SELECT * FROM ")
                 .append(tableName).append(" WHERE ");
-        List<T> entities = new ArrayList<>();
-
-        // 构建SQL查询条件
+        List<Object> values = new ArrayList<>();
         for (Map.Entry<String, String> condition : conditions.entrySet()) {
-            sqlCommand.append(condition.getKey()).append(" = '")
-                    .append(condition.getValue()).append("' AND ");
+            sqlCommand.append(condition.getKey()).append(" = ? AND ");
+            values.add(condition.getValue());
         }
         if (!conditions.isEmpty()) {
             sqlCommand.setLength(sqlCommand.length() - " AND ".length());
         }
         sqlCommand.append(";");
-
+        List<T> entities = new ArrayList<>();
         try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sqlCommand.toString())) {\
-            Object builderInstance = builderConstructor.newInstance();
-            while (resultSet.next()) {
-                Class<?> builderClass = Class.forName(
-                        entityType.getName() + "$Builder");
-                Object builder = builderClass.getDeclaredConstructor()
-                        .newInstance();
-                for (Field field : entityType.getDeclaredFields()) {
-                    field.setAccessible(true);
-                    String columnName = field.getName(); // 假设列名与字段名相同
-
-                    // 获取构建器对应的setter方法
-                    Method setter = builder.getClass().getMethod("set" + capitalize(field.getName()), field.getType());
-
-                    // 读取并设置字段值
-                    Object value = resultSet.getObject(columnName);
-                    if (value != null) {
-                        setter.invoke(builder, value);
-                    }
+             PreparedStatement statement = connection
+                     .prepareStatement(sqlCommand.toString())) {
+            for (int i = 0; i < values.size(); i++) {
+                statement.setObject(i + 1, values.get(i));
+            }
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    entities.add(buildEntityFromResultSet(
+                            entityType, resultSet));
                 }
-                // 通过构建器创建实体实例
-                T entity = constructor.newInstance((Builder) builder);
-                entities.add(entity);
             }
         }
         return entities;
     }
+    /**
+     * Reads all entities from the specified table.
+     *
+     * @param <T> the type of the entity
+     * @param entityType the class of the entity
+     * @param tableName the name of the table
+     * @return a list of all entities in the table
+     * @throws Exception if any database or reflection error occurs
+     */
     public <T> ArrayList<T> readAll(final Class<T> entityType,
                                     final String tableName) throws Exception {
         ArrayList<T> entities = new ArrayList<>();
-        StringBuilder sqlCommand = new StringBuilder("SELECT * FROM ")
-                .append(tableName).append(";");
+        String sqlCommand = "SELECT * FROM " + tableName + ";";
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement
-                     .executeQuery(sqlCommand.toString())) {
-            Class<?> builderClass = Class.forName(
-                    entityType.getName() + "$Builder");
-            Constructor<?> builderConstructor = builderClass
-                    .getDeclaredConstructor();
-            builderConstructor.setAccessible(true);
+             ResultSet resultSet = statement.executeQuery(sqlCommand)) {
             while (resultSet.next()) {
-                Object builderInstance = builderConstructor.newInstance();
-                for (Field field : entityType.getDeclaredFields()) {
-                    field.setAccessible(true);
-                    String columnName = field.getName();
-                    if (field.isAnnotationPresent(OneToOne.class)) {
-                        OneToOne oneToOne = field.getAnnotation(OneToOne.class);
-                        Integer foreignKeyId = resultSet.getInt(
-                                oneToOne.columnName());
-                        Object relatedEntity = readWithID(
-                                field.getType(),
-                                oneToOne.tableName(),
-                                foreignKeyId);
-                        Method setter = builderClass.getMethod("set"
-                                + capitalize(field.getName()), field.getType());
-                        setter.invoke(builderInstance, relatedEntity);
-                    } else if (field.getType().isEnum()) {
-                        int ordinal = resultSet.getInt(columnName);
-                        Enum<?> enumValue = (Enum<?>) field.getType()
-                                .getEnumConstants()[ordinal];
-                        Method setter = builderClass.getMethod("set"
-                                + capitalize(field.getName()), field.getType());
-                        setter.invoke(builderInstance, enumValue);
-                    } else {
-                        Object value = resultSet.getObject(columnName);
-                        Method setter = builderClass.getMethod("set"
-                                + capitalize(field.getName()), field.getType());
-                        setter.invoke(builderInstance, value);
-                    }
-                }
-                Method buildMethod = builderClass.getMethod("build");
-                T entity = (T) buildMethod.invoke(builderInstance);
-                entities.add(entity);
+                entities.add(buildEntityFromResultSet(entityType, resultSet));
             }
         }
         return entities;
     }
+    /**
+     * Builds an entity from the result set.
+     *
+     * @param <T> the type of the entity
+     * @param entityType the class of the entity
+     * @param resultSet the result set containing the entity data
+     * @return the built entity
+     * @throws Exception if any reflection error occurs
+     */
+    private <T> T buildEntityFromResultSet(final Class<T> entityType,
+                                           final ResultSet resultSet)
+            throws Exception {
+        Class<?> builderClass;
+        Constructor<?> builderConstructor;
+        Object builderInstance;
+        try {
+            builderClass = Class.forName(entityType.getName() + "$Builder");
+            builderConstructor = builderClass.getDeclaredConstructor();
+            builderConstructor.setAccessible(true);
+            builderInstance = builderConstructor.newInstance();
+        } catch (Exception e) {
+            throw new Exception("Error initializing builder for "
+                    + entityType.getName(), e);
+        }
+
+        for (Field field : entityType.getDeclaredFields()) {
+            field.setAccessible(true);
+            String columnName = field.getName();
+            Method setter = getSetterMethod(builderClass, field);
+            if (setter == null) {
+                continue;
+            }
+            try {
+                if (field.isAnnotationPresent(OneToOne.class)) {
+                    handleOneToOneField(field, resultSet,
+                            builderInstance, setter);
+                } else if (field.getType().isEnum()) {
+                    handleEnumField(field, resultSet, builderInstance, setter);
+                } else {
+                    handleRegularField(field, resultSet,
+                            builderInstance, setter);
+                }
+            } catch (Exception e) {
+                System.err.println("Error setting field "
+                        + field.getName() + ": " + e.getMessage());
+            }
+        }
+
+        try {
+            Method buildMethod = builderClass.getMethod("build");
+            return (T) buildMethod.invoke(builderInstance);
+        } catch (Exception e) {
+            throw new Exception("Error building entity for "
+                    + entityType.getName(), e);
+        }
+    }
+    /**
+     * Gets the setter method for the specified field.
+     *
+     * @param builderClass the class of the builder
+     * @param field the field for which to get the setter method
+     * @return the setter method, or null if not found
+     * @throws NoSuchMethodException if the setter method is not found
+     */
+    private Method getSetterMethod(final Class<?> builderClass,
+                                   final Field field)
+            throws NoSuchMethodException {
+        try {
+            return builderClass.getMethod("set"
+                    + capitalize(field.getName()), field.getType());
+        } catch (NoSuchMethodException e) {
+            System.err.println("No setter for field " + field.getName());
+            return null;
+        }
+    }
+    /**
+     * Handles a one-to-one field.
+     *
+     * @param field the field to handle
+     * @param resultSet the result set containing the field data
+     * @param builderInstance the builder instance
+     * @param setter the setter method for the field
+     * @throws Exception if any database or reflection error occurs
+     */
+    private void handleOneToOneField(final Field field,
+                                     final ResultSet resultSet,
+                                     final Object builderInstance,
+                                     final Method setter) throws Exception {
+        OneToOne oneToOne = field.getAnnotation(OneToOne.class);
+        Integer foreignKeyId = resultSet.getInt(oneToOne.columnName());
+        if (resultSet.wasNull()) {
+            setter.invoke(builderInstance, (Object) null);
+        } else {
+            Object relatedEntity = readWithID(field.getType(),
+                    oneToOne.tableName(), foreignKeyId);
+            setter.invoke(builderInstance, relatedEntity);
+        }
+    }
+    /**
+     * Handles an enum field.
+     *
+     * @param field the field to handle
+     * @param resultSet the result set containing the field data
+     * @param builderInstance the builder instance
+     * @param setter the setter method for the field
+     * @throws Exception if any reflection error occurs
+     */
+    private void handleEnumField(final Field field,
+                                 final ResultSet resultSet,
+                                 final Object builderInstance,
+                                 final Method setter) throws Exception {
+        int ordinal = resultSet.getInt(field.getName());
+        if (resultSet.wasNull()) {
+            setter.invoke(builderInstance, (Object) null);
+        } else {
+            Enum<?> enumValue = (Enum<?>) field.getType()
+                    .getEnumConstants()[ordinal];
+            setter.invoke(builderInstance, enumValue);
+        }
+    }
+    /**
+     * Handles a regular field.
+     *
+     * @param field the field to handle
+     * @param resultSet the result set containing the field data
+     * @param builderInstance the builder instance
+     * @param setter the setter method for the field
+     * @throws Exception if any reflection error occurs
+     */
+    private void handleRegularField(final Field field,
+                                    final ResultSet resultSet,
+                                    final Object builderInstance,
+                                    final Method setter) throws Exception {
+        Object value = resultSet.getObject(field.getName());
+        if (resultSet.wasNull()) {
+            value = null;
+        }
+        setter.invoke(builderInstance, value);
+    }
+    /**
+     * Updates records in the specified table based on the given conditions.
+     *
+     * @param <T> the type of the entity
+     * @param entityType the class of the entity
+     * @param tableName the name of the table
+     * @param whereFields the conditions for the WHERE clause
+     * @param setFields the fields and values to set in the SET clause
+     * @throws Exception if any database or reflection error occurs
+     */
     public <T> void update(final Class<T> entityType,
                                   final String tableName,
                                   final Map<String, String> whereFields,
@@ -285,11 +370,8 @@ public final class DbManager {
                     sqlCommand.append(entry.getKey()).append(" = ? AND ");
                     parameters.add(entry.getValue());
                 }
-                // Remove the last " AND "
-                if (!whereFields.isEmpty()) {
-                    sqlCommand.setLength(sqlCommand.length()
+                sqlCommand.setLength(sqlCommand.length()
                             - LENGTH_OF_LAST_AND);
-                }
             }
             sqlCommand.append(";");
             statement = conn.prepareStatement(sqlCommand.toString());
@@ -325,6 +407,14 @@ public final class DbManager {
             }
         }
     }
+    /**
+     * Inserts a new record into the specified table.
+     *
+     * @param <T> the type of the entity
+     * @param entity the entity to insert
+     * @param tableName the name of the table
+     * @throws Exception if any database or reflection error occurs
+     */
     public <T> void insert(final T entity,
                            final String tableName) throws Exception {
         Map<String, Object> fieldsAndValues = getFieldsAndValues(entity);
@@ -354,6 +444,13 @@ public final class DbManager {
             preparedStatement.executeUpdate();
         }
     }
+    /**
+     * Inserts a new record into the specified table with auto-generated values.
+     *
+     * @param insertField the fields and values to insert
+     * @param tableName the name of the table
+     * @throws Exception if any database error occurs
+     */
     public void insertWithAutoValue(final Map<String, String> insertField,
                                   final String tableName) throws Exception {
         StringBuilder columns = new StringBuilder();
@@ -384,12 +481,28 @@ public final class DbManager {
             preparedStatement.executeUpdate();
         }
     }
+    /**
+     * Capitalizes the first letter of the given string.
+     *
+     * @param str the string to capitalize
+     * @return the capitalized string
+     */
     private String capitalize(final String str) {
         if (str == null || str.isEmpty()) {
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+    /**
+     * Retrieves a map of field names and their corresponding
+     * values from the given entity.
+     *
+     * @param <T> the type of the entity
+     * @param entity the entity from which to retrieve field names and values
+     * @return a map where the keys are field names and the values are
+     * the corresponding field values
+     * @throws IllegalAccessException if the field is not accessible
+     */
     private static <T> Map<String, Object> getFieldsAndValues(final T entity)
             throws IllegalAccessException {
         Map<String, Object> fieldsAndValues = new HashMap<>();
@@ -404,383 +517,4 @@ public final class DbManager {
         }
         return fieldsAndValues;
     }
-    /**
-     * Sets the values of the given PreparedStatement.
-     * The values are set in the order they are provided.
-     *
-     * @param preparedStatement the PreparedStatement to set values for.
-     * @param values            the values to set.
-     * @throws SQLException if a database error occurs.
-     */
-    private static void setValues(final PreparedStatement preparedStatement,
-                                  final Object... values) throws SQLException {
-        for (int i = 0; i < values.length; i++) {
-            preparedStatement.setObject(i + 1, values[i]);
-        }
-    }
-
-    /**
-     * Changes the state of an application.
-     *
-     * @param aid   the application ID.
-     * @param state the new state.
-     */
-    public static void changeState(final int aid,
-                                   final Application.State state) {
-        Connection conn = null;
-        try {
-            conn = getConnection();
-            conn.setAutoCommit(false);
-            if (state == Application.State.APPROVED) {
-                Pet pet = DbManager.selectApplication(aid).getPet();
-                int pid = pet.getId();
-                String preUpdateSQL1 = "UPDATE APPLICATION SET State = ? "
-                        + "WHERE Pid = ?";
-                try (PreparedStatement pstmt =
-                             conn.prepareStatement(preUpdateSQL1)) {
-                    setValues(pstmt, Application.State.REJECTED.ordinal(), pid);
-                    pstmt.executeUpdate();
-                } catch (SQLException e) {
-                    System.out.println("Error during Changing "
-                            + "other applications State: "
-                            + e.getMessage());
-                    throw e;
-                }
-                String preUpdateSQL2 = "UPDATE PET SET State = ? "
-                        + "WHERE Id = ?";
-                try (PreparedStatement pstmt =
-                             conn.prepareStatement(preUpdateSQL2)) {
-                    setValues(pstmt, Application.State.APPROVED.ordinal(), pid);
-                    pstmt.executeUpdate();
-                } catch (SQLException e) {
-                    System.out.println("Error during Changing pet State: ");
-                    throw e;
-                }
-            }
-            String updateSQL = "UPDATE APPLICATION SET State = ? "
-                    + "WHERE Id = ?";
-            try (PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
-                setValues(pstmt, state.ordinal(), aid);
-                pstmt.executeUpdate();
-            } catch (SQLException e) {
-                System.out.println("Error during Changing State: "
-                        + e.getMessage());
-                throw e;
-            }
-        } catch (SQLException e) {
-            System.out.println("Reverting all changes...");
-            try {
-                if (conn != null) {
-                    conn.rollback();
-                }
-            } catch (SQLException ignored) {
-            }
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.commit();
-                    conn.setAutoCommit(true);
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("Error during Committing changes: "
-                        + e.getMessage());
-            }
-        }
-    }
-
-    private static Member selectMemberById(final int mid)
-            throws SQLException {
-        String query = "SELECT * FROM ACCOUNT WHERE Id= ?";
-        Member account;
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            setValues(pstmt, mid);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                String rUser = rs.getString("Username");
-                String rPsw = rs.getString("Password");
-                String rRole = rs.getString("Role");
-                query = "SELECT * FROM MEMBER_PROFILE WHERE Id= ?";
-                try (PreparedStatement pstmt1 = conn.prepareStatement(query)) {
-                    setValues(pstmt1, mid);
-                    ResultSet rs1 = pstmt1.executeQuery();
-                    if (rs1.next()) {
-                        String preferredSpecies =
-                                rs1.getString("PreferredSpecies");
-                        String preferredBreed = rs1.getString("PreferredBreed");
-                        String gender = rs1.getString("Gender");
-                        int[] numericAttributes =
-                                {rs1.getInt("ExtroversionLevel"),
-                                        rs1.getInt("DailyActivityLevel"),
-                                        rs1.getInt("HouseSize"),
-                                        rs1.getInt("WorkHours"),
-                                        rs1.getInt("NumberOfFamilyMembers"),
-                                        rs1.getInt("PreviousPetExperience"),
-                                        rs1.getInt("financialBudget")};
-                        MemberProfile memberProfile = new MemberProfile(
-                                preferredSpecies, preferredBreed, gender,
-                                numericAttributes);
-                        account = new Member(rUser, rPsw, rRole, memberProfile);
-                        return account;
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Selects a pet by ID.
-     *
-     * @param petId the pet ID.
-     * @return the pet, or null if not found.
-     */
-    public static Pet selectPetById(final int petId) {
-        String selectSql = "SELECT * FROM PET WHERE Id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
-            setValues(pstmt, petId);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                String name = rs.getString("Name");
-                String species = rs.getString("Species");
-                String breed = rs.getString("Breed");
-                String gender = rs.getString("Gender");
-                int age = rs.getInt("Age");
-                int weight = rs.getInt("Weight");
-                int activityLevel = rs.getInt("ActivityLevel");
-                int healthStatus = rs.getInt("HealthStatus");
-                int state = rs.getInt("State");
-                int[] numericAttributes = {age, weight,
-                        activityLevel, healthStatus};
-                return new Pet(petId, name, species, breed,
-                        gender, numericAttributes, state);
-            } else {
-                System.out.println("No pet found with the given Id");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error during selecting pet by id.");
-        }
-        return null;
-    }
-
-    /**
-     * Retrieves all pets.
-     *
-     * @return a list of all pets.
-     */
-    public static List<Pet> getAllPets() {
-        String query = "SELECT * FROM PET";
-        List<Pet> pets = new ArrayList<>();
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
-            while (rs.next()) {
-                String name = rs.getString("Name");
-                String species = rs.getString("Species");
-                String breed = rs.getString("Breed");
-                String gender = rs.getString("Gender");
-                int age = rs.getInt("Age");
-                int weight = rs.getInt("Weight");
-                int activityLevel = rs.getInt("ActivityLevel");
-                int healthStatus = rs.getInt("HealthStatus");
-                int state = rs.getInt("State");
-                int id = rs.getInt("Id");
-                int[] numericAttributes = {age, weight,
-                        activityLevel, healthStatus};
-                Pet pet = new Pet(id, name, species, breed,
-                        gender, numericAttributes, state);
-                pets.add(pet);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error retrieving pets from database: "
-                    + e.getMessage());
-        }
-        return pets;
-    }
-
-    /**
-     * Inserts a member profile into the database.
-     *
-     * @param member        the member to insert the profile for.
-     * @param memberProfile the member profile to insert.
-     * @throws SQLException if a database error occurs.
-     */
-    public static void insertMemProfile(final Member member,
-                                        final MemberProfile memberProfile)
-            throws SQLException {
-        String insertSql = "INSERT INTO MEMBER_PROFILE (Id, PreferredSpecies, "
-                + "PreferredBreed, ExtroversionLevel, DailyActivityLevel, "
-                + "HouseSize, WorkHours, NumberofFamilyMembers, "
-                + "PreviousPetExperience, FinancialBudget, Gender) VALUES (?, "
-                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
-            setValues(pstmt, getAccountId(member),
-                    memberProfile.getPreferredSpecies(),
-                    memberProfile.getPreferredBreed(),
-                    memberProfile.getExtroversionLevel(),
-                    memberProfile.getDailyActivityLevel(),
-                    memberProfile.getHouseSize(),
-                    memberProfile.getWorkHours(),
-                    memberProfile.getNumberOfFamilyMembers(),
-                    memberProfile.getPreviousPetExperience(),
-                    memberProfile.getFinancialBudget(),
-                    memberProfile.getGender());
-            pstmt.executeUpdate();
-            System.out.println("Member profile inserted successfully");
-        }
-    }
-
-    /**
-     * Gets the account ID.
-     *
-     * @param account the account.
-     * @return the account ID.
-     * @throws SQLException if a database error occurs.
-     */
-    public static int getAccountId(final Account account) throws SQLException {
-        String query = "SELECT * FROM ACCOUNT WHERE Username = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            setValues(pstmt, account.getUsername());
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("Id");
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * Changes a member profile.
-     *
-     * @param name          the username of the member.
-     * @param memberProfile the new member profile.
-     */
-    public static void changeMemProfile(final String name,
-                                        final MemberProfile memberProfile) {
-        String updateSQL = "UPDATE MEMBER_PROFILE SET PreferredSpecies = ?, "
-                + "PreferredBreed = ?, ExtroversionLevel = ?, "
-                + "DailyActivityLevel = ?, HouseSize = ?, WorkHours = ?, "
-                + "NumberofFamilyMembers = ?, PreviousPetExperience = ?, "
-                + "FinancialBudget = ?, Gender = ? WHERE Username = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
-            setValues(pstmt, memberProfile.getPreferredSpecies(),
-                    memberProfile.getPreferredBreed(),
-                    memberProfile.getExtroversionLevel(),
-                    memberProfile.getDailyActivityLevel(),
-                    memberProfile.getHouseSize(),
-                    memberProfile.getWorkHours(),
-                    memberProfile.getNumberOfFamilyMembers(),
-                    memberProfile.getPreviousPetExperience(),
-                    memberProfile.getFinancialBudget(),
-                    memberProfile.getGender(), name);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error during Changing Member Profile: "
-                    + e.getMessage());
-        }
-    }
-
-    /**
-     * Inserts an application into the database.
-     *
-     * @param application the application to insert.
-     * @throws SQLException if a database error occurs.
-     */
-    public static void insertApplication(final Application application)
-            throws SQLException {
-        String insertSql = "INSERT INTO APPLICATION "
-                + "(MId, PId, State) VALUES "
-                + "(?, ?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
-            setValues(pstmt, getAccountId(application.getUser()),
-                    application.getPet().getId(), 0);
-            pstmt.executeUpdate();
-        }
-    }
-
-    /**
-     * Selects applications by member.
-     *
-     * @param member the member.
-     * @return a list of applications.
-     */
-    public static List<Application> selectApplicationByMember(
-            final Member member) {
-        String query = "SELECT * FROM APPLICATION WHERE Mid = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            setValues(pstmt, getAccountId(member));
-            ResultSet rs = pstmt.executeQuery();
-            List<Application> applications = new ArrayList<>();
-            while (rs.next()) {
-                int id = rs.getInt("Id");
-                int pid = rs.getInt("PId");
-                int state = rs.getInt("State");
-                Pet pet = selectPetById(pid);
-                Application.State applicationState =
-                        Application.State.values()[state];
-                Application application = new Application(
-                        member, pet, applicationState);
-                application.setId(id);
-                applications.add(application);
-            }
-            return applications;
-        } catch (SQLException e) {
-            System.out.println("Error during Logging in: "
-                    + e.getMessage());
-        }
-        return null;
-    }
-
-    /**
-     * Retrieves all location points from the database.
-     * This method executes a SQL query to fetch all records from the
-     * "APPLICATION" table in the database. It then processes these records
-     * to create a list of
-     * {@link LocationPoint} objects, where each object represents a location
-     * point with x and y values corresponding to the "XValue"
-     * and "YValue" columns in the table.
-     *
-     * @return an {@link ArrayList} containing all the location points retrieved
-     * from the database, or {@code null} if an error occurs
-     * @throws SQLException if a database access error occurs
-     */
-    public static ArrayList<LocationPoint> listAllLocationPoint()
-            throws SQLException {
-
-        String query = "SELECT * FROM LOCATION_POINT";
-
-        try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();) {
-
-            ResultSet rs = stmt.executeQuery(query);
-
-            ArrayList<LocationPoint> locationPoints = new ArrayList<>();
-
-            while (rs.next()) {
-                int xValue = rs.getInt("xValue");
-                int yValue = rs.getInt("yValue");
-
-                LocationPoint locationPoint = new LocationPoint(xValue, yValue);
-                locationPoints.add(locationPoint);
-            }
-
-            return locationPoints;
-
-        } catch (SQLException e) {
-            System.out.println("Error during Viewing all Location Point: "
-                    + e.getMessage());
-            return null;
-        }
-    }
-
-
 }

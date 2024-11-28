@@ -29,11 +29,9 @@ import org.cs3343.safepaws.algorithm.AnimalClusterAnalysis;
 import org.cs3343.safepaws.algorithm.FindingOptimalShelterNumber;
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.RecommendShelter;
+import org.cs3343.safepaws.handler.ReadLocationPointHandler;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,12 +66,12 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
      * @param session The current user session.
      * @return The referring UI component, or {@code null} if the
      * execution was successful.
-     * @throws SQLException If a database access error occurs.
      */
     @Override
     protected UI execute(final Session session) {
         try {
-            var animalLocations = DbManager.listAllLocationPoint();
+            var animalLocations = ReadLocationPointHandler.getInstance()
+                    .findAllPet();
             session.println("Choose mode: 1 for optimal k clustering"
                     + ", 2 for custom k clustering:");
             int mode = Integer.parseInt(session.requestInput());
@@ -100,7 +98,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
 
             for (List<LocationPoint> cluster : clusters) {
                 if (!cluster.isEmpty()) {
-                    LocationPoint firstLocation = cluster.get(0);
+                    LocationPoint firstLocation = cluster.getFirst();
                     recommendShelters.add(new RecommendShelter(firstLocation));
                 }
             }
@@ -109,8 +107,9 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
             for (RecommendShelter recommendShelter : recommendShelters) {
                 session.print(recommendShelter.toString());
             }
-        } catch (SQLException e) {
-            session.println("Error creating account: " + e.getMessage());
+        } catch (Exception e) {
+            session.println("Error occur when performing"
+                    + " cluster analysis: " + e.getMessage());
         }
 
         return this.getReferrer();

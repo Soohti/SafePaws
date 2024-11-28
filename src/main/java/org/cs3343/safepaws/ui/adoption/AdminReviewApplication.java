@@ -4,7 +4,6 @@ import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.handler.ReadApplicationHandler;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
 /**
@@ -51,7 +50,7 @@ public class AdminReviewApplication extends UI {
                 try {
                     int aid = Integer.parseInt(choice);
                     Application thisApplication = ReadApplicationHandler
-                            .getInstance().findConditionalApplication(aid);
+                            .getInstance().findApplicationByAid(aid);
                     if (thisApplication == null) {
                         ShowDetailApplication.show(session, aid);
                         Application.State appState = thisApplication.getState();

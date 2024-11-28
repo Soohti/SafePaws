@@ -27,7 +27,7 @@ public final class ShowDetailApplication {
      */
     public static void show(final Session session, final int aid) {
         Application application = ReadApplicationHandler.getInstance()
-                .findConditionalApplication(aid);
+                .findApplicationByAid(aid);
         Member m = application.getUser();
         Pet p = application.getPet();
         MemberProfile pf = m.getProfile();

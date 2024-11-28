@@ -7,15 +7,20 @@ import org.cs3343.safepaws.util.DbManager;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Map;
-import java.util.Objects;
 
 public final class LoginHandler {
-
+    /**
+     * The index for health status.
+     */
     private static LoginHandler instance;
 
     private LoginHandler() {
     }
-
+    /**
+     * Gets the single instance of the handler.
+     *
+     * @return the instance of LoginHandler
+     */
     public static LoginHandler getInstance() {
         if (instance == null) {
             instance = new LoginHandler();
