@@ -164,6 +164,9 @@ public final class DbManager {
                     entities.add(buildEntityFromResultSet(
                             entityType, resultSet));
                 }
+            } catch (SQLException e) {
+                System.out.println("executeQuery Error "
+                        + e.getMessage());
             }
         }
         return entities;
@@ -210,7 +213,7 @@ public final class DbManager {
             builderConstructor = builderClass.getDeclaredConstructor();
             builderConstructor.setAccessible(true);
             builderInstance = builderConstructor.newInstance();
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
             throw new Exception("Error initializing builder for "
                     + entityType.getName(), e);
         }

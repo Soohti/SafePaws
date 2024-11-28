@@ -39,14 +39,22 @@ public final class LoginHandler {
             final String inputUsername,
             final String inputPassword) {
         try {
-            Account thisAccount = (Account) DbManager
-                    .getInstance().readWithCondition(
-                    Account.class, "Account",
-                    Map.of("Username", inputUsername));
-            return BCrypt.checkpw(thisAccount.getPassword(), inputPassword);
+            try {
+                Account thisAccount = (DbManager
+                        .getInstance().readWithCondition(
+                                Account.class, "ACCOUNT",
+                                Map.of("Username", inputUsername))).getFirst();
+                if (thisAccount == null) {
+                    return false;
+                }
+                return BCrypt.checkpw(thisAccount.getPassword(), inputPassword);
+            } catch (NoSuchElementException ex) {
+                return false;
+            }
         } catch (Exception ex) {
-            System.out.println("Error during authenticating in: "
+            System.out.println("Error during authenticating in:"
                     + ex.getMessage());
+            ex.printStackTrace();
         }
         return false;
     }
@@ -60,7 +68,7 @@ public final class LoginHandler {
         try {
         Account thisAccount =  (DbManager
                 .getInstance().readWithCondition(
-                Account.class, "Account",
+                Account.class, "ACCOUNT",
                 Map.of("Username", inputUsername))).getFirst();
         MemberProfile memberProfile = null;
         if (thisAccount.getRole().equalsIgnoreCase("m")) {
@@ -95,7 +103,7 @@ public final class LoginHandler {
         try {
             Account account = (DbManager
                     .getInstance().readWithCondition(
-                    Account.class, "Account",
+                    Account.class, "ACCOUNT",
                     Map.of("Username", inputUsername))).getFirst();
         } catch (NoSuchElementException ex) {
             return false;
