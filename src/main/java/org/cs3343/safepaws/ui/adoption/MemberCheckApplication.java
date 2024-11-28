@@ -5,7 +5,6 @@ import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.handler.CheckMemberHandler;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
 import java.util.List;

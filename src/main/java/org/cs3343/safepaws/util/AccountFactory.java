@@ -8,7 +8,9 @@ import org.cs3343.safepaws.entity.MemberProfile;
 /**
  * Factory class for creating Account instances.
  */
-public class AccountFactory {
+public final class AccountFactory {
+    private AccountFactory() {
+    }
     /**
      * Creates an account based on the role.
      *

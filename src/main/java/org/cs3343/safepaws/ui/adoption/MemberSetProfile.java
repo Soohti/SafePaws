@@ -6,7 +6,6 @@ import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.handler.UpdateMemberProfileHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.AccountFactory;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
 /**

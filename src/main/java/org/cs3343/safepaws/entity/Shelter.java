@@ -32,6 +32,9 @@ public final class Shelter extends Account {
      * Builder class for constructing Shelter instances.
      */
     public static class Builder extends Account.Builder<Builder> {
+        /**
+         * the location point of Shelter.
+         */
         private LocationPoint locationPoint;
 
         /**

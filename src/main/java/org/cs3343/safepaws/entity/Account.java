@@ -73,6 +73,7 @@ public abstract class Account {
 
     /**
      * Builder class for constructing Account instances.
+     * @param <T> the subclass of Account
      */
     public abstract static class Builder<T extends Builder<T>> {
         /**
