@@ -5,10 +5,26 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Annotation to indicate a one-to-one relationship between entities.
+ * This annotation should be applied to fields that represent the foreign key
+ * in the relationship.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface OneToOne {
+    /**
+     * The name of the column that holds the foreign key.
+     *
+     * @return the column name
+     */
     String columnName();
+
+    /**
+     * The name of the table that the foreign key references.
+     *
+     * @return the table name
+     */
     String tableName();
 }
 /*

@@ -3,7 +3,6 @@ package org.cs3343.safepaws.algorithm;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.handler.ReadPetHandler;
-import org.cs3343.safepaws.util.DbManager;
 
 import java.util.ArrayList;
 import java.util.List;

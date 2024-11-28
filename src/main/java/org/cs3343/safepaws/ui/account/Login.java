@@ -7,7 +7,6 @@ import org.cs3343.safepaws.handler.LoginHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.menu.AdminMenu;
 import org.cs3343.safepaws.ui.menu.MemberMenu;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 
 /**
