@@ -150,19 +150,20 @@ public class MemberSetProfile extends UI {
         }
         Account account = session.getAccount();
 
-        MemberProfile profile = new MemberProfile.Builder()
-                .setId(account.getId())
-                .setPreferredSpecies(preferredSpecies)
-                .setPreferredBreed(preferredBreed)
-                .setGender(gender)
-                .setExtroversionLevel(intExtroversionLevel)
-                .setDailyActivityLevel(intDailyActivityLevel)
-                .setHouseSize(intHouseSize)
-                .setWorkHours(intWorkHours)
-                .setNumberOfFamilyMembers(intNumberOfFamilyMembers)
-                .setPreviousPetExperience(intPreviousPetExperience)
-                .setFinancialBudget(intFinancialBudget)
-                .build();
+        MemberProfile profile = new MemberProfile(
+                account.getId(),
+                preferredSpecies,
+                preferredBreed,
+                gender,
+                intFinancialBudget
+        );
+        profile.setExtroversionLevel(intExtroversionLevel);
+        profile.setDailyActivityLevel(intDailyActivityLevel);
+        profile.setHouseSize(intHouseSize);
+        profile.setWorkHours(intWorkHours);
+        profile.setNumberOfFamilyMembers(intNumberOfFamilyMembers);
+        profile.setPreviousPetExperience(intPreviousPetExperience);
+
         session.setAccount(AccountFactory.createAccount(
                 account.getId(), account.getUsername(),
                 account.getPassword(), account.getRole(),

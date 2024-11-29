@@ -1,8 +1,13 @@
 package org.cs3343.safepaws.entity;
+
 /**
  * Represents a member profile with various attributes.
+ * <p>
+ * This class stores information about a member's personal details, preferences, and pet-related attributes.
+ * </p>
  */
 public final class MemberProfile {
+
     /**
      * The id of the member.
      */
@@ -59,28 +64,72 @@ public final class MemberProfile {
     private String gender;
 
     /**
-     * Constructs a new MemberProfile using the Builder.
+     * Constructs a MemberProfile with essential information
+     * (id, species, breed, gender).
      *
-     * @param builder the builder to construct the MemberProfile
+     * @param newId the id of the member
+     * @param newPreferredSpecies the preferred species of the member
+     * @param newPreferredBreed the preferred breed of the member
+     * @param newGender the gender of the member
+     * @param newFinancialBudget the financial budge for pet of the member
      */
-    private MemberProfile(final Builder builder) {
-        this.id = builder.id;
-        this.extroversionLevel = builder.extroversionLevel;
-        this.dailyActivityLevel = builder.dailyActivityLevel;
-        this.houseSize = builder.houseSize;
-        this.workHours = builder.workHours;
-        this.numberOfFamilyMembers = builder.numberOfFamilyMembers;
-        this.previousPetExperience = builder.previousPetExperience;
-        this.financialBudget = builder.financialBudget;
-        this.preferredSpecies = builder.preferredSpecies;
-        this.preferredBreed = builder.preferredBreed;
-        this.gender = builder.gender;
+    public MemberProfile(
+            final int newId,
+            final String newPreferredSpecies,
+            final String newPreferredBreed,
+            final String newGender,
+            final int newFinancialBudget) {
+        this.id = newId;
+        this.extroversionLevel = 0; // default value
+        this.dailyActivityLevel = 0; // default value
+        this.houseSize = 0; // default value
+        this.workHours = 0; // default value
+        this.numberOfFamilyMembers = 0; // default value
+        this.previousPetExperience = 0; // default value
+        this.financialBudget = newFinancialBudget; // default value
+        this.preferredSpecies = newPreferredSpecies;
+        this.preferredBreed = newPreferredBreed;
+        this.gender = newGender;
+    }
+
+    /**
+     * Constructs a MemberProfile with additional information (extroversion
+     * level, activity level, etc.).
+     *
+     * @param newId the id of the member
+     * @param newExtroversionLevel the extroversion level of the member
+     * @param newDailyActivityLevel the daily activity level of the member
+     * @param newHouseSize the house size of the member
+     * @param newWorkHours the work hours of the member
+     * @param newNumberOfFamilyMembers the number of family members
+     * @param newPreviousPetExperience the previous pet experience of the member
+     */
+    public MemberProfile(
+            final int newId,
+            final int newExtroversionLevel,
+            final int newDailyActivityLevel,
+            final int newHouseSize,
+            final int newWorkHours,
+            final int newNumberOfFamilyMembers,
+            final int newPreviousPetExperience
+            ) {
+        this.id = newId;
+        this.extroversionLevel = newExtroversionLevel;
+        this.dailyActivityLevel = newDailyActivityLevel;
+        this.houseSize = newHouseSize;
+        this.workHours = newWorkHours;
+        this.numberOfFamilyMembers = newNumberOfFamilyMembers;
+        this.previousPetExperience = newPreviousPetExperience;
+        this.financialBudget = 0;
+        this.preferredSpecies = ""; // default value
+        this.preferredBreed = ""; // default value
+        this.gender = ""; // default value
     }
 
     /**
      * Gets the id of the member.
      *
-     * @return the id
+     * @return the id of the member
      */
     public int getId() {
         return id;
@@ -89,7 +138,7 @@ public final class MemberProfile {
     /**
      * Gets the extroversion level of the member.
      *
-     * @return the extroversion level
+     * @return the extroversion level of the member
      */
     public int getExtroversionLevel() {
         return extroversionLevel;
@@ -98,7 +147,7 @@ public final class MemberProfile {
     /**
      * Gets the daily activity level of the member.
      *
-     * @return the daily activity level
+     * @return the daily activity level of the member
      */
     public int getDailyActivityLevel() {
         return dailyActivityLevel;
@@ -107,7 +156,7 @@ public final class MemberProfile {
     /**
      * Gets the house size of the member.
      *
-     * @return the house size
+     * @return the house size of the member
      */
     public int getHouseSize() {
         return houseSize;
@@ -116,7 +165,7 @@ public final class MemberProfile {
     /**
      * Gets the work hours of the member.
      *
-     * @return the work hours
+     * @return the work hours of the member
      */
     public int getWorkHours() {
         return workHours;
@@ -134,7 +183,7 @@ public final class MemberProfile {
     /**
      * Gets the previous pet experience of the member.
      *
-     * @return the previous pet experience
+     * @return the previous pet experience of the member
      */
     public int getPreviousPetExperience() {
         return previousPetExperience;
@@ -143,7 +192,7 @@ public final class MemberProfile {
     /**
      * Gets the financial budget of the member.
      *
-     * @return the financial budget
+     * @return the financial budget of the member
      */
     public int getFinancialBudget() {
         return financialBudget;
@@ -152,7 +201,7 @@ public final class MemberProfile {
     /**
      * Gets the preferred species of the member.
      *
-     * @return the preferred species
+     * @return the preferred species of the member
      */
     public String getPreferredSpecies() {
         return preferredSpecies;
@@ -161,7 +210,7 @@ public final class MemberProfile {
     /**
      * Gets the preferred breed of the member.
      *
-     * @return the preferred breed
+     * @return the preferred breed of the member
      */
     public String getPreferredBreed() {
         return preferredBreed;
@@ -170,201 +219,108 @@ public final class MemberProfile {
     /**
      * Gets the gender of the member.
      *
-     * @return the gender
+     * @return the gender of the member
      */
     public String getGender() {
         return gender;
     }
 
     /**
-     * Builder class for constructing MemberProfile instances.
+     * Sets the ID of the member.
+     *
+     * @param newId the new ID to set
      */
-    public static class Builder {
-        /**
-         * The id of the member.
-         */
-        private int id;
+    public void setId(final int newId) {
+        this.id = newId;
+    }
 
-        /**
-         * The extroversion level of the member.
-         */
-        private int extroversionLevel;
+    /**
+     * Sets the extroversion level of the member.
+     *
+     * @param newExtroversionLevel the new extroversion level to set
+     */
+    public void setExtroversionLevel(final int newExtroversionLevel) {
+        this.extroversionLevel = newExtroversionLevel;
+    }
 
-        /**
-         * The daily activity level of the member.
-         */
-        private int dailyActivityLevel;
+    /**
+     * Sets the daily activity level of the member.
+     *
+     * @param newDailyActivityLevel the new daily activity level to set
+     */
+    public void setDailyActivityLevel(final int newDailyActivityLevel) {
+        this.dailyActivityLevel = newDailyActivityLevel;
+    }
 
-        /**
-         * The house size of the member.
-         */
-        private int houseSize;
+    /**
+     * Sets the house size of the member.
+     *
+     * @param newHouseSize the new house size to set
+     */
+    public void setHouseSize(final int newHouseSize) {
+        this.houseSize = newHouseSize;
+    }
 
-        /**
-         * The work hours of the member.
-         */
-        private int workHours;
+    /**
+     * Sets the work hours of the member.
+     *
+     * @param newWorkHours the new work hours to set
+     */
+    public void setWorkHours(final int newWorkHours) {
+        this.workHours = newWorkHours;
+    }
 
-        /**
-         * The number of family members.
-         */
-        private int numberOfFamilyMembers;
+    /**
+     * Sets the number of family members.
+     *
+     * @param newNumberOfFamilyMembers the new number of family members to set
+     */
+    public void setNumberOfFamilyMembers(final int newNumberOfFamilyMembers) {
+        this.numberOfFamilyMembers = newNumberOfFamilyMembers;
+    }
 
-        /**
-         * The previous pet experience of the member.
-         */
-        private int previousPetExperience;
+    /**
+     * Sets the previous pet experience of the member.
+     *
+     * @param newPreviousPetExperience the new previous pet experience to set
+     */
+    public void setPreviousPetExperience(final int newPreviousPetExperience) {
+        this.previousPetExperience = newPreviousPetExperience;
+    }
 
-        /**
-         * The financial budget of the member.
-         */
-        private int financialBudget;
+    /**
+     * Sets the financial budget of the member.
+     *
+     * @param newFinancialBudget the new financial budget to set
+     */
+    public void setFinancialBudget(final int newFinancialBudget) {
+        this.financialBudget = newFinancialBudget;
+    }
 
-        /**
-         * The preferred species of the member.
-         */
-        private String preferredSpecies;
+    /**
+     * Sets the preferred species of the member.
+     *
+     * @param newPreferredSpecies the new preferred species to set
+     */
+    public void setPreferredSpecies(final String newPreferredSpecies) {
+        this.preferredSpecies = newPreferredSpecies;
+    }
 
-        /**
-         * The preferred breed of the member.
-         */
-        private String preferredBreed;
+    /**
+     * Sets the preferred breed of the member.
+     *
+     * @param newPreferredBreed the new preferred breed to set
+     */
+    public void setPreferredBreed(final String newPreferredBreed) {
+        this.preferredBreed = newPreferredBreed;
+    }
 
-        /**
-         * The gender of the member.
-         */
-        private String gender;
-
-        /**
-         * Sets the id of the member.
-         *
-         * @param newId the id
-         * @return the builder
-         */
-        public Builder setId(final int newId) {
-            this.id = newId;
-            return this;
-        }
-
-        /**
-         * Sets the extroversion level of the member.
-         *
-         * @param newExtroversionLevel the extroversion level
-         * @return the builder
-         */
-        public Builder setExtroversionLevel(final int newExtroversionLevel) {
-            this.extroversionLevel = newExtroversionLevel;
-            return this;
-        }
-
-        /**
-         * Sets the daily activity level of the member.
-         *
-         * @param newDailyActivityLevel the daily activity level
-         * @return the builder
-         */
-        public Builder setDailyActivityLevel(final int newDailyActivityLevel) {
-            this.dailyActivityLevel = newDailyActivityLevel;
-            return this;
-        }
-
-        /**
-         * Sets the house size of the member.
-         *
-         * @param newHouseSize the house size
-         * @return the builder
-         */
-        public Builder setHouseSize(final int newHouseSize) {
-            this.houseSize = newHouseSize;
-            return this;
-        }
-
-        /**
-         * Sets the work hours of the member.
-         *
-         * @param newWorkHours the work hours
-         * @return the builder
-         */
-        public Builder setWorkHours(final int newWorkHours) {
-            this.workHours = newWorkHours;
-            return this;
-        }
-
-        /**
-         * Sets the number of family members.
-         *
-         * @param newNumberOfFamilyMembers the number of family members
-         * @return the builder
-         */
-        public Builder setNumberOfFamilyMembers(
-                final int newNumberOfFamilyMembers) {
-            this.numberOfFamilyMembers = newNumberOfFamilyMembers;
-            return this;
-        }
-
-        /**
-         * Sets the previous pet experience of the member.
-         *
-         * @param newPreviousPetExperience the previous pet experience
-         * @return the builder
-         */
-        public Builder setPreviousPetExperience(
-                final int newPreviousPetExperience) {
-            this.previousPetExperience = newPreviousPetExperience;
-            return this;
-        }
-
-        /**
-         * Sets the financial budget of the member.
-         *
-         * @param newFinancialBudget the financial budget
-         * @return the builder
-         */
-        public Builder setFinancialBudget(final int newFinancialBudget) {
-            this.financialBudget = newFinancialBudget;
-            return this;
-        }
-
-        /**
-         * Sets the preferred species of the member.
-         *
-         * @param newPreferredSpecies the preferred species
-         * @return the builder
-         */
-        public Builder setPreferredSpecies(final String newPreferredSpecies) {
-            this.preferredSpecies = newPreferredSpecies;
-            return this;
-        }
-
-        /**
-         * Sets the preferred breed of the member.
-         *
-         * @param newPreferredBreed the preferred breed
-         * @return the builder
-         */
-        public Builder setPreferredBreed(final String newPreferredBreed) {
-            this.preferredBreed = newPreferredBreed;
-            return this;
-        }
-
-        /**
-         * Sets the gender of the member.
-         *
-         * @param newGender the gender
-         * @return the builder
-         */
-        public Builder setGender(final String newGender) {
-            this.gender = newGender;
-            return this;
-        }
-
-        /**
-         * Builds and returns a MemberProfile instance.
-         *
-         * @return the member profile
-         */
-        public MemberProfile build() {
-            return new MemberProfile(this);
-        }
+    /**
+     * Sets the gender of the member.
+     *
+     * @param newGender the new gender to set
+     */
+    public void setGender(final String newGender) {
+        this.gender = newGender;
     }
 }

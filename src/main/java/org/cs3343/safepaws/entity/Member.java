@@ -3,74 +3,46 @@ package org.cs3343.safepaws.entity;
 import org.cs3343.safepaws.util.OneToOne;
 
 /**
- * Represents a member in the SafePaws system.
+ * Represents a member account in the SafePaws system.
+ * <p>
+ * The Member class inherits from the Account class and includes additional
+ * functionality specific to member users, such as their profile.
+ * </p>
  */
-public final class Member extends Account {
+public class Member extends Account {
 
-    /**
-     * The profile of the member.
-     */
     @OneToOne(columnName = "Id", tableName = "MEMBER_PROFILE")
     private MemberProfile profile;
 
     /**
-     * Constructs a new Member using the builder.
+     * Constructs a new Member account with the given parameters.
      *
-     * @param builder the builder to construct the member
+     * @param newId       the unique identifier of the member account
+     * @param newUsername the username for the member account
+     * @param newPassword the password for the member account
+     * @param newRole     the role of the account, typically "member"
+     * @param newProfile  the profile associated with the member
      */
-    private Member(final Builder builder) {
-        super(builder);
-        this.profile = builder.profile;
+    public Member(final int newId, final String newUsername, final String newPassword, final String newRole, final MemberProfile newProfile) {
+        super(newId, newUsername, newPassword, newRole);
+        this.profile = newProfile;
     }
 
     /**
      * Gets the profile of the member.
      *
-     * @return the profile of the member
+     * @return the member's profile
      */
     public MemberProfile getProfile() {
         return profile;
     }
 
     /**
-     * Builder class for constructing Member instances.
+     * Sets the profile of the member.
+     *
+     * @param newProfile the new profile to set for the member
      */
-    public static class Builder extends Account.Builder<Builder> {
-        /**
-         * The profile of the member.
-         */
-        @OneToOne(columnName = "Id", tableName = "MEMBER_PROFILE")
-        private MemberProfile profile;
-
-        /**
-         * Sets the profile of the member.
-         *
-         * @param newProfile the profile
-         * @return the builder
-         */
-        public Builder setProfile(final MemberProfile newProfile) {
-            this.profile = newProfile;
-            return this;
-        }
-
-        /**
-         * Returns the builder instance.
-         *
-         * @return the builder instance
-         */
-        @Override
-        protected Builder self() {
-            return this;
-        }
-
-        /**
-         * Builds and returns an Admin instance.
-         *
-         * @return the admin
-         */
-        @Override
-        public Member build() {
-            return new Member(this);
-        }
+    public void setProfile(final MemberProfile newProfile) {
+        this.profile = newProfile;
     }
 }

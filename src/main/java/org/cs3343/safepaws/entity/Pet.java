@@ -2,9 +2,7 @@ package org.cs3343.safepaws.entity;
 
 /**
  * Represents a pet with various attributes such as name,
- * species, breed, age,
- * weight, gender, activity level,
- * and health status.
+ * species, breed, age, weight, gender, activity level, and health status.
  */
 public final class Pet {
     /**
@@ -68,239 +66,109 @@ public final class Pet {
     private final int state;
 
     /**
-     * Private constructor, accessible only by the Builder.
+     * Constructs a new {@code Pet} entity with identity
+     * and descriptive attributes.
      *
-     * @param builder the Builder instance
+     * @param newId      the ID of the pet
+     * @param newName    the name of the pet
+     * @param newSpecies the species of the pet
+     * @param newBreed   the breed of the pet
+     * @param newGender  the gender of the pet
      */
-    private Pet(final Builder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
-        this.species = builder.species;
-        this.breed = builder.breed;
-        this.gender = builder.gender;
-        this.age = builder.age;
-        this.weight = builder.weight;
-        this.activityLevel = builder.activityLevel;
-        this.healthStatus = builder.healthStatus;
-        this.state = builder.state;
+    public Pet(final int newId,
+               final String newName,
+               final String newSpecies,
+               final String newBreed,
+               final String newGender) {
+        this.id = newId;
+        this.name = newName;
+        this.species = newSpecies;
+        this.breed = newBreed;
+        this.gender = newGender;
+        this.age = 0; // Default value for age
+        this.weight = 0; // Default value for weight
+        this.activityLevel = 0; // Default value for activity level
+        this.healthStatus = INDEX_HEALTH; // Default value for health status
+        this.state = 0; // Default value for state
     }
 
     /**
-     * Builder class for constructing Pet instances.
+     * Constructs a new {@code Pet} entity with physical and
+     * behavioral attributes.
+     *
+     * @param newId            the ID of the pet
+     * @param newAge           the age of the pet
+     * @param newWeight        the weight of the pet
+     * @param newActivityLevel the activity level of the pet
+     * @param newHealthStatus  the health status of the pet
+     * @param newState         the adoption state of the pet
      */
-    public static class Builder {
-        /**
-         * The unique identifier for the animal.
-         */
-        private int id;
-
-        /**
-         * The name of the animal.
-         */
-        private String name;
-
-        /**
-         * The species of the animal (e.g., Dog, Cat, Bird).
-         */
-        private String species;
-
-        /**
-         * The breed of the animal (e.g., Labrador, Siamese, Budgie).
-         */
-        private String breed;
-
-        /**
-         * The gender of the animal (e.g., Male, Female).
-         */
-        private String gender;
-
-        /**
-         * The age of the animal in years.
-         */
-        private int age;
-
-        /**
-         * The weight of the animal in pounds or kilograms.
-         */
-        private int weight;
-
-        /**
-         * The activity level of the animal, represented as an integer.
-         * Higher values indicate a more active animal.
-         */
-        private int activityLevel;
-
-        /**
-         * The health status of the animal, represented as an integer.
-         * Higher values indicate better health.
-         */
-        private int healthStatus;
-
-        /**
-         * The current state of the animal (e.g., available, adopted, reserved).
-         * Represented as an integer where each value corresponds
-         * to a specific state.
-         */
-        private int state;
-
-        /**
-         * Sets the ID of the pet.
-         *
-         * @param newId the ID to set
-         * @return this {@code Builder} object
-         */
-        public Builder setId(final int newId) {
-            this.id = newId;
-            return this;
-        }
-
-        /**
-         * Sets the name of the pet.
-         *
-         * @param newName the name to set
-         * @return this {@code Builder} object
-         */
-        public Builder setName(final String newName) {
-            this.name = newName;
-            return this;
-        }
-
-        /**
-         * Sets the species of the pet.
-         *
-         * @param newSpecies the species to set
-         * @return this {@code Builder} object
-         */
-        public Builder setSpecies(final String newSpecies) {
-            this.species = newSpecies;
-            return this;
-        }
-
-        /**
-         * Sets the breed of the pet.
-         *
-         * @param newBreed the breed to set
-         * @return this {@code Builder} object
-         */
-        public Builder setBreed(final String newBreed) {
-            this.breed = newBreed;
-            return this;
-        }
-
-        /**
-         * Sets the gender of the pet.
-         *
-         * @param newGender the gender to set
-         * @return this {@code Builder} object
-         */
-        public Builder setGender(final String newGender) {
-            this.gender = newGender;
-            return this;
-        }
-
-        /**
-         * Sets the age of the pet.
-         *
-         * @param newAge the age to set
-         * @return this {@code Builder} object
-         */
-        public Builder setAge(final int newAge) {
-            this.age = newAge;
-            return this;
-        }
-
-        /**
-         * Sets the weight of the pet.
-         *
-         * @param newWeight the weight to set
-         * @return this {@code Builder} object
-         */
-        public Builder setWeight(final int newWeight) {
-            this.weight = newWeight;
-            return this;
-        }
-
-        /**
-         * Sets the activity level of the pet.
-         *
-         * @param newActivityLevel the activity level to set
-         * @return this {@code Builder} object
-         */
-        public Builder setActivityLevel(final int newActivityLevel) {
-            this.activityLevel = newActivityLevel;
-            return this;
-        }
-
-        /**
-         * Sets the health status of the pet.
-         *
-         * @param newHealthStatus the health status to set
-         * @return this {@code Builder} object
-         */
-        public Builder setHealthStatus(final int newHealthStatus) {
-            this.healthStatus = newHealthStatus;
-            return this;
-        }
-
-        /**
-         * Sets the state of the pet.
-         *
-         * @param newState the state to set
-         * @return this {@code Builder} object
-         */
-        public Builder setState(final int newState) {
-            this.state = newState;
-            return this;
-        }
-
-        /**
-         * Builds a new {@link Pet} instance with the attributes
-         * set in this builder.
-         * @return a new {@link Pet} instance
-         */
-        public Pet build() {
-            return new Pet(this);
-        }
+    public Pet(final int newId,
+               final int newAge,
+               final int newWeight,
+               final int newActivityLevel,
+               final int newHealthStatus,
+               final int newState) {
+        this.id = newId;
+        this.name = ""; // Default value for name
+        this.species = ""; // Default value for species
+        this.breed = ""; // Default value for breed
+        this.gender = ""; // Default value for gender
+        this.age = newAge;
+        this.weight = newWeight;
+        this.activityLevel = newActivityLevel;
+        this.healthStatus = newHealthStatus;
+        this.state = newState;
     }
 
     /**
      * Validates the name of the pet.
      *
-     * @param name the name to validate
+     * @param newName the name to validate
      * @return true if the name is valid, false otherwise
      */
-    public static boolean isValidName(final String name) {
-        return name.length() <= MAX_LEN;
+    public static boolean isValidName(final String newName) {
+        return newName.length() <= MAX_LEN;
     }
 
     /**
      * Validates the species of the pet.
      *
-     * @param species the species to validate
+     * @param newSpecies the species to validate
      * @return true if the species is valid, false otherwise
      */
-    public static boolean isValidSpecies(final String species) {
-        return species.length() <= MAX_LEN;
+    public static boolean isValidSpecies(final String newSpecies) {
+        return newSpecies.length() <= MAX_LEN;
     }
 
     /**
      * Validates the breed of the pet.
      *
-     * @param breed the breed to validate
+     * @param newBreed the breed to validate
      * @return true if the breed is valid, false otherwise
      */
-    public static boolean isValidBreed(final String breed) {
-        return breed.length() <= MAX_LEN;
+    public static boolean isValidBreed(final String newBreed) {
+        return newBreed.length() <= MAX_LEN;
     }
 
     /**
      * Validates the gender of the pet.
      *
-     * @param gender the gender to validate
+     * @param newGender the gender to validate
      * @return true if the gender is valid, false otherwise
      */
-    public static boolean isValidGender(final String gender) {
-        return "m".equals(gender) || "f".equals(gender);
+    public static boolean isValidGender(final String newGender) {
+        return "m".equalsIgnoreCase(newGender)
+                || "f".equalsIgnoreCase(newGender);
+    }
+
+    /**
+     * Gets the ID of the pet.
+     *
+     * @return the ID of the pet
+     */
+    public int getId() {
+        return id;
     }
 
     /**
@@ -382,14 +250,5 @@ public final class Pet {
      */
     public int getState() {
         return state;
-    }
-
-    /**
-     * Gets the ID of the pet.
-     *
-     * @return the ID of the pet
-     */
-    public int getId() {
-        return id;
     }
 }

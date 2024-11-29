@@ -64,19 +64,13 @@ public final class CreateAccountHandler {
                 Map.of("Username", username)
         )).getFirst();
         if (role.equalsIgnoreCase("m")) {
-            MemberProfile memberProfile = new MemberProfile.Builder()
-                    .setId(thisAccount.getId())
-                    .setPreferredSpecies("Dog")
-                    .setPreferredBreed("Dog")
-                    .setGender("m")
-                    .setExtroversionLevel(0)
-                    .setDailyActivityLevel(0)
-                    .setHouseSize(0)
-                    .setWorkHours(0)
-                    .setNumberOfFamilyMembers(0)
-                    .setPreviousPetExperience(0)
-                    .setFinancialBudget(0)
-                    .build();
+            MemberProfile memberProfile = new MemberProfile(
+                    thisAccount.getId(),
+                    "Dog",
+                    "Dog",
+                    "m",
+                    0
+                    );
             createMemberProfile(memberProfile);
         }
         System.out.println("Account inserted successfully");

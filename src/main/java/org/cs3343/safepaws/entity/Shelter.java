@@ -10,13 +10,21 @@ public final class Shelter extends Account {
     private final LocationPoint locationPoint;
 
     /**
-     * Constructs a new Shelter using the builder.
+     * Constructs a new Shelter with the specified parameters.
      *
-     * @param builder the builder to construct the shelter
+     * @param newId            the id of the shelter
+     * @param newUsername      the username of the shelter
+     * @param newPassword      the password of the shelter
+     * @param newRole          the role of the shelter
+     * @param newLocationPoint the location point of the shelter
      */
-    private Shelter(final Builder builder) {
-        super(builder);
-        this.locationPoint = builder.locationPoint;
+    public Shelter(final int newId,
+                   final String newUsername,
+                   final String newPassword,
+                   final String newRole,
+                   final LocationPoint newLocationPoint) {
+        super(newId, newUsername, newPassword, newRole);
+        this.locationPoint = newLocationPoint;
     }
 
     /**
@@ -26,45 +34,5 @@ public final class Shelter extends Account {
      */
     public LocationPoint getLocationPoint() {
         return locationPoint;
-    }
-
-    /**
-     * Builder class for constructing Shelter instances.
-     */
-    public static class Builder extends Account.Builder<Builder> {
-        /**
-         * the location point of Shelter.
-         */
-        private LocationPoint locationPoint;
-
-        /**
-         * Sets the location point of the shelter.
-         *
-         * @param newLocationPoint the location point
-         * @return the builder
-         */
-        public Builder setLocationPoint(final LocationPoint newLocationPoint) {
-            this.locationPoint = newLocationPoint;
-            return this;
-        }
-        /**
-         * Returns the builder instance.
-         *
-         * @return the builder instance
-         */
-        @Override
-        protected Shelter.Builder self() {
-            return this;
-        }
-
-        /**
-         * Builds and returns an Admin instance.
-         *
-         * @return the admin
-         */
-        @Override
-        public Shelter build() {
-            return new Shelter(this);
-        }
     }
 }

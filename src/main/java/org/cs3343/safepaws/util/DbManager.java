@@ -116,8 +116,7 @@ public final class DbManager {
                             final int idValue) throws Exception {
         String sqlCommand = "SELECT * FROM " + tableName + " WHERE ID = ?;";
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection
-                     .prepareStatement(sqlCommand)) {
+             PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
             statement.setInt(1, idValue);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -205,48 +204,33 @@ public final class DbManager {
     private <T> T buildEntityFromResultSet(final Class<T> entityType,
                                            final ResultSet resultSet)
             throws Exception {
-        Class<?> builderClass;
-        Constructor<?> builderConstructor;
-        Object builderInstance;
+        Constructor<T> constructor;
+        T entityInstance;
         try {
-            builderClass = Class.forName(entityType.getName() + "$Builder");
-            builderConstructor = builderClass.getDeclaredConstructor();
-            builderConstructor.setAccessible(true);
-            builderInstance = builderConstructor.newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new Exception("Error initializing builder for "
+            constructor = entityType.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            entityInstance = constructor.newInstance();
+        } catch (Exception e) {
+            throw new Exception("Error initializing entity instance for "
                     + entityType.getName(), e);
         }
-
         for (Field field : entityType.getDeclaredFields()) {
             field.setAccessible(true);
-            Method setter = getSetterMethod(builderClass, field);
-            if (setter == null) {
-                continue;
-            }
+
             try {
                 if (field.isAnnotationPresent(OneToOne.class)) {
-                        handleOneToOneField(field, resultSet,
-                                builderInstance, setter);
+                    handleOneToOneField(field, resultSet, entityInstance);
                 } else if (field.getType().isEnum()) {
-                    handleEnumField(field, resultSet, builderInstance, setter);
+                    handleEnumField(field, resultSet, entityInstance);
                 } else {
-                    handleRegularField(field, resultSet,
-                            builderInstance, setter);
+                    handleRegularField(field, resultSet, entityInstance);
                 }
             } catch (Exception e) {
                 System.err.println("Error setting field "
                         + field.getName() + ": " + e.getMessage());
             }
         }
-
-        try {
-            Method buildMethod = builderClass.getMethod("build");
-            return (T) buildMethod.invoke(builderInstance);
-        } catch (Exception e) {
-            throw new Exception("Error building entity for "
-                    + entityType.getName(), e);
-        }
+        return entityInstance;
     }
     /**
      * Gets the setter method for the specified field.
@@ -272,22 +256,20 @@ public final class DbManager {
      *
      * @param field the field to handle
      * @param resultSet the result set containing the field data
-     * @param builderInstance the builder instance
-     * @param setter the setter method for the field
+     * @param entityInstance the object instance
      * @throws Exception if any database or reflection error occurs
      */
     private void handleOneToOneField(final Field field,
                                      final ResultSet resultSet,
-                                     final Object builderInstance,
-                                     final Method setter) throws Exception {
+                                     final Object entityInstance)
+            throws Exception {
         OneToOne oneToOne = field.getAnnotation(OneToOne.class);
         Integer foreignKeyId = resultSet.getInt(oneToOne.columnName());
         if (resultSet.wasNull()) {
-            setter.invoke(builderInstance, (Object) null);
+            field.set(entityInstance, null);
         } else {
-            Object relatedEntity = readWithID(field.getType(),
-                    oneToOne.tableName(), foreignKeyId);
-            setter.invoke(builderInstance, relatedEntity);
+            Object relatedEntity = readWithID(field.getType(), oneToOne.tableName(), foreignKeyId);
+            field.set(entityInstance, relatedEntity);
         }
     }
     /**
@@ -295,21 +277,20 @@ public final class DbManager {
      *
      * @param field the field to handle
      * @param resultSet the result set containing the field data
-     * @param builderInstance the builder instance
-     * @param setter the setter method for the field
+     * @param entityInstance the object instance
      * @throws Exception if any reflection error occurs
      */
     private void handleEnumField(final Field field,
                                  final ResultSet resultSet,
-                                 final Object builderInstance,
-                                 final Method setter) throws Exception {
+                                 final Object entityInstance)
+            throws Exception {
         int ordinal = resultSet.getInt(field.getName());
         if (resultSet.wasNull()) {
-            setter.invoke(builderInstance, (Object) null);
+            field.set(entityInstance, null);
         } else {
             Enum<?> enumValue = (Enum<?>) field.getType()
                     .getEnumConstants()[ordinal];
-            setter.invoke(builderInstance, enumValue);
+            field.set(entityInstance, enumValue);
         }
     }
     /**
@@ -317,19 +298,18 @@ public final class DbManager {
      *
      * @param field the field to handle
      * @param resultSet the result set containing the field data
-     * @param builderInstance the builder instance
-     * @param setter the setter method for the field
+     * @param entityInstance the object instance
      * @throws Exception if any reflection error occurs
      */
     private void handleRegularField(final Field field,
                                     final ResultSet resultSet,
-                                    final Object builderInstance,
-                                    final Method setter) throws Exception {
+                                    final Object entityInstance)
+            throws Exception {
         Object value = resultSet.getObject(field.getName());
         if (resultSet.wasNull()) {
             value = null;
         }
-        setter.invoke(builderInstance, value);
+        field.set(entityInstance, value);
     }
     /**
      * Updates records in the specified table based on the given conditions.
