@@ -167,7 +167,7 @@ public class MemberSetProfile extends UI {
         session.setAccount(AccountFactory.createAccount(
                 account.getId(), account.getUsername(),
                 account.getPassword(), account.getRole(),
-                profile));
+                profile, null));
         try {
             UpdateMemberProfileHandler.getInstance()
                     .updateMemberProfile(profile);

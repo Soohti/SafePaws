@@ -269,7 +269,8 @@ public final class DbManager {
         if (resultSet.wasNull()) {
             field.set(entityInstance, null);
         } else {
-            Object relatedEntity = readWithID(field.getType(), oneToOne.tableName(), foreignKeyId);
+            Object relatedEntity = readWithID(field.getType(),
+                    oneToOne.tableName(), foreignKeyId);
             field.set(entityInstance, relatedEntity);
         }
     }
