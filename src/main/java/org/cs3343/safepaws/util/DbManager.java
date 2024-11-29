@@ -116,7 +116,8 @@ public final class DbManager {
                             final int idValue) throws Exception {
         String sqlCommand = "SELECT * FROM " + tableName + " WHERE ID = ?;";
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
+             PreparedStatement statement = connection
+                     .prepareStatement(sqlCommand)) {
             statement.setInt(1, idValue);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {

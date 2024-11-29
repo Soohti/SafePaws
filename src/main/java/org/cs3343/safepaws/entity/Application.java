@@ -41,7 +41,8 @@ public class Application {
      * @param newPet     the pet
      * @param newState   the state
      */
-    public Application(final Member newAccount, final Pet newPet, final State newState) {
+    public Application(final Member newAccount, final Pet newPet,
+                       final State newState) {
         this.user = newAccount;
         this.pet = newPet;
         this.state = newState;

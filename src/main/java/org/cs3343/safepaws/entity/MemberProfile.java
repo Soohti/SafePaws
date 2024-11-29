@@ -3,7 +3,8 @@ package org.cs3343.safepaws.entity;
 /**
  * Represents a member profile with various attributes.
  * <p>
- * This class stores information about a member's personal details, preferences, and pet-related attributes.
+ * This class stores information about a member's personal details,
+ * preferences, and pet-related attributes.
  * </p>
  */
 public final class MemberProfile {

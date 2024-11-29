@@ -9,10 +9,44 @@ package org.cs3343.safepaws.entity;
  */
 public class Account {
 
+    /**
+     * The unique identifier for a user.
+     * <p>
+     * This field represents the primary key for identifying a user
+     * in the system.
+     * </p>
+     */
     private int id;
+
+    /**
+     * The username of the user.
+     * <p>
+     * This field stores the unique username chosen by the user for
+     * authentication and identification purposes.
+     * </p>
+     */
     private String username;
+
+    /**
+     * The password of the user.
+     * <p>
+     * This field stores the user's password in a secure format for
+     * authentication purposes. It is recommended to use a hashed
+     * representation for security.
+     * </p>
+     */
     private String password;
+
+    /**
+     * The role of the user.
+     * <p>
+     * This field indicates the user's role in the system, such as
+     * "admin," "user," or other predefined roles. The role is used
+     * to determine the user's access permissions.
+     * </p>
+     */
     private String role;
+
 
     /**
      * Constructs a new Account with the given parameters.
@@ -22,7 +56,8 @@ public class Account {
      * @param newPassword the password for the account
      * @param newRole     the role of the account (e.g., "admin", "user")
      */
-    public Account(final int newId, final String newUsername, final String newPassword, final String newRole) {
+    public Account(final int newId, final String newUsername,
+                   final String newPassword, final String newRole) {
         this.id = newId;
         this.username = newUsername;
         this.password = newPassword;
@@ -36,7 +71,8 @@ public class Account {
      * @param newPassword the password for the account
      * @param newRole     the role of the account (e.g., "admin", "user")
      */
-    public Account(final String newUsername, final String newPassword, final String newRole) {
+    public Account(final String newUsername, final String newPassword,
+                   final String newRole) {
         this.id = -1; //default value
         this.username = newUsername;
         this.password = newPassword;
