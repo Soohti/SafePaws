@@ -25,23 +25,11 @@ public final class CreateAccountHandler {
      * The maximum length for a password.
      */
     private static final int MAX_PASSWORD_LENGTH = 16;
-    /**
-     * The index for health status.
-     */
-    private static CreateAccountHandler instance;
 
-    private CreateAccountHandler() {
-    }
     /**
-     * Gets the single instance of the handler.
-     *
-     * @return the instance of CreateAccountHandler
+     * Public constructor for instantiation.
      */
-    public static CreateAccountHandler getInstance() {
-        if (instance == null) {
-            instance = new CreateAccountHandler();
-        }
-        return instance;
+    public CreateAccountHandler() {
     }
     /**
      * Inserts an account into the database.
@@ -63,7 +51,7 @@ public final class CreateAccountHandler {
                 "ACCOUNT",
                 Map.of("Username", username)
         )).getFirst();
-        if (role.equalsIgnoreCase("m")) {
+        if ("m".equalsIgnoreCase(role)) {
             MemberProfile memberProfile = new MemberProfile(
                     thisAccount.getId(),
                     "Dog",
@@ -95,10 +83,11 @@ public final class CreateAccountHandler {
      */
     public int isValidUsername(final String username) {
         try {
+            LoginHandler handler = new LoginHandler();
             if (!(username.length() >= MIN_USERNAME_LENGTH
                     && username.length() <= MAX_USERNAME_LENGTH)) {
                 return 0;
-            } else if (LoginHandler.duplicateUsername(username)) {
+            } else if (handler.duplicateUsername(username)) {
                 return 1;
             } else {
                 return 2;

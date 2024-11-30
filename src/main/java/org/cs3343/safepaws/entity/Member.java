@@ -41,7 +41,34 @@ public class Member extends Account {
                   final String newPassword, final String newRole,
                   final MemberProfile newProfile) {
         super(newId, newUsername, newPassword, newRole);
-        this.profile = newProfile;
+        this.profile = new MemberProfile(newProfile);
+    }
+
+    /**
+     * Constructs a new Member account with the given parameters.
+     *
+     */
+    public Member() {
+        super(0, "", "", "");
+        this.profile = null;
+    }
+
+    /**
+     * Copy constructor that creates a new {@link Member}
+     * instance based on an existing {@link Member}
+     * object. The new instance will have
+     * the same ID, username, password,
+     * role, and profile information as the original object.
+     *
+     * @param user The existing {@link Member} object to
+     *            copy from. This parameter
+     *             must not be {@code null}, otherwise
+     *             a {@link NullPointerException}
+     *             will be thrown.
+     */
+    public Member(final Member user) {
+        this(user.getId(), user.getUsername(), user.getPassword(),
+                user.getRole(), user.getProfile());
     }
 
     /**
@@ -50,7 +77,7 @@ public class Member extends Account {
      * @return the member's profile
      */
     public MemberProfile getProfile() {
-        return profile;
+        return new MemberProfile(this.profile);
     }
 
     /**
@@ -59,6 +86,6 @@ public class Member extends Account {
      * @param newProfile the new profile to set for the member
      */
     public void setProfile(final MemberProfile newProfile) {
-        this.profile = newProfile;
+        this.profile = new MemberProfile(newProfile);
     }
 }

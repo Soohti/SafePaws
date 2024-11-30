@@ -23,9 +23,9 @@ public final class ShowAllApplication {
      * @param session the current session
      */
     public static void show(final Session session) {
+        ReadApplicationHandler handler = new ReadApplicationHandler();
         ArrayList<Application> applications;
-        applications = ReadApplicationHandler.getInstance()
-                .findAllApplication();
+        applications = handler.findAllApplication();
         session.printf("%-10s %-16s %-10s %-10s %-10s",
                 "Id", "Member", "PetID", "Score", "State");
         session.println("");

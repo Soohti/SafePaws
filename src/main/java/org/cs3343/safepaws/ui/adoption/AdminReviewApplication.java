@@ -48,12 +48,21 @@ public class AdminReviewApplication extends UI {
                 ShowAllApplication.show(session);
             } else {
                 try {
+                    ReadApplicationHandler handler =
+                            new ReadApplicationHandler();
                     int aid = Integer.parseInt(choice);
-                    Application thisApplication = ReadApplicationHandler
-                            .getInstance().findApplicationByAid(aid);
-                    if (thisApplication == null) {
+                    Application thisApplication =
+                            handler.findApplicationByAid(aid);
+                    if (thisApplication != null) {
                         ShowDetailApplication.show(session, aid);
-                        Application.State appState = thisApplication.getState();
+                        Application.State appState = null;
+                        if (thisApplication.getState() != null) {
+                            appState = thisApplication.getState();
+                        } else {
+                            session.println("Application found with"
+                                    + " id contain error status" + aid);
+                            continue;
+                        }
                         if (appState != Application.State.PENDING) {
                             session.print("This application has "
                                     + "already been processed.\n");
@@ -73,8 +82,7 @@ public class AdminReviewApplication extends UI {
                             Application.State state =
                                     Application.State
                                             .values()[inputStateNumber];
-                            ReadApplicationHandler.getInstance()
-                                    .changeApplicationState(aid, pid, state);
+                            handler.changeApplicationState(aid, pid, state);
                             session.println("Your operation is completed.");
                         }
                     } else {

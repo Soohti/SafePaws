@@ -6,27 +6,11 @@ import org.cs3343.safepaws.util.DbManager;
 import java.util.Map;
 
 public final class UpdateMemberProfileHandler {
-    /**
-     * The single instance of the handler.
-     */
-    private static UpdateMemberProfileHandler instance;
 
     /**
-     * Private constructor to prevent instantiation.
+     * Public constructor for instantiation.
      */
-    private UpdateMemberProfileHandler() {
-    }
-
-    /**
-     * Gets the single instance of the handler.
-     *
-     * @return the instance of UpdateMemberProfileHandler
-     */
-    public static UpdateMemberProfileHandler getInstance() {
-        if (instance == null) {
-            instance = new UpdateMemberProfileHandler();
-        }
-        return instance;
+    public UpdateMemberProfileHandler() {
     }
     /**
      * Update the member profile by its ID.

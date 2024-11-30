@@ -70,8 +70,8 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
     @Override
     protected UI execute(final Session session) {
         try {
-            var animalLocations = ReadLocationPointHandler.getInstance()
-                    .findAllPet();
+            ReadLocationPointHandler handler = new ReadLocationPointHandler();
+            var animalLocations = handler.findAllPet();
             session.println("Choose mode: 1 for optimal k clustering"
                     + ", 2 for custom k clustering:");
             int mode = Integer.parseInt(session.requestInput());

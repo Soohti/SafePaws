@@ -12,28 +12,13 @@ import java.util.Map;
  * Singleton handler for checking member-related information.
  */
 public final class CheckMemberHandler {
-    /**
-     * The single instance of the handler.
-     */
-    private static CheckMemberHandler instance;
 
     /**
-     * Private constructor to prevent instantiation.
+     * Public constructor for instantiation.
      */
-    private CheckMemberHandler() {
+    public CheckMemberHandler() {
     }
 
-    /**
-     * Gets the single instance of the handler.
-     *
-     * @return the instance of CheckMemberHandler
-     */
-    public static CheckMemberHandler getInstance() {
-        if (instance == null) {
-            instance = new CheckMemberHandler();
-        }
-        return instance;
-    }
 
     /**
      * Inserts a new application record into the database.
@@ -50,7 +35,7 @@ public final class CheckMemberHandler {
         DbManager.getInstance().insertWithAutoValue(
                 Map.of("MId", String.valueOf(member.getId()),
                         "PId", String.valueOf(pet.getId()),
-                        "State", String.valueOf(state)
+                        "State", String.valueOf(state.ordinal())
                 ),
                 "APPLICATION");
         System.out.println("Application inserted successfully");
