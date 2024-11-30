@@ -169,8 +169,9 @@ public class MemberSetProfile extends UI {
                 account.getPassword(), account.getRole(),
                 profile, null));
         try {
-            UpdateMemberProfileHandler.getInstance()
-                    .updateMemberProfile(profile);
+            UpdateMemberProfileHandler handler =
+                    new UpdateMemberProfileHandler();
+            handler.updateMemberProfile(profile);
             session.println("Profile set successfully.");
         } catch (Exception e) {
             session.println("Error during setting profile.");

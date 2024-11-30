@@ -38,8 +38,9 @@ public final class MemberCheckApplication extends UI {
     @Override
     protected UI execute(final Session session) {
         Member member = (Member) session.getAccount();
+        CheckMemberHandler checkMemberHandler = new CheckMemberHandler();
         List<Application> applications =
-                CheckMemberHandler.getInstance()
+                checkMemberHandler
                         .findApplicationByMid(member.getId());
         if (applications.isEmpty()) {
             session.println("You have not submitted "

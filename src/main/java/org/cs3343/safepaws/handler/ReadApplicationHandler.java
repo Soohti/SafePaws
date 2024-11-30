@@ -11,27 +11,11 @@ import java.util.Map;
  * Singleton handler for reading application information.
  */
 public final class ReadApplicationHandler {
-    /**
-     * The single instance of the handler.
-     */
-    private static ReadApplicationHandler instance;
 
     /**
-     * Private constructor to prevent instantiation.
+     * Public constructor for instantiation.
      */
-    private ReadApplicationHandler() {
-    }
-
-    /**
-     * Gets the single instance of the handler.
-     *
-     * @return the instance of ReadApplicationHandler
-     */
-    public static ReadApplicationHandler getInstance() {
-        if (instance == null) {
-            instance = new ReadApplicationHandler();
-        }
-        return instance;
+    public ReadApplicationHandler() {
     }
 
     /**

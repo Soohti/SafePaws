@@ -14,26 +14,9 @@ public final class PetRegisterHandler {
     private static final int INDEX_HEALTH = 3;
 
     /**
-     * The single instance of the handler.
+     * Public constructor for instantiation.
      */
-    private static PetRegisterHandler instance;
-
-    /**
-     * Private constructor to prevent instantiation.
-     */
-    private PetRegisterHandler() {
-    }
-
-    /**
-     * Gets the single instance of the handler.
-     *
-     * @return the instance of PetRegisterHandler
-     */
-    public static PetRegisterHandler getInstance() {
-        if (instance == null) {
-            instance = new PetRegisterHandler();
-        }
-        return instance;
+    public PetRegisterHandler() {
     }
 
     /**

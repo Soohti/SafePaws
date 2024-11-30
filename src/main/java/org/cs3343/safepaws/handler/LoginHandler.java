@@ -11,23 +11,11 @@ import java.util.NoSuchElementException;
 
 public final class LoginHandler {
     /**
-     * The index for health status.
+     * Public constructor for instantiation.
      */
-    private static LoginHandler instance;
+    public LoginHandler() {
+    }
 
-    private LoginHandler() {
-    }
-    /**
-     * Gets the single instance of the handler.
-     *
-     * @return the instance of LoginHandler
-     */
-    public static LoginHandler getInstance() {
-        if (instance == null) {
-            instance = new LoginHandler();
-        }
-        return instance;
-    }
     /**
      * Authenticates a user.
      *
@@ -71,7 +59,7 @@ public final class LoginHandler {
                 Account.class, "ACCOUNT",
                 Map.of("Username", inputUsername))).getFirst();
         MemberProfile memberProfile = null;
-        if (thisAccount.getRole().equalsIgnoreCase("m")) {
+        if ("m".equalsIgnoreCase(thisAccount.getRole())) {
             memberProfile = (DbManager
                     .getInstance().readWithCondition(
                             MemberProfile.class,
@@ -99,17 +87,17 @@ public final class LoginHandler {
      * @param inputUsername the username.
      * @return the boolean.
      */
-    public static boolean duplicateUsername(final String inputUsername)
+    public boolean duplicateUsername(final String inputUsername)
     throws Exception {
         try {
             Account account = (DbManager
                     .getInstance().readWithCondition(
                     Account.class, "ACCOUNT",
                     Map.of("Username", inputUsername))).getFirst();
+            return inputUsername.equals(account.getUsername());
         } catch (NoSuchElementException ex) {
             return false;
         }
-        return true;
     }
 
 

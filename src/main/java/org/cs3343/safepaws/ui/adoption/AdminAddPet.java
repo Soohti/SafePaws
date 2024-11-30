@@ -105,8 +105,9 @@ public final class AdminAddPet extends UI {
         healthStatus = session.requestNumericInput(0, MAX_VAL);
 
         try {
+            PetRegisterHandler handler = new PetRegisterHandler();
             int[] numeric = {age, weight, activityLevel, healthStatus};
-            PetRegisterHandler.getInstance().insertPetRecord(
+            handler.insertPetRecord(
                     name,
                     species,
                     breed,

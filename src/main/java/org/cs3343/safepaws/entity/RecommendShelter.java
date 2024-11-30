@@ -30,7 +30,7 @@ public class RecommendShelter {
      * @return the string of location point
      */
     public String toString() {
-        return String.format("X: " + shelterLocationPoint.getX() + ", Y: "
-                + shelterLocationPoint.getY() + "\n");
+        return String.format("X: " + shelterLocationPoint.getxValue() + ", Y: "
+                + shelterLocationPoint.getyValue() + "\n");
     }
 }

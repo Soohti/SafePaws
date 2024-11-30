@@ -6,52 +6,52 @@ package org.cs3343.safepaws.entity;
 public final class LocationPoint {
 
     /**
-     * The x-coordinate of the location.
+     * The xValue-coordinate of the location.
      */
-    private final double x;
+    private final double xValue;
 
     /**
-     * The y-coordinate of the location.
+     * The yValue-coordinate of the location.
      */
-    private final double y;
+    private final double yValue;
 
     /**
      * Initializes a new instance of the LocationPoint class with the specified
-     * x and y coordinates.
+     * xValue and yValue coordinates.
      *
-     * @param xValue the x-coordinate of the location
-     * @param yValue the y-coordinate of the location
+     * @param newXValue the xValue-coordinate of the location
+     * @param newYValue the yValue-coordinate of the location
      */
-    public LocationPoint(final double xValue, final double yValue) {
-        this.x = xValue;
-        this.y = yValue;
+    public LocationPoint(final double newXValue, final double newYValue) {
+        this.xValue = newXValue;
+        this.yValue = newYValue;
     }
     /**
      * Initializes a new instance of the LocationPoint class with the specified
-     * x and y coordinates.
+     * xValue and yValue coordinates.
      *
      */
     public LocationPoint() {
-        this.x = -1;
-        this.y = -1;
+        this.xValue = -1;
+        this.yValue = -1;
     }
 
     /**
-     * Gets the x-coordinate of the location.
+     * Gets the xValue-coordinate of the location.
      *
-     * @return the x-coordinate of the location
+     * @return the xValue-coordinate of the location
      */
-    public double getX() {
-        return this.x;
+    public double getxValue() {
+        return this.xValue;
     }
 
     /**
-     * Gets the y-coordinate of the location.
+     * Gets the yValue-coordinate of the location.
      *
-     * @return the y-coordinate of the location
+     * @return the yValue-coordinate of the location
      */
-    public double getY() {
-        return this.y;
+    public double getyValue() {
+        return this.yValue;
     }
 
     /**
@@ -62,12 +62,13 @@ public final class LocationPoint {
      */
     public double distanceTo(final LocationPoint other) {
         return Math.sqrt(
-                Math.pow(this.x - other.x, 2.0) + Math.pow(this.y - other.y, 2.0
+                Math.pow(this.xValue - other.xValue, 2.0) + Math.pow(this.yValue
+                        - other.yValue, 2.0
                 ));
     }
 
     @Override
     public String toString() {
-        return "(" + this.x + ", " + this.y + ")";
+        return "(" + this.xValue + ", " + this.yValue + ")";
     }
 }

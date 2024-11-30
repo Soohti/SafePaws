@@ -165,8 +165,8 @@ public class AnimalClusterAnalysis implements Algorithm {
 
             if (!cluster.isEmpty()) {
                 for (LocationPoint locationPoint : cluster) {
-                    avgX += locationPoint.getX();
-                    avgY += locationPoint.getY();
+                    avgX += locationPoint.getxValue();
+                    avgY += locationPoint.getyValue();
                 }
                 avgX /= cluster.size();
                 avgY /= cluster.size();
