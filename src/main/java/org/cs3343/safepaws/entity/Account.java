@@ -1,7 +1,5 @@
 package org.cs3343.safepaws.entity;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * Represents an account with username, password, role, and id.
  * <p>
@@ -9,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
  * fields and methods for managing account details.
  * </p>
  */
-public class Account implements Cloneable {
+public class Account {
 
     /**
      * The unique identifier for a user.
@@ -183,30 +181,5 @@ public class Account implements Cloneable {
      */
     public void setRole(final String newRole) {
         this.role = newRole;
-    }
-
-    /**
-     * Creates and returns a deep copy of this {@code Account} object, ensuring
-     * that the cloned object is an instance of the same class as the original.
-     *
-     * @param <T> the type of the account to clone
-     * @return a clone of this instance
-     */
-    public <T extends Account> T deepClone() {
-        try {
-            @SuppressWarnings("unchecked")
-            T clone = (T) this.getClass().getDeclaredConstructor()
-                    .newInstance();
-
-            clone.setId(this.id);
-            clone.setUsername(this.username);
-            clone.setPassword(this.password);
-            clone.setRole(this.role);
-
-            return clone;
-        } catch (InstantiationException | IllegalAccessException
-                 | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException("Failed to clone Account", e);
-        }
     }
 }

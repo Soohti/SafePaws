@@ -46,7 +46,7 @@ public final class DbManager {
     /**
      * Singleton instance of DbManager.
      */
-    private static DbManager instance = null;
+    private static volatile DbManager instance = null;
     /**
      * Initializes the database connection.
      *
@@ -325,27 +325,28 @@ public final class DbManager {
         try {
             conn = getConnection();
             conn.setAutoCommit(false);
-            List<String> setClauses = new ArrayList<>();
+            StringBuilder sqlCommand = new StringBuilder("UPDATE "
+                    + tableName + " SET ");
             List<Object> parameters = new ArrayList<>();
             for (Map.Entry<String, String> entry : setFields.entrySet()) {
-                setClauses.add(entry.getKey() + " = ?");
+                sqlCommand.append(entry.getKey()).append(" = ?, ");
                 parameters.add(entry.getValue());
             }
-            String setClause = String.join(", ", setClauses);
-            List<String> whereClauses = new ArrayList<>();
-            for (Map.Entry<String, String> entry : whereFields.entrySet()) {
-                whereClauses.add(entry.getKey() + " = ?");
-                parameters.add(entry.getValue());
+            if (!setFields.isEmpty()) {
+                sqlCommand.setLength(sqlCommand.length()
+                        - LENGTH_OF_LAST_COMMA);
             }
-            String whereClause = String.join(" AND ", whereClauses);
-            String sqlTemplate = "UPDATE %s SET %s";
-            if (!whereClause.isEmpty()) {
-                sqlTemplate += " WHERE %s";
+            if (!whereFields.isEmpty()) {
+                sqlCommand.append(" WHERE ");
+                for (Map.Entry<String, String> entry : whereFields.entrySet()) {
+                    sqlCommand.append(entry.getKey()).append(" = ? AND ");
+                    parameters.add(entry.getValue());
+                }
+                sqlCommand.setLength(sqlCommand.length()
+                        - LENGTH_OF_LAST_AND);
             }
-            sqlTemplate += ";";
-            String sqlCommand = String.format(sqlTemplate, tableName,
-                    setClause, whereClause);
-            statement = conn.prepareStatement(sqlCommand);
+            sqlCommand.append(";");
+            statement = prepareStatement(conn, sqlCommand.toString());
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i));
             }
@@ -407,8 +408,8 @@ public final class DbManager {
                 .format("INSERT INTO %s (%s) VALUES (%s)",
                 tableName, columns.toString(), values.toString());
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(sqlCommand)) {
+             PreparedStatement preparedStatement = prepareStatement(connection,
+                     sqlCommand)) {
             int index = 1;
             for (Object value : fieldsAndValues.values()) {
                 preparedStatement.setObject(index++, value);
@@ -446,8 +447,8 @@ public final class DbManager {
                 .format("INSERT INTO %s (%s) VALUES (%s)",
                 tableName, columns.toString(), values.toString());
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(sqlCommand)) {
+             PreparedStatement preparedStatement =
+                     prepareStatement(connection, sqlCommand)) {
             for (int i = 0; i < valueList.size(); i++) {
                 preparedStatement.setObject(i + 1, valueList.get(i));
             }
@@ -489,5 +490,11 @@ public final class DbManager {
             }
         }
         return fieldsAndValues;
+    }
+
+    private PreparedStatement prepareStatement(
+            final Connection conn,
+            final String sql) throws SQLException {
+        return conn.prepareStatement(sql);
     }
 }

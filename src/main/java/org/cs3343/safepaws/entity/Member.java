@@ -9,7 +9,7 @@ import org.cs3343.safepaws.util.OneToOne;
  * functionality specific to member users, such as their profile.
  * </p>
  */
-public class Member extends Account implements Cloneable {
+public class Member extends Account {
     /**
      * The member profile associated with this entity.
      * <p>
@@ -87,19 +87,5 @@ public class Member extends Account implements Cloneable {
      */
     public void setProfile(final MemberProfile newProfile) {
         this.profile = new MemberProfile(newProfile);
-    }
-    /**
-     * Clone method that creates and returns a deep copy of this {@link Member}
-     * object.
-     *
-     * @return A deep copy of this {@link Member} object.
-     * @throws CloneNotSupportedException if the object's class does not
-     *                                  support the {@code Cloneable} interface.
-     */
-    @Override
-    public Member clone() throws CloneNotSupportedException {
-        Member cloned = (Member) super.clone();
-        cloned.profile = (profile != null) ? profile.clone() : null;
-        return cloned;
     }
 }
