@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Formatter;
 
 /**
@@ -146,7 +147,7 @@ public final class Session {
      * @param newAccount the new account
      */
     public void setAccount(final Account newAccount) {
-        this.account = newAccount.deepClone();
+        this.account = newAccount;
     }
 
     /**
@@ -155,6 +156,6 @@ public final class Session {
      * @return the account associated with the session.
      */
     public Account getAccount() {
-        return account != null ? account : null;
+        return account;
     }
 }
