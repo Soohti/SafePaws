@@ -1,6 +1,5 @@
 package org.cs3343.safepaws.entity;
 
-import org.cs3343.safepaws.handler.ReadApplicationHandler;
 import org.cs3343.safepaws.util.OneToOne;
 
 /**

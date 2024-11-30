@@ -48,7 +48,8 @@ public class AdminReviewApplication extends UI {
                 ShowAllApplication.show(session);
             } else {
                 try {
-                    ReadApplicationHandler handler = new ReadApplicationHandler();
+                    ReadApplicationHandler handler =
+                            new ReadApplicationHandler();
                     int aid = Integer.parseInt(choice);
                     Application thisApplication =
                             handler.findApplicationByAid(aid);

@@ -29,7 +29,6 @@ import org.cs3343.safepaws.algorithm.AnimalClusterAnalysis;
 import org.cs3343.safepaws.algorithm.FindingOptimalShelterNumber;
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.RecommendShelter;
-import org.cs3343.safepaws.handler.ReadApplicationHandler;
 import org.cs3343.safepaws.handler.ReadLocationPointHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;

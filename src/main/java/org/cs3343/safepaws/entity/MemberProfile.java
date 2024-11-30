@@ -151,7 +151,8 @@ public final class MemberProfile {
      *
      * <p>This constructor initializes a new {@code MemberProfile} instance with
      * all the field values copied from the specified {@code profile} object.
-     * Changes to the new object will not affect the original object, and vice versa.
+     * Changes to the new object will not affect the original object,
+     * and vice versa.
      *
      * @param profile The {@code MemberProfile} object to be copied. Must not be
      *                {@code null}.

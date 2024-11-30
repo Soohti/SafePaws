@@ -95,7 +95,8 @@ public class Account {
      *
      * <p>This constructor initializes a new {@code Account} instance with the
      * same ID, username, password, and role as the specified {@code account}.
-     * Note that this is a shallow copy; if the original {@code account} contains
+     * Note that this is a shallow copy; if the original {@code account}
+     * contains
      * references to mutable objects, those references will be copied, not the
      * objects themselves.
      *
