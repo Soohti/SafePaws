@@ -80,6 +80,17 @@ public class Account {
     }
 
     /**
+     * Constructs a new Account with the given parameters.
+     *
+     */
+    public Account() {
+        this.id = -1; //default value
+        this.username = "";
+        this.password = "";
+        this.role = "";
+    }
+
+    /**
      * Gets the unique identifier of the account.
      *
      * @return the account's id

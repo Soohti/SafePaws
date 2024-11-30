@@ -208,12 +208,12 @@ public final class DbManager {
         Constructor<T> constructor;
         T entityInstance;
         try {
-            constructor = entityType.getDeclaredConstructor();
+            constructor = entityType.getConstructor();
             constructor.setAccessible(true);
             entityInstance = constructor.newInstance();
         } catch (Exception e) {
             throw new Exception("Error initializing entity instance for "
-                    + entityType.getName(), e);
+                     + e.getMessage());
         }
         for (Field field : entityType.getDeclaredFields()) {
             field.setAccessible(true);

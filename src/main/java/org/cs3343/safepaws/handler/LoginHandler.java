@@ -47,7 +47,7 @@ public final class LoginHandler {
                 if (thisAccount == null) {
                     return false;
                 }
-                return BCrypt.checkpw(thisAccount.getPassword(), inputPassword);
+                return BCrypt.checkpw(inputPassword, thisAccount.getPassword());
             } catch (NoSuchElementException ex) {
                 return false;
             }
@@ -84,7 +84,8 @@ public final class LoginHandler {
                     thisAccount.getUsername(),
                     thisAccount.getPassword(),
                     thisAccount.getRole(),
-                    memberProfile
+                    memberProfile,
+                    null
                     );
         } catch (Exception ex) {
             System.out.println("Error during Logging in: "

@@ -49,6 +49,16 @@ public class Application {
     }
 
     /**
+     * Constructs an Application with the specified user, pet, and state.
+     *
+     */
+    public Application() {
+        this.user = null;
+        this.pet = null;
+        this.state = State.PENDING;
+    }
+
+    /**
      * Checks if the given state is valid.
      *
      * @param newIState the integer state to check

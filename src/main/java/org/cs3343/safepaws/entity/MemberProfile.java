@@ -128,6 +128,26 @@ public final class MemberProfile {
     }
 
     /**
+     * Constructs a MemberProfile with additional information (extroversion
+     * level, activity level, etc.).
+     *
+     */
+    public MemberProfile(
+    ) {
+        this.id = -1;
+        this.extroversionLevel = 0;
+        this.dailyActivityLevel = 0;
+        this.houseSize = 0;
+        this.workHours = 0;
+        this.numberOfFamilyMembers = 0;
+        this.previousPetExperience = 0;
+        this.financialBudget = 0;
+        this.preferredSpecies = ""; // default value
+        this.preferredBreed = ""; // default value
+        this.gender = ""; // default value
+    }
+
+    /**
      * Gets the id of the member.
      *
      * @return the id of the member

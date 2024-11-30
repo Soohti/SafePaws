@@ -5,15 +5,7 @@ package org.cs3343.safepaws.entity;
  * species, breed, age, weight, gender, activity level, and health status.
  */
 public final class Pet {
-    /**
-     * The index for health status.
-     */
-    private static final int INDEX_HEALTH = 3;
 
-    /**
-     * The maximum length for certain attributes.
-     */
-    private static final int MAX_LEN = 30;
 
     /**
      * The ID of the pet.
@@ -88,7 +80,7 @@ public final class Pet {
         this.age = 0; // Default value for age
         this.weight = 0; // Default value for weight
         this.activityLevel = 0; // Default value for activity level
-        this.healthStatus = INDEX_HEALTH; // Default value for health status
+        this.healthStatus = 0; // Default value for health status
         this.state = 0; // Default value for state
     }
 
@@ -120,48 +112,23 @@ public final class Pet {
         this.healthStatus = newHealthStatus;
         this.state = newState;
     }
-
     /**
-     * Validates the name of the pet.
+     * Constructs a new {@code Pet} entity with physical and
+     * behavioral attributes.
      *
-     * @param newName the name to validate
-     * @return true if the name is valid, false otherwise
      */
-    public static boolean isValidName(final String newName) {
-        return newName.length() <= MAX_LEN;
+    public Pet() {
+        this.id = -1;
+        this.name = ""; // Default value for name
+        this.species = ""; // Default value for species
+        this.breed = ""; // Default value for breed
+        this.gender = ""; // Default value for gender
+        this.age = 0;
+        this.weight = 0;
+        this.activityLevel = 0;
+        this.healthStatus = 0;
+        this.state = 0;
     }
-
-    /**
-     * Validates the species of the pet.
-     *
-     * @param newSpecies the species to validate
-     * @return true if the species is valid, false otherwise
-     */
-    public static boolean isValidSpecies(final String newSpecies) {
-        return newSpecies.length() <= MAX_LEN;
-    }
-
-    /**
-     * Validates the breed of the pet.
-     *
-     * @param newBreed the breed to validate
-     * @return true if the breed is valid, false otherwise
-     */
-    public static boolean isValidBreed(final String newBreed) {
-        return newBreed.length() <= MAX_LEN;
-    }
-
-    /**
-     * Validates the gender of the pet.
-     *
-     * @param newGender the gender to validate
-     * @return true if the gender is valid, false otherwise
-     */
-    public static boolean isValidGender(final String newGender) {
-        return "m".equalsIgnoreCase(newGender)
-                || "f".equalsIgnoreCase(newGender);
-    }
-
     /**
      * Gets the ID of the pet.
      *
