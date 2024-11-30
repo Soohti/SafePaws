@@ -29,16 +29,17 @@ public class Login extends UI {
 
     @Override
     public UI execute(final Session session) {
+        LoginHandler handler = new LoginHandler();
+
         session.println("Enter your username:");
         String username = session.requestInput();
 
         session.println("Enter your password:");
         String password = session.requestInput();
 
-        if (LoginHandler.getInstance().authenticateUser(username, password)) {
+        if (handler.authenticateUser(username, password)) {
             session.println("Log in successfully.");
-            Account account = LoginHandler.getInstance()
-                    .selectAccount(username);
+            Account account = handler.selectAccount(username);
             if (account instanceof Member memberAccount) {
                 session.setAccount(memberAccount);
                 return new MemberMenu();

@@ -2,7 +2,6 @@ package org.cs3343.safepaws.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +46,7 @@ public final class DbManager {
     /**
      * Singleton instance of DbManager.
      */
-    private static DbManager instance;
+    private static volatile DbManager instance = null;
     /**
      * Initializes the database connection.
      *
@@ -76,7 +76,7 @@ public final class DbManager {
      * @return The singleton instance.
      * @throws IllegalStateException If the instance has not been initialized.
      */
-    public static DbManager getInstance() {
+    public static synchronized DbManager getInstance() {
         if (instance == null) {
             throw new IllegalStateException("DbManager has "
                     + "not been initialized. Call init() first.");
@@ -100,7 +100,6 @@ public final class DbManager {
     private DbManager() {
 
     }
-    //todo read father class field
     /**
      * Reads an entity from the database by its ID.
      *
@@ -123,6 +122,8 @@ public final class DbManager {
                 if (resultSet.next()) {
                     return buildEntityFromResultSet(entityType, resultSet);
                 }
+            } catch (Exception e) {
+                System.out.println("Error reading " + e.getMessage());
             }
         }
         return null;
@@ -209,13 +210,20 @@ public final class DbManager {
         T entityInstance;
         try {
             constructor = entityType.getConstructor();
-            constructor.setAccessible(true);
             entityInstance = constructor.newInstance();
         } catch (Exception e) {
             throw new Exception("Error initializing entity instance for "
-                     + e.getMessage());
+                     + entityType.getName(), e);
         }
-        for (Field field : entityType.getDeclaredFields()) {
+        List<Field> fields = new ArrayList<>(Arrays
+                .asList(entityType.getDeclaredFields()));
+        Class<?> superClass = entityType.getSuperclass();
+        while (superClass != Object.class) {
+            fields.addAll(Arrays
+                    .asList(superClass.getDeclaredFields()));
+            superClass = superClass.getSuperclass();
+        }
+        for (Field field : fields) {
             field.setAccessible(true);
 
             try {
@@ -233,25 +241,7 @@ public final class DbManager {
         }
         return entityInstance;
     }
-    /**
-     * Gets the setter method for the specified field.
-     *
-     * @param builderClass the class of the builder
-     * @param field the field for which to get the setter method
-     * @return the setter method, or null if not found
-     * @throws NoSuchMethodException if the setter method is not found
-     */
-    private Method getSetterMethod(final Class<?> builderClass,
-                                   final Field field)
-            throws NoSuchMethodException {
-        try {
-            return builderClass.getMethod("set"
-                    + capitalize(field.getName()), field.getType());
-        } catch (NoSuchMethodException e) {
-            System.err.println("No setter for field " + field.getName());
-            return null;
-        }
-    }
+
     /**
      * Handles a one-to-one field.
      *
@@ -334,31 +324,32 @@ public final class DbManager {
         try {
             conn = getConnection();
             conn.setAutoCommit(false);
-            StringBuilder sqlCommand = new StringBuilder("UPDATE "
-                    + tableName + " SET ");
+            StringBuilder setClause = new StringBuilder();
+            StringBuilder whereClause = new StringBuilder();
             List<Object> parameters = new ArrayList<>();
-            // Build SET clause
             for (Map.Entry<String, String> entry : setFields.entrySet()) {
-                sqlCommand.append(entry.getKey()).append(" = ?, ");
+                setClause.append(entry.getKey()).append(" = ?, ");
                 parameters.add(entry.getValue());
             }
-            // Remove the last comma and space
             if (!setFields.isEmpty()) {
-                sqlCommand.setLength(sqlCommand.length()
+                setClause.setLength(setClause.length()
                         - LENGTH_OF_LAST_COMMA);
             }
-            // Build WHERE clause
+            String sqlCommand = String.format("UPDATE {%s} SET {%s};}",
+                    tableName, setClause.toString());
             if (!whereFields.isEmpty()) {
-                sqlCommand.append(" WHERE ");
                 for (Map.Entry<String, String> entry : whereFields.entrySet()) {
-                    sqlCommand.append(entry.getKey()).append(" = ? AND ");
+                    whereClause.append(entry.getKey())
+                            .append(" = ? AND ");
                     parameters.add(entry.getValue());
                 }
-                sqlCommand.setLength(sqlCommand.length()
-                            - LENGTH_OF_LAST_AND);
+                whereClause.setLength(
+                        whereClause.length() - LENGTH_OF_LAST_AND);
+                sqlCommand = String.format("UPDATE {%s} SET {%s} WHERE {%s};",
+                        tableName, setClause,
+                        whereClause);
             }
-            sqlCommand.append(";");
-            statement = conn.prepareStatement(sqlCommand.toString());
+            statement = conn.prepareStatement(sqlCommand);
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i));
             }
@@ -416,11 +407,12 @@ public final class DbManager {
                 values.append(", ");
             }
         }
-        String sqlCommand = "INSERT INTO " + tableName + " ("
-                + columns.toString() + ") VALUES (" + values.toString() + ");";
+        final String sqlCommand = String
+                .format("INSERT INTO %s (%s) VALUES (%s)",
+                tableName, columns.toString(), values.toString());
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(sqlCommand.toString())) {
+             PreparedStatement preparedStatement = prepareStatement(connection,
+                     sqlCommand)) {
             int index = 1;
             for (Object value : fieldsAndValues.values()) {
                 preparedStatement.setObject(index++, value);
@@ -454,11 +446,12 @@ public final class DbManager {
             columns.setLength(columns.length() - LENGTH_OF_LAST_COMMA);
             values.setLength(values.length() - LENGTH_OF_LAST_COMMA);
         }
-        String sqlCommand = "INSERT INTO " + tableName + " ("
-                + columns.toString() + ") VALUES (" + values.toString() + ");";
+        final String sqlCommand = String
+                .format("INSERT INTO %s (%s) VALUES (%s)",
+                tableName, columns.toString(), values.toString());
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(sqlCommand)) {
+             PreparedStatement preparedStatement =
+                     prepareStatement(connection, sqlCommand)) {
             for (int i = 0; i < valueList.size(); i++) {
                 preparedStatement.setObject(i + 1, valueList.get(i));
             }
@@ -500,5 +493,11 @@ public final class DbManager {
             }
         }
         return fieldsAndValues;
+    }
+
+    private PreparedStatement prepareStatement(
+            final Connection conn,
+            final String sql) throws SQLException {
+        return conn.prepareStatement(sql);
     }
 }

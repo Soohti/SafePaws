@@ -25,7 +25,8 @@ public final class SortPetAlgo implements Algorithm {
      * @return a list of pets sorted by match score
      */
     public static List<Pet> sortPetsByMatch(final Member user) {
-        List<Pet> pets = ReadPetHandler.getInstance().findAllPet();
+        ReadPetHandler handler = new ReadPetHandler();
+        List<Pet> pets = handler.findAllPet();
         List<PetMatchScore> petMatchScores = new ArrayList<>();
 
         for (Pet pet : pets) {

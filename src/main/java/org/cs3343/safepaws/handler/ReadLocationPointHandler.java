@@ -6,25 +6,11 @@ import org.cs3343.safepaws.util.DbManager;
 import java.util.ArrayList;
 
 public final class ReadLocationPointHandler {
+
     /**
-     * The single instance of the handler.
+     * Public constructor for instantiation.
      */
-
-    private static ReadLocationPointHandler instance;
-
-    private ReadLocationPointHandler() {
-    }
-    /**
-     * Gets the single instance of the handler.
-     *
-     * @return the instance of ReadLocationPointHandler
-     */
-
-    public static ReadLocationPointHandler getInstance() {
-        if (instance == null) {
-            instance = new ReadLocationPointHandler();
-        }
-        return instance;
+    public ReadLocationPointHandler() {
     }
     /**
      * Finds all pet location points.

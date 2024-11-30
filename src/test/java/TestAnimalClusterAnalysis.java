@@ -16,8 +16,8 @@ public class TestAnimalClusterAnalysis {
     @Test
     public void testAnimalLocation() {
         LocationPoint locationPoint = new LocationPoint(10.0, 20.0);
-        assertEquals(10.0, locationPoint.getX(), 1e-6);
-        assertEquals(20.0, locationPoint.getY(), 1e-6);
+        assertEquals(10.0, locationPoint.getxValue(), 1e-6);
+        assertEquals(20.0, locationPoint.getyValue(), 1e-6);
     }
 
     @Test

@@ -26,13 +26,12 @@ public class CreateAccount extends UI {
      */
     @Override
     public UI execute(final Session session) {
+        CreateAccountHandler handler = new CreateAccountHandler();
         session.println("Enter a username "
                 + "(length: 8-30, any character):");
         String username = session.requestInput();
-        while (CreateAccountHandler.getInstance()
-                .isValidUsername(username) != 2) {
-            if (CreateAccountHandler.getInstance()
-                    .isValidUsername(username) == 0) {
+        while (handler.isValidUsername(username) != 2) {
+            if (handler.isValidUsername(username) == 0) {
                 session.println("Your input username is invalid. "
                         + "Please enter again:");
             } else {
@@ -45,7 +44,7 @@ public class CreateAccount extends UI {
         session.println("Enter a password (length: 8-16, "
                 + "any character):");
         String password = session.requestInput();
-        while (!CreateAccountHandler.getInstance().isValidPassword(password)) {
+        while (!handler.isValidPassword(password)) {
             session.println("Your input password is invalid. "
                     + "Please enter again:");
             password = session.requestInput();
@@ -55,15 +54,14 @@ public class CreateAccount extends UI {
         session.println("Enter your role (\"A\" for admin, "
                 + "\"M\" for member), \"S\" for shelter:");
         String role = session.requestInput();
-        while (!CreateAccountHandler.getInstance().isValidRole(role)) {
+        while (!handler.isValidRole(role)) {
             session.println("Your input role is invalid. "
                     + "Please enter again:");
             role = session.requestInput();
         }
 
         try {
-            CreateAccountHandler.getInstance()
-                    .createAccount(username, password, role);
+            handler.createAccount(username, password, role);
             session.println("Account created successfully.");
         } catch (Exception ex) {
             session.println("Error during creating account." + ex.getMessage());

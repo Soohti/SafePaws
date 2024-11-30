@@ -12,26 +12,9 @@ import java.util.Map;
 public final class ReadPetHandler {
 
     /**
-     * The single instance of the handler.
+     * Public constructor for instantiation.
      */
-    private static ReadPetHandler instance;
-
-    /**
-     * Private constructor to prevent instantiation.
-     */
-    private ReadPetHandler() {
-    }
-
-    /**
-     * Gets the single instance of the handler.
-     *
-     * @return the instance of ReadPetHandler
-     */
-    public static ReadPetHandler getInstance() {
-        if (instance == null) {
-            instance = new ReadPetHandler();
-        }
-        return instance;
+    public ReadPetHandler() {
     }
 
     /**

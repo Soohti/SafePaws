@@ -35,17 +35,15 @@ public class MemberSubmitApplication extends UI {
      */
     @Override
     protected UI execute(final Session session) {
-
+        ReadPetHandler handler = new ReadPetHandler();
         Member user = (Member) session.getAccount();
 
         session.println("Enter the ID of the pet you want to apply for:");
         String userInput = session.requestInput();
         int pid = Integer.parseInt(userInput);
-        Pet thisPet = ReadPetHandler.getInstance().findConditionalPet(pid);
-        while (ReadPetHandler.getInstance()
-                .isValidPetState(thisPet) != 2) {
-            if (ReadPetHandler.getInstance()
-                    .isValidPetState(thisPet) == 0) {
+        Pet thisPet = handler.findConditionalPet(pid);
+        while (handler.isValidPetState(thisPet) != 2) {
+            if (handler.isValidPetState(thisPet) == 0) {
                 session.println("Your input pet id is invalid."
                         + " Please enter again:");
             } else {
@@ -53,20 +51,22 @@ public class MemberSubmitApplication extends UI {
                         + "Please enter again:");
             }
             pid = Integer.parseInt(session.requestInput());
+            thisPet = handler.findConditionalPet(pid);
         }
 
         Pet pet;
         try {
-            pet = ReadPetHandler.getInstance().findConditionalPet(pid);
+            pet = handler.findConditionalPet(pid);
             session.println("Pet selected successfully.");
         } catch (Exception e) {
             pet = null;
             session.println("Error during selecting pet.");
         }
         Application.State applicationState = Application.State.PENDING;
+        CheckMemberHandler checkMemberHandler = new CheckMemberHandler();
         if (pet != null) {
             try {
-                CheckMemberHandler.getInstance()
+                checkMemberHandler
                         .insertApplication(user,
                                 pet,
                                 applicationState);

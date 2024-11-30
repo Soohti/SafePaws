@@ -73,7 +73,7 @@ public final class Client {
             String serverResponse;
             boolean linebreak = false;
             while ((serverResponse = in.readLine()) != null) {
-                if (serverResponse.equals("SYSTEM: READY_FOR_INPUT")) {
+                if ("SYSTEM: READY_FOR_INPUT".equals(serverResponse)) {
                     String userInput = stdIn.readLine();
                     out.println(userInput);
                     linebreak = false;
