@@ -43,7 +43,7 @@ public class Application {
      */
     public Application(final Member newAccount, final Pet newPet,
                        final State newState) {
-        this.user = newAccount;
+        this.user = new Member(newAccount);
         this.pet = newPet;
         this.state = newState;
     }
@@ -70,23 +70,12 @@ public class Application {
     }
 
     /**
-     * Checks if the given application ID is valid.
-     *
-     * @param newAid the application ID to check
-     * @return true if the application ID is valid, false otherwise
-     */
-    public static boolean isValidAid(final int newAid) {
-        return ReadApplicationHandler.getInstance()
-                .findApplicationByAid(newAid) != null;
-    }
-
-    /**
      * Gets the user.
      *
      * @return the user
      */
     public Member getUser() {
-        return user;
+        return new Member(user);
     }
 
     /**

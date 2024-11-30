@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,6 +124,8 @@ public final class DbManager {
                 if (resultSet.next()) {
                     return buildEntityFromResultSet(entityType, resultSet);
                 }
+            } catch (Exception e) {
+                System.out.println("Error reading " + e.getMessage());
             }
         }
         return null;
@@ -209,13 +212,20 @@ public final class DbManager {
         T entityInstance;
         try {
             constructor = entityType.getConstructor();
-            constructor.setAccessible(true);
             entityInstance = constructor.newInstance();
         } catch (Exception e) {
             throw new Exception("Error initializing entity instance for "
-                     + e.getMessage());
+                     + entityType.getName(), e);
         }
-        for (Field field : entityType.getDeclaredFields()) {
+        List<Field> fields = new ArrayList<>(Arrays
+                .asList(entityType.getDeclaredFields()));
+        Class<?> superClass = entityType.getSuperclass();
+        while (superClass != Object.class) {
+            fields.addAll(Arrays
+                    .asList(superClass.getDeclaredFields()));
+            superClass = superClass.getSuperclass();
+        }
+        for (Field field : fields) {
             field.setAccessible(true);
 
             try {
@@ -233,25 +243,7 @@ public final class DbManager {
         }
         return entityInstance;
     }
-    /**
-     * Gets the setter method for the specified field.
-     *
-     * @param builderClass the class of the builder
-     * @param field the field for which to get the setter method
-     * @return the setter method, or null if not found
-     * @throws NoSuchMethodException if the setter method is not found
-     */
-    private Method getSetterMethod(final Class<?> builderClass,
-                                   final Field field)
-            throws NoSuchMethodException {
-        try {
-            return builderClass.getMethod("set"
-                    + capitalize(field.getName()), field.getType());
-        } catch (NoSuchMethodException e) {
-            System.err.println("No setter for field " + field.getName());
-            return null;
-        }
-    }
+
     /**
      * Handles a one-to-one field.
      *
@@ -358,7 +350,8 @@ public final class DbManager {
                             - LENGTH_OF_LAST_AND);
             }
             sqlCommand.append(";");
-            statement = conn.prepareStatement(sqlCommand.toString());
+            final String sql = sqlCommand.toString();
+            statement = conn.prepareStatement(sql);
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i));
             }
@@ -416,11 +409,11 @@ public final class DbManager {
                 values.append(", ");
             }
         }
-        String sqlCommand = "INSERT INTO " + tableName + " ("
+        final String sqlCommand = "INSERT INTO " + tableName + " ("
                 + columns.toString() + ") VALUES (" + values.toString() + ");";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement(sqlCommand.toString())) {
+                     .prepareStatement(sqlCommand)) {
             int index = 1;
             for (Object value : fieldsAndValues.values()) {
                 preparedStatement.setObject(index++, value);
@@ -454,7 +447,7 @@ public final class DbManager {
             columns.setLength(columns.length() - LENGTH_OF_LAST_COMMA);
             values.setLength(values.length() - LENGTH_OF_LAST_COMMA);
         }
-        String sqlCommand = "INSERT INTO " + tableName + " ("
+        final String sqlCommand = "INSERT INTO " + tableName + " ("
                 + columns.toString() + ") VALUES (" + values.toString() + ");";
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
