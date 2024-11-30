@@ -3,7 +3,7 @@ package org.cs3343.safepaws.entity;
 /**
  * Represents a shelter with a username, password, role, and location point.
  */
-public final class Shelter extends Account {
+public final class Shelter extends Account implements Cloneable {
     /**
      * The location point of the shelter.
      */
@@ -34,5 +34,17 @@ public final class Shelter extends Account {
      */
     public LocationPoint getLocationPoint() {
         return locationPoint;
+    }
+    /**
+     * Clone method that creates and returns a deep copy of this {@link Shelter}
+     * object.
+     *
+     * @return A deep copy of this {@link Shelter} object.
+     * @throws CloneNotSupportedException if the object's class does not
+     *                                  support the {@code Cloneable} interface.
+     */
+    @Override
+    public Shelter clone() throws CloneNotSupportedException {
+        return (Shelter) super.clone();
     }
 }

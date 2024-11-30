@@ -46,7 +46,7 @@ public final class DbManager {
     /**
      * Singleton instance of DbManager.
      */
-    private static DbManager instance;
+    private static DbManager instance = null;
     /**
      * Initializes the database connection.
      *
@@ -76,7 +76,7 @@ public final class DbManager {
      * @return The singleton instance.
      * @throws IllegalStateException If the instance has not been initialized.
      */
-    public static DbManager getInstance() {
+    public static synchronized DbManager getInstance() {
         if (instance == null) {
             throw new IllegalStateException("DbManager has "
                     + "not been initialized. Call init() first.");
@@ -325,32 +325,27 @@ public final class DbManager {
         try {
             conn = getConnection();
             conn.setAutoCommit(false);
-            StringBuilder sqlCommand = new StringBuilder("UPDATE "
-                    + tableName + " SET ");
+            List<String> setClauses = new ArrayList<>();
             List<Object> parameters = new ArrayList<>();
-            // Build SET clause
             for (Map.Entry<String, String> entry : setFields.entrySet()) {
-                sqlCommand.append(entry.getKey()).append(" = ?, ");
+                setClauses.add(entry.getKey() + " = ?");
                 parameters.add(entry.getValue());
             }
-            // Remove the last comma and space
-            if (!setFields.isEmpty()) {
-                sqlCommand.setLength(sqlCommand.length()
-                        - LENGTH_OF_LAST_COMMA);
+            String setClause = String.join(", ", setClauses);
+            List<String> whereClauses = new ArrayList<>();
+            for (Map.Entry<String, String> entry : whereFields.entrySet()) {
+                whereClauses.add(entry.getKey() + " = ?");
+                parameters.add(entry.getValue());
             }
-            // Build WHERE clause
-            if (!whereFields.isEmpty()) {
-                sqlCommand.append(" WHERE ");
-                for (Map.Entry<String, String> entry : whereFields.entrySet()) {
-                    sqlCommand.append(entry.getKey()).append(" = ? AND ");
-                    parameters.add(entry.getValue());
-                }
-                sqlCommand.setLength(sqlCommand.length()
-                            - LENGTH_OF_LAST_AND);
+            String whereClause = String.join(" AND ", whereClauses);
+            String sqlTemplate = "UPDATE %s SET %s";
+            if (!whereClause.isEmpty()) {
+                sqlTemplate += " WHERE %s";
             }
-            sqlCommand.append(";");
-            final String sql = sqlCommand.toString();
-            statement = conn.prepareStatement(sql);
+            sqlTemplate += ";";
+            String sqlCommand = String.format(sqlTemplate, tableName,
+                    setClause, whereClause);
+            statement = conn.prepareStatement(sqlCommand);
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i));
             }
@@ -408,8 +403,9 @@ public final class DbManager {
                 values.append(", ");
             }
         }
-        final String sqlCommand = "INSERT INTO " + tableName + " ("
-                + columns.toString() + ") VALUES (" + values.toString() + ");";
+        final String sqlCommand = String
+                .format("INSERT INTO %s (%s) VALUES (%s)",
+                tableName, columns.toString(), values.toString());
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement(sqlCommand)) {
@@ -446,8 +442,9 @@ public final class DbManager {
             columns.setLength(columns.length() - LENGTH_OF_LAST_COMMA);
             values.setLength(values.length() - LENGTH_OF_LAST_COMMA);
         }
-        final String sqlCommand = "INSERT INTO " + tableName + " ("
-                + columns.toString() + ") VALUES (" + values.toString() + ");";
+        final String sqlCommand = String
+                .format("INSERT INTO %s (%s) VALUES (%s)",
+                tableName, columns.toString(), values.toString());
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement(sqlCommand)) {

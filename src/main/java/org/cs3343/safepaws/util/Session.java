@@ -146,7 +146,7 @@ public final class Session {
      * @param newAccount the new account
      */
     public void setAccount(final Account newAccount) {
-        this.account = newAccount;
+        this.account = newAccount.deepClone();
     }
 
     /**
@@ -155,6 +155,6 @@ public final class Session {
      * @return the account associated with the session.
      */
     public Account getAccount() {
-        return account;
+        return account != null ? account : null;
     }
 }
