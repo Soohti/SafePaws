@@ -7,7 +7,7 @@ package org.cs3343.safepaws.entity;
  * preferences, and pet-related attributes.
  * </p>
  */
-public final class MemberProfile implements Cloneable{
+public final class MemberProfile implements Cloneable {
 
     /**
      * The id of the member.
