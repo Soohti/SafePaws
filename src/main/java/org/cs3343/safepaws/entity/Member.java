@@ -1,6 +1,7 @@
 package org.cs3343.safepaws.entity;
 
 import org.cs3343.safepaws.util.OneToOne;
+import org.cs3343.safepaws.util.TableSchema;
 
 /**
  * Represents a member account in the SafePaws system.
@@ -24,7 +25,8 @@ public class Member extends Account {
      *
      * @see MemberProfile
      */
-    @OneToOne(columnName = "Id", tableName = "MEMBER_PROFILE")
+    @OneToOne(columnName = TableSchema.Column.Id,
+            tableName = TableSchema.Name.ACCOUNT)
     private MemberProfile profile;
 
 
@@ -46,7 +48,6 @@ public class Member extends Account {
 
     /**
      * Constructs a new Member account with the given parameters.
-     *
      */
     public Member() {
         super(0, "", "", "");
@@ -61,7 +62,7 @@ public class Member extends Account {
      * role, and profile information as the original object.
      *
      * @param user The existing {@link Member} object to
-     *            copy from. This parameter
+     *             copy from. This parameter
      *             must not be {@code null}, otherwise
      *             a {@link NullPointerException}
      *             will be thrown.
@@ -87,5 +88,17 @@ public class Member extends Account {
      */
     public void setProfile(final MemberProfile newProfile) {
         this.profile = new MemberProfile(newProfile);
+    }
+
+    /**
+     * Clones the Member object.
+     *
+     * @return a deep copy of the Member object
+     */
+    @Override
+    public Member clone() {
+        Member account = (Member) super.clone();
+        account.setProfile(this.profile.clone());
+        return account;
     }
 }

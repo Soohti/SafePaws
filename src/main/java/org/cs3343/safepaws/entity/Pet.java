@@ -4,7 +4,7 @@ package org.cs3343.safepaws.entity;
  * Represents a pet with various attributes such as name,
  * species, breed, age, weight, gender, activity level, and health status.
  */
-public final class Pet {
+public class Pet {
 
 
     /**

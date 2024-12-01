@@ -12,7 +12,7 @@ import org.cs3343.safepaws.util.Session;
  * The MemberSetProfile class is responsible for
  * setting the profile of a member.
  */
-public class MemberSetProfile extends UI {
+public final class MemberSetProfile extends UI {
 
     /**
      * The name of the profile setting UI.

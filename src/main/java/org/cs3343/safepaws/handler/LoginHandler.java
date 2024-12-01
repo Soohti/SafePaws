@@ -4,6 +4,7 @@ import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.util.AccountFactory;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.TableSchema;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Map;
@@ -28,10 +29,10 @@ public final class LoginHandler {
             final String inputPassword) {
         try {
             try {
-                Account thisAccount = (DbManager
-                        .getInstance().readWithCondition(
-                                Account.class, "ACCOUNT",
-                                Map.of("Username", inputUsername))).getFirst();
+                Account thisAccount = (DbManager.readWithCondition(
+                        Account.class, TableSchema.Name.ACCOUNT,
+                        Map.of(TableSchema.Column.Username,
+                                inputUsername))).getFirst();
                 if (thisAccount == null) {
                     return false;
                 }
@@ -46,6 +47,7 @@ public final class LoginHandler {
         }
         return false;
     }
+
     /**
      * Selects an account by username.
      *
@@ -54,33 +56,33 @@ public final class LoginHandler {
      */
     public Account selectAccount(final String inputUsername) {
         try {
-        Account thisAccount =  (DbManager
-                .getInstance().readWithCondition(
-                Account.class, "ACCOUNT",
-                Map.of("Username", inputUsername))).getFirst();
-        MemberProfile memberProfile = null;
-        if ("m".equalsIgnoreCase(thisAccount.getRole())) {
-            memberProfile = (DbManager
-                    .getInstance().readWithCondition(
-                            MemberProfile.class,
-                            "MEMBER_PROFILE",
-                            Map.of("Id",
-                                    String.valueOf(thisAccount.getId()))))
-                    .getFirst();
-        }
+            Account thisAccount = (DbManager.readWithCondition(
+                    Account.class, TableSchema.Name.ACCOUNT,
+                    Map.of(TableSchema.Column.Username,
+                            inputUsername))).getFirst();
+            MemberProfile memberProfile = null;
+            if ("m".equalsIgnoreCase(thisAccount.getRole())) {
+                memberProfile = (DbManager.readWithCondition(
+                        MemberProfile.class,
+                        TableSchema.Name.MEMBER_PROFILE,
+                        Map.of(TableSchema.Column.Id,
+                                String.valueOf(thisAccount.getId()))))
+                        .getFirst();
+            }
             return AccountFactory.createAccount(thisAccount.getId(),
                     thisAccount.getUsername(),
                     thisAccount.getPassword(),
                     thisAccount.getRole(),
                     memberProfile,
                     null
-                    );
+            );
         } catch (Exception ex) {
             System.out.println("Error during Logging in: "
                     + ex.getMessage());
         }
         return null;
     }
+
     /**
      * Check any duplicate username.
      *
@@ -88,12 +90,12 @@ public final class LoginHandler {
      * @return the boolean.
      */
     public boolean duplicateUsername(final String inputUsername)
-    throws Exception {
+            throws Exception {
         try {
-            Account account = (DbManager
-                    .getInstance().readWithCondition(
-                    Account.class, "ACCOUNT",
-                    Map.of("Username", inputUsername))).getFirst();
+            Account account = (DbManager.readWithCondition(
+                    Account.class, TableSchema.Name.ACCOUNT,
+                    Map.of(TableSchema.Column.Username,
+                            inputUsername))).getFirst();
             return inputUsername.equals(account.getUsername());
         } catch (NoSuchElementException ex) {
             return false;

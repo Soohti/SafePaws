@@ -35,7 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * List<List<LocationPoint>> clusters = kMeans.getClusters();
  * </pre>
  */
-public class AnimalClusterAnalysis implements Algorithm {
+public final class AnimalClusterAnalysis implements Algorithm {
 
     /**
      * The number of clusters.

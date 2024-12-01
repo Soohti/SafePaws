@@ -1,6 +1,6 @@
 package org.cs3343.safepaws.entity;
 
-public final class MatchingPair {
+public class MatchingPair {
     /**
      * first.
      */

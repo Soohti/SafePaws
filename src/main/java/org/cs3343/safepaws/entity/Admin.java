@@ -21,4 +21,14 @@ public class Admin extends Account {
                  final String newPassword, final String newRole) {
         super(newId, newUsername, newPassword, newRole);
     }
+
+    /**
+     * Clones the Admin object.
+     *
+     * @return a deep copy of the Admin object
+     */
+    @Override
+    public Admin clone() {
+        return (Admin) super.clone();
+    }
 }
