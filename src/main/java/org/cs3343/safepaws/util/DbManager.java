@@ -318,34 +318,33 @@ public final class DbManager {
         try {
             conn = getConnection();
             conn.setAutoCommit(false);
-            StringBuilder setClause = new StringBuilder();
-            StringBuilder whereClause = new StringBuilder();
+            StringBuilder sqlCommand = new StringBuilder("UPDATE "
+                    + tableName + " SET ");
             List<Object> parameters = new ArrayList<>();
-            for (Map.Entry<TableSchema.Column, String> entry
-                    : setFields.entrySet()) {
-                setClause.append(entry.getKey()).append(" = ?, ");
+            // Build SET clause
+            for (Map.Entry<TableSchema.Column, String> entry : setFields
+                    .entrySet()) {
+                sqlCommand.append(entry.getKey()).append(" = ?, ");
                 parameters.add(entry.getValue());
             }
+            // Remove the last comma and space
             if (!setFields.isEmpty()) {
-                setClause.setLength(setClause.length()
+                sqlCommand.setLength(sqlCommand.length()
                         - LENGTH_OF_LAST_COMMA);
             }
-            String sqlCommand = String.format("UPDATE {%s} SET {%s};}",
-                    tableName, setClause);
+            // Build WHERE clause
             if (!whereFields.isEmpty()) {
-                for (Map.Entry<TableSchema.Column, String> entry
-                        : whereFields.entrySet()) {
-                    whereClause.append(entry.getKey())
-                            .append(" = ? AND ");
+                sqlCommand.append(" WHERE ");
+                for (Map.Entry<TableSchema.Column, String> entry : whereFields
+                        .entrySet()) {
+                    sqlCommand.append(entry.getKey()).append(" = ? AND ");
                     parameters.add(entry.getValue());
                 }
-                whereClause.setLength(
-                        whereClause.length() - LENGTH_OF_LAST_AND);
-                sqlCommand = String.format("UPDATE {%s} SET {%s} WHERE {%s};",
-                        tableName, setClause,
-                        whereClause);
+                sqlCommand.setLength(sqlCommand.length()
+                        - LENGTH_OF_LAST_AND);
             }
-            statement = conn.prepareStatement(sqlCommand);
+            sqlCommand.append(";");
+            statement = conn.prepareStatement(sqlCommand.toString());
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i));
             }

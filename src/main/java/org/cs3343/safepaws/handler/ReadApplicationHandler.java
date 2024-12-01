@@ -7,6 +7,7 @@ import org.cs3343.safepaws.util.TableSchema;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Singleton handler for reading application information.
@@ -43,11 +44,15 @@ public final class ReadApplicationHandler {
      */
     public Application findApplicationByAid(final int aid) {
         try {
-            return (DbManager
-                    .readWithCondition(Application.class,
-                            TableSchema.Name.APPLICATION,
-                            Map.of(TableSchema.Column.Id,
-                                    String.valueOf(aid)))).getFirst();
+            try {
+                return (DbManager
+                        .readWithCondition(Application.class,
+                                TableSchema.Name.APPLICATION,
+                                Map.of(TableSchema.Column.Id,
+                                        String.valueOf(aid)))).getFirst();
+            } catch (NoSuchElementException ex) {
+                return null;
+            }
         } catch (Exception ex) {
             System.out.println("Error during finding all applications: "
                     + ex.getMessage());
@@ -69,25 +74,25 @@ public final class ReadApplicationHandler {
             if (state == Application.State.APPROVED) {
                 DbManager.update(Application.class,
                         TableSchema.Name.APPLICATION,
+                        Map.of(TableSchema.Column.PId,
+                                String.valueOf(pid)),
                         Map.of(TableSchema.Column.State,
                                 String.valueOf(Application
-                                        .State.REJECTED.ordinal())),
-                        Map.of(TableSchema.Column.PId,
-                                String.valueOf(pid))
+                                        .State.REJECTED.ordinal()))
                 );
                 DbManager.update(Pet.class,
                         TableSchema.Name.PET,
+                        Map.of(TableSchema.Column.Id, String.valueOf(pid)),
                         Map.of(TableSchema.Column.State,
                                 String.valueOf(Application
-                                        .State.APPROVED.ordinal())),
-                        Map.of(TableSchema.Column.PId, String.valueOf(pid))
+                                        .State.APPROVED.ordinal()))
                 );
             }
             DbManager.update(Application.class,
                     TableSchema.Name.APPLICATION,
+                    Map.of(TableSchema.Column.Id, String.valueOf(aid)),
                     Map.of(TableSchema.Column.State,
-                            String.valueOf(state.ordinal())),
-                    Map.of(TableSchema.Column.Id, String.valueOf(aid))
+                            String.valueOf(state.ordinal()))
             );
         } catch (Exception ex) {
             System.out.println("Error during changing status: "
