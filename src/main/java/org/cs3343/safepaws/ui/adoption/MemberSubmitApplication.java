@@ -12,7 +12,7 @@ import org.cs3343.safepaws.util.Session;
 /**
  * Class to handle the submission of adoption applications.
  */
-public class MemberSubmitApplication extends UI {
+public final class MemberSubmitApplication extends UI {
     /**
      * The name of the UI component.
      */

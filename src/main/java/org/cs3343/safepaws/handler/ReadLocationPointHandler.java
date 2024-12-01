@@ -20,7 +20,7 @@ public final class ReadLocationPointHandler {
 
     public ArrayList<LocationPoint> findAllPet() {
         try {
-            return DbManager.getInstance().readAll(LocationPoint.class,
+            return DbManager.readAll(LocationPoint.class,
                     "ANIMAL_LOCATION\n");
         } catch (Exception ex) {
             System.out.println("Error during finding all animal location: "

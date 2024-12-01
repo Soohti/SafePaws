@@ -1,6 +1,7 @@
 package org.cs3343.safepaws.entity;
 
 import org.cs3343.safepaws.util.OneToOne;
+import org.cs3343.safepaws.util.TableSchema;
 
 /**
  * Represents an application with user, pet, state, and id.
@@ -14,13 +15,15 @@ public class Application {
     /**
      * The user associated with the application.
      */
-    @OneToOne(columnName = "Mid", tableName = "ACCOUNT")
+    @OneToOne(columnName = TableSchema.Column.MId,
+            tableName = TableSchema.Name.ACCOUNT)
     private Member user;
 
     /**
      * The pet associated with the application.
      */
-    @OneToOne(columnName = "PId", tableName = "PET")
+    @OneToOne(columnName = TableSchema.Column.PId,
+            tableName = TableSchema.Name.PET)
     private Pet pet;
 
     /**
@@ -42,14 +45,13 @@ public class Application {
      */
     public Application(final Member newAccount, final Pet newPet,
                        final State newState) {
-        this.user = new Member(newAccount);
+        this.user = newAccount.clone();
         this.pet = newPet;
         this.state = newState;
     }
 
     /**
      * Constructs an Application with the specified user, pet, and state.
-     *
      */
     public Application() {
         this.user = null;
@@ -74,7 +76,7 @@ public class Application {
      * @return the user
      */
     public Member getUser() {
-        return new Member(user);
+        return user.clone();
     }
 
     /**

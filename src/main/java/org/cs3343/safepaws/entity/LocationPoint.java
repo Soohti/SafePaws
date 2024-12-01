@@ -3,7 +3,7 @@ package org.cs3343.safepaws.entity;
 /**
  * Represents the  location in a two-dimensional space.
  */
-public final class LocationPoint {
+public class LocationPoint {
 
     /**
      * The xValue-coordinate of the location.
@@ -67,6 +67,11 @@ public final class LocationPoint {
                 ));
     }
 
+    /**
+     * Returns a string representation of the LocationPoint.
+     *
+     * @return a string representation of the LocationPoint
+     */
     @Override
     public String toString() {
         return "(" + this.xValue + ", " + this.yValue + ")";

@@ -3,6 +3,7 @@ package org.cs3343.safepaws.handler;
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.TableSchema;
 
 import java.util.Map;
 
@@ -31,25 +32,27 @@ public final class CreateAccountHandler {
      */
     public CreateAccountHandler() {
     }
+
     /**
      * Inserts an account into the database.
+     *
      * @param username the username of account to insert.
      * @param password the password of account to insert.
-     * @param role the role of account to insert.
+     * @param role     the role of account to insert.
      */
     public void createAccount(final String username,
                               final String password,
                               final String role)
             throws Exception {
-        DbManager.getInstance().insertWithAutoValue(
-                Map.of("Username", username,
-                        "Password", password,
-                        "Role", role),
-                "ACCOUNT");
-        Account thisAccount = (DbManager.getInstance().readWithCondition(
+        DbManager.insertWithAutoValue(
+                Map.of(TableSchema.Column.Username, username,
+                        TableSchema.Column.Password, password,
+                        TableSchema.Column.Role, role),
+                TableSchema.Name.ACCOUNT);
+        Account thisAccount = (DbManager.readWithCondition(
                 Account.class,
-                "ACCOUNT",
-                Map.of("Username", username)
+                TableSchema.Name.ACCOUNT,
+                Map.of(TableSchema.Column.Username, username)
         )).getFirst();
         if ("m".equalsIgnoreCase(role)) {
             MemberProfile memberProfile = new MemberProfile(
@@ -58,22 +61,25 @@ public final class CreateAccountHandler {
                     "Dog",
                     "m",
                     0
-                    );
+            );
             createMemberProfile(memberProfile);
         }
         System.out.println("Account inserted successfully");
     }
+
     /**
      * Inserts a member profile into the database.
+     *
      * @param memberProfile the member profile of account to insert.
      */
     public void createMemberProfile(
             final MemberProfile memberProfile)
             throws Exception {
-        DbManager.getInstance().insert(memberProfile,
-                "MEMBER_PROFILE");
+        DbManager.insert(memberProfile,
+                TableSchema.Name.MEMBER_PROFILE);
         System.out.println("Member profile inserted successfully");
     }
+
     /**
      * Validates the username.
      *
@@ -98,6 +104,7 @@ public final class CreateAccountHandler {
         }
         return 1;
     }
+
     /**
      * Validates the password.
      *
@@ -108,6 +115,7 @@ public final class CreateAccountHandler {
         return password.length() >= MIN_PASSWORD_LENGTH
                 && password.length() <= MAX_PASSWORD_LENGTH;
     }
+
     /**
      * Validates the role.
      *

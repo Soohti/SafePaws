@@ -1,7 +1,7 @@
 package org.cs3343.safepaws.ui.adoption;
 
 import org.cs3343.safepaws.entity.Admin;
-import org.cs3343.safepaws.util.CreatePetRecordHandler;
+import org.cs3343.safepaws.handler.CreatePetRecordHandler;
 import org.cs3343.safepaws.handler.PetRegisterHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
