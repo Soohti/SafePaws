@@ -2,6 +2,7 @@ package org.cs3343.safepaws.handler;
 
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.MemberProfile;
+import org.cs3343.safepaws.entity.ShelterLocation;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
@@ -64,6 +65,13 @@ public final class CreateAccountHandler {
             );
             createMemberProfile(memberProfile);
         }
+        if ("s".equalsIgnoreCase(role)) {
+            ShelterLocation shelterLocation = new ShelterLocation(
+                    thisAccount.getId(),
+                    0, 0
+            );
+            createMemberProfile(shelterLocation);
+        }
         System.out.println("Account inserted successfully");
     }
 
@@ -79,7 +87,18 @@ public final class CreateAccountHandler {
                 TableSchema.Name.MEMBER_PROFILE);
         System.out.println("Member profile inserted successfully");
     }
-
+    /**
+     * Inserts a member profile into the database.
+     *
+     * @param shelterLocation the member profile of account to insert.
+     */
+    public void createMemberProfile(
+            final ShelterLocation shelterLocation)
+            throws Exception {
+        DbManager.insert(shelterLocation,
+                TableSchema.Name.SHELTER_LOCATION);
+        System.out.println("Shelter location inserted successfully");
+    }
     /**
      * Validates the username.
      *

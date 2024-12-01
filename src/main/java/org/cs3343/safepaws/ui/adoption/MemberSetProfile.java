@@ -143,7 +143,7 @@ public final class MemberSetProfile extends UI {
         session.println("Enter your preferred pet gender "
                 + "(\"m\" for male, \"f\" for female):");
         gender = session.requestInput();
-        while (!"m".equals(gender) && !"f".equals(gender)) {
+        while (!"m".equalsIgnoreCase(gender) && !"f".equalsIgnoreCase(gender)) {
             session.println("Your input gender is invalid. "
                     + "Please enter again:");
             gender = session.requestInput();
