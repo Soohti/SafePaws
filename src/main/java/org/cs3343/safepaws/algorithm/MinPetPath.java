@@ -99,8 +99,12 @@ public final class MinPetPath implements Algorithm {
         List<Integer> res = new ArrayList<>();
         double minDistance = tsp(dist, res);
 
-        String output = "Best path is: " + path + "\n";
-        output += "Minimum distance is: " + minDistance + "\n";
-        return output;
+        StringBuilder output = new StringBuilder("The best path is: \n");
+        for (int i : res) {
+            output.append(path.get(i)).append("\n");
+        }
+        output.append(start).append("\n");
+        output.append("Minimum distance is: ").append(minDistance).append("\n");
+        return output.toString();
     }
 }

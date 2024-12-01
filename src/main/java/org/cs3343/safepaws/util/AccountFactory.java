@@ -6,6 +6,7 @@ import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.entity.Shelter;
+import org.cs3343.safepaws.entity.ShelterLocation;
 
 /**
  * Factory class for creating Account instances.
@@ -29,7 +30,7 @@ public final class AccountFactory {
                                         final String password,
                                         final String role,
                                         final MemberProfile memberProfile,
-                                        final LocationPoint locationPoint) {
+                                        final ShelterLocation locationPoint) {
         switch (role.toLowerCase()) {
             case "m":
                 return new Member(id, username,
