@@ -18,14 +18,14 @@ public @interface OneToOne {
      *
      * @return the column name
      */
-    String columnName();
+    TableSchema.Column columnName();
 
     /**
      * The name of the table that the foreign key references.
      *
      * @return the table name
      */
-    String tableName();
+    TableSchema.Name tableName();
 }
 /*
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,4 +1,4 @@
-package org.cs3343.safepaws.util;
+package org.cs3343.safepaws.handler;
 
 public final class CreatePetRecordHandler {
 

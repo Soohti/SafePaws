@@ -3,6 +3,7 @@ package org.cs3343.safepaws.handler;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.TableSchema;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -25,7 +26,7 @@ public final class ReadApplicationHandler {
      */
     public ArrayList<Application> findAllApplication() {
         try {
-            return DbManager.getInstance().readAll(Application.class,
+            return DbManager.readAll(Application.class,
                     "APPLICATION");
         } catch (Exception ex) {
             System.out.println("Error during finding specific application: "
@@ -42,10 +43,11 @@ public final class ReadApplicationHandler {
      */
     public Application findApplicationByAid(final int aid) {
         try {
-            return (DbManager.getInstance()
+            return (DbManager
                     .readWithCondition(Application.class,
-                            "APPLICATION",
-                            Map.of("Id", String.valueOf(aid)))).getFirst();
+                            TableSchema.Name.APPLICATION,
+                            Map.of(TableSchema.Column.Id,
+                                    String.valueOf(aid)))).getFirst();
         } catch (Exception ex) {
             System.out.println("Error during finding all applications: "
                     + ex.getMessage());
@@ -65,23 +67,27 @@ public final class ReadApplicationHandler {
                                        final Application.State state) {
         try {
             if (state == Application.State.APPROVED) {
-                DbManager.getInstance().update(Application.class,
-                        "APPLICATION",
-                        Map.of("State", String.valueOf(Application
-                                .State.REJECTED.ordinal())),
-                        Map.of("Pid", String.valueOf(pid))
+                DbManager.update(Application.class,
+                        TableSchema.Name.APPLICATION,
+                        Map.of(TableSchema.Column.State,
+                                String.valueOf(Application
+                                        .State.REJECTED.ordinal())),
+                        Map.of(TableSchema.Column.PId,
+                                String.valueOf(pid))
                 );
-                DbManager.getInstance().update(Pet.class,
-                        "PET",
-                        Map.of("State", String.valueOf(Application
-                                .State.APPROVED.ordinal())),
-                        Map.of("Id", String.valueOf(pid))
+                DbManager.update(Pet.class,
+                        TableSchema.Name.PET,
+                        Map.of(TableSchema.Column.State,
+                                String.valueOf(Application
+                                        .State.APPROVED.ordinal())),
+                        Map.of(TableSchema.Column.PId, String.valueOf(pid))
                 );
             }
-            DbManager.getInstance().update(Application.class,
-                    "APPLICATION",
-                    Map.of("State", String.valueOf(state.ordinal())),
-                    Map.of("Id", String.valueOf(aid))
+            DbManager.update(Application.class,
+                    TableSchema.Name.APPLICATION,
+                    Map.of(TableSchema.Column.State,
+                            String.valueOf(state.ordinal())),
+                    Map.of(TableSchema.Column.Id, String.valueOf(aid))
             );
         } catch (Exception ex) {
             System.out.println("Error during changing status: "
