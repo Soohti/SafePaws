@@ -21,10 +21,15 @@ public class TestMinPetPath {
         path.add(point3);
         String output = new MinPetPath().work(startPoint, path);
         String expectedPath =
-                "Best path is: [(0.0, 0.0), (1.0, 1.0), (2.0, 2.0), (2.0, 0.0)]";
+                "The best path is: \n"
+                        + "(0.0, 0.0)\n"
+                        + "(2.0, 0.0)\n"
+                        + "(2.0, 2.0)\n"
+                        + "(1.0, 1.0)\n"
+                        + "(0.0, 0.0)";
         double expectedDistance =
-                startPoint.distanceTo(point1) + point1.distanceTo(point2)
-                        + point2.distanceTo(point3) + point3.distanceTo(
+                startPoint.distanceTo(point3) + point3.distanceTo(point2)
+                        + point2.distanceTo(point1) + point1.distanceTo(
                         startPoint);
         assertEquals(
                 expectedPath + "\n" + "Minimum distance is: " + expectedDistance
