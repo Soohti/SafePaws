@@ -29,7 +29,7 @@ public final class ReadPetHandler {
             return (DbManager
                     .readWithCondition(Pet.class,
                             TableSchema.Name.PET,
-                            Map.of(TableSchema.Column.PId,
+                            Map.of(TableSchema.Column.Id,
                                     String.valueOf(pid)))).getFirst();
         } catch (Exception ex) {
             System.out.println("Error during finding specific pet: "
