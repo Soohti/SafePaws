@@ -7,7 +7,7 @@ package org.cs3343.safepaws.entity;
  * preferences, and pet-related attributes.
  * </p>
  */
-public final class MemberProfile {
+public class MemberProfile implements Cloneable {
 
     /**
      * The id of the member.
@@ -368,5 +368,23 @@ public final class MemberProfile {
      */
     public void setGender(final String newGender) {
         this.gender = newGender;
+    }
+
+    /**
+     * Creates and returns a deep copy of this {@code MemberProfile} object.
+     *
+     * <p>The new object will have the same field values as this object,
+     * but changes to the new object will not affect this object,
+     * and vice versa.
+     *
+     * @return A deep copy of this {@code MemberProfile} object.
+     */
+    @Override
+    public MemberProfile clone() {
+        try {
+            return (MemberProfile) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

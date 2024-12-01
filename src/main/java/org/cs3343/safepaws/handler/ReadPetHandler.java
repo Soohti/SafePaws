@@ -2,6 +2,7 @@ package org.cs3343.safepaws.handler;
 
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.TableSchema;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -25,10 +26,11 @@ public final class ReadPetHandler {
      */
     public Pet findConditionalPet(final int pid) {
         try {
-            return (DbManager.getInstance()
+            return (DbManager
                     .readWithCondition(Pet.class,
-                            "PET",
-                            Map.of("Id", String.valueOf(pid)))).getFirst();
+                            TableSchema.Name.PET,
+                            Map.of(TableSchema.Column.PId,
+                                    String.valueOf(pid)))).getFirst();
         } catch (Exception ex) {
             System.out.println("Error during finding specific pet: "
                     + ex.getMessage());
@@ -43,7 +45,7 @@ public final class ReadPetHandler {
      */
     public ArrayList<Pet> findAllPet() {
         try {
-            return DbManager.getInstance().readAll(Pet.class, "PET");
+            return DbManager.readAll(Pet.class, "PET");
         } catch (Exception ex) {
             System.out.println("Error during finding all pets: "
                     + ex.getMessage());

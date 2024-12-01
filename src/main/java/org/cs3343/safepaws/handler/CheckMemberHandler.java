@@ -4,6 +4,7 @@ import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.TableSchema;
 
 import java.util.List;
 import java.util.Map;
@@ -32,12 +33,15 @@ public final class CheckMemberHandler {
                                   final Pet pet,
                                   final Application.State state)
             throws Exception {
-        DbManager.getInstance().insertWithAutoValue(
-                Map.of("MId", String.valueOf(member.getId()),
-                        "PId", String.valueOf(pet.getId()),
-                        "State", String.valueOf(state.ordinal())
+        DbManager.insertWithAutoValue(
+                Map.of(TableSchema.Column.MId,
+                        String.valueOf(member.getId()),
+                        TableSchema.Column.PId,
+                        String.valueOf(pet.getId()),
+                        TableSchema.Column.State,
+                        String.valueOf(state.ordinal())
                 ),
-                "APPLICATION");
+                TableSchema.Name.APPLICATION);
         System.out.println("Application inserted successfully");
     }
 
@@ -50,10 +54,11 @@ public final class CheckMemberHandler {
      */
     public List<Application> findApplicationByMid(final int mid) {
         try {
-            return DbManager.getInstance()
+            return DbManager
                     .readWithCondition(Application.class,
-                            "APPLICATION",
-                            Map.of("MId", String.valueOf(mid)));
+                            TableSchema.Name.APPLICATION,
+                            Map.of(TableSchema.Column.MId,
+                                    String.valueOf(mid)));
         } catch (Exception ex) {
             System.out.println("Error during finding all applications: "
                     + ex.getMessage());

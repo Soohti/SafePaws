@@ -7,7 +7,7 @@ package org.cs3343.safepaws.entity;
  * fields and methods for managing account details.
  * </p>
  */
-public class Account {
+public class Account implements Cloneable {
 
     /**
      * The unique identifier for a user.
@@ -81,7 +81,6 @@ public class Account {
 
     /**
      * Constructs a new Account with the given parameters.
-     *
      */
     public Account() {
         this.id = -1; //default value
@@ -89,6 +88,7 @@ public class Account {
         this.password = "";
         this.role = "";
     }
+
     /**
      * Copy constructor for creating a new {@code Account} object that is a copy
      * of an existing {@code Account} object.
@@ -181,5 +181,19 @@ public class Account {
      */
     public void setRole(final String newRole) {
         this.role = newRole;
+    }
+
+    /**
+     * Returns a deep copy of this {@code Account} object.
+     *
+     * @return a deep copy of this object
+     */
+    @Override
+    public Account clone() {
+        try {
+            return (Account) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

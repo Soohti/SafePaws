@@ -3,7 +3,7 @@ package org.cs3343.safepaws.entity;
 /**
  * Represents a shelter with a username, password, role, and location point.
  */
-public final class Shelter extends Account {
+public class Shelter extends Account {
     /**
      * The location point of the shelter.
      */

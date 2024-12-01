@@ -11,7 +11,7 @@ import org.cs3343.safepaws.util.Session;
  * to view and update the state
  * of an adoption application.
  */
-public class AdminReviewApplication extends UI {
+public final class AdminReviewApplication extends UI {
     /**
      * The name of the UI for reviewing adoption applications.
      */

@@ -146,7 +146,11 @@ public final class Session {
      * @param newAccount the new account
      */
     public void setAccount(final Account newAccount) {
-        this.account = newAccount;
+        if (newAccount == null) {
+            this.account = null;
+        } else {
+            this.account = newAccount.clone();
+        }
     }
 
     /**
@@ -155,6 +159,10 @@ public final class Session {
      * @return the account associated with the session.
      */
     public Account getAccount() {
-        return account;
+        if (account == null) {
+            return null;
+        } else {
+            return account.clone();
+        }
     }
 }

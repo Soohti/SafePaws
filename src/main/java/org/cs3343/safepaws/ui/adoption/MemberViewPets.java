@@ -13,7 +13,7 @@ import java.util.List;
  * The MemberViewPets class is responsible for
  * displaying available pets to the user.
  */
-public class MemberViewPets extends UI {
+public final class MemberViewPets extends UI {
 
     /**
      * The name of this UI component.
