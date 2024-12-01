@@ -1,9 +1,9 @@
 package org.cs3343.safepaws.ui.animalShelter;
+
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.Shelter;
 import org.cs3343.safepaws.handler.SetLocationHandler;
 import org.cs3343.safepaws.ui.UI;
-import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
 public class SetLocation extends UI {
     /**
