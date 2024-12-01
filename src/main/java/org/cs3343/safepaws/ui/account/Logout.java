@@ -38,15 +38,4 @@ public class Logout extends UI {
     public Logout(final UI pReferrer) {
         super(NAME, pReferrer);
     }
-
-    /**
-     * Checks if is visible to.
-     *
-     * @param session the session
-     * @return true, if is visible to
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null;
-    }
 }

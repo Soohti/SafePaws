@@ -1,4 +1,4 @@
-package org.cs3343.safepaws.ui.animalShelter;
+package org.cs3343.safepaws.ui.shelter;
 
 import org.cs3343.safepaws.algorithm.MinPetPath;
 import org.cs3343.safepaws.entity.LocationPoint;
@@ -9,7 +9,7 @@ import org.cs3343.safepaws.util.Session;
 
 import java.util.Vector;
 
-public class PlanRoute extends UI {
+public final class PlanRoute extends UI {
 
     /**
      * The name of the MatchPets UI.
@@ -27,7 +27,7 @@ public class PlanRoute extends UI {
     }
 
     @Override
-    protected final UI execute(final Session session) {
+    protected UI execute(final Session session) {
         PlanRouteHandler handler = new PlanRouteHandler();
         var startLocation = ((Shelter) session.getAccount()).getLocationPoint();
         var allAnimalLocations = handler.findAllLocationPoints(true);
@@ -52,19 +52,12 @@ public class PlanRoute extends UI {
         }
         LocationPoint startLocationPoint = new LocationPoint(0, 0);
         if (startLocation != null) {
-            startLocationPoint = new LocationPoint(startLocation.getxValue(),
-                    startLocation.getyValue());
+            startLocationPoint = new LocationPoint(startLocation.getXValue(),
+                    startLocation.getYValue());
         }
         String output = new MinPetPath().work(startLocationPoint,
                 selectedAnimalLocations);
         session.println(output);
         return this.getReferrer();
-    }
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() instanceof Shelter;
     }
 }

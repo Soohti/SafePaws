@@ -30,7 +30,7 @@ public class PlanRouteHandler {
                 return DbManager.readWithCondition(LocationPoint.class,
                         TableSchema.Name.ANIMAL_LOCATION,
                         Map.of(TableSchema.Column.Verified,
-                                String.valueOf(verified)));
+                                verified ? "1" : "0"));
             } catch (NoSuchElementException e) {
                 return null;
             }

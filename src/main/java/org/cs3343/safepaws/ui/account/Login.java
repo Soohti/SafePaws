@@ -67,16 +67,4 @@ public class Login extends UI {
     public Login(final UI pReferrer) {
         super(NAME, pReferrer);
     }
-
-    /**
-     * Checks if is visible to.
-     *
-     * @param session the session
-     * @return true, if is visible to
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() == null;
-    }
-
 }

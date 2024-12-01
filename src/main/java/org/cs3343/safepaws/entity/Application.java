@@ -137,7 +137,6 @@ public class Application {
      * Enum representing the possible states of an application.
      */
     public enum State {
-
         /**
          * The application is pending.
          */

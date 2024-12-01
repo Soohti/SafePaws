@@ -12,7 +12,7 @@ public class Shelter extends Account {
      */
     @OneToOne(columnName = TableSchema.Column.Id,
             tableName = TableSchema.Name.SHELTER_LOCATION)
-    private final ShelterLocation locationPoint;
+    private ShelterLocation locationPoint;
 
     /**
      * Constructs a new Shelter with the specified parameters.
@@ -39,5 +39,26 @@ public class Shelter extends Account {
      */
     public ShelterLocation getLocationPoint() {
         return locationPoint;
+    }
+
+    /**
+     * Sets the location point of the shelter.
+     *
+     * @param location the location point of the shelter
+     */
+    public void setLocationPoint(final ShelterLocation location) {
+        this.locationPoint = location;
+    }
+
+    /**
+     * Clones the Shelter object.
+     *
+     * @return a deep copy of the Shelter object
+     */
+    @Override
+    public Shelter clone() {
+        Shelter account = (Shelter) super.clone();
+        account.setLocationPoint(this.locationPoint.clone());
+        return account;
     }
 }

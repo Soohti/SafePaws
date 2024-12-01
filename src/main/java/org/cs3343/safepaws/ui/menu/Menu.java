@@ -17,13 +17,14 @@ public abstract class Menu extends UI {
     /**
      * Constructs a new Menu.
      *
-     * @param name     the name of the menu
-     * @param descr    the description of the menu
-     * @param referrer the referrer of the menu
+     * @param name         the name of the menu
+     * @param sDescription the description of the menu
+     * @param referrer     the referrer of the menu
      */
-    public Menu(final String name, final String descr, final UI referrer) {
+    public Menu(final String name, final String sDescription,
+                final UI referrer) {
         super(name, referrer);
-        this.description = descr;
+        this.description = sDescription;
     }
 
     protected final void setMenuItems(final UI[] pMenuItems) {
@@ -36,9 +37,7 @@ public abstract class Menu extends UI {
             session.println(description);
         }
         for (int i = 0; i < menuItems.length; i++) {
-            if (menuItems[i].isVisibleTo(session)) {
-                session.println((i + 1) + ". " + menuItems[i].getName());
-            }
+            session.println((i + 1) + ". " + menuItems[i].getName());
         }
         if (this.getReferrer() != null) {
             session.println("B. Back");
@@ -50,15 +49,14 @@ public abstract class Menu extends UI {
 
         do {
             String choice = session.requestInput();
-            if ("E".equals(choice)) {
+            if (this.getReferrer() == null && "E".equals(choice)) {
                 return new Exit(this);
             } else if (this.getReferrer() != null && "B".equals(choice)) {
                 return this.getReferrer();
             } else {
                 try {
                     int choiceInt = Integer.parseInt(choice);
-                    if (choiceInt > 0 && choiceInt <= menuItems.length
-                            && menuItems[choiceInt - 1].isVisibleTo(session)) {
+                    if (choiceInt > 0 && choiceInt <= menuItems.length) {
                         return menuItems[choiceInt - 1];
                     } else {
                         session.print("Invalid choice, please try again: ");

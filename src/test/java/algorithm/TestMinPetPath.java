@@ -1,3 +1,5 @@
+package algorithm;
+
 import org.cs3343.safepaws.algorithm.MinPetPath;
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.junit.jupiter.api.Test;

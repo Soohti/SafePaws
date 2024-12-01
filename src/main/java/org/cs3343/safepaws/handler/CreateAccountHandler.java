@@ -60,8 +60,7 @@ public final class CreateAccountHandler {
                     thisAccount.getId(),
                     "Dog",
                     "Dog",
-                    "m",
-                    0
+                    "m"
             );
             createMemberProfile(memberProfile);
         }
@@ -87,6 +86,7 @@ public final class CreateAccountHandler {
                 TableSchema.Name.MEMBER_PROFILE);
         System.out.println("Member profile inserted successfully");
     }
+
     /**
      * Inserts a member profile into the database.
      *
@@ -99,6 +99,7 @@ public final class CreateAccountHandler {
                 TableSchema.Name.SHELTER_LOCATION);
         System.out.println("Shelter location inserted successfully");
     }
+
     /**
      * Validates the username.
      *

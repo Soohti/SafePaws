@@ -1,4 +1,4 @@
-package org.cs3343.safepaws.ui.adoption;
+package org.cs3343.safepaws.ui.member;
 
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
@@ -13,7 +13,7 @@ import java.util.List;
  * This class represents the UI for members to see their submitted
  * adoption applications.
  */
-public final class MemberCheckApplication extends UI {
+public final class CheckApplication extends UI {
     /**
      * The name of this UI.
      */
@@ -21,11 +21,11 @@ public final class MemberCheckApplication extends UI {
             "Check submitted adoption applications";
 
     /**
-     * Constructs a new MemberCheckApplication with the specified referrer.
+     * Constructs a new CheckApplication with the specified referrer.
      *
      * @param referrer the UI that referred to this one
      */
-    public MemberCheckApplication(final UI referrer) {
+    public CheckApplication(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -56,16 +56,5 @@ public final class MemberCheckApplication extends UI {
             }
         }
         return this.getReferrer();
-    }
-
-    /**
-     * Determines if this UI is visible to the current session.
-     *
-     * @param session the current session
-     * @return true if the session's account is a member, false otherwise
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() instanceof Member;
     }
 }
