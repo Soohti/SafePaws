@@ -318,30 +318,34 @@ public final class DbManager {
         try {
             conn = getConnection();
             conn.setAutoCommit(false);
-            StringBuilder sqlCommand = new StringBuilder("UPDATE "
-                    + tableName + " SET ");
+            StringBuilder setClause = new StringBuilder();
+            StringBuilder whereClause = new StringBuilder();
             List<Object> parameters = new ArrayList<>();
-            for (Map.Entry<TableSchema.Column, String> entry : setFields
-                    .entrySet()) {
-                sqlCommand.append(entry.getKey()).append(" = ?, ");
+            for (Map.Entry<TableSchema.Column, String> entry
+                    : setFields.entrySet()) {
+                setClause.append(entry.getKey()).append(" = ?, ");
                 parameters.add(entry.getValue());
             }
             if (!setFields.isEmpty()) {
-                sqlCommand.setLength(sqlCommand.length()
+                setClause.setLength(setClause.length()
                         - LENGTH_OF_LAST_COMMA);
             }
+            String sqlCommand = String.format("UPDATE %s SET %s;",
+            tableName, setClause);
             if (!whereFields.isEmpty()) {
-                sqlCommand.append(" WHERE ");
-                for (Map.Entry<TableSchema.Column, String> entry : whereFields
-                        .entrySet()) {
-                    sqlCommand.append(entry.getKey()).append(" = ? AND ");
+                for (Map.Entry<TableSchema.Column, String> entry
+                        : whereFields.entrySet()) {
+                    whereClause.append(entry.getKey())
+                            .append(" = ? AND ");
                     parameters.add(entry.getValue());
                 }
-                sqlCommand.setLength(sqlCommand.length()
-                        - LENGTH_OF_LAST_AND);
+                whereClause.setLength(
+                        whereClause.length() - LENGTH_OF_LAST_AND);
+                sqlCommand = String.format("UPDATE %s SET %s WHERE %s;",
+                        tableName, setClause,
+                        whereClause);
             }
-            sqlCommand.append(";");
-            statement = conn.prepareStatement(sqlCommand.toString());
+            statement = conn.prepareStatement(sqlCommand);
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i));
             }

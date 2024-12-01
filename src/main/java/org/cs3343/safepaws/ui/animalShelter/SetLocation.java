@@ -46,12 +46,24 @@ public class SetLocation extends UI {
             }
             var location = new LocationPoint(x, y);
             SetLocationHandler handler = new SetLocationHandler();
-            handler.insertShelterLocation((Shelter) session.getAccount(),
+            handler.updateShelterLocation((Shelter) session.getAccount(),
                     location);
+            session.println("Location update complete.");
         } catch (NumberFormatException e) {
             session.println("Invalid input. Please try again.");
             return this;
         }
         return this.getReferrer();
+    }
+
+    /**
+     * Checks if is visible to.
+     *
+     * @param session the session
+     * @return true, if is visible to
+     */
+    @Override
+    public boolean isVisibleTo(final Session session) {
+        return session.getAccount() instanceof Shelter;
     }
 }
