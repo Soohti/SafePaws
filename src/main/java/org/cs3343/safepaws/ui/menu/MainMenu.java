@@ -3,8 +3,6 @@ package org.cs3343.safepaws.ui.menu;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.account.CreateAccount;
 import org.cs3343.safepaws.ui.account.Login;
-import org.cs3343.safepaws.util.Session;
-
 
 public class MainMenu extends Menu {
     /**
@@ -30,10 +28,4 @@ public class MainMenu extends Menu {
         super(NAME, DESCRIPTION, null);
         setMenuItems(menuItems);
     }
-
-    @Override
-    public final boolean isVisibleTo(final Session session) {
-        return true;
-    }
-
 }

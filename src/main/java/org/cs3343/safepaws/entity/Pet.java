@@ -55,7 +55,7 @@ public class Pet {
     /**
      * The adoption state of the pet.
      */
-    private final int state;
+    private final State state;
 
     /**
      * Constructs a new {@code Pet} entity with identity
@@ -81,7 +81,7 @@ public class Pet {
         this.weight = 0; // Default value for weight
         this.activityLevel = 0; // Default value for activity level
         this.healthStatus = 0; // Default value for health status
-        this.state = 0; // Default value for state
+        this.state = State.Free; // Default value for state
     }
 
     /**
@@ -100,7 +100,7 @@ public class Pet {
                final int newWeight,
                final int newActivityLevel,
                final int newHealthStatus,
-               final int newState) {
+               final State newState) {
         this.id = newId;
         this.name = ""; // Default value for name
         this.species = ""; // Default value for species
@@ -112,10 +112,10 @@ public class Pet {
         this.healthStatus = newHealthStatus;
         this.state = newState;
     }
+
     /**
      * Constructs a new {@code Pet} entity with physical and
      * behavioral attributes.
-     *
      */
     public Pet() {
         this.id = -1;
@@ -127,8 +127,9 @@ public class Pet {
         this.weight = 0;
         this.activityLevel = 0;
         this.healthStatus = 0;
-        this.state = 0;
+        this.state = State.Free;
     }
+
     /**
      * Gets the ID of the pet.
      *
@@ -215,7 +216,21 @@ public class Pet {
      *
      * @return the adoption state of the pet
      */
-    public int getState() {
+    public State getState() {
         return state;
+    }
+
+    /**
+     * Enum representing the possible states of a pet.
+     */
+    public enum State {
+        /**
+         * The pet is free for adoption.
+         */
+        Free,
+        /**
+         * The pet has been adopted.
+         */
+        Adopted,
     }
 }

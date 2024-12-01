@@ -55,14 +55,4 @@ public abstract class UI {
         session.println();
         return nextUI;
     }
-
-    /**
-     * Returns whether the UI is visible to the session.
-     *
-     * @param session the session
-     * @return whether the UI is visible to the session
-     */
-    public boolean isVisibleTo(final Session session) {
-        return false;
-    }
 }

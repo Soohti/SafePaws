@@ -27,20 +27,3 @@ public @interface OneToOne {
      */
     TableSchema.Name tableName();
 }
-/*
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface OneToOne {
-    String columnName();
-}
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Entity {
-    String tableName();
-}
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface Id {
-}*/

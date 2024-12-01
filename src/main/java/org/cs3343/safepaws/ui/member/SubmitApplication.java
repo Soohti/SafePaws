@@ -1,4 +1,4 @@
-package org.cs3343.safepaws.ui.adoption;
+package org.cs3343.safepaws.ui.member;
 
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
@@ -12,18 +12,18 @@ import org.cs3343.safepaws.util.Session;
 /**
  * Class to handle the submission of adoption applications.
  */
-public final class MemberSubmitApplication extends UI {
+public final class SubmitApplication extends UI {
     /**
      * The name of the UI component.
      */
     private static final String NAME = "Submit an application";
 
     /**
-     * Constructor for MemberSubmitApplication.
+     * Constructor for SubmitApplication.
      *
      * @param referrer the UI referrer
      */
-    public MemberSubmitApplication(final UI referrer) {
+    public SubmitApplication(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -37,7 +37,6 @@ public final class MemberSubmitApplication extends UI {
     protected UI execute(final Session session) {
         ReadPetHandler handler = new ReadPetHandler();
         Member user = (Member) session.getAccount();
-
         session.println("Enter the ID of the pet you want to apply for:");
         String userInput = session.requestInput();
         int pid = Integer.parseInt(userInput);
@@ -76,16 +75,5 @@ public final class MemberSubmitApplication extends UI {
             }
         }
         return this.getReferrer();
-    }
-
-    /**
-     * Checks if the UI is visible to the session.
-     *
-     * @param session the current session
-     * @return true if visible, false otherwise
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() instanceof Member;
     }
 }

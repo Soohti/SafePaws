@@ -1,3 +1,5 @@
+package algorithm;
+
 import org.cs3343.safepaws.algorithm.MaxMatchingScore;
 import org.cs3343.safepaws.entity.MatchingPair;
 import org.junit.jupiter.api.Test;

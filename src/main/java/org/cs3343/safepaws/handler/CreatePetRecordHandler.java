@@ -4,10 +4,12 @@ public final class CreatePetRecordHandler {
 
     private CreatePetRecordHandler() {
     }
+
     /**
      * The maximum length for certain attributes.
      */
     private static final int MAX_LEN = 30;
+
     /**
      * Validates the name of the pet.
      *

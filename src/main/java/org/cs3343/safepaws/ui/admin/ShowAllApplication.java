@@ -1,8 +1,8 @@
-package org.cs3343.safepaws.ui.adoption;
+package org.cs3343.safepaws.ui.admin;
 
+import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.handler.ReadApplicationHandler;
-import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.cs3343.safepaws.util.Session;
 
 import java.util.ArrayList;

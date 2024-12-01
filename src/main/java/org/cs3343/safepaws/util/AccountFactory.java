@@ -13,13 +13,14 @@ import org.cs3343.safepaws.entity.ShelterLocation;
 public final class AccountFactory {
     private AccountFactory() {
     }
+
     /**
      * Creates an account based on the role.
      *
-     * @param id the id of the account
-     * @param username the username of the account
-     * @param password the password of the account
-     * @param role the role of the account
+     * @param id            the id of the account
+     * @param username      the username of the account
+     * @param password      the password of the account
+     * @param role          the role of the account
      * @param memberProfile the profile of the member (if applicable)
      * @param locationPoint the location point of the member (if applicable)
      * @return the created account
@@ -30,18 +31,15 @@ public final class AccountFactory {
                                         final String role,
                                         final MemberProfile memberProfile,
                                         final ShelterLocation locationPoint) {
-        switch (role.toLowerCase()) {
-            case "m":
-                return new Member(id, username,
-                        password, role, memberProfile);
-            case "a":
-                return new Admin(id, username,
-                        password, role);
-            case "s":
-                return  new Shelter(id, username,
-                        password, role, locationPoint);
-            default:
-                throw new IllegalArgumentException("Unknown role: " + role);
-        }
+        return switch (role.toLowerCase()) {
+            case "m" -> new Member(id, username,
+                    password, role, memberProfile);
+            case "a" -> new Admin(id, username,
+                    password, role);
+            case "s" -> new Shelter(id, username,
+                    password, role, locationPoint);
+            default ->
+                    throw new IllegalArgumentException("Unknown role: " + role);
+        };
     }
 }

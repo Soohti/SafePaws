@@ -1,5 +1,5 @@
 /**
- * The `FrequentSightingAreaOfStrayAnimals` class is a part of
+ * The `SuggestShelter` class is a part of
  * the user interface (UI) for the SafePaws application,
  * specifically designed for the animal shelter module.
  * This class allows an admin user to determine the frequent
@@ -14,8 +14,7 @@
  * 5. (Currently unimplemented) Select an application for
  * adoption and check its status.
  *
- * <p>This class is intended to be used by admin users only, as indicated by the
- * {@link #isVisibleTo(Session)} method.
+ * <p>This class is intended to be used by admin users only.
  *
  * @see UI
  * @see DbManager
@@ -23,7 +22,7 @@
  * @see KMeans
  * @see Shelter
  */
-package org.cs3343.safepaws.ui.animalShelter;
+package org.cs3343.safepaws.ui.admin;
 
 import org.cs3343.safepaws.algorithm.AnimalClusterAnalysis;
 import org.cs3343.safepaws.algorithm.FindingOptimalShelterNumber;
@@ -32,10 +31,11 @@ import org.cs3343.safepaws.entity.RecommendShelter;
 import org.cs3343.safepaws.handler.ReadLocationPointHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrequentSightingAreaOfStrayAnimals extends UI {
+public final class SuggestShelter extends UI {
 
     /**
      * The maximum number of K.
@@ -48,11 +48,11 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
             "Recommend New Shelter Locations for Stray Animals";
 
     /**
-     * Constructor for the `FrequentSightingAreaOfStrayAnimals` class.
+     * Constructor for the `SuggestShelter` class.
      *
      * @param referrer The UI component that referred to this component.
      */
-    public FrequentSightingAreaOfStrayAnimals(final UI referrer) {
+    public SuggestShelter(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -72,11 +72,11 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
         try {
             ReadLocationPointHandler handler = new ReadLocationPointHandler();
             var animalLocations = handler.findAllPet();
-            session.println("Choose mode: 1 for optimal k clustering"
-                    + ", 2 for custom k clustering:");
+            session.println("Choose mode: 1 for optimal number of shelters"
+                    + ", 2 for custom number of shelters:");
             int mode = Integer.parseInt(session.requestInput());
 
-            int k = 0;
+            int k;
             if (mode == 1) {
                 k = FindingOptimalShelterNumber
                         .findOptimalK(animalLocations, MAXK);
@@ -113,19 +113,5 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
         }
 
         return this.getReferrer();
-    }
-
-    /**
-     * Determines if this UI component is visible to the given user session.
-     * This method checks if the user is logged in and has the 'A' (admin) role.
-     *
-     * @param session The current user session.
-     * @return {@code true} if the component is visible to the user,
-     * {@code false} otherwise.
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() != null && "A".equals(session
-                .getAccount().getRole());
     }
 }

@@ -33,7 +33,7 @@ public final class TableSchema {
     }
 
     public enum Column {
-        // PET
+// PET
         /**
          * The ID column.
          */
@@ -74,7 +74,8 @@ public final class TableSchema {
          * The location column.
          */
         State,
-        // ANIMAL_LOCATION
+
+// ANIMAL_LOCATION
         /**
          * The XValue column.
          */
@@ -87,8 +88,9 @@ public final class TableSchema {
          * The Verified column.
          */
         Verified,
-        // APPLICATION
-//        Id,
+
+// APPLICATION
+        // Id,
         /**
          * The member ID column.
          */
@@ -97,10 +99,10 @@ public final class TableSchema {
          * The pet ID column.
          */
         PId,
-//        State,
+        // State,
 
-        // ACCOUNT
-//        Id,
+// ACCOUNT
+        // Id,
         /**
          * The username column.
          */
@@ -114,13 +116,13 @@ public final class TableSchema {
          */
         Role,
 
-        // SHELTER_LOCATION
-//        Id,
-//        XValue,
-//        YValue,
+// SHELTER_LOCATION
+        // Id,
+        // XValue,
+        // YValue,
 
-        // MEMBER_PROFILE
-//        Id,
+// MEMBER_PROFILE
+        // Id,
         /**
          * The member ID column.
          */
@@ -157,6 +159,6 @@ public final class TableSchema {
          * The financial budget column.
          */
         FinancialBudget,
-//        Gender,
+        // Gender,
     }
 }

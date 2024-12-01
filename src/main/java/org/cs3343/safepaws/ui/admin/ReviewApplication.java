@@ -1,17 +1,16 @@
-package org.cs3343.safepaws.ui.adoption;
+package org.cs3343.safepaws.ui.admin;
 
-import org.cs3343.safepaws.entity.Admin;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.handler.ReadApplicationHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
 
 /**
- * The AdminReviewApplication class allows an admin
+ * The ReviewApplication class allows an admin
  * to view and update the state
  * of an adoption application.
  */
-public final class AdminReviewApplication extends UI {
+public final class ReviewApplication extends UI {
     /**
      * The name of the UI for reviewing adoption applications.
      */
@@ -19,11 +18,11 @@ public final class AdminReviewApplication extends UI {
             "Review " + "adoption applications";
 
     /**
-     * Constructs an AdminReviewApplication instance.
+     * Constructs an ReviewApplication instance.
      *
      * @param referrer the UI that referred to this instance
      */
-    public AdminReviewApplication(final UI referrer) {
+    public ReviewApplication(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -55,7 +54,7 @@ public final class AdminReviewApplication extends UI {
                             handler.findApplicationByAid(aid);
                     if (thisApplication != null) {
                         ShowDetailApplication.show(session, aid);
-                        Application.State appState = null;
+                        Application.State appState;
                         if (thisApplication.getState() != null) {
                             appState = thisApplication.getState();
                         } else {
@@ -93,17 +92,5 @@ public final class AdminReviewApplication extends UI {
                 }
             }
         } while (true);
-    }
-
-    /**
-     * Determines if the UI is visible to the current session.
-     *
-     * @param session the current session
-     * @return true if the session's account is not null and has the role 'A',
-     * false otherwise
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() instanceof Admin;
     }
 }
