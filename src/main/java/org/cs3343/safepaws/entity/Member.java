@@ -26,7 +26,7 @@ public class Member extends Account {
      * @see MemberProfile
      */
     @OneToOne(columnName = TableSchema.Column.Id,
-            tableName = TableSchema.Name.ACCOUNT)
+            tableName = TableSchema.Name.MEMBER_PROFILE)
     private MemberProfile profile;
 
 
