@@ -321,18 +321,15 @@ public final class DbManager {
             StringBuilder sqlCommand = new StringBuilder("UPDATE "
                     + tableName + " SET ");
             List<Object> parameters = new ArrayList<>();
-            // Build SET clause
             for (Map.Entry<TableSchema.Column, String> entry : setFields
                     .entrySet()) {
                 sqlCommand.append(entry.getKey()).append(" = ?, ");
                 parameters.add(entry.getValue());
             }
-            // Remove the last comma and space
             if (!setFields.isEmpty()) {
                 sqlCommand.setLength(sqlCommand.length()
                         - LENGTH_OF_LAST_COMMA);
             }
-            // Build WHERE clause
             if (!whereFields.isEmpty()) {
                 sqlCommand.append(" WHERE ");
                 for (Map.Entry<TableSchema.Column, String> entry : whereFields
