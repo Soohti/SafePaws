@@ -1,8 +1,6 @@
 package org.cs3343.safepaws.handler;
 
-import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.LocationPoint;
-import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.entity.Shelter;
 import org.cs3343.safepaws.entity.ShelterLocation;
 import org.cs3343.safepaws.util.DbManager;
