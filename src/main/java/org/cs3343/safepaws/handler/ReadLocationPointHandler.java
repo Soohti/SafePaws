@@ -2,6 +2,7 @@ package org.cs3343.safepaws.handler;
 
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.util.DbManager;
+import org.cs3343.safepaws.util.TableSchema;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public final class ReadLocationPointHandler {
      */
     public ReadLocationPointHandler() {
     }
+
     /**
      * Finds all pet location points.
      *
@@ -21,7 +23,7 @@ public final class ReadLocationPointHandler {
     public ArrayList<LocationPoint> findAllPet() {
         try {
             return DbManager.readAll(LocationPoint.class,
-                    "ANIMAL_LOCATION\n");
+                    TableSchema.Name.ANIMAL_LOCATION);
         } catch (Exception ex) {
             System.out.println("Error during finding all animal location: "
                     + ex.getMessage());

@@ -1,7 +1,6 @@
-package org.cs3343.safepaws.ui.adoption;
+package org.cs3343.safepaws.ui.member;
 
 import org.cs3343.safepaws.entity.Account;
-import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.handler.UpdateMemberProfileHandler;
 import org.cs3343.safepaws.ui.UI;
@@ -9,10 +8,10 @@ import org.cs3343.safepaws.util.AccountFactory;
 import org.cs3343.safepaws.util.Session;
 
 /**
- * The MemberSetProfile class is responsible for
+ * The SetProfile class is responsible for
  * setting the profile of a member.
  */
-public final class MemberSetProfile extends UI {
+public final class SetProfile extends UI {
 
     /**
      * The name of the profile setting UI.
@@ -65,11 +64,11 @@ public final class MemberSetProfile extends UI {
     private static final int MAX_BREED_LENGTH = 30;
 
     /**
-     * Constructor for MemberSetProfile.
+     * Constructor for SetProfile.
      *
      * @param referrer the UI referrer
      */
-    public MemberSetProfile(final UI referrer) {
+    public SetProfile(final UI referrer) {
         super(NAME, referrer);
     }
 
@@ -154,9 +153,9 @@ public final class MemberSetProfile extends UI {
                 account.getId(),
                 preferredSpecies,
                 preferredBreed,
-                gender,
-                intFinancialBudget
+                gender
         );
+        profile.setFinancialBudget(intFinancialBudget);
         profile.setExtroversionLevel(intExtroversionLevel);
         profile.setDailyActivityLevel(intDailyActivityLevel);
         profile.setHouseSize(intHouseSize);
@@ -178,16 +177,5 @@ public final class MemberSetProfile extends UI {
         }
 
         return this.getReferrer();
-    }
-
-    /**
-     * Checks if the UI is visible to the session.
-     *
-     * @param session the current session
-     * @return true if visible, false otherwise
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() instanceof Member;
     }
 }

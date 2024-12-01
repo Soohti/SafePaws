@@ -1,7 +1,5 @@
 package org.cs3343.safepaws.handler;
 
-import org.cs3343.safepaws.entity.LocationPoint;
-import org.cs3343.safepaws.entity.Shelter;
 import org.cs3343.safepaws.entity.ShelterLocation;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
@@ -16,22 +14,20 @@ public final class SetLocationHandler {
     }
 
     /**
-     * Inserts a shelter location into the database.
+     * Updates a shelter location into the database.
      *
-     * @param shelter  the shelter to insert the location for.
-     * @param location the location to insert.
+     * @param location the shelter location to update
      */
-    public void updateShelterLocation(final Shelter shelter,
-                                             final LocationPoint location) {
+    public void updateShelterLocation(final ShelterLocation location) {
         try {
             DbManager.update(ShelterLocation.class,
                     TableSchema.Name.SHELTER_LOCATION,
                     Map.of(TableSchema.Column.Id,
-                            String.valueOf(shelter.getId())),
+                            String.valueOf(location.getId())),
                     Map.of(TableSchema.Column.XValue,
-                            String.valueOf(location.getxValue()),
+                            String.valueOf(location.getXValue()),
                             TableSchema.Column.YValue,
-                            String.valueOf(location.getyValue()))
+                            String.valueOf(location.getYValue()))
             );
         } catch (Exception ex) {
             System.out.println("Error during inserting shelter location: "

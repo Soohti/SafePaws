@@ -45,7 +45,7 @@ public final class ReadPetHandler {
      */
     public ArrayList<Pet> findAllPet() {
         try {
-            return DbManager.readAll(Pet.class, "PET");
+            return DbManager.readAll(Pet.class, TableSchema.Name.PET);
         } catch (Exception ex) {
             System.out.println("Error during finding all pets: "
                     + ex.getMessage());
@@ -62,7 +62,7 @@ public final class ReadPetHandler {
     public int isValidPetState(final Pet thisPet) {
         if (thisPet == null) {
             return 0;
-        } else if (thisPet.getState() == 1) {
+        } else if (thisPet.getState() == Pet.State.Adopted) {
             return 1;
         }
         return 2;

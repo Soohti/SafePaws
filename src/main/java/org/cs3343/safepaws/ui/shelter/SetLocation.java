@@ -1,11 +1,13 @@
-package org.cs3343.safepaws.ui.animalShelter;
+package org.cs3343.safepaws.ui.shelter;
 
-import org.cs3343.safepaws.entity.LocationPoint;
-import org.cs3343.safepaws.entity.Shelter;
+import org.cs3343.safepaws.entity.Account;
+import org.cs3343.safepaws.entity.ShelterLocation;
 import org.cs3343.safepaws.handler.SetLocationHandler;
 import org.cs3343.safepaws.ui.UI;
+import org.cs3343.safepaws.util.AccountFactory;
 import org.cs3343.safepaws.util.Session;
-public class SetLocation extends UI {
+
+public final class SetLocation extends UI {
     /**
      * The minimum coordinate.
      */
@@ -19,6 +21,7 @@ public class SetLocation extends UI {
      */
     private static final String NAME =
             "Set Location";
+
     /**
      * Constructs a new MatchPets UI.
      *
@@ -27,8 +30,9 @@ public class SetLocation extends UI {
     public SetLocation(final UI pReferrer) {
         super(NAME, pReferrer);
     }
+
     @Override
-    protected final UI execute(final Session session) {
+    protected UI execute(final Session session) {
         session.println(
                 "Please input float numbers from " + MIN_COORDINATE + " to "
                         + MAX_COORDINATE + ".");
@@ -44,26 +48,19 @@ public class SetLocation extends UI {
                 session.println("Invalid input. Please try again.");
                 return this;
             }
-            var location = new LocationPoint(x, y);
+            Account account = session.getAccount();
+            var location =
+                    new ShelterLocation(account.getId(), x, y);
+            session.setAccount(AccountFactory.createAccount(account.getId(),
+                    account.getUsername(), account.getPassword(),
+                    account.getRole(), null, location));
             SetLocationHandler handler = new SetLocationHandler();
-            handler.updateShelterLocation((Shelter) session.getAccount(),
-                    location);
+            handler.updateShelterLocation(location);
             session.println("Location update complete.");
         } catch (NumberFormatException e) {
             session.println("Invalid input. Please try again.");
             return this;
         }
         return this.getReferrer();
-    }
-
-    /**
-     * Checks if is visible to.
-     *
-     * @param session the session
-     * @return true, if is visible to
-     */
-    @Override
-    public boolean isVisibleTo(final Session session) {
-        return session.getAccount() instanceof Shelter;
     }
 }

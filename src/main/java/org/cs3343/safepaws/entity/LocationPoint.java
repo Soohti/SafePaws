@@ -26,10 +26,10 @@ public class LocationPoint {
         this.xValue = newXValue;
         this.yValue = newYValue;
     }
+
     /**
      * Initializes a new instance of the LocationPoint class with the specified
      * xValue and yValue coordinates.
-     *
      */
     public LocationPoint() {
         this.xValue = -1;
@@ -41,7 +41,7 @@ public class LocationPoint {
      *
      * @return the xValue-coordinate of the location
      */
-    public double getxValue() {
+    public double getXValue() {
         return this.xValue;
     }
 
@@ -50,7 +50,7 @@ public class LocationPoint {
      *
      * @return the yValue-coordinate of the location
      */
-    public double getyValue() {
+    public double getYValue() {
         return this.yValue;
     }
 

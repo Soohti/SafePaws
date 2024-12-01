@@ -28,7 +28,7 @@ public final class ReadApplicationHandler {
     public ArrayList<Application> findAllApplication() {
         try {
             return DbManager.readAll(Application.class,
-                    "APPLICATION");
+                    TableSchema.Name.APPLICATION);
         } catch (Exception ex) {
             System.out.println("Error during finding specific application: "
                     + ex.getMessage());

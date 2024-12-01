@@ -1,7 +1,9 @@
+package algorithm;
+
 import org.cs3343.safepaws.algorithm.AnimalClusterAnalysis;
+import org.cs3343.safepaws.algorithm.FindingOptimalShelterNumber;
 import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.entity.RecommendShelter;
-import org.cs3343.safepaws.algorithm.FindingOptimalShelterNumber;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,8 +18,8 @@ public class TestAnimalClusterAnalysis {
     @Test
     public void testAnimalLocation() {
         LocationPoint locationPoint = new LocationPoint(10.0, 20.0);
-        assertEquals(10.0, locationPoint.getxValue(), 1e-6);
-        assertEquals(20.0, locationPoint.getyValue(), 1e-6);
+        assertEquals(10.0, locationPoint.getXValue(), 1e-6);
+        assertEquals(20.0, locationPoint.getYValue(), 1e-6);
     }
 
     @Test
@@ -83,7 +85,8 @@ public class TestAnimalClusterAnalysis {
         locationPoints.add(new LocationPoint(12.0, 12.0));
 
         int maxK = 5;
-        int optimalK = FindingOptimalShelterNumber.findOptimalK(locationPoints, maxK);
+        int optimalK =
+                FindingOptimalShelterNumber.findOptimalK(locationPoints, maxK);
         assertTrue(optimalK > 0 && optimalK <= maxK);
     }
 
@@ -94,8 +97,7 @@ public class TestAnimalClusterAnalysis {
         shelterLocationPoints.add(new LocationPoint(3.0, 4.0));
 
         List<RecommendShelter> recommendShelters = new ArrayList<>();
-        for(LocationPoint locationPoint : shelterLocationPoints)
-        {
+        for (LocationPoint locationPoint : shelterLocationPoints) {
             recommendShelters.add(new RecommendShelter(locationPoint));
         }
         System.out.println("RecommendShelter Locations:");

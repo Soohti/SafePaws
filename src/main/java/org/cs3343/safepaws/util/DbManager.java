@@ -98,8 +98,8 @@ public final class DbManager {
                                    final TableSchema.Name table,
                                    final int idValue) throws Exception {
         String sqlCommand = "SELECT * FROM " + table + " WHERE ID = ?;";
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection
+        try (Connection conn = getConnection();
+             PreparedStatement statement = conn
                      .prepareStatement(sqlCommand)) {
             statement.setInt(1, idValue);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -141,8 +141,8 @@ public final class DbManager {
         }
         sqlCommand.append(";");
         List<T> entities = new ArrayList<>();
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection
+        try (Connection conn = getConnection();
+             PreparedStatement statement = conn
                      .prepareStatement(sqlCommand.toString())) {
             for (int i = 0; i < values.size(); i++) {
                 statement.setObject(i + 1, values.get(i));
@@ -170,7 +170,7 @@ public final class DbManager {
      * @throws Exception if any database or reflection error occurs
      */
     public static <T> ArrayList<T> readAll(final Class<T> entityType,
-                                           final String tableName)
+                                           final TableSchema.Name tableName)
             throws Exception {
         ArrayList<T> entities = new ArrayList<>();
         String sqlCommand = "SELECT * FROM " + tableName + ";";
@@ -331,7 +331,7 @@ public final class DbManager {
                         - LENGTH_OF_LAST_COMMA);
             }
             String sqlCommand = String.format("UPDATE %s SET %s;",
-            tableName, setClause);
+                    tableName, setClause);
             if (!whereFields.isEmpty()) {
                 for (Map.Entry<TableSchema.Column, String> entry
                         : whereFields.entrySet()) {
@@ -408,8 +408,8 @@ public final class DbManager {
         final String sqlCommand = String
                 .format("INSERT INTO %s (%s) VALUES (%s)",
                         tableName, columns, values);
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = prepareStatement(connection,
+        try (Connection conn = getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(
                      sqlCommand)) {
             int index = 1;
             for (Object value : fieldsAndValues.values()) {
@@ -451,9 +451,9 @@ public final class DbManager {
         final String sqlCommand = String
                 .format("INSERT INTO %s (%s) VALUES (%s)",
                         tableName, columns, values);
-        try (Connection connection = getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement preparedStatement =
-                     prepareStatement(connection, sqlCommand)) {
+                     conn.prepareStatement(sqlCommand)) {
             for (int i = 0; i < valueList.size(); i++) {
                 preparedStatement.setObject(i + 1, valueList.get(i));
             }
@@ -484,11 +484,5 @@ public final class DbManager {
             }
         }
         return fieldsAndValues;
-    }
-
-    private static PreparedStatement prepareStatement(
-            final Connection conn,
-            final String sql) throws SQLException {
-        return conn.prepareStatement(sql);
     }
 }
