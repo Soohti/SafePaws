@@ -45,7 +45,7 @@ public class FrequentSightingAreaOfStrayAnimals extends UI {
      * The name of this UI interface.
      */
     private static final String NAME =
-            "Admin search efficiency point for starting capture";
+            "Recommend New Shelter Locations for Stray Animals";
 
     /**
      * Constructor for the `FrequentSightingAreaOfStrayAnimals` class.

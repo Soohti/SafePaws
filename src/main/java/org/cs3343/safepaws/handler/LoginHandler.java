@@ -2,6 +2,7 @@ package org.cs3343.safepaws.handler;
 
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.MemberProfile;
+import org.cs3343.safepaws.entity.ShelterLocation;
 import org.cs3343.safepaws.util.AccountFactory;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
@@ -61,10 +62,19 @@ public final class LoginHandler {
                     Map.of(TableSchema.Column.Username,
                             inputUsername))).getFirst();
             MemberProfile memberProfile = null;
+            ShelterLocation shelterLocation = null;
             if ("m".equalsIgnoreCase(thisAccount.getRole())) {
                 memberProfile = (DbManager.readWithCondition(
                         MemberProfile.class,
                         TableSchema.Name.MEMBER_PROFILE,
+                        Map.of(TableSchema.Column.Id,
+                                String.valueOf(thisAccount.getId()))))
+                        .getFirst();
+            }
+            if ("s".equalsIgnoreCase(thisAccount.getRole())) {
+                shelterLocation = (DbManager.readWithCondition(
+                        ShelterLocation.class,
+                        TableSchema.Name.SHELTER_LOCATION,
                         Map.of(TableSchema.Column.Id,
                                 String.valueOf(thisAccount.getId()))))
                         .getFirst();
@@ -74,7 +84,7 @@ public final class LoginHandler {
                     thisAccount.getPassword(),
                     thisAccount.getRole(),
                     memberProfile,
-                    null
+                    shelterLocation
             );
         } catch (Exception ex) {
             System.out.println("Error during Logging in: "

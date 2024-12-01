@@ -51,7 +51,7 @@ public class CreateAccount extends UI {
         }
         password = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        session.println("Enter your role (\"A\" for admin, "
+        session.println("Enter your role "
                 + "\"M\" for member), \"S\" for shelter:");
         String role = session.requestInput();
         while (!handler.isValidRole(role)) {
