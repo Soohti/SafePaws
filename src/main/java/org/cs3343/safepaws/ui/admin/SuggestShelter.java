@@ -71,7 +71,7 @@ public final class SuggestShelter extends UI {
     protected UI execute(final Session session) {
         try {
             ReadLocationPointHandler handler = new ReadLocationPointHandler();
-            var animalLocations = handler.findAllPet();
+            var animalLocations = handler.findAllPetLocations();
             session.println("Choose mode: 1 for optimal number of shelters"
                     + ", 2 for custom number of shelters:");
             int mode = Integer.parseInt(session.requestInput());
