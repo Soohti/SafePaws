@@ -12,12 +12,12 @@ import java.util.Map;
 /**
  * Singleton handler for checking member-related information.
  */
-public final class CheckMemberHandler {
+public final class CheckApplicationHandler {
 
     /**
      * Public constructor for instantiation.
      */
-    public CheckMemberHandler() {
+    public CheckApplicationHandler() {
     }
 
 

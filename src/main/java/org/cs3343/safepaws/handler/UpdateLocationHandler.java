@@ -6,11 +6,11 @@ import org.cs3343.safepaws.util.TableSchema;
 
 import java.util.Map;
 
-public final class SetLocationHandler {
+public final class UpdateLocationHandler {
     /**
      * Public constructor for instantiation.
      */
-    public SetLocationHandler() {
+    public UpdateLocationHandler() {
     }
 
     /**

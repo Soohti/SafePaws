@@ -3,7 +3,7 @@ package org.cs3343.safepaws.ui.member;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
-import org.cs3343.safepaws.handler.CheckMemberHandler;
+import org.cs3343.safepaws.handler.CheckApplicationHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
 
@@ -38,9 +38,10 @@ public final class CheckApplication extends UI {
     @Override
     protected UI execute(final Session session) {
         Member member = (Member) session.getAccount();
-        CheckMemberHandler checkMemberHandler = new CheckMemberHandler();
+        CheckApplicationHandler
+                checkApplicationHandler = new CheckApplicationHandler();
         List<Application> applications =
-                checkMemberHandler
+                checkApplicationHandler
                         .findApplicationByMid(member.getId());
         if (applications.isEmpty()) {
             session.println("You have not submitted "

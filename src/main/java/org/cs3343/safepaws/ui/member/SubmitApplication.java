@@ -3,7 +3,7 @@ package org.cs3343.safepaws.ui.member;
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.Pet;
-import org.cs3343.safepaws.handler.CheckMemberHandler;
+import org.cs3343.safepaws.handler.CheckApplicationHandler;
 import org.cs3343.safepaws.handler.ReadPetHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
@@ -62,10 +62,11 @@ public final class SubmitApplication extends UI {
             session.println("Error during selecting pet.");
         }
         Application.State applicationState = Application.State.PENDING;
-        CheckMemberHandler checkMemberHandler = new CheckMemberHandler();
+        CheckApplicationHandler
+                checkApplicationHandler = new CheckApplicationHandler();
         if (pet != null) {
             try {
-                checkMemberHandler
+                checkApplicationHandler
                         .insertApplication(user,
                                 pet,
                                 applicationState);

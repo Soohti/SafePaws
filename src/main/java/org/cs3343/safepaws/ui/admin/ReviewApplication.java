@@ -1,9 +1,15 @@
 package org.cs3343.safepaws.ui.admin;
 
+import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.cs3343.safepaws.entity.Application;
+import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.entity.MemberProfile;
+import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.handler.ReadApplicationHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
+
+import java.util.ArrayList;
 
 /**
  * The ReviewApplication class allows an admin
@@ -34,7 +40,7 @@ public final class ReviewApplication extends UI {
      */
     @Override
     protected UI execute(final Session session) {
-        ShowAllApplication.show(session);
+        showAll(session);
         do {
             session.println("Enter the id of application you want "
                     + "to view details and check.\n"
@@ -44,7 +50,7 @@ public final class ReviewApplication extends UI {
             if ("E".equals(choice)) {
                 return this.getReferrer();
             } else if ("V".equals(choice)) {
-                ShowAllApplication.show(session);
+                showAll(session);
             } else {
                 try {
                     ReadApplicationHandler handler =
@@ -53,7 +59,7 @@ public final class ReviewApplication extends UI {
                     Application thisApplication =
                             handler.findApplicationByAid(aid);
                     if (thisApplication != null) {
-                        ShowDetailApplication.show(session, aid);
+                        showDetail(session, aid);
                         Application.State appState;
                         if (thisApplication.getState() != null) {
                             appState = thisApplication.getState();
@@ -92,5 +98,79 @@ public final class ReviewApplication extends UI {
                 }
             }
         } while (true);
+    }
+
+    /**
+     * Display all adoption applications.
+     *
+     * @param session the current session
+     */
+    public static void showAll(final Session session) {
+        ReadApplicationHandler handler = new ReadApplicationHandler();
+        ArrayList<Application> applications;
+        applications = handler.findAllApplication();
+        session.printf("%-10s %-16s %-10s %-10s %-10s",
+                "Id", "Member", "PetID", "Score", "State");
+        session.println("");
+
+        for (Application a : applications) {
+            session.printf("%-10d %-16s %-10d %-10f %-10s",
+                    a.getId(), a.getUser().getUsername(),
+                    a.getPet().getId(),
+                    PetMatchingAlgo.calculateMatch(a.getUser(), a.getPet()),
+                    a.getState());
+            session.println("");
+        }
+    }
+    /**
+     * Executes the UI logic for viewing application details.
+     *
+     * @param session the current session
+     * @param aid     of application
+     */
+    public static void showDetail(final Session session, final int aid) {
+        ReadApplicationHandler handler = new ReadApplicationHandler();
+        Application application = handler.findApplicationByAid(aid);
+        Member m = application.getUser();
+        Pet p = application.getPet();
+        MemberProfile pf = m.getProfile();
+
+        session.printf(
+                "%-16s %-20s %-20s %-20s %-20s %-15s %-15s %-25s %-25s %-20s "
+                        + "%-10s",
+                "Member", "PreferredSpecies", "PreferredBreed",
+                "ExtroversionLevel",
+                "DailyActivityLevel", "HouseSize", "WorkHours",
+                "NumberOfFamilyMembers", "PreviousPetExperience",
+                "FinancialBudget", "Gender");
+        session.println("");
+        session.printf(
+                "%-16s %-20s %-20s %-20d %-20d %-15d %-15d %-25d %-25d %-20d "
+                        + "%-10s",
+                m.getUsername(), pf.getPreferredSpecies(),
+                pf.getPreferredBreed(),
+                pf.getExtroversionLevel(), pf.getDailyActivityLevel(),
+                pf.getHouseSize(), pf.getWorkHours(),
+                pf.getNumberOfFamilyMembers(), pf.getPreviousPetExperience(),
+                pf.getFinancialBudget(), pf.getGender());
+        session.println("");
+
+        session.println("");
+        session.printf("%-5s %-15s %-15s %-15s %-5s %-10s %-6s %-15s %-15s",
+                "Id", "Name", "Species", "Breed", "Age", "Weight", "Gender",
+                "ActivityLevel", "HealthStatus");
+        session.println("");
+        session.printf("%-5d %-15s %-15s %-15s %-5d %-10d %-6s %-15d %-15d",
+                p.getId(), p.getName(), p.getSpecies(), p.getBreed(),
+                p.getAge(), p.getWeight(), p.getGender(),
+                p.getActivityLevel(),
+                p.getHealthStatus());
+        session.println("");
+        session.println("");
+        session.printf("%-10s %-10s", "Score", "State");
+        session.println("");
+        session.printf("%-10f %-10s", PetMatchingAlgo.calculateMatch(m, p),
+                application.getState());
+        session.println("");
     }
 }

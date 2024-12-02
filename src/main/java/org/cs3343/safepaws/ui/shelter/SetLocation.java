@@ -2,7 +2,7 @@ package org.cs3343.safepaws.ui.shelter;
 
 import org.cs3343.safepaws.entity.Account;
 import org.cs3343.safepaws.entity.ShelterLocation;
-import org.cs3343.safepaws.handler.SetLocationHandler;
+import org.cs3343.safepaws.handler.UpdateLocationHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.AccountFactory;
 import org.cs3343.safepaws.util.Session;
@@ -54,7 +54,7 @@ public final class SetLocation extends UI {
             session.setAccount(AccountFactory.createAccount(account.getId(),
                     account.getUsername(), account.getPassword(),
                     account.getRole(), null, location));
-            SetLocationHandler handler = new SetLocationHandler();
+            UpdateLocationHandler handler = new UpdateLocationHandler();
             handler.updateShelterLocation(location);
             session.println("Location update complete.");
         } catch (NumberFormatException e) {

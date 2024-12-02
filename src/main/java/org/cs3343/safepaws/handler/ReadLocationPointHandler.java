@@ -20,7 +20,7 @@ public final class ReadLocationPointHandler {
      * @return a list of all pet location points, or null if an error occurs
      */
 
-    public ArrayList<LocationPoint> findAllPet() {
+    public ArrayList<LocationPoint> findAllPetLocations() {
         try {
             return DbManager.readAll(LocationPoint.class,
                     TableSchema.Name.ANIMAL_LOCATION);
