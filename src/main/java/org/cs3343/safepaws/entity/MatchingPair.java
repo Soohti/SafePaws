@@ -1,10 +1,10 @@
 package org.cs3343.safepaws.entity;
 
-public class MatchingPair {
+public final class MatchingPair {
     /**
      * first.
      */
-    private final int first;
+    private final String first;
     /**
      * second.
      */
@@ -13,11 +13,11 @@ public class MatchingPair {
     /**
      * Creates a new MatchingPair.
      *
-     * @param iFirst  first
+     * @param sFirst  first
      * @param dSecond second
      */
-    public MatchingPair(final int iFirst, final double dSecond) {
-        this.first = iFirst;
+    public MatchingPair(final String sFirst, final double dSecond) {
+        this.first = sFirst;
         this.second = dSecond;
     }
 
@@ -26,7 +26,7 @@ public class MatchingPair {
      *
      * @return first
      */
-    public int getFirst() {
+    public String getFirst() {
         return first;
     }
 
