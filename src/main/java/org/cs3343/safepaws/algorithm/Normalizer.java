@@ -9,11 +9,11 @@ public final class Normalizer implements Algorithm {
     /**
      * The normalized to original.
      */
-    private HashMap<Integer, Integer> normalizedToOriginal;
+    private HashMap<Integer, String> normalizedToOriginal;
     /**
      * The original to be normalized.
      */
-    private HashMap<Integer, Integer> originalToNormalized;
+    private HashMap<String, Integer> originalToNormalized;
 
     /**
      * Initializes the normalizer.
@@ -28,12 +28,12 @@ public final class Normalizer implements Algorithm {
      *
      * @param vector The vector.
      */
-    public void normalize(final Vector<Integer> vector) {
+    public void normalize(final Vector<String> vector) {
 
-        Set<Integer> sortedSet = new TreeSet<>(vector);
+        Set<String> sortedSet = new TreeSet<>(vector);
 
         int i = 0;
-        for (Integer value : sortedSet) {
+        for (String value : sortedSet) {
             i++;
             normalizedToOriginal.put(i, value);
             originalToNormalized.put(value, i);
@@ -47,7 +47,7 @@ public final class Normalizer implements Algorithm {
      * @param value The value.
      * @return The normalized value.
      */
-    public Integer getOriginal(final int value) {
+    public String getOriginal(final int value) {
         return normalizedToOriginal.get(value);
     }
 
@@ -57,7 +57,7 @@ public final class Normalizer implements Algorithm {
      * @param value The value.
      * @return The normalized value.
      */
-    public Integer getNormalized(final int value) {
+    public Integer getNormalized(final String value) {
         return originalToNormalized.get(value);
     }
 

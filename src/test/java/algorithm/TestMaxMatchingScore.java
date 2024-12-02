@@ -14,19 +14,20 @@ public class TestMaxMatchingScore {
 
     @Test
     public void testWork() {
-        HashMap<Integer, Vector<MatchingPair>> input = new HashMap<>();
-        input.put(10, new Vector<>(Arrays.asList(new MatchingPair(11, 100.0),
-                new MatchingPair(22, 2.0), new MatchingPair(33, 3.0))));
-        input.put(11, new Vector<>(Arrays.asList(new MatchingPair(22, 2.0),
-                new MatchingPair(33, 1.0), new MatchingPair(44, 3.0))));
-        input.put(12, new Vector<>(Arrays.asList(new MatchingPair(33, 3.0),
-                new MatchingPair(44, 3.0), new MatchingPair(55, 2.0))));
+        HashMap<String, Vector<MatchingPair>> input = new HashMap<>();
+        input.put("U1", new Vector<>(Arrays.asList(new MatchingPair("P1", 100.0),
+                new MatchingPair("P2", 2.0), new MatchingPair("P3", 3.0))));
+        input.put("U2", new Vector<>(Arrays.asList(new MatchingPair("P2", 2.0),
+                new MatchingPair("P3", 1.0), new MatchingPair("P4", 3.0))));
+        input.put("U3", new Vector<>(Arrays.asList(new MatchingPair("P3", 3.0),
+                new MatchingPair("P3", 3.0), new MatchingPair("P5", 2.0))));
         String output = new MaxMatchingScore().work(input);
         String expectedAns =
-                "We have 3 pairs with a total matching degree of 106.0\n";
-        expectedAns += "10 <-> 11\n";
-        expectedAns += "11 <-> 44\n";
-        expectedAns += "12 <-> 33\n";
+                "We have 3 pairs with a total matching score of 106.0\n";
+        expectedAns += "Username <-> Pet ID\n";
+        expectedAns += "U1 <-> P1\n";
+        expectedAns += "U2 <-> P4\n";
+        expectedAns += "U3 <-> P3\n";
         assertEquals(expectedAns, output);
     }
 }

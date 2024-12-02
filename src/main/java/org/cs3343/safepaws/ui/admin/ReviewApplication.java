@@ -122,6 +122,7 @@ public final class ReviewApplication extends UI {
             session.println("");
         }
     }
+
     /**
      * Executes the UI logic for viewing application details.
      *

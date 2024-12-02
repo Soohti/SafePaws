@@ -3,6 +3,7 @@ package org.cs3343.safepaws.ui.menu;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.account.Logout;
 import org.cs3343.safepaws.ui.admin.AddPet;
+import org.cs3343.safepaws.ui.admin.AllocatePets;
 import org.cs3343.safepaws.ui.admin.ReviewApplication;
 import org.cs3343.safepaws.ui.admin.SuggestShelter;
 
@@ -18,7 +19,8 @@ public class AdminMenu extends Menu {
             new Logout(this),
             new AddPet(this),
             new ReviewApplication(this),
-            new SuggestShelter(this)
+            new SuggestShelter(this),
+            new AllocatePets(this),
     };
 
     /**

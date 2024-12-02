@@ -55,6 +55,7 @@ public final class CreatePetRecordHandler {
                 TableSchema.Name.PET);
         System.out.println("Pet inserted successfully");
     }
+
     /**
      * The maximum length for certain attributes.
      */

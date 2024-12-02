@@ -179,11 +179,11 @@ public final class MaxMatchingScore implements Algorithm {
      * @return The result.
      */
     public String work(
-            final HashMap<Integer, Vector<MatchingPair>> userWithPets) {
-        Vector<Integer> users = new Vector<>();
-        Vector<Integer> pets = new Vector<>();
+            final HashMap<String, Vector<MatchingPair>> userWithPets) {
+        Vector<String> users = new Vector<>();
+        Vector<String> pets = new Vector<>();
 
-        for (Map.Entry<Integer, Vector<MatchingPair>> entry
+        for (Map.Entry<String, Vector<MatchingPair>> entry
                 : userWithPets.entrySet()) {
             Vector<MatchingPair> thesePets = entry.getValue();
             users.add(entry.getKey());
@@ -206,7 +206,7 @@ public final class MaxMatchingScore implements Algorithm {
 
         init(n + m + REDUNDANCY, (n + m + REDUNDANCY) * (n + m + REDUNDANCY));
 
-        for (Map.Entry<Integer, Vector<MatchingPair>> entry
+        for (Map.Entry<String, Vector<MatchingPair>> entry
                 : userWithPets.entrySet()) {
             Vector<MatchingPair> petIds = entry.getValue();
             for (MatchingPair petInfo : petIds) {
@@ -227,7 +227,8 @@ public final class MaxMatchingScore implements Algorithm {
         HashMap<Integer, Integer> allocation = getAns();
         StringBuilder output = new StringBuilder(
                 "We have " + ans + " pairs"
-                        + " with a total matching degree of " + -res + "\n");
+                        + " with a total matching score of " + -res + "\n");
+        output.append("Username <-> Pet ID\n");
         for (Map.Entry<Integer, Integer> entry : allocation.entrySet()) {
             int userId = entry.getKey();
             int petId = entry.getValue();

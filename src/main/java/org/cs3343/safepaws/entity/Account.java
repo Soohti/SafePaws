@@ -90,28 +90,6 @@ public class Account implements Cloneable {
     }
 
     /**
-     * Copy constructor for creating a new {@code Account} object that is a copy
-     * of an existing {@code Account} object.
-     *
-     * <p>This constructor initializes a new {@code Account} instance with the
-     * same ID, username, password, and role as the specified {@code account}.
-     * Note that this is a shallow copy; if the original {@code account}
-     * contains
-     * references to mutable objects, those references will be copied, not the
-     * objects themselves.
-     *
-     * @param account The {@code Account} object to be copied. Must not be
-     *                {@code null}.
-     * @throws NullPointerException if {@code account} is {@code null}.
-     */
-    public Account(final Account account) {
-        this.id = account.getId();
-        this.username = account.getUsername();
-        this.password = account.getPassword();
-        this.role = account.getRole();
-    }
-
-    /**
      * Gets the unique identifier of the account.
      *
      * @return the account's id
