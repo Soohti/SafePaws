@@ -85,13 +85,13 @@ public final class SetProfile extends UI {
         String gender;
 
         session.println("Enter your extroversion level "
-                + "(a positive integer meeting 0-10, "
+                + "(an integer meeting 0-10, "
                 + "larger numbers indicate more extroversion):");
         int intExtroversionLevel =
                 session.requestNumericInput(0, MAX_EXTROVERSION_LEVEL);
 
         session.println("Enter your daily activity level "
-                + "(a positive integer meeting 0-10, "
+                + "(an integer meeting 0-10, "
                 + "larger numbers indicate more activity):");
         int intDailyActivityLevel =
                 session.requestNumericInput(0, MAX_DAILY_ACTIVITY_LEVEL);
@@ -111,7 +111,7 @@ public final class SetProfile extends UI {
                 session.requestNumericInput(1, MAX_FAMILY_MEMBERS);
 
         session.println("Enter your previous pet experience level "
-                + "(a positive integer meeting 0-10,"
+                + "(an integer meeting 0-10,"
                 + "larger numbers indicate more experience):");
         int intPreviousPetExperience =
                 session.requestNumericInput(0, MAX_PREVIOUS_PET_EXPERIENCE);

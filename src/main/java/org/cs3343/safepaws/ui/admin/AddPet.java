@@ -74,11 +74,11 @@ public final class AddPet extends UI {
         }
 
         session.println("Enter the age of this pet "
-                + "(a positive integer):");
+                + "(non-negative integer):");
         age = session.requestNumericInput(0, Integer.MAX_VALUE);
 
         session.println("Enter the weight of this pet "
-                + "(a positive integer):");
+                + "(non-negative integer):");
         weight = session.requestNumericInput(0, Integer.MAX_VALUE);
 
         session.println("Enter the gender of this pet "
@@ -92,12 +92,12 @@ public final class AddPet extends UI {
 
         session.println(
                 "Enter the activity level of this pet "
-                        + "(a positive integer meeting 0-" + MAX_VAL + ", "
+                        + "(an integer meeting 0-" + MAX_VAL + ", "
                         + "larger numbers indicate more activity):");
         activityLevel = session.requestNumericInput(0, MAX_VAL);
 
         session.println(
-                "Enter the health status of this pet (a positive "
+                "Enter the health status of this pet (an "
                         + "integer meeting 0-" + MAX_VAL
                         + ", larger numbers indicate healthier):");
         healthStatus = session.requestNumericInput(0, MAX_VAL);

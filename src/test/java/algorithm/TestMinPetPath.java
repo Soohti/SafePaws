@@ -8,8 +8,14 @@ import java.util.Vector;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test class for MinPetPath.
+ */
 public class TestMinPetPath {
 
+    /**
+     * Tests the work method of MinPetPath.
+     */
     @Test
     public void testWork() {
         LocationPoint startPoint = new LocationPoint(0, 0);

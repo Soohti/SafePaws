@@ -53,22 +53,14 @@ public final class SubmitApplication extends UI {
             thisPet = handler.findConditionalPet(pid);
         }
 
-        Pet pet;
-        try {
-            pet = handler.findConditionalPet(pid);
-            session.println("Pet selected successfully.");
-        } catch (Exception e) {
-            pet = null;
-            session.println("Error during selecting pet.");
-        }
         Application.State applicationState = Application.State.PENDING;
         CheckApplicationHandler
                 checkApplicationHandler = new CheckApplicationHandler();
-        if (pet != null) {
+        if (thisPet != null) {
             try {
                 checkApplicationHandler
                         .insertApplication(user,
-                                pet,
+                                thisPet,
                                 applicationState);
                 session.println("Application created successfully.");
             } catch (Exception e) {
