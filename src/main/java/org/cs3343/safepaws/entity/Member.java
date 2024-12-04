@@ -36,7 +36,7 @@ public class Member extends Account {
      * @param newId       the unique identifier of the member account
      * @param newUsername the username for the member account
      * @param newPassword the password for the member account
-     * @param newRole     the role of the account, typically "member"
+     * @param newRole     the role of the account, typically "M"
      * @param newProfile  the profile associated with the member
      */
     public Member(final int newId, final String newUsername,

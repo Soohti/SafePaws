@@ -14,65 +14,77 @@ import java.util.Vector;
 public final class MaxMatchingScore implements Algorithm {
 
     /**
-     * The redundancy.
+     * The redundancy factor to account for additional nodes.
      */
     private static final int REDUNDANCY = 10;
 
     /**
-     * The edges.
+     * Array of edges representing the graph for matching.
      */
     private MatchingEdge[] edges;
+
     /**
-     * The p.
+     * Array representing the match pair for each user.
      */
     private int[] p;
+
     /**
-     * The vis.
+     * Array indicating whether a node has been visited during graph traversal.
      */
     private boolean[] vis;
+
     /**
-     * The pre.
+     * Array storing the predecessor of each node in the path in SPFA.
      */
     private int[] pre;
+
     /**
-     * The d.
+     * Array storing the distances from the source node to each node.
      */
     private double[] d;
+
     /**
-     * The eid.
+     * The current edge identifier used for managing the edges.
      */
     private int eid;
+
     /**
-     * The n.
+     * The number of users (nodes) in the matching process.
      */
     private int n;
+
     /**
-     * The m.
+     * The number of pets (nodes) in the matching process.
      */
     private int m;
+
     /**
-     * The source.
+     * The source node identifier in the flow network.
      */
     private int source;
+
     /**
-     * The terminal.
+     * The terminal node identifier in the flow network.
      */
     private int terminal;
+
     /**
-     * The res.
+     * The total result score accumulated from the matching process.
      */
     private double res = 0;
+
     /**
-     * The ans.
+     * The total number of matching pairs found.
      */
     private int ans = 0;
 
     /**
-     * The norm for user.
+     * Normalizer instance for user data.
      */
     private final Normalizer normForUser;
+
     /**
-     * The norm for pet.
+     * Normalizer instance for pet data.
      */
     private final Normalizer normForPet;
 

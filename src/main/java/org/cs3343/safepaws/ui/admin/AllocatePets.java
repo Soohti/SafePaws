@@ -29,21 +29,27 @@ public final class AllocatePets extends UI {
 
     @Override
     protected UI execute(final Session session) {
-        var userWithPets = new HashMap<String, Vector<MatchingPair>>();
-        AllocatePetsHandler handler = new AllocatePetsHandler();
-        var members = handler.getAllMembers();
-        var freePets = handler.getAllFreePets();
-        for (var member : members) {
-            var matchingPairs = new Vector<MatchingPair>();
-            for (var pet : freePets) {
-                var score = PetMatchingAlgo.calculateMatch(member, pet);
-                matchingPairs.add(
-                        new MatchingPair(String.valueOf(pet.getId()), score));
+        try {
+            var userWithPets = new HashMap<String, Vector<MatchingPair>>();
+            AllocatePetsHandler handler = new AllocatePetsHandler();
+            var members = handler.getAllMembers();
+            var freePets = handler.getAllFreePets();
+            for (var member : members) {
+                var matchingPairs = new Vector<MatchingPair>();
+                for (var pet : freePets) {
+                    var score = PetMatchingAlgo.calculateMatch(member, pet);
+                    matchingPairs.add(
+                            new MatchingPair(String.valueOf(pet.getId()),
+                                    score));
+                }
+                userWithPets.put(member.getUsername(), matchingPairs);
             }
-            userWithPets.put(member.getUsername(), matchingPairs);
+            String output = new MaxMatchingScore().work(userWithPets);
+            session.println(output);
+        } catch (Exception e) {
+            session.println("Error occur when performing"
+                    + " cluster analysis: " + e.getMessage());
         }
-        String output = new MaxMatchingScore().work(userWithPets);
-        session.println(output);
         return this.getReferrer();
     }
 }

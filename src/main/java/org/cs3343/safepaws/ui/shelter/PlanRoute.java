@@ -48,7 +48,7 @@ public final class PlanRoute extends UI {
             }
         } catch (Exception e) {
             session.println("Invalid input. Please try again.");
-            return this;
+            return this.getReferrer();
         }
         LocationPoint startLocationPoint = new LocationPoint(0, 0);
         if (startLocation != null) {

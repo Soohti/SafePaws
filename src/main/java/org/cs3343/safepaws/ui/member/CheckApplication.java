@@ -40,6 +40,7 @@ public final class CheckApplication extends UI {
         Member member = (Member) session.getAccount();
         CheckApplicationHandler
                 checkApplicationHandler = new CheckApplicationHandler();
+//        System.out.println("Member ID: " + member.getId());
         List<Application> applications =
                 checkApplicationHandler
                         .findApplicationByMid(member.getId());

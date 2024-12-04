@@ -30,6 +30,18 @@ public final class TableSchema {
          * The member profile table.
          */
         MEMBER_PROFILE,
+        /**
+         * The TestTableB table.
+         */
+        TestTableB,
+        /**
+         * The TestTableA table.
+         */
+        TestTableA,
+        /**
+         * The TestTableC table.
+         */
+        TestTableC,
     }
 
     public enum Column {
@@ -160,5 +172,11 @@ public final class TableSchema {
          */
         FinancialBudget,
         // Gender,
+//TestTable
+        /**
+         * The ChangeV column.
+         */
+        ChangeV,
+
     }
 }

@@ -49,7 +49,6 @@ public final class PetMatchingAlgo implements Algorithm {
      * Weight for gender.
      */
     private static final double GENDER_WEIGHT = 1.0;
-
     /**
      * Minimum house size.
      */
@@ -90,6 +89,10 @@ public final class PetMatchingAlgo implements Algorithm {
      * Weight for cosine similarity.
      */
     private static final double COSINE_SIMILARITY_WEIGHT = 0.5;
+    /**
+     * Round to one decimal place.
+     */
+    private static final int ROUND_DECIMAL = 10;
 
     // Private constructor to prevent instantiation
     private PetMatchingAlgo() {
@@ -232,10 +235,11 @@ public final class PetMatchingAlgo implements Algorithm {
         double speciesScore = speciesSimilarity * SPECIES_WEIGHT;
         double breedScore = breedSimilarity * BREED_WEIGHT;
         double genderScore = genderSimilarity * GENDER_WEIGHT;
-
-        // Calculate final match score
-        return (normalizedEuclideanDistance * COSINE_SIMILARITY_WEIGHT)
+        double matchScore = (normalizedEuclideanDistance
+                * COSINE_SIMILARITY_WEIGHT)
                 + (normalizedCosineSimilarity * COSINE_SIMILARITY_WEIGHT)
                 + speciesScore + breedScore + genderScore;
+        // Calculate final match score
+        return Math.round(matchScore * ROUND_DECIMAL) / ROUND_DECIMAL;
     }
 }
