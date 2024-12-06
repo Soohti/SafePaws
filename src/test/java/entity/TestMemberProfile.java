@@ -1,7 +1,8 @@
 package entity;
 
-import org.junit.jupiter.api.Test;
 import org.cs3343.safepaws.entity.MemberProfile;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

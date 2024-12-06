@@ -1,11 +1,12 @@
 package entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.cs3343.safepaws.entity.Account;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TestAccount {
-	/**
+    /**
      * Tests the default constructor of the {@code Account} class.
      * Ensures that all fields are initialized to their default values.
      */
@@ -32,7 +33,7 @@ public class TestAccount {
         assertEquals("password", account.getPassword());
         assertEquals("M", account.getRole());
     }
-    
+
     /**
      * Tests the parameterized constructor of the {@code Account} class.
      * Ensures that all fields are initialized correctly.

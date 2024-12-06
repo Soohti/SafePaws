@@ -7,6 +7,8 @@ import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.AccountFactory;
 import org.cs3343.safepaws.util.Session;
 
+import java.sql.SQLException;
+
 /**
  * The SetProfile class is responsible for
  * setting the profile of a member.
@@ -172,7 +174,7 @@ public final class SetProfile extends UI {
                     new UpdateMemberProfileHandler();
             handler.updateMemberProfile(profile);
             session.println("Profile set successfully.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             session.println("Error during setting profile.");
         }
 

@@ -4,6 +4,7 @@ import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -34,7 +35,7 @@ public class PlanRouteHandler {
             } catch (NoSuchElementException e) {
                 return null;
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during finding specific application: "
                     + ex.getMessage());
         }

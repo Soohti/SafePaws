@@ -1,19 +1,19 @@
 package exception;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.ByteArrayInputStream;
-
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.admin.ReviewApplication;
 import org.cs3343.safepaws.util.Session;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class TestReviewApplication {
-	@Test
+    @Test
     public void testReviewApplicationV1() {
-        String inputs="20\nE\n";
+        String inputs = "20\nE\n";
         System.setIn(new ByteArrayInputStream(inputs.getBytes()));
         Session session = new Session(System.in, System.out);
         UI referrer = new UI("Referrer", null) {
@@ -22,9 +22,10 @@ public class TestReviewApplication {
                 return null;
             }
         };
-        ReviewApplication reviewApplication =new ReviewApplication(referrer);
+        ReviewApplication reviewApplication = new ReviewApplication(referrer);
         UI nextUI = reviewApplication.getNextUI(session);
         assertNotNull(nextUI);
-        assertEquals("Review adoption applications", reviewApplication.getName());
+        assertEquals("Review adoption applications",
+                reviewApplication.getName());
     }
 }

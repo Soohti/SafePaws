@@ -1,13 +1,13 @@
 package entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.cs3343.safepaws.entity.Application;
 import org.cs3343.safepaws.entity.Application.State;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.entity.Pet;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestApplication {
     /**
@@ -30,11 +30,11 @@ public class TestApplication {
                 "Labrador", "m");
         Member member = new Member(1, "username",
                 "password", "M", profile);
-        Pet pet=new Pet();
-        Application application = new Application(member,pet,State.PENDING);
+        Pet pet = new Pet();
+        Application application = new Application(member, pet, State.PENDING);
         assertEquals(State.PENDING, application.getState());
-        assertEquals(member.getId(),application.getUser().getId());
-        assertEquals(pet.getId(),application.getPet().getId());
+        assertEquals(member.getId(), application.getUser().getId());
+        assertEquals(pet.getId(), application.getPet().getId());
     }
 
     /**
@@ -42,7 +42,7 @@ public class TestApplication {
      */
     @Test
     public void testIsValidState() {
-        assertEquals(false,Application.isValidState(0));
+        assertEquals(false, Application.isValidState(0));
     }
 
     /**
@@ -51,12 +51,12 @@ public class TestApplication {
      */
     @Test
     public void testSettersAndGetters() {
-        Application application=new Application();
+        Application application = new Application();
         application.setId(2);
-        Pet pet=new Pet();
+        Pet pet = new Pet();
         application.setPet(pet);
         application.setState(State.PENDING);
-        assertEquals(2,application.getId());
+        assertEquals(2, application.getId());
         assertEquals(State.PENDING, application.getState());
     }
 }

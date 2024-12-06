@@ -1,14 +1,14 @@
 package algorithm;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.cs3343.safepaws.entity.Member;
 import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.entity.Pet;
-import org.cs3343.safepaws.algorithm.PetMatchingAlgo;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for PetMatchingAlgo.

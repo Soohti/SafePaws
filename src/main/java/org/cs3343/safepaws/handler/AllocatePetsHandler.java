@@ -5,6 +5,7 @@ import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public final class AllocatePetsHandler {
             return DbManager.readWithCondition(Member.class,
                     TableSchema.Name.ACCOUNT,
                     Map.of(TableSchema.Column.Role, "M"));
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error during reading all members");
         }
         return null;
@@ -43,7 +44,7 @@ public final class AllocatePetsHandler {
         try {
             return DbManager.readWithCondition(Pet.class, TableSchema.Name.PET,
                     Map.of(State, Pet.State.Free.toString()));
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error during reading all free pets");
         }
         return null;

@@ -6,11 +6,15 @@ import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.ui.member.SubmitApplication;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.Session;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,14 +24,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * Test class for the {@link SubmitApplication} class.
  */
 public class TestSubmitApplication {
+
+    Connection conn;
     /**
      * Constant for the ID1 used in tests.
      */
-    private static final int ID1 = 9;
+    private static final int ID1 = 22;
     /**
      * Constant for the ID2 used in tests.
      */
-    private static final int ID2 = 42;
+    private static final int ID2 = 100;
     /**
      * Path to the server properties file.
      */
@@ -54,6 +60,12 @@ public class TestSubmitApplication {
         String dbPassword = serverProperties.getProperty("db.password");
 
         DbManager.init(dbUrl, dbUsername, dbPassword);
+        conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
+        conn.close();
     }
 
     /**
@@ -86,7 +98,7 @@ public class TestSubmitApplication {
     @Test
     public void testGetNextUIV1() throws Exception {
         // Arrange
-        String simulatedInput = "7\n";
+        String simulatedInput = "22\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
         UI referrer = new UI("Referrer", null) {
             @Override
@@ -111,6 +123,11 @@ public class TestSubmitApplication {
         // Assert
         assertNotNull(nextUI);
         assertEquals("Submit an application", submitApplication.getName());
+        String preUpdateSQL = "DELETE FROM APPLICATION WHERE MId = ?";
+        PreparedStatement pstmt =
+                conn.prepareStatement(preUpdateSQL);
+        pstmt.setInt(1, ID1);
+        pstmt.executeUpdate();
     }
 
     /**
@@ -120,7 +137,7 @@ public class TestSubmitApplication {
     @Test
     public void testGetNextUIV2() throws Exception {
         // Arrange
-        String simulatedInput = "1\n8\n";
+        String simulatedInput = "16\n22\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
         UI referrer = new UI("Referrer", null) {
             @Override
@@ -145,6 +162,11 @@ public class TestSubmitApplication {
         // Assert
         assertNotNull(nextUI);
         assertEquals("Submit an application", submitApplication.getName());
+        String preUpdateSQL = "DELETE FROM APPLICATION WHERE MId = ?";
+        PreparedStatement pstmt =
+                conn.prepareStatement(preUpdateSQL);
+        pstmt.setInt(1, ID1);
+        pstmt.executeUpdate();
     }
 
     /**
@@ -154,7 +176,7 @@ public class TestSubmitApplication {
     @Test
     public void testGetNextUIV3() throws Exception {
         // Arrange
-        String simulatedInput = "9\n";
+        String simulatedInput = "16\n22\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
         UI referrer = new UI("Referrer", null) {
             @Override
@@ -179,5 +201,10 @@ public class TestSubmitApplication {
         // Assert
         assertNotNull(nextUI);
         assertEquals("Submit an application", submitApplication.getName());
+        String preUpdateSQL = "DELETE FROM APPLICATION WHERE MId = ?";
+        PreparedStatement pstmt =
+                conn.prepareStatement(preUpdateSQL);
+        pstmt.setInt(1, ID2);
+        pstmt.executeUpdate();
     }
 }

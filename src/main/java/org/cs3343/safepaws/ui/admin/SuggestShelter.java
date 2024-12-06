@@ -69,47 +69,42 @@ public final class SuggestShelter extends UI {
      */
     @Override
     protected UI execute(final Session session) {
-        try {
-            ReadLocationPointHandler handler = new ReadLocationPointHandler();
-            var animalLocations = handler.findAllPetLocations();
-            session.println("Choose mode: 1 for optimal number of shelters"
-                    + ", 2 for custom number of shelters:");
-            int mode = Integer.parseInt(session.requestInput());
+        ReadLocationPointHandler handler = new ReadLocationPointHandler();
+        var animalLocations = handler.findAllPetLocations();
+        session.println("Choose mode: 1 for optimal number of shelters"
+                + ", 2 for custom number of shelters:");
+        int mode = Integer.parseInt(session.requestInput());
 
-            int k;
-            if (mode == 1) {
-                k = FindingOptimalShelterNumber
-                        .findOptimalK(animalLocations, MAXK);
-                session.println("Optimal number of"
-                        + " recommendShelters (K) is: " + k);
-            } else if (mode == 2) {
-                session.print("Enter the number of recommendShelters"
-                        + " (K) you want to use: ");
-                k = Integer.parseInt(session.requestInput());
-            } else {
-                session.println("Invalid mode selected. Exiting program.");
-                return this.getReferrer();
+        int k;
+        if (mode == 1) {
+            k = FindingOptimalShelterNumber
+                    .findOptimalK(animalLocations, MAXK);
+            session.println("Optimal number of"
+                    + " recommendShelters (K) is: " + k);
+        } else if (mode == 2) {
+            session.print("Enter the number of recommendShelters"
+                    + " (K) you want to use: ");
+            k = Integer.parseInt(session.requestInput());
+        } else {
+            session.println("Invalid mode selected. Exiting program.");
+            return this.getReferrer();
+        }
+        AnimalClusterAnalysis kmeans = new AnimalClusterAnalysis(k);
+        kmeans.fit(animalLocations);
+
+        List<List<LocationPoint>> clusters = kmeans.getClusters();
+        List<RecommendShelter> recommendShelters = new ArrayList<>();
+
+        for (List<LocationPoint> cluster : clusters) {
+            if (!cluster.isEmpty()) {
+                LocationPoint firstLocation = cluster.getFirst();
+                recommendShelters.add(new RecommendShelter(firstLocation));
             }
-            AnimalClusterAnalysis kmeans = new AnimalClusterAnalysis(k);
-            kmeans.fit(animalLocations);
+        }
 
-            List<List<LocationPoint>> clusters = kmeans.getClusters();
-            List<RecommendShelter> recommendShelters = new ArrayList<>();
-
-            for (List<LocationPoint> cluster : clusters) {
-                if (!cluster.isEmpty()) {
-                    LocationPoint firstLocation = cluster.getFirst();
-                    recommendShelters.add(new RecommendShelter(firstLocation));
-                }
-            }
-
-            session.println("RecommendShelter Locations:");
-            for (RecommendShelter recommendShelter : recommendShelters) {
-                session.print(recommendShelter.toString());
-            }
-        } catch (Exception e) {
-            session.println("Error occur when performing"
-                    + " cluster analysis: " + e.getMessage());
+        session.println("RecommendShelter Locations:");
+        for (RecommendShelter recommendShelter : recommendShelters) {
+            session.print(recommendShelter.toString());
         }
 
         return this.getReferrer();

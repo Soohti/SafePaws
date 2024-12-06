@@ -16,7 +16,7 @@ import org.cs3343.safepaws.entity.LocationPoint;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 /**
  * The AnimalClusterAnalysis class for performing AnimalClusterAnalysis
@@ -36,6 +36,11 @@ import java.util.concurrent.ThreadLocalRandom;
  * </pre>
  */
 public final class AnimalClusterAnalysis implements Algorithm {
+
+    /**
+     * The seed for the random number generator.
+     */
+    private static final long SEED = 42;
 
     /**
      * The number of clusters.
@@ -106,8 +111,9 @@ public final class AnimalClusterAnalysis implements Algorithm {
      */
     private void initializeCenters(final List<LocationPoint> locationPoints) {
         centers.clear();
+        Random random = new Random(SEED);
         for (int i = 0; i < k; i++) {
-            centers.add(locationPoints.get(ThreadLocalRandom.current()
+            centers.add(locationPoints.get(random
                     .nextInt(locationPoints.size())));
         }
     }

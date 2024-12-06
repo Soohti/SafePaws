@@ -8,6 +8,7 @@ import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -41,8 +42,8 @@ public final class LoginHandler {
             } catch (NoSuchElementException ex) {
                 return false;
             }
-        } catch (Exception ex) {
-            System.out.println("Error during authenticating in:"
+        } catch (SQLException ex) {
+            System.out.println("Error during authenticating in: "
                     + ex.getMessage());
             ex.printStackTrace();
         }
@@ -86,7 +87,7 @@ public final class LoginHandler {
                     memberProfile,
                     shelterLocation
             );
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during Logging in: "
                     + ex.getMessage());
         }
@@ -100,7 +101,7 @@ public final class LoginHandler {
      * @return the boolean.
      */
     public boolean duplicateUsername(final String inputUsername)
-            throws Exception {
+            throws SQLException {
         try {
             Account account = (DbManager.readWithCondition(
                     Account.class, TableSchema.Name.ACCOUNT,

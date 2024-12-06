@@ -5,6 +5,8 @@ import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.sql.SQLException;
+
 /**
  * The CreateAccount class provides the
  * functionality to create a new user
@@ -52,7 +54,7 @@ public class CreateAccount extends UI {
         password = BCrypt.hashpw(password, BCrypt.gensalt());
 
         session.println("Enter your role "
-                + "\"M\" for member), \"S\" for shelter:");
+                + "(\"M\" for member, \"S\" for shelter):");
         String role = session.requestInput();
         while (!handler.isValidRole(role)) {
             session.println("Your input role is invalid. "
@@ -63,7 +65,7 @@ public class CreateAccount extends UI {
         try {
             handler.createAccount(username, password, role);
             session.println("Account created successfully.");
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             session.println("Error during creating account." + ex.getMessage());
         }
 

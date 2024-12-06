@@ -6,6 +6,7 @@ import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -27,12 +28,12 @@ public final class CheckApplicationHandler {
      * @param member the member applying
      * @param pet    the pet being applied for
      * @param state  the state of the application
-     * @throws Exception if an error occurs during the database operation
+     * @throws SQLException if an error occurs during the database operation
      */
     public void insertApplication(final Member member,
                                   final Pet pet,
                                   final Application.State state)
-            throws Exception {
+            throws SQLException {
         DbManager.insertWithAutoValue(
                 Map.of(TableSchema.Column.MId,
                         String.valueOf(member.getId()),
@@ -59,7 +60,7 @@ public final class CheckApplicationHandler {
                             TableSchema.Name.APPLICATION,
                             Map.of(TableSchema.Column.MId,
                                     String.valueOf(mid)));
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during finding all applications: "
                     + ex.getMessage());
         }

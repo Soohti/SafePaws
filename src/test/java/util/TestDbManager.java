@@ -32,7 +32,7 @@ public class TestDbManager {
         TestClassB testAns = new TestClassB(1, testClassCAns,
                 TestClassB.TestState.TestA, 1);
         DbManager.insertWithAutoValue(Map.of(TableSchema.Column.ChangeV,
-                "1", TableSchema.Column.State, "0"),
+                        "1", TableSchema.Column.State, "0"),
                 TableSchema.Name.TestTableA);
         DbManager.insert(testClassCAns, TableSchema.Name.TestTableB);
         TestClassB testRes = DbManager
@@ -42,6 +42,7 @@ public class TestDbManager {
         testTableABClean();
         assertEquals(testAns, testRes);
     }
+
     /**
      * Tests the insertWithAutoValue, insert and update method of DbManager.
      *
@@ -56,7 +57,7 @@ public class TestDbManager {
         TestClassB testAns = new TestClassB(1, testClassCAns,
                 TestClassB.TestState.TestA, -1);
         DbManager.insertWithAutoValue(Map.of(TableSchema.Column.ChangeV,
-                "1", TableSchema.Column.State, "0"),
+                        "1", TableSchema.Column.State, "0"),
                 TableSchema.Name.TestTableA);
         DbManager.insert(testClassCAns, TableSchema.Name.TestTableB);
         testAns.setChangeV(ANSCHANGEVALUE);
@@ -70,6 +71,7 @@ public class TestDbManager {
         testTableABClean();
         assertEquals(testAns, testRes);
     }
+
     /**
      * Tests the insertWithAutoValue and readAll method of DbManager.
      *
@@ -102,8 +104,8 @@ public class TestDbManager {
      */
     private static String testSqlCREATEA = "create table TestTableA\n"
             + "(\n"
-            + "    Id    int auto_increment\n"
-            + "        primary key,\n"
+            + "    Id    INTEGER \n"
+            + "        primary key AUTOINCREMENT,\n"
             + "    ChangeV int null,\n"
             + "    State int null\n"
             + ");";
@@ -121,17 +123,17 @@ public class TestDbManager {
      * The sql command for create test table C.
      */
     private static String testSqlCREATEC = "CREATE TABLE TestTableC (\n"
-            + "    Id INT PRIMARY KEY AUTO_INCREMENT,\n"
+            + "    Id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
             + "    Username VARCHAR(50)"
             + ");";
     /**
      * The sql command for drop test table A.
      */
-    private static String testSqlDROPA =  "DROP TABLE if exists TestTableA;";
+    private static String testSqlDROPA = "DROP TABLE if exists TestTableA;";
     /**
      * The sql command for drop test table B.
      */
-    private static String testSqlDROPB =  "DROP TABLE if exists TestTableB";
+    private static String testSqlDROPB = "DROP TABLE if exists TestTableB";
     /**
      * The sql command for drop test table C.
      */

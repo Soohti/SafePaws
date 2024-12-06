@@ -1,6 +1,12 @@
 package algorithm;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.cs3343.safepaws.algorithm.SortPetAlgo;
+import org.cs3343.safepaws.entity.Member;
+import org.cs3343.safepaws.entity.MemberProfile;
+import org.cs3343.safepaws.entity.Pet;
+import org.cs3343.safepaws.util.DbManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -10,13 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
-import org.cs3343.safepaws.entity.Member;
-import org.cs3343.safepaws.entity.MemberProfile;
-import org.cs3343.safepaws.entity.Pet;
-import org.cs3343.safepaws.algorithm.SortPetAlgo;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.cs3343.safepaws.util.DbManager;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for SortPetAlgo.
