@@ -53,6 +53,9 @@ public final class Server {
         String dbUrl = serverProperties.getProperty("db.url");
         String dbUsername = serverProperties.getProperty("db.username");
         String dbPassword = serverProperties.getProperty("db.password");
+        String driver = serverProperties.getProperty("db.driver");
+
+        Class.forName(driver);
         DbManager.init(dbUrl, dbUsername, dbPassword);
 
         KeyStore keyStore = KeyStore.getInstance("JKS");
