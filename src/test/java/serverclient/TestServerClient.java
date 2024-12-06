@@ -17,7 +17,7 @@ public class TestServerClient {
      * The sleep time in milliseconds to wait for server
      * and client interactions.
      */
-    private static final int SLEEP_TIME = 5000;
+    private static final int SLEEP_TIME = 1000;
 
     /**
      * Tests the successful interaction between Server and Client.

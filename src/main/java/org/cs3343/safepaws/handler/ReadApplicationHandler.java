@@ -5,6 +5,7 @@ import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -29,7 +30,7 @@ public final class ReadApplicationHandler {
         try {
             return DbManager.readAll(Application.class,
                     TableSchema.Name.APPLICATION);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during finding specific application: "
                     + ex.getMessage());
         }
@@ -53,7 +54,7 @@ public final class ReadApplicationHandler {
             } catch (NoSuchElementException ex) {
                 return null;
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during finding all applications: "
                     + ex.getMessage());
         }
@@ -94,7 +95,7 @@ public final class ReadApplicationHandler {
                     Map.of(TableSchema.Column.State,
                             String.valueOf(state.ordinal()))
             );
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during changing status: "
                     + ex.getMessage());
         }

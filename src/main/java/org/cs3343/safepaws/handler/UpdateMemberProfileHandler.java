@@ -4,6 +4,7 @@ import org.cs3343.safepaws.entity.MemberProfile;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 public final class UpdateMemberProfileHandler {
@@ -20,7 +21,7 @@ public final class UpdateMemberProfileHandler {
      * @param memberProfile the application ID
      */
     public void updateMemberProfile(final MemberProfile memberProfile)
-            throws Exception {
+            throws SQLException {
         DbManager.update(MemberProfile.class,
                 TableSchema.Name.MEMBER_PROFILE,
                 Map.of(TableSchema.Column.Id,

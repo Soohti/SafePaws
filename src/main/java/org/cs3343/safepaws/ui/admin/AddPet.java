@@ -4,6 +4,8 @@ import org.cs3343.safepaws.handler.CreatePetRecordHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
 
+import java.sql.SQLException;
+
 /**
  * The AddPet class provides a UI for administrators to add a new pet to
  * the database.
@@ -113,7 +115,7 @@ public final class AddPet extends UI {
                     numeric,
                     0);
             session.println("Pet created successfully.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             session.println("Error during admin adding pet.");
         }
         return this.getReferrer();

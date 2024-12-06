@@ -31,6 +31,7 @@ public class TestLogout {
         assertEquals("Log Out", logout.getName());
         assertEquals(referrer, logout.getReferrer());
     }
+
     /**
      * Tests the getNextUI method of the {@link Logout} class.
      * Simulates user input and verifies the expected output.

@@ -92,11 +92,11 @@ public final class DbManager {
      * @param table      the name of the table
      * @param idValue    the ID value of the entity
      * @return the entity with the specified ID, or null if not found
-     * @throws Exception if any database or reflection error occurs
+     * @throws SQLException if a database access error occurs
      */
     public static <T> T readWithID(final Class<T> entityType,
                                    final TableSchema.Name table,
-                                   final int idValue) throws Exception {
+                                   final int idValue) throws SQLException {
         String sqlCommand = "SELECT * FROM " + table + " WHERE ID = ?;";
         try (Connection conn = getConnection();
              PreparedStatement statement = conn
@@ -106,7 +106,7 @@ public final class DbManager {
                 if (resultSet.next()) {
                     return buildEntityFromResultSet(entityType, resultSet);
                 }
-            } catch (Exception e) {
+            } catch (SQLException | IllegalAccessException e) {
                 System.out.println("Error reading " + e.getMessage());
             }
         }
@@ -121,13 +121,13 @@ public final class DbManager {
      * @param tableName  the name of the table
      * @param conditions the conditions to match
      * @return a list of entities that match the conditions
-     * @throws Exception if any database or reflection error occurs
+     * @throws SQLException if a database access error occurs
      */
     public static <T>
     List<T> readWithCondition(final Class<T> entityType,
                               final TableSchema.Name tableName,
                               final Map<TableSchema.Column, String> conditions)
-            throws Exception {
+            throws SQLException {
         StringBuilder sqlCommand = new StringBuilder("SELECT * FROM ")
                 .append(tableName).append(" WHERE ");
         List<Object> values = new ArrayList<>();
@@ -152,7 +152,7 @@ public final class DbManager {
                     entities.add(buildEntityFromResultSet(
                             entityType, resultSet));
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | IllegalAccessException e) {
                 System.out.println("executeQuery Error "
                         + e.getMessage());
             }
@@ -167,11 +167,11 @@ public final class DbManager {
      * @param entityType the class of the entity
      * @param tableName  the name of the table
      * @return a list of all entities in the table
-     * @throws Exception if any database or reflection error occurs
+     * @throws SQLException if a database access error occurs
      */
     public static <T> ArrayList<T> readAll(final Class<T> entityType,
                                            final TableSchema.Name tableName)
-            throws Exception {
+            throws SQLException {
         ArrayList<T> entities = new ArrayList<>();
         String sqlCommand = "SELECT * FROM " + tableName + ";";
         try (Connection connection = getConnection();
@@ -180,6 +180,8 @@ public final class DbManager {
             while (resultSet.next()) {
                 entities.add(buildEntityFromResultSet(entityType, resultSet));
             }
+        } catch (IllegalAccessException e) {
+            System.out.println("Error reading all " + e.getMessage());
         }
         return entities;
     }
@@ -191,18 +193,19 @@ public final class DbManager {
      * @param entityType the class of the entity
      * @param resultSet  the result set containing the entity data
      * @return the built entity
-     * @throws Exception if any reflection error occurs
+     * @throws SQLException           if a database access error occurs
+     * @throws IllegalAccessException if the field is not accessible
      */
     private static <T> T buildEntityFromResultSet(final Class<T> entityType,
                                                   final ResultSet resultSet)
-            throws Exception {
+            throws SQLException, IllegalAccessException {
         Constructor<T> constructor;
         T entityInstance;
         try {
             constructor = entityType.getConstructor();
             entityInstance = constructor.newInstance();
         } catch (Exception e) {
-            throw new Exception("Error initializing entity INSTANCE for "
+            throw new SQLException("Error initializing entity INSTANCE for "
                     + entityType.getName(), e);
         }
         List<Field> fields = new ArrayList<>(Arrays
@@ -224,7 +227,7 @@ public final class DbManager {
                 } else {
                     handleRegularField(field, resultSet, entityInstance);
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.err.println("Error setting field "
                         + field.getName() + ": " + e.getMessage());
             }
@@ -238,12 +241,13 @@ public final class DbManager {
      * @param field          the field to handle
      * @param resultSet      the result set containing the field data
      * @param entityInstance the object INSTANCE
-     * @throws Exception if any database or reflection error occurs
+     * @throws SQLException           if a database access error occurs
+     * @throws IllegalAccessException if the field is not accessible
      */
     private static void handleOneToOneField(final Field field,
                                             final ResultSet resultSet,
                                             final Object entityInstance)
-            throws Exception {
+            throws SQLException, IllegalAccessException {
         OneToOne oneToOne = field.getAnnotation(OneToOne.class);
         int foreignKeyId = resultSet.getInt(oneToOne.columnName().toString());
         if (resultSet.wasNull()) {
@@ -261,12 +265,13 @@ public final class DbManager {
      * @param field          the field to handle
      * @param resultSet      the result set containing the field data
      * @param entityInstance the object INSTANCE
-     * @throws Exception if any reflection error occurs
+     * @throws SQLException           if a database access error occurs
+     * @throws IllegalAccessException if the field is not accessible
      */
     private static void handleEnumField(final Field field,
                                         final ResultSet resultSet,
                                         final Object entityInstance)
-            throws Exception {
+            throws SQLException, IllegalAccessException {
         int ordinal = resultSet.getInt(field.getName());
         if (resultSet.wasNull()) {
             field.set(entityInstance, null);
@@ -283,12 +288,13 @@ public final class DbManager {
      * @param field          the field to handle
      * @param resultSet      the result set containing the field data
      * @param entityInstance the object INSTANCE
-     * @throws Exception if any reflection error occurs
+     * @throws SQLException           if a database access error occurs
+     * @throws IllegalAccessException if the field is not accessible
      */
     private static void handleRegularField(final Field field,
                                            final ResultSet resultSet,
                                            final Object entityInstance)
-            throws Exception {
+            throws SQLException, IllegalAccessException {
         Object value = resultSet.getObject(field.getName());
         if (resultSet.wasNull()) {
             value = null;
@@ -304,14 +310,14 @@ public final class DbManager {
      * @param tableName   the name of the table
      * @param whereFields the conditions for the WHERE clause
      * @param setFields   the fields and values to set in the SET clause
-     * @throws Exception if any database or reflection error occurs
+     * @throws SQLException if a database access error occurs
      */
     public static <T>
     void update(final Class<T> entityType,
                 final TableSchema.Name tableName,
                 final Map<TableSchema.Column, String> whereFields,
                 final Map<TableSchema.Column, String> setFields)
-            throws Exception {
+            throws SQLException {
         Connection conn = null;
         PreparedStatement statement = null;
 
@@ -359,7 +365,7 @@ public final class DbManager {
                     ex.printStackTrace();
                 }
             }
-            throw new Exception("Failed to update database", e);
+            throw new SQLException("Failed to update database", e);
         } finally {
             if (statement != null) {
                 try {
@@ -385,11 +391,11 @@ public final class DbManager {
      * @param <T>       the type of the entity
      * @param entity    the entity to insert
      * @param tableName the name of the table
-     * @throws Exception if any database or reflection error occurs
+     * @throws SQLException if a database access error occurs
      */
     public static <T> void insert(final T entity,
                                   final TableSchema.Name tableName)
-            throws Exception {
+            throws SQLException, IllegalAccessException {
         Map<String, Object> fieldsAndValues = getFieldsAndValues(entity);
         StringBuilder columns = new StringBuilder();
         StringBuilder values = new StringBuilder();
@@ -424,12 +430,12 @@ public final class DbManager {
      *
      * @param insertField the fields and values to insert
      * @param tableName   the name of the table
-     * @throws Exception if any database error occurs
+     * @throws SQLException if a database access error occurs
      */
     public static void insertWithAutoValue(
             final Map<TableSchema.Column, String> insertField,
             final TableSchema.Name tableName)
-            throws Exception {
+            throws SQLException {
         StringBuilder columns = new StringBuilder();
         StringBuilder values = new StringBuilder();
         List<Object> valueList = new ArrayList<>();

@@ -6,6 +6,7 @@ import org.cs3343.safepaws.entity.ShelterLocation;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 public final class CreateAccountHandler {
@@ -44,7 +45,7 @@ public final class CreateAccountHandler {
     public void createAccount(final String username,
                               final String password,
                               final String role)
-            throws Exception {
+            throws SQLException {
         DbManager.insertWithAutoValue(
                 Map.of(TableSchema.Column.Username, username,
                         TableSchema.Column.Password, password,
@@ -81,9 +82,14 @@ public final class CreateAccountHandler {
      */
     public void createMemberProfile(
             final MemberProfile memberProfile)
-            throws Exception {
-        DbManager.insert(memberProfile,
-                TableSchema.Name.MEMBER_PROFILE);
+            throws SQLException {
+        try {
+            DbManager.insert(memberProfile,
+                    TableSchema.Name.MEMBER_PROFILE);
+        } catch (IllegalAccessException e) {
+            System.out.println("Error occur when inserting member profile: "
+                    + e.getMessage());
+        }
         System.out.println("Member profile inserted successfully");
     }
 
@@ -94,9 +100,14 @@ public final class CreateAccountHandler {
      */
     public void createMemberProfile(
             final ShelterLocation shelterLocation)
-            throws Exception {
-        DbManager.insert(shelterLocation,
-                TableSchema.Name.SHELTER_LOCATION);
+            throws SQLException {
+        try {
+            DbManager.insert(shelterLocation,
+                    TableSchema.Name.SHELTER_LOCATION);
+        } catch (IllegalAccessException e) {
+            System.out.println("Error occur when inserting shelter location: "
+                    + e.getMessage());
+        }
         System.out.println("Shelter location inserted successfully");
     }
 
@@ -118,8 +129,8 @@ public final class CreateAccountHandler {
             } else {
                 return 2;
             }
-        } catch (Exception ex) {
-            System.out.println("Error occur when finding duplicate username"
+        } catch (SQLException ex) {
+            System.out.println("Error occur when finding duplicate username: "
                     + ex.getMessage());
         }
         return 1;
@@ -143,6 +154,6 @@ public final class CreateAccountHandler {
      * @return true if the role is valid, false otherwise
      */
     public boolean isValidRole(final String role) {
-        return "A".equals(role) || "M".equals(role) || "S".equals(role);
+        return "M".equals(role) || "S".equals(role);
     }
 }

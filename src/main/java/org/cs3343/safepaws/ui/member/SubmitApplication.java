@@ -8,6 +8,8 @@ import org.cs3343.safepaws.handler.ReadPetHandler;
 import org.cs3343.safepaws.ui.UI;
 import org.cs3343.safepaws.util.Session;
 
+import java.sql.SQLException;
+
 
 /**
  * Class to handle the submission of adoption applications.
@@ -63,7 +65,7 @@ public final class SubmitApplication extends UI {
                                 thisPet,
                                 applicationState);
                 session.println("Application created successfully.");
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 session.println("Error during creating application.");
             }
         }

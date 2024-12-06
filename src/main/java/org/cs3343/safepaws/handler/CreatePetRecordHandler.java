@@ -3,6 +3,7 @@ package org.cs3343.safepaws.handler;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -30,7 +31,7 @@ public final class CreatePetRecordHandler {
      * @param numeric an array of numeric attributes (age, weight,
      *                activity level, health status)
      * @param sta     the status of the pet
-     * @throws Exception if an error occurs during the database operation
+     * @throws SQLException if an error occurs during the database operation
      */
     public void savePetRecord(final String name,
                               final String species,
@@ -38,7 +39,7 @@ public final class CreatePetRecordHandler {
                               final String gender,
                               final int[] numeric,
                               final int sta)
-            throws Exception {
+            throws SQLException {
         DbManager.insertWithAutoValue(
                 Map.of(TableSchema.Column.Name, name,
                         TableSchema.Column.Species, species,

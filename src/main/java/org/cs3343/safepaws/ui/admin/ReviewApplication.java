@@ -40,64 +40,58 @@ public final class ReviewApplication extends UI {
      */
     @Override
     protected UI execute(final Session session) {
-        try {
-            showAll(session);
-            do {
-                session.println("Enter the id of application you want "
-                        + "to view details and check.\n"
-                        + "or \"V\" to view all applications "
-                        + "and \"E\" to exit ");
-                String choice = session.requestInput();
-                if ("E".equals(choice)) {
-                    return this.getReferrer();
-                } else if ("V".equals(choice)) {
-                    showAll(session);
-                } else {
-                    try {
-                        ReadApplicationHandler handler =
-                                new ReadApplicationHandler();
-                        int aid = Integer.parseInt(choice);
-                        Application thisApplication =
-                                handler.findApplicationByAid(aid);
-                        if (thisApplication != null) {
-                            showDetail(session, aid);
-                            Application.State appState;
-                            appState = thisApplication.getState();
-                            if (appState != Application.State.PENDING) {
-                                session.print("This application has "
-                                        + "already been processed.\n");
-                            } else {
-                                session.println("Enter what state you want to "
-                                        + "set (1: approve; 2: reject):");
-                                int inputStateNumber = Integer
-                                        .parseInt(session.requestInput());
-                                while (!Application
-                                        .isValidState(inputStateNumber)) {
-                                    session.println("Your input state is "
-                                            + "invalid. Please enter again:");
-                                    inputStateNumber = Integer
-                                            .parseInt(session.requestInput());
-                                }
-                                int pid = thisApplication.getPet().getId();
-                                Application.State state =
-                                        Application.State
-                                                .values()[inputStateNumber];
-                                handler.changeApplicationState(aid, pid, state);
-                                session.println("Your operation is completed.");
-                            }
+        showAll(session);
+        do {
+            session.println("Enter the id of application you want "
+                    + "to view details and check.\n"
+                    + "or \"V\" to view all applications "
+                    + "and \"E\" to exit ");
+            String choice = session.requestInput();
+            if ("E".equals(choice)) {
+                return this.getReferrer();
+            } else if ("V".equals(choice)) {
+                showAll(session);
+            } else {
+                try {
+                    ReadApplicationHandler handler =
+                            new ReadApplicationHandler();
+                    int aid = Integer.parseInt(choice);
+                    Application thisApplication =
+                            handler.findApplicationByAid(aid);
+                    if (thisApplication != null) {
+                        showDetail(session, aid);
+                        Application.State appState;
+                        appState = thisApplication.getState();
+                        if (appState != Application.State.PENDING) {
+                            session.print("This application has "
+                                    + "already been processed.\n");
                         } else {
-                            session.print("Invalid choice, please try again: ");
+                            session.println("Enter what state you want to "
+                                    + "set (1: approve; 2: reject):");
+                            int inputStateNumber = Integer
+                                    .parseInt(session.requestInput());
+                            while (!Application
+                                    .isValidState(inputStateNumber)) {
+                                session.println("Your input state is "
+                                        + "invalid. Please enter again:");
+                                inputStateNumber = Integer
+                                        .parseInt(session.requestInput());
+                            }
+                            int pid = thisApplication.getPet().getId();
+                            Application.State state =
+                                    Application.State
+                                            .values()[inputStateNumber];
+                            handler.changeApplicationState(aid, pid, state);
+                            session.println("Your operation is completed.");
                         }
-                    } catch (NumberFormatException e) {
+                    } else {
                         session.print("Invalid choice, please try again: ");
                     }
+                } catch (NumberFormatException e) {
+                    session.print("Invalid choice, please try again: ");
                 }
-            } while (true);
-        } catch (Exception e) {
-            session.println("Error occur when performing"
-                    + " cluster analysis: " + e.getMessage());
-        }
-        return this.getReferrer();
+            }
+        } while (true);
     }
 
     /**

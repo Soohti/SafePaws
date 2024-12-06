@@ -92,7 +92,7 @@ public final class PetMatchingAlgo implements Algorithm {
     /**
      * Round to one decimal place.
      */
-    private static final int ROUND_DECIMAL = 10;
+    private static final double ROUND_DECIMAL = 10.0;
 
     // Private constructor to prevent instantiation
     private PetMatchingAlgo() {

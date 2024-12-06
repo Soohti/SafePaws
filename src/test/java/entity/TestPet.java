@@ -3,6 +3,7 @@ package entity;
 import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.entity.Pet.State;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

@@ -40,15 +40,10 @@ public final class PlanRoute extends UI {
         var input = session.requestInput();
         var animalIDs = input.split(" ");
         var selectedAnimalLocations = new Vector<LocationPoint>();
-        try {
-            for (var sAnimalID : animalIDs) {
-                var iAnimalID = Integer.parseInt(sAnimalID);
-                var animalLocation = allAnimalLocations.get(iAnimalID - 1);
-                selectedAnimalLocations.add(animalLocation);
-            }
-        } catch (Exception e) {
-            session.println("Invalid input. Please try again.");
-            return this.getReferrer();
+        for (var sAnimalID : animalIDs) {
+            var iAnimalID = Integer.parseInt(sAnimalID);
+            var animalLocation = allAnimalLocations.get(iAnimalID - 1);
+            selectedAnimalLocations.add(animalLocation);
         }
         LocationPoint startLocationPoint = new LocationPoint(0, 0);
         if (startLocation != null) {

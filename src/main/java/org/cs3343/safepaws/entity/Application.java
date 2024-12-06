@@ -45,7 +45,7 @@ public class Application {
      */
     public Application(final Member newAccount, final Pet newPet,
                        final State newState) {
-        this.user = newAccount.clone();
+        this.user = (newAccount == null) ? null : newAccount.clone();
         this.pet = newPet;
         this.state = newState;
     }
@@ -76,7 +76,7 @@ public class Application {
      * @return the user
      */
     public Member getUser() {
-        return user.clone();
+        return user == null ? null : user.clone();
     }
 
     /**

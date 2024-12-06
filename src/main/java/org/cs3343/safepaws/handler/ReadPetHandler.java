@@ -4,6 +4,7 @@ import org.cs3343.safepaws.entity.Pet;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public final class ReadPetHandler {
                             TableSchema.Name.PET,
                             Map.of(TableSchema.Column.Id,
                                     String.valueOf(pid)))).getFirst();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during finding specific pet: "
                     + ex.getMessage());
         }
@@ -46,7 +47,7 @@ public final class ReadPetHandler {
     public ArrayList<Pet> findAllPet() {
         try {
             return DbManager.readAll(Pet.class, TableSchema.Name.PET);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during finding all pets: "
                     + ex.getMessage());
         }

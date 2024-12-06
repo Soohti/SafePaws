@@ -174,11 +174,11 @@ public final class TableSchema {
         // Gender,
 //Test
         /**
-         *  The test change value.
+         * The test change value.
          */
         ChangeV,
         /**
-         *  The test foreign key.
+         * The test foreign key.
          */
         TestF
     }

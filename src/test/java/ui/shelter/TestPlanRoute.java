@@ -1,13 +1,5 @@
 package ui.shelter;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.sql.SQLException;
-import java.util.Properties;
-
 import org.cs3343.safepaws.entity.Shelter;
 import org.cs3343.safepaws.entity.ShelterLocation;
 import org.cs3343.safepaws.ui.UI;
@@ -17,13 +9,22 @@ import org.cs3343.safepaws.util.Session;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class TestPlanRoute {
     @BeforeEach
     public void setUp() throws Exception {
         Properties serverProperties = new Properties();
         final String SERVER_PROPERTIES_PATH = "conf/server/server.properties";
 
-        try (FileInputStream input = new FileInputStream(SERVER_PROPERTIES_PATH)) {
+        try (FileInputStream input = new FileInputStream(
+                SERVER_PROPERTIES_PATH)) {
             serverProperties.load(input);
         }
 
@@ -36,11 +37,12 @@ public class TestPlanRoute {
 
     @Test
     public void testPlanRouteV1() throws SQLException {
-        String inputs="1 2\n";
+        String inputs = "1 2\n";
         System.setIn(new ByteArrayInputStream(inputs.getBytes()));
         Session session = new Session(System.in, System.out);
-        ShelterLocation shelterLocation = new ShelterLocation(1,5,5);
-        Shelter shelter = new Shelter(1,"Blackkkk","Blackkkk","S",shelterLocation);
+        ShelterLocation shelterLocation = new ShelterLocation(1, 5, 5);
+        Shelter shelter =
+                new Shelter(1, "Blackkkk", "Blackkkk", "S", shelterLocation);
         session.setAccount(shelter);
         UI referrer = new UI("Referrer", null) {
             @Override
@@ -48,18 +50,21 @@ public class TestPlanRoute {
                 return null;
             }
         };
-        PlanRoute planRoute =new PlanRoute(referrer);
+        PlanRoute planRoute = new PlanRoute(referrer);
         UI nextUI = planRoute.getNextUI(session);
         assertNotNull(nextUI);
-        assertEquals("Plan a Shortest Route to Collect Stray Animals", planRoute.getName());
+        assertEquals("Plan a Shortest Route to Collect Stray Animals",
+                planRoute.getName());
     }
+
     @Test
     public void testPlanRouteV2() throws SQLException {
-        String inputs="1 20\n";
+        String inputs = "1 9\n";
         System.setIn(new ByteArrayInputStream(inputs.getBytes()));
         Session session = new Session(System.in, System.out);
-        ShelterLocation shelterLocation = new ShelterLocation(1,5,5);
-        Shelter shelter = new Shelter(1,"Blackkkk","Blackkkk","S",shelterLocation);
+        ShelterLocation shelterLocation = new ShelterLocation(1, 5, 5);
+        Shelter shelter =
+                new Shelter(1, "Blackkkk", "Blackkkk", "S", shelterLocation);
         session.setAccount(shelter);
         UI referrer = new UI("Referrer", null) {
             @Override
@@ -67,9 +72,10 @@ public class TestPlanRoute {
                 return null;
             }
         };
-        PlanRoute planRoute =new PlanRoute(referrer);
+        PlanRoute planRoute = new PlanRoute(referrer);
         UI nextUI = planRoute.getNextUI(session);
         assertNotNull(nextUI);
-        assertEquals("Plan a Shortest Route to Collect Stray Animals", planRoute.getName());
+        assertEquals("Plan a Shortest Route to Collect Stray Animals",
+                planRoute.getName());
     }
 }

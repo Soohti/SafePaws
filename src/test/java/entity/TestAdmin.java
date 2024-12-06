@@ -1,12 +1,12 @@
 package entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.cs3343.safepaws.entity.Admin;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TestAdmin {
-	/**
+    /**
      * Tests the parameterized constructor of the {@code Admin} class.
      * Ensures that all fields are initialized correctly.
      */
@@ -20,7 +20,7 @@ public class TestAdmin {
         assertEquals("password", admin.getPassword());
         assertEquals("A", admin.getRole());
     }
-    
+
     /**
      * Tests the clone method of the {@code Admin} class.
      * Ensures that a deep copy of the member object is created.
@@ -36,5 +36,5 @@ public class TestAdmin {
         assertEquals(admin.getPassword(), clonedAdmin.getPassword());
         assertEquals(admin.getRole(), clonedAdmin.getRole());
     }
-	
+
 }

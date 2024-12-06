@@ -62,6 +62,7 @@ public class TestViewPets {
 
         DbManager.init(dbUrl, dbUsername, dbPassword);
     }
+
     /**
      * Tests the constructor of the ViewPets class.
      * Ensures that the object is created correctly.

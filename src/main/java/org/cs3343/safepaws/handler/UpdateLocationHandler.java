@@ -4,6 +4,7 @@ import org.cs3343.safepaws.entity.ShelterLocation;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 public final class UpdateLocationHandler {
@@ -29,7 +30,7 @@ public final class UpdateLocationHandler {
                             TableSchema.Column.YValue,
                             String.valueOf(location.getYValue()))
             );
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during inserting shelter location: "
                     + ex.getMessage());
         }

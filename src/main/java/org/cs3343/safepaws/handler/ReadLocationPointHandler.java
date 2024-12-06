@@ -4,6 +4,7 @@ import org.cs3343.safepaws.entity.LocationPoint;
 import org.cs3343.safepaws.util.DbManager;
 import org.cs3343.safepaws.util.TableSchema;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public final class ReadLocationPointHandler {
@@ -24,7 +25,7 @@ public final class ReadLocationPointHandler {
         try {
             return DbManager.readAll(LocationPoint.class,
                     TableSchema.Name.ANIMAL_LOCATION);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error during finding all animal location: "
                     + ex.getMessage());
         }

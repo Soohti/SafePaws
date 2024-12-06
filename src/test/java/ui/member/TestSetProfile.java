@@ -94,6 +94,7 @@ public class TestSetProfile {
         assertEquals("Set Profile", setProfile.getName());
 
     }
+
     /**
      * Tests the getNextUI method of the SetProfile class.
      * Simulates user input with
