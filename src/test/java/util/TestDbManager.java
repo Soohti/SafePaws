@@ -17,95 +17,137 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestDbManager {
 
+    /**
+     * Tests the insertWithAutoValue, insert and readWithCondition
+     * method of DbManager.
+     *
+     * @throws Exception if an error occurs during the test
+     */
     @Test
-    public void testCaseV1() throws Exception {
+    public void testCase1() throws Exception {
 
         testInit();
         testTableABInit();
         TestClassC testClassCAns = new TestClassC(1);
-        TestClassB testAns = new TestClassB(1,testClassCAns, TestClassB.TestState.TestA,1);
+        TestClassB testAns = new TestClassB(1, testClassCAns,
+                TestClassB.TestState.TestA, 1);
         DbManager.insertWithAutoValue(Map.of(TableSchema.Column.ChangeV,
-                "1",TableSchema.Column.State, "0"),TableSchema.Name.TestTableA);
-        DbManager.insert(testClassCAns,TableSchema.Name.TestTableB);
+                "1", TableSchema.Column.State, "0"),
+                TableSchema.Name.TestTableA);
+        DbManager.insert(testClassCAns, TableSchema.Name.TestTableB);
         TestClassB testRes = DbManager
-                .readWithCondition(TestClassB.class, TableSchema.Name.TestTableA,
-                        Map.of(TableSchema.Column.Id,"1")).getFirst();
+                .readWithCondition(TestClassB.class,
+                        TableSchema.Name.TestTableA,
+                        Map.of(TableSchema.Column.Id, "1")).getFirst();
         testTableABClean();
-        assertEquals(testAns,testRes);
+        assertEquals(testAns, testRes);
     }
-
+    /**
+     * Tests the insertWithAutoValue, insert and update method of DbManager.
+     *
+     * @throws Exception if an error occurs during the test
+     */
     @Test
-    public void testCaseV2() throws Exception {
+    public void testCase2() throws Exception {
 
         testInit();
         testTableABInit();
         TestClassC testClassCAns = new TestClassC(1);
-        TestClassB testAns = new TestClassB(1,testClassCAns, TestClassB.TestState.TestA,-1);
+        TestClassB testAns = new TestClassB(1, testClassCAns,
+                TestClassB.TestState.TestA, -1);
         DbManager.insertWithAutoValue(Map.of(TableSchema.Column.ChangeV,
-                "1",TableSchema.Column.State, "0"),TableSchema.Name.TestTableA);
-        DbManager.insert(testClassCAns,TableSchema.Name.TestTableB);
-        testAns.setChangeV(10);
+                "1", TableSchema.Column.State, "0"),
+                TableSchema.Name.TestTableA);
+        DbManager.insert(testClassCAns, TableSchema.Name.TestTableB);
+        testAns.setChangeV(ANSCHANGEVALUE);
         DbManager.update(TestClassB.class, TableSchema.Name.TestTableA,
-                Map.of(TableSchema.Column.Id,"1"),
-                Map.of(TableSchema.Column.ChangeV,"10")
+                Map.of(TableSchema.Column.Id, "1"),
+                Map.of(TableSchema.Column.ChangeV, "10")
         );
         TestClassB testRes = DbManager
-                .readAll(TestClassB.class, TableSchema.Name.TestTableA).getFirst();
+                .readAll(TestClassB.class,
+                        TableSchema.Name.TestTableA).getFirst();
         testTableABClean();
-        assertEquals(testAns,testRes);
+        assertEquals(testAns, testRes);
     }
-
+    /**
+     * Tests the insertWithAutoValue and readAll method of DbManager.
+     *
+     * @throws Exception if an error occurs during the test
+     */
     @Test
-    public void testCaseV3() throws Exception {
+    public void testCase3() throws Exception {
 
         testInit();
         testTableCDelete();
         testTableCCreate();
         TestClassD testAns = new TestClassD("test");
         testAns.setId(1);
-        DbManager.insertWithAutoValue(Map.of(TableSchema.Column.Username,testAns.getName()),
+        DbManager.insertWithAutoValue(Map.of(TableSchema.Column.Username,
+                        testAns.getName()),
                 TableSchema.Name.TestTableC);
         TestClassD testRes = DbManager
-                .readAll(TestClassD.class, TableSchema.Name.TestTableC).getFirst();
+                .readAll(TestClassD.class,
+                        TableSchema.Name.TestTableC).getFirst();
         testTableCDelete();
-        assertEquals(testAns,testRes);
+        assertEquals(testAns, testRes);
     }
 
-
-
-
-    private static String TestSqlCREATEA = "create table TestTableA\n"
+    /**
+     * The ans of change value for testcase 2.
+     */
+    private static final int ANSCHANGEVALUE = 10;
+    /**
+     * The sql command for create test table A.
+     */
+    private static String testSqlCREATEA = "create table TestTableA\n"
             + "(\n"
             + "    Id    int auto_increment\n"
             + "        primary key,\n"
             + "    ChangeV int null,\n"
             + "    State int null\n"
             + ");";
-
-    private static String TestSqlCREATEB = "create table TestTableB\n"
+    /**
+     * The sql command for create test table B.
+     */
+    private static String testSqlCREATEB = "create table TestTableB\n"
             + "(\n"
             + "    Id int not null\n"
             + "        primary key,\n"
             + "    constraint TestTableB_TestTableA_Id_fk\n"
             + "        foreign key (Id) references TestTableA (Id)\n"
             + ");";
-
-    private static String TestSqlCREATEC ="CREATE TABLE TestTableC (\n"
+    /**
+     * The sql command for create test table C.
+     */
+    private static String testSqlCREATEC = "CREATE TABLE TestTableC (\n"
             + "    Id INT PRIMARY KEY AUTO_INCREMENT,\n"
             + "    Username VARCHAR(50)"
             + ");";
+    /**
+     * The sql command for drop test table A.
+     */
+    private static String testSqlDROPA =  "DROP TABLE if exists TestTableA;";
+    /**
+     * The sql command for drop test table B.
+     */
+    private static String testSqlDROPB =  "DROP TABLE if exists TestTableB";
+    /**
+     * The sql command for drop test table C.
+     */
+    private static String testSqlDROPC = "DROP TABLE if exists TestTableC;";
 
-    private static String TestSqlDROPA =  "DROP TABLE if exists TestTableA;";
-
-    private static String TestSqlDROPB =  "DROP TABLE if exists TestTableB";
-
-    private static String TestSqlDROPC = "DROP TABLE if exists TestTableC;";
-
-
+    /**
+     * The url of database.
+     */
     private static String dbUrl;
-
+    /**
+     * The username of database.
+     */
     private static String dbUsername;
-
+    /**
+     * The password of database.
+     */
     private static String dbPassword;
 
     private void testInit() {
@@ -134,7 +176,7 @@ public class TestDbManager {
     private void testTableACreate() {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute(TestSqlCREATEA);
+            statement.execute(testSqlCREATEA);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -143,7 +185,7 @@ public class TestDbManager {
     private void testTableADelete() {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute(TestSqlDROPA);
+            statement.execute(testSqlDROPA);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -152,7 +194,7 @@ public class TestDbManager {
     private void testTableBCreate() {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute(TestSqlCREATEB);
+            statement.execute(testSqlCREATEB);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -161,7 +203,7 @@ public class TestDbManager {
     private void testTableBDelete() {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute(TestSqlDROPB);
+            statement.execute(testSqlDROPB);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -170,7 +212,7 @@ public class TestDbManager {
     private void testTableCCreate() {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute(TestSqlCREATEC);
+            statement.execute(testSqlCREATEC);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -179,7 +221,7 @@ public class TestDbManager {
     private void testTableCDelete() {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute(TestSqlDROPC);
+            statement.execute(testSqlDROPC);
         } catch (SQLException e) {
             e.printStackTrace();
         }

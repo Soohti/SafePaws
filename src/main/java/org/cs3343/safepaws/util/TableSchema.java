@@ -172,11 +172,14 @@ public final class TableSchema {
          */
         FinancialBudget,
         // Gender,
-//TestTable
+//Test
         /**
-         * The ChangeV column.
+         *  The test change value.
          */
         ChangeV,
-
+        /**
+         *  The test foreign key.
+         */
+        TestF
     }
 }
