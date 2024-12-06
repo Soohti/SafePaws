@@ -11,6 +11,7 @@
  */
 package org.cs3343.safepaws.algorithm;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.cs3343.safepaws.entity.LocationPoint;
 
 import java.util.ArrayList;
@@ -25,15 +26,6 @@ import java.util.Random;
  * clustering on a list of
  * locations. Users can specify the number of clusters k and invoke the
  * {@link #fit(List)} method to cluster the locations.</p>
- *
- * <p>Example usage:</p>
- * <pre>
- * List<LocationPoint> locations = ...; // Initialize the list of locations
- * int k = 3; // Specify the number of clusters
- * AnimalClusterAnalysis kMeans = new AnimalClusterAnalysis(k);
- * kMeans.fit(locations);
- * List<List<LocationPoint>> clusters = kMeans.getClusters();
- * </pre>
  */
 public final class AnimalClusterAnalysis implements Algorithm {
 
@@ -109,6 +101,8 @@ public final class AnimalClusterAnalysis implements Algorithm {
      *
      * @param locationPoints the list of locationPoints to select centers from
      */
+    @SuppressFBWarnings("DMI_RANDOM_USED_ONLY_ONCE")
+    // This is expected because we want the results to be reproducible
     private void initializeCenters(final List<LocationPoint> locationPoints) {
         centers.clear();
         Random random = new Random(SEED);
