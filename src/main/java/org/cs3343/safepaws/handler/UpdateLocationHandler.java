@@ -7,6 +7,10 @@ import org.cs3343.safepaws.util.TableSchema;
 import java.sql.SQLException;
 import java.util.Map;
 
+/**
+ * The UpdateLocationHandler class provides the functionality to update
+ * a shelter location.
+ */
 public final class UpdateLocationHandler {
     /**
      * Public constructor for instantiation.

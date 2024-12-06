@@ -7,6 +7,10 @@ import org.cs3343.safepaws.util.TableSchema;
 import java.sql.SQLException;
 import java.util.Map;
 
+/**
+ * The UpdateMemberProfileHandler class provides the functionality to update
+ * a member profile.
+ */
 public final class UpdateMemberProfileHandler {
 
     /**
@@ -19,6 +23,7 @@ public final class UpdateMemberProfileHandler {
      * Update the member profile by its ID.
      *
      * @param memberProfile the application ID
+     * @throws SQLException if an error occurs while updating the member profile
      */
     public void updateMemberProfile(final MemberProfile memberProfile)
             throws SQLException {
