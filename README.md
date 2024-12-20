@@ -1,6 +1,8 @@
-# SafePaws README
+# SafePaws
 
-A pet adoption system featuring a client-server architecture. Different users can log in to the system with different roles and perform various operations. The system is implemented using Java and SQLite.
+Course Project for CS3343 Software Engineering Practice, Semester A 2024/25, City University of Hong Kong.
+
+SafePaws is a pet adoption system featuring a client-server architecture. Different users can log in to the system with different roles and perform various operations. The system is implemented using Java and SQLite.
 
 Apart from the basic functionalities, the system also includes the following advanced features:
 
